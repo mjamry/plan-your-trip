@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ItemsList from './components/ItemsList/ItemsList'
+import ItemDetails from './ItemDetails'
 
 class App extends Component {
+  itemsList = [
+    new ItemDetails("Lake", "Biggest lake", 4, "...", "...", "..."),
+    new ItemDetails("Mountain", "Highest lake", 2, "...", "...", "..."),
+    new ItemDetails("Cave", "Longest lake", 5, "...", "...", "..."),
+    new ItemDetails("Hole", "Deepest lake", 1, "...", "...", "..."),
+  ];
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <ItemsList list={this.itemsList} />
       </div>
     );
   }
