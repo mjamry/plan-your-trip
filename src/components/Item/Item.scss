@@ -1,0 +1,22 @@
+.Item{
+    display: inline;
+    border: solid 1px black;
+}
+
+.item-name{
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.item-name a{
+    color:black;
+    cursor: pointer;
+}
+
+.item-description{
+    font-size: 10pt;
+}
+
+.item-attractivness{
+    color: red;
+}
