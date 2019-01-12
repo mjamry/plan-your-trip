@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
-import './Item.css'
 
 class Item extends Component {
   render(){
