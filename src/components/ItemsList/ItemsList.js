@@ -14,7 +14,7 @@ class ItemsList extends Component {
 
   render(){
     return (
-      <div className="ItemList">
+      <div className="ItemList container">
         {this.renderList()}
       </div>
     )
