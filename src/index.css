@@ -34,6 +34,10 @@ code {
 
 .item-description{
   font-size: 10pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
+  height:3em;
 }
 
 .item-attractivness{
