@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ItemsList from './components/ItemsList/ItemsList'
 import ItemDetails from './ItemDetails'
+import Menu from './components/Menu/Menu'
 
 class App extends Component {
   itemsList = [
@@ -14,6 +15,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Menu />
         <ItemsList list={this.itemsList} />
       </div>
     );

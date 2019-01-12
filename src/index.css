@@ -12,6 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/*---------------------------------ITEM--*/
 .Item{
   display: block;
   border-radius: 4px;
@@ -36,4 +38,21 @@ code {
 
 .item-attractivness{
   color: red;
+}
+
+/*----------------------------MENU--------*/
+.Menu{
+  position: absolute;
+  top:0px;
+  left:0px;
+  width:80px;
+  height:100%;
+  background-color: #555358;
+}
+
+.MenuItem{
+  background-color: #555358;
+  cursor: pointer;
+  padding:5px 2px 5px 2px;
+  margin:5px 0 5px 0;
 }
