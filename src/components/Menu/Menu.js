@@ -9,9 +9,9 @@ class Menu extends Component {
   render(){
     return (
       <div className="Menu nav-flex-column">
-        <MenuItem name="Menu1" ref="#" icon="user-circle" posiotion="top"/>
-        <MenuItem name="Menu3" ref="#" icon="wrench" position="bottom"/>
-        <MenuItem name="Menu4" ref="#" icon="question-circle" position="bottom"/>
+        <MenuItem title="User" ref="#" icon="user-circle" posiotion="top"/>
+        <MenuItem title="Settings" ref="#" icon="cog" position="bottom"/>
+        <MenuItem title="About" ref="#" icon="question-circle" position="bottom"/>
       </div>
     )
   }
