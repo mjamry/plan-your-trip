@@ -60,3 +60,12 @@ code {
   padding:5px 2px 5px 2px;
   margin:5px 0 5px 0;
 }
+
+/*------------------------------------------------*/
+.add-new-item-btn{
+  color: #555358;
+  cursor: pointer;
+  position: fixed;
+  right: 50px;
+  bottom:50px;
+}

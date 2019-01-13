@@ -3,6 +3,7 @@ import './App.css';
 import ItemsList from './components/ItemsList/ItemsList'
 import ItemDetails from './ItemDetails'
 import Menu from './components/Menu/Menu'
+import AddNewItem from './components/AddNewItem/AddNewItem';
 
 class App extends Component {
   itemsList = [
@@ -52,6 +53,7 @@ class App extends Component {
       <div className="App">
         <Menu />
         <ItemsList list={this.itemsList} />
+        <AddNewItem/>
       </div>
     );
   }
