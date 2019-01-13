@@ -27,8 +27,8 @@ class AddNewItem extends Component {
     const popoverClickRootClose = (
       <Popover id="popover-trigger-click-root-close">
         <ul className="add-buttons-container">
-          <li><FontAwesomeIcon icon="pencil-alt" className="fa-2x add-button" title="Wikipedia"/></li>
-          <li><FontAwesomeIcon icon="pencil-alt" className="fa-2x add-button" title="Manual"/></li>
+          <li><FontAwesomeIcon icon="plus-circle" className="fa-3x add-button" title="Wikipedia"/></li>
+          <li><FontAwesomeIcon icon="plus-circle" className="fa-3x add-button" title="Manual"/></li>
         </ul>
       </Popover>
     );

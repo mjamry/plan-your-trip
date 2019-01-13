@@ -70,12 +70,7 @@ code {
   bottom:50px;
 }
 .add-button{
-  border-radius: 50%;
-  background: #555358;
-  color: #f7fff6;
   cursor: pointer;
-  width:80px;
-  height:80px;
   padding:5px;
   margin: 10px;
 }
@@ -88,4 +83,8 @@ code {
 
 #popover-trigger-click-root-close{
   border: 0;
+  box-shadow: none;
+}
+#popover-trigger-click-root-close .arrow{
+  display:none;
 }
