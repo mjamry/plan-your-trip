@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button } from 'react-bootstrap'
+import {Modal, Button, Popover, OverlayTrigger} from 'react-bootstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -24,10 +24,27 @@ class AddNewItem extends Component {
   }
 
   render() {
+    const popoverClickRootClose = (
+      <Popover id="popover-trigger-click-root-close">
+        <ul className="add-buttons-container">
+          <li><FontAwesomeIcon icon="pencil-alt" className="fa-2x add-button" title="Wikipedia"/></li>
+          <li><FontAwesomeIcon icon="pencil-alt" className="fa-2x add-button" title="Manual"/></li>
+        </ul>
+      </Popover>
+    );
     return (
       <div>
-        <FontAwesomeIcon icon="plus-circle" className="fa-4x add-new-item-btn" onClick={this.handleShow} title="add new item"/>
+        
       
+        <OverlayTrigger
+      trigger="click"
+      rootClose
+      placement="top"
+      overlay={popoverClickRootClose}
+    >
+      <FontAwesomeIcon icon="plus-circle" className="fa-4x add-new-item-btn" title="add new item"/>
+    </OverlayTrigger>
+
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add new item</Modal.Title>

@@ -69,3 +69,23 @@ code {
   right: 50px;
   bottom:50px;
 }
+.add-button{
+  border-radius: 50%;
+  background: #555358;
+  color: #f7fff6;
+  cursor: pointer;
+  width:80px;
+  height:80px;
+  padding:5px;
+  margin: 10px;
+}
+
+.add-buttons-container{
+  list-style-type: none;
+  margin:0;
+  padding:0;
+}
+
+#popover-trigger-click-root-close{
+  border: 0;
+}
