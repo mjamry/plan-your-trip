@@ -25,36 +25,36 @@ class AddNewItem extends Component {
 
   render() {
     const popoverClickRootClose = (
-      <Popover id="popover-trigger-click-root-close">
+      <Popover id="popover-trigger-click-root-close" >
         <ul className="add-buttons-container">
-          <li><FontAwesomeIcon icon="plus-circle" className="fa-3x add-button" title="Wikipedia"/></li>
-          <li><FontAwesomeIcon icon="plus-circle" className="fa-3x add-button" title="Manual"/></li>
+          <li><FontAwesomeIcon icon="plus-circle" onClick={this.handleShow} className="fa-3x add-button" title="Wikipedia"/></li>
         </ul>
       </Popover>
     );
     return (
       <div>
-        
-      
         <OverlayTrigger
-      trigger="click"
-      rootClose
-      placement="top"
-      overlay={popoverClickRootClose}
-    >
-      <FontAwesomeIcon icon="plus-circle" className="fa-4x add-new-item-btn" title="add new item"/>
-    </OverlayTrigger>
+          trigger="click"
+          rootClose
+          placement="top"
+          overlay={popoverClickRootClose}
+        >
+          <FontAwesomeIcon icon="plus-circle" className="fa-4x add-new-item-btn" title="add new item"/>
+        </OverlayTrigger>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add new item</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            
+          <form>
+          <label for="exampleInputEmail1">Wiki link:</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Paste link to the wikipedia"/>    
+          </form>
 
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}>Add</Button>
           </Modal.Footer>
         </Modal>
       </div>
