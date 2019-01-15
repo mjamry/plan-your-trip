@@ -19,6 +19,7 @@ class AddNewItem extends Component {
 
   onModalClosed(value){
     console.log(value);
+    this.props.onAdded(value);
     this.setState({isWikiModalVisible: false})
   }
 
