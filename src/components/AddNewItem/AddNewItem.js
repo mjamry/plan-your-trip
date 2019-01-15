@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
-import {Modal, Button, Popover, OverlayTrigger} from 'react-bootstrap'
-
+import LinkModal from '../LinkModal/LinkModal'
+import {Popover, OverlayTrigger} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class AddNewItem extends Component {
-  constructor(props, context) {
-    super(props, context);
-
+  constructor(props){
+    super(props);
     this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
+    this.onModalClosed = this.onModalClosed.bind(this);
     this.state = {
-      show: false
-    };
+      isWikiModalVisible: false
+    }
   }
 
-  handleClose() {
-    this.setState({ show: false });
+  handleShow(){
+    this.setState({isWikiModalVisible: true})
   }
 
-  handleShow() {
-    this.setState({ show: true });
+  onModalClosed(value){
+    console.log(value);
+    this.setState({isWikiModalVisible: false})
   }
 
   render() {
@@ -41,22 +40,7 @@ class AddNewItem extends Component {
         >
           <FontAwesomeIcon icon="plus-circle" className="fa-4x add-new-item-btn" title="add new item"/>
         </OverlayTrigger>
-
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add new item</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-          <form>
-          <label for="exampleInputEmail1">Wiki link:</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Paste link to the wikipedia"/>    
-          </form>
-
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.handleClose}>Add</Button>
-          </Modal.Footer>
-        </Modal>
+        <LinkModal visible={this.state.isWikiModalVisible} onClose={this.onModalClosed}/>
       </div>
     );
   }
