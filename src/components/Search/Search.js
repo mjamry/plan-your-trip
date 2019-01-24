@@ -30,7 +30,7 @@ class Search extends Component {
 
   handleSearchInputTimeout(){
     console.log(this.state.searchValue);
-    WikipediaAPIWrapper.getDetails(this.state.searchValue).then(console.log)
+    WikipediaAPIWrapper.getDetails(this.state.searchValue).then(item => this.props.onFinished(item))
   }
 
   render(){

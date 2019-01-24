@@ -3,14 +3,13 @@ import './App.css';
 import ItemsList from './components/ItemsList/ItemsList'
 import ItemDetails from './ItemDetails'
 import Menu from './components/Menu/Menu'
-import AddNewItem from './components/AddNewItem/AddNewItem';
 import Search from './components/Search/Search'
 
 class App extends Component {
   constructor(props){
     super(props);
 
-    this.handleNewItemAdded = this.handleNewItemAdded.bind(this);
+    this.handleSearchFinished = this.handleSearchFinished.bind(this);
 
     this.state = {
       itemsList: [
@@ -57,28 +56,19 @@ class App extends Component {
     }
   }
 
-  handleNewItemAdded(newItem){
+  handleSearchFinished(newItem){
     this.setState(prevState => ({
-      itemsList: [
-        ...prevState.itemsList,
-        new ItemDetails(
-          newItem, 
-          "desc", 
-          3, 
-          "...", 
-          "...", 
-          "...")
-        ]
-    }))
+      itemsList: [...prevState.itemsList, newItem]
+    }));
+    console.log(newItem)
   }
 
   render() {
     return (
       <div className="App">
         <Menu />
-        <Search />
+        <Search onFinished={this.handleSearchFinished}/>
         <ItemsList list={this.state.itemsList} />
-        <AddNewItem onAdded={this.handleNewItemAdded}/>
       </div>
     );
   }

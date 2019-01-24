@@ -13,7 +13,7 @@ export default class WikipediaAPIWrapper{
     static getDetails(input){
         return wiki()
         .page(input)
-        .then(page => Promise.all([page.summary(), page.coordinates(), page.mainImage()])
-            .then(details => new ItemDetails(details[0].name, details[0], 0, details[1], details[2], "")))
+        .then(page => {return Promise.all([page.info("name"), page.summary(), page.coordinates(), page.mainImage()])})
+        .then(([name, details, geo, img] )=> new ItemDetails(name, details, 0, geo, img, ""))
     }
 }
