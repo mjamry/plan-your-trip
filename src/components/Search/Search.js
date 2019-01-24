@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import WikipediaAPIWrapper from '../../WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const SearchTimeout = 700;
@@ -29,6 +30,7 @@ class Search extends Component {
 
   handleSearchInputTimeout(){
     console.log(this.state.searchValue);
+    WikipediaAPIWrapper.getDetails(this.state.searchValue).then(console.log)
   }
 
   render(){
