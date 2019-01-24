@@ -4,6 +4,7 @@ import ItemsList from './components/ItemsList/ItemsList'
 import ItemDetails from './ItemDetails'
 import Menu from './components/Menu/Menu'
 import AddNewItem from './components/AddNewItem/AddNewItem';
+import Search from './components/Search/Search'
 
 class App extends Component {
   constructor(props){
@@ -75,6 +76,7 @@ class App extends Component {
     return (
       <div className="App">
         <Menu />
+        <Search />
         <ItemsList list={this.state.itemsList} />
         <AddNewItem onAdded={this.handleNewItemAdded}/>
       </div>

@@ -15,8 +15,6 @@ code {
 
 /*---------------------------------ITEM--*/
 .Item{
-  display: block;
-  border-radius: 4px;
   background-color: #bcebcb;
   margin: 20px 0 20px 0;
   padding: 10px;
@@ -61,6 +59,10 @@ code {
   margin:5px 0 5px 0;
 }
 
+/*---------------------------------SEARCH--------*/
+.Search{
+  margin-top:20px;
+}
 /*------------------------------------------------*/
 .add-new-item-btn{
   color: #555358;
