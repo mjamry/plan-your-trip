@@ -1,13 +1,15 @@
 import wiki from 'wikijs';
 import ItemDetails from './ItemDetails';
 
+const NumberOfResults = 5;
+
 export default class WikipediaAPIWrapper{
     static searchResult = {}
 
-    static search(input, callback){
-        wiki()
+    static search(input){
+        return wiki()
         .search(input)
-        .then(data => callback(data.results))
+        .then(data => data.results.splice(0, NumberOfResults))
     }
 
     static getDetails(input){
