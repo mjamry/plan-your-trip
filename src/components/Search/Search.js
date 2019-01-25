@@ -18,7 +18,8 @@ class Search extends Component {
 
     this.state = {
       searchValue: "",
-      timer: null
+      timer: null,
+      searchResults: []
     }
   }
 
@@ -37,19 +38,23 @@ class Search extends Component {
   }
 
   handleSelection(selection){
+    this.setState({
+      searchResults: [],
+      searchValue: ''
+    })
     this.apiWrapper.getDetails(selection).then(item => this.props.onFinished(item))
   }
 
   render(){
     return (
-      <div className="Search">
-        <div className="input-group mb-3 container">
+      <div className="Search container">
+        <div className="input-group mb-3">
           <div className="input-group-prepend">
            <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
           </div>
-        <input type="text" className="form-control" placeholder="Search location" onChange={this.onChange}/>
+        <input type="text" className="form-control" placeholder="Search location" onChange={this.onChange} value={this.state.searchValue}/>
         </div>
-      <SearchResult results={this.state.searchResults} onSelected={this.handleSelection}/>
+      <SearchResult results={this.state.searchResults} onSelected={this.handleSelection} isOpened={this.state.searchResults.length > 0 ? 'show' : ''}/>
       </div>
     )
   }

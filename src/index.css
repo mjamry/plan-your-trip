@@ -63,6 +63,10 @@ code {
 .Search{
   margin-top:20px;
 }
+
+.search-result{
+  width: 100%;
+}
 /*------------------------------------------------*/
 .add-new-item-btn{
   color: #555358;

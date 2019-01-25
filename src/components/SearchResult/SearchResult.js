@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 
 class SearchResult extends Component {
-  renderResults(){
+
+  renderResults(){  
     let output = [];
     for(let index in this.props.results){
       output.push(
       <div 
-        className="dropdown-item" 
+        className="dropdown-item search-result" 
         onClick={()=>this.handleSelection(this.props.results[index])}>
         {this.props.results[index]}
       </div>)
@@ -22,11 +23,8 @@ class SearchResult extends Component {
   render(){
     return (
       <div className="SearchResult">
-        <div className="dropdown">
-          <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div className={this.props.isOpened + " dropdown"}>
+          <div className={this.props.isOpened + " dropdown-menu"} aria-labelledby="dropdownMenuButton">
             {this.renderResults()}
           </div>
         </div>
