@@ -17,12 +17,16 @@ code {
 .Item{
   background-color: #bcebcb;
   margin: 20px 0 20px 0;
-  padding: 10px;
 }
 
 .item-name{
   font-weight: bold;
   font-size: 14pt;
+}
+
+.item-details{
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .item-name a{
@@ -38,13 +42,17 @@ code {
   height:3em;
 }
 
+.item-delete{
+  cursor: pointer;
+}
+
 .item-attractivness{
   color: red;
 }
 
 .item-image{
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 80px;
+  max-height: 80px;
 }
 
 /*----------------------------MENU--------*/
