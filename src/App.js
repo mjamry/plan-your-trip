@@ -5,6 +5,7 @@ import Menu from './components/Menu/Menu'
 import Search from './components/Search/Search'
 import MapView from './components/Map/MapView'
 import store from 'store'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class App extends Component {
   constructor(props){
@@ -27,6 +28,10 @@ class App extends Component {
     this.setState({itemsList: arr})
   }
 
+  removeAllItems = () => {
+    this.setState({itemsList: []})
+  }
+
   componentDidMount(){
     this.setState({itemsList: store.get('items')})
   }
@@ -40,6 +45,7 @@ class App extends Component {
       <div className="App">
         <Menu />
         <Search onFinished={this.handleSearchFinished}/>
+              <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
         <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved}/>
         <MapView points={this.state.itemsList}/>
       </div>
