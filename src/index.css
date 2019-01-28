@@ -107,3 +107,8 @@ code {
 #popover-trigger-click-root-close .arrow{
   display:none;
 }
+
+#mapid{
+  height:200px;
+  width:500px;
+}

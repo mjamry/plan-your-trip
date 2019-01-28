@@ -4,6 +4,7 @@ import ItemsList from './components/ItemsList/ItemsList'
 import Menu from './components/Menu/Menu'
 import Search from './components/Search/Search'
 import ItemDetails from './ItemDetails'
+import MapView from './components/Map/MapView'
 
 class App extends Component {
   constructor(props){
@@ -72,6 +73,7 @@ class App extends Component {
         <Menu />
         <Search onFinished={this.handleSearchFinished}/>
         <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved}/>
+        <MapView />
       </div>
     );
   }
