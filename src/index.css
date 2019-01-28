@@ -29,7 +29,7 @@ code {
   padding-bottom: 10px;
 }
 
-.item-name a{
+.item-name{
   color:black;
   cursor: pointer;
 }

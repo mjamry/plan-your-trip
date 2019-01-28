@@ -12,13 +12,15 @@ class App extends Component {
     super(props);
 
     this.state = {
-      itemsList: []
+      itemsList: [],
+      selectedItem: undefined
     }
   }
 
   handleSearchFinished = (newItem) => {
     this.setState(prevState => ({
-      itemsList: [...prevState.itemsList, newItem]
+      itemsList: [...prevState.itemsList, newItem],
+      selectedItem: undefined
     }));
   }
 
@@ -30,6 +32,10 @@ class App extends Component {
 
   removeAllItems = () => {
     this.setState({itemsList: []})
+  }
+
+  handleItemSelected = (itemIndex) => {
+    this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
   }
 
   componentDidMount(){
@@ -46,8 +52,8 @@ class App extends Component {
         <Menu />
         <Search onFinished={this.handleSearchFinished}/>
               <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
-        <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved}/>
-        <MapView points={this.state.itemsList}/>
+        <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
+        <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
       </div>
     );
   }

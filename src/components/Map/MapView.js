@@ -33,10 +33,7 @@ class MapView extends Component {
     }
 
     canUpdate = (prevProps) => {
-        let prevStateJson = JSON.stringify(prevProps.points)
-        let currentStateJson = JSON.stringify(this.props.points)
-
-        return prevStateJson !== currentStateJson;
+        return JSON.stringify(prevProps) !== JSON.stringify(this.props);
     }
 
     componentDidUpdate(prevProps) {
@@ -54,7 +51,7 @@ class MapView extends Component {
                         .bindPopup(marker.name)
                         .openPopup()
                         );
-                        
+
                     this.mymap.setView(coordinates)
                 }
             }
@@ -62,6 +59,10 @@ class MapView extends Component {
             this.setState({
                 visibleMarkers: markers
             });
+
+            if(this.props.selected){
+                this.mymap.setView([this.props.selected.coordinates.lat, this.props.selected.coordinates.lon])
+            }
         }
     }
 

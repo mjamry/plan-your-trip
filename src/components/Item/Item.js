@@ -9,7 +9,7 @@ class Item extends Component {
           <img className="item-image" src={this.props.value.image} alt={this.props.value.name}></img>
         </div>
         <div className="item-details row col-10">
-          <div className="item-name col-2" title={this.props.value.link}><a href={this.props.value.link} target="_blank" rel="noopener noreferrer">{this.props.value.name}</a></div>
+          <div className="item-name col-2" title={this.props.value.link} onClick={()=>this.props.onSelected(this.props.index)}>{this.props.value.name}</div>
           <div className="item-description col-8" title={this.props.value.description}>{this.props.value.description}</div>
           <div className="row col-2">
             <div className="item-attractiveness col-4">{this.props.value.attractivness}</div>
