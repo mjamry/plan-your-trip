@@ -47,12 +47,15 @@ class MapView extends Component {
             for (var p in this.props.points) {
                 let marker = this.props.points[p];
                 if(marker.coordinates.lat && marker.coordinates.lon){
+                    let coordinates = [marker.coordinates.lat, marker.coordinates.lon]
                     markers.push(
-                        L.marker([marker.coordinates.lat, marker.coordinates.lon], {title: marker.name})
+                        L.marker(coordinates, {title: marker.name})
                         .addTo(this.mymap)
                         .bindPopup(marker.name)
                         .openPopup()
                         );
+                        
+                    this.mymap.setView(coordinates)
                 }
             }
 
