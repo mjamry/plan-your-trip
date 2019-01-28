@@ -109,6 +109,7 @@ code {
 }
 
 #mapid{
-  height:200px;
-  width:500px;
+  min-height:400px;
+  max-height: 600px;
+  width:100%;
 }

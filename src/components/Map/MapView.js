@@ -12,7 +12,11 @@ class MapView extends Component {
         }
     }
     componentDidMount() {
-        this.mymap = L.map('mapid').setView([51.505, -0.09], 1);
+        this.mymap = L.map('mapid', 
+        {
+            zoom:5,
+            center: [51.505, -0.09]
+        });
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -35,19 +39,21 @@ class MapView extends Component {
         return prevStateJson !== currentStateJson;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.canUpdate(prevProps)) {
             this.removeMarkers();
 
             var markers = [];
             for (var p in this.props.points) {
                 let marker = this.props.points[p];
-                markers.push(
-                    L.marker([marker.coordinates.lat, marker.coordinates.lon], {title: marker.name})
-                    .addTo(this.mymap)
-                    .bindPopup(marker.name)
-                    .openPopup()
-                    );
+                if(marker.coordinates.lat && marker.coordinates.lon){
+                    markers.push(
+                        L.marker([marker.coordinates.lat, marker.coordinates.lon], {title: marker.name})
+                        .addTo(this.mymap)
+                        .bindPopup(marker.name)
+                        .openPopup()
+                        );
+                }
             }
 
             this.setState({
@@ -58,8 +64,10 @@ class MapView extends Component {
 
     render() {
         return ( 
-            <div>
-                <div id = "mapid" > </div>  
+            <div className="container">
+                <div className="row">
+                    <div id="mapid"></div> 
+                </div> 
             </div>
         );
     }
