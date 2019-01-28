@@ -4,6 +4,7 @@ import ItemsList from './components/ItemsList/ItemsList'
 import Menu from './components/Menu/Menu'
 import Search from './components/Search/Search'
 import MapView from './components/Map/MapView'
+import store from 'store'
 
 class App extends Component {
   constructor(props){
@@ -24,6 +25,14 @@ class App extends Component {
     var arr = [...this.state.itemsList];
     arr.splice(parseInt(itemIndex),1);
     this.setState({itemsList: arr})
+  }
+
+  componentDidMount(){
+    this.setState({itemsList: store.get('items')})
+  }
+
+  componentDidUpdate(){
+    store.set('items', this.state.itemsList);
   }
 
   render() {
