@@ -14,34 +14,42 @@ xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/
 const GpxFooter = `
 </gpx>`
 
+class GpxHelper {
+    static getMetadata(){
+        return `
+<metadata>
+    <link href="${Creator}">
+        <text>${Creator}</text>
+    </link>
+    <time>${new Date().toISOString()}</time>
+</metadata>`
+    }
+
+    static getWaypoint(item){
+        return `
+<wpt lat="${item.coordinates.lat}" lon="${item.coordinates.lon}">
+    <name>${item.name} [${item.attractivness}]</name>
+    <desc>${item.description}</desc>
+</wpt>`
+    }
+}
+
 export default class GpxFileGenerator{
     static generate(items){
         return new Promise((resolve, reject)=>{
             //File headers
             var fileContent = XmlSchema + GpxHeader;
             //File metadata
-            fileContent+= 
-`<metadata>
-    <link href="${Creator}">
-        <text>${Creator}</text>
-    </link>
-    <time>${new Date().toISOString()}</time>
-</metadata>`
-
+            fileContent += GpxHelper.getMetadata();
             //Waypoints
             for(let index in items){
                 let item = items[index];
                 if(item.coordinates){
-                    fileContent += `
-<wpt lat="${item.coordinates.lat}" lon="${item.coordinates.lon}">
-    <name>${item.name} [${item.attractivness}]</name>
-    <desc>${item.description}</desc>
-</wpt>`
+                    fileContent += GpxHelper.getWaypoint(item);
                 }else{
                     reject(`The ${item.name} item has incorrect gps coordinates.`);
                 }
             }
-
             //File closure
             fileContent += GpxFooter;
             resolve(fileContent);
