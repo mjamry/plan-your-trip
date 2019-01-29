@@ -81,32 +81,6 @@ code {
   width: 100%;
 }
 /*------------------------------------------------*/
-.add-new-item-btn{
-  color: #555358;
-  cursor: pointer;
-  position: fixed;
-  right: 50px;
-  bottom:50px;
-}
-.add-button{
-  cursor: pointer;
-  padding:5px;
-  margin: 10px;
-}
-
-.add-buttons-container{
-  list-style-type: none;
-  margin:0;
-  padding:0;
-}
-
-#popover-trigger-click-root-close{
-  border: 0;
-  box-shadow: none;
-}
-#popover-trigger-click-root-close .arrow{
-  display:none;
-}
 
 #mapid{
   min-height:400px;
