@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import MenuItem from '../MenuItem/MenuItem'
+import MenuItem from './MenuItem'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 

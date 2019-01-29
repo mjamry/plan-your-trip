@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import WikipediaAPIWrapper from '../../WikipediaAPIWrapper'
+import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SearchResult from '../SearchResult/SearchResult';
+import SearchResult from './SearchResult';
 
 const SearchTimeout = 700;
 

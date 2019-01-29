@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GpxFileGenerator from '../../GpxFileGenerator';
+import GpxFileGenerator from '../Common/GpxFileGenerator';
 
 class FileGenerator extends Component {
 

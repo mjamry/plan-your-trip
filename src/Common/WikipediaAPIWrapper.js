@@ -1,5 +1,5 @@
 import wiki from 'wikijs';
-import ItemDetails from './ItemDetails';
+import ItemDetails from '../ItemDetails';
 
 const NumberOfResults = 5;
 

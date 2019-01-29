@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import ItemsList from './components/ItemsList/ItemsList'
+import ItemsList from './components/Items/ItemsList'
 import Menu from './components/Menu/Menu'
 import Search from './components/Search/Search'
-import MapView from './components/Map/MapView'
+import MapView from './components/MapView'
 import store from 'store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import GpxFileGenerator from './GpxFileGenerator';
-import FileGenerator from './components/FileGenerator/FileGenerator';
+import FileGenerator from './components/FileGenerator';
 
 class App extends Component {
   constructor(props){
@@ -31,19 +30,15 @@ class App extends Component {
     arr.splice(parseInt(itemIndex),1);
     this.setState({itemsList: arr})
   }
-
-  removeAllItems = () => {
-    this.setState({itemsList: []})
-  }
-
-  generateGpxFile = () => {
-    GpxFileGenerator.generate(this.state.itemsList).then(console.log)
-  }
-
+  
   handleItemSelected = (itemIndex) => {
     this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
   }
 
+  removeAllItems = () => {
+    this.setState({itemsList: []})
+  }
+ 
   componentDidMount(){
     this.setState({itemsList: store.get('items')})
   }
