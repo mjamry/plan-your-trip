@@ -1,51 +1,44 @@
-const xmlHeader = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'
-const Header = `<gpx 
+const Creator = 'PlanYourTrip.com'
+
+const XmlSchema = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'
+const GpxHeader = `
+<gpx 
 xmlns="http://www.topografix.com/GPX/1/1" 
 xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" 
 xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" 
-creator="Oregon 400t" 
+creator="${Creator}" 
 version="1.1" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">`;
-const Footer = '</gpx>'
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">`;
 
-const Metadata = `<metadata>
-                    <link href="http://www.garmin.com">
-                        <text>Garmin International</text>
-                    </link>
-                    <time>${Date.now()}</time>
-                </metadata>`
+const GpxFooter = '</gpx>'
 
-const FileContent = `<gpx 
-version="1.1" 
-creator="michal.jamry@gmail.com" 
-xmlns="http://www.topografix.com/GPX/1/1" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
-
-<wpt lat="63.6156" lon="-19.98962">
-<name>Wodospad Seljalandsfoss</name>
-<desc></desc>
-</wpt>
-<wpt lat="63.5435" lon="-19.66587">
-<name>Wulkan Eyafjallajökull</name>
-<desc>Widac z trasy - nie trzeba podjezdzac</desc>
-</wpt>
-</gpx>`
+const Metadata = `
+<metadata>
+    <link href="${Creator}">
+        <text>${Creator}</text>
+    </link>
+    <time>${Date.now()}</time>
+</metadata>`
 
 export default class GpxFileGenerator{
     static Generate(items){
         return new Promise((resolve, reject)=>{
-            var fileContent = xmlHeader + Header + Metadata;
+            var fileContent = XmlSchema + GpxHeader + Metadata;
             for(let index in items){
-            let item = items[index];
-            fileContent += `<wpt lat="${item.coordinates.lat}" lon="${item.coordinates.lon}">
-                                <name>${item.name} [${item.attractivness}]</name>
-                                <desc>${item.description}</desc>
-                            </wpt>`
+                let item = items[index];
+                if(item.coordinates){
+                    fileContent += `
+<wpt lat="${item.coordinates.lat}" lon="${item.coordinates.lon}">
+    <name>${item.name} [${item.attractivness}]</name>
+    <desc>${item.description}</desc>
+</wpt>`
+                }else{
+                    reject(`The ${item.name} item has incorrect gps coordinates.`);
+                }
             }
 
-            fileContent += Footer;
+            fileContent += GpxFooter;
             resolve(fileContent);
         })
     }
