@@ -9,22 +9,26 @@ xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
 creator="${Creator}" 
 version="1.1" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">`;
+xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">`
 
-const GpxFooter = '</gpx>'
+const GpxFooter = `
+</gpx>`
 
-const Metadata = `
-<metadata>
+export default class GpxFileGenerator{
+    static generate(items){
+        return new Promise((resolve, reject)=>{
+            //File headers
+            var fileContent = XmlSchema + GpxHeader;
+            //File metadata
+            fileContent+= 
+`<metadata>
     <link href="${Creator}">
         <text>${Creator}</text>
     </link>
-    <time>${Date.now()}</time>
+    <time>${new Date().toISOString()}</time>
 </metadata>`
 
-export default class GpxFileGenerator{
-    static Generate(items){
-        return new Promise((resolve, reject)=>{
-            var fileContent = XmlSchema + GpxHeader + Metadata;
+            //Waypoints
             for(let index in items){
                 let item = items[index];
                 if(item.coordinates){
@@ -38,6 +42,7 @@ export default class GpxFileGenerator{
                 }
             }
 
+            //File closure
             fileContent += GpxFooter;
             resolve(fileContent);
         })

@@ -37,7 +37,7 @@ class App extends Component {
   }
 
   generateGpxFile = () => {
-    GpxFileGenerator.Generate(this.state.itemsList).then(console.log)
+    GpxFileGenerator.generate(this.state.itemsList).then(console.log)
   }
 
   handleItemSelected = (itemIndex) => {
