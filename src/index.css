@@ -83,7 +83,6 @@ code {
 /*------------------------------------------------*/
 
 #mapid{
-  min-height:400px;
-  max-height: 600px;
+  height:350px;
   width:100%;
 }
