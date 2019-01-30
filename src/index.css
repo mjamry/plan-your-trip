@@ -35,7 +35,7 @@ code {
 }
 
 .item-description{
-  font-size: 10pt;
+  font-size: 15pt;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5em;
