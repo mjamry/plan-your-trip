@@ -49,8 +49,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App container-flex">
-        <div className="row">
+      <div className="App">
+        <div className="row container-flex no-gutters">
           <div className="col-1">
             <Menu />
           </div>
