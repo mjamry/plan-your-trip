@@ -16,6 +16,7 @@ code {
 /*---------------------------------ITEM--*/
 .ItemList{
   max-height: 650px;
+  overflow-y: scroll;
 }
 .Item{
   background-color: #f7fff6;
@@ -78,8 +79,10 @@ code {
 
 /*-----------------------------HEADER-*/
 .Header{
-  background-color: #f7fff6;
-  border-bottom: 1px solid #d4dbd3
+  background-color: #363538;
+
+  color: #f7fff6;
+  border-bottom: 1px solid #d4dbd3;
 }
 
 /*---------------------------------SEARCH--------*/

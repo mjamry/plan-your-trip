@@ -50,14 +50,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {/* <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
+                <FileGenerator waypoints={this.state.itemsList}/> */}
         <Header onSearchFinished={this.handleSearchFinished}/>
-        <div className="row container-flex no-gutters">
-          <div className="col-1">
-            <Menu />
-            <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
-                <FileGenerator waypoints={this.state.itemsList}/>
-          </div>
-          <div className="col-sm">
+        <div className="row container-fluid no-gutters">
+          <div className="col-7">
             <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
           </div>
           <div className="col-5">
