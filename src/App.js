@@ -49,13 +49,21 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Menu />
-        <Search onFinished={this.handleSearchFinished}/>
-              <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
-              <FileGenerator waypoints={this.state.itemsList}/>
-        <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
-        <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
+      <div className="App container-flex">
+        <div className="row">
+          <div className="col-1">
+            <Menu />
+          </div>
+          <div className="col-6">
+            <Search onFinished={this.handleSearchFinished}/>
+                  <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
+                  <FileGenerator waypoints={this.state.itemsList}/>
+            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
+          </div>
+          <div className="col-5">
+            <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
+          </div>
+        </div>
       </div>
     );
   }
