@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Item from './Item'
+import ItemsListMenu from './ItemsListMenu';
 
 class ItemsList extends Component {
   renderList = () => {
@@ -19,6 +20,9 @@ class ItemsList extends Component {
   render(){
     return (
       <div className="ItemList container">
+        <div className="sticky-top">
+          <ItemsListMenu waypoints={this.props.list}/>      
+        </div>
         {this.renderList()}
       </div>
     )

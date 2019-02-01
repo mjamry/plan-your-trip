@@ -77,12 +77,22 @@ code {
   margin:5px 0 5px 0;
 }
 
+.ItemsListMenu{
+  background-color: #f7fff6;
+}
+
+.nav-items-list-menu-item{
+  color: #363538;
+  cursor: pointer;
+  padding:5px 2px 5px 2px;
+  margin:0 5px 0 5px;
+}
+
 /*-----------------------------HEADER-*/
 .Header{
   background-color: #363538;
 
   color: #f7fff6;
-  border-bottom: 1px solid #d4dbd3;
 }
 
 /*---------------------------------SEARCH--------*/
