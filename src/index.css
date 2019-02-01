@@ -18,8 +18,9 @@ code {
   max-height: 650px;
 }
 .Item{
-  background-color: #bcebcb;
-  margin: 20px 0 20px 0;
+  background-color: #f7fff6;
+  border: 1px solid #d4dbd3;
+  margin: 10px 0 10px 0;
 }
 
 .item-name{
@@ -75,6 +76,12 @@ code {
   margin:5px 0 5px 0;
 }
 
+/*-----------------------------HEADER-*/
+.Header{
+  background-color: #f7fff6;
+  border-bottom: 1px solid #d4dbd3
+}
+
 /*---------------------------------SEARCH--------*/
 .Search{
   margin-top:20px;
@@ -86,6 +93,6 @@ code {
 /*------------------------------------------------*/
 
 #mapid{
-  height:800px;
+  height:750px;
   width:100%;
 }
