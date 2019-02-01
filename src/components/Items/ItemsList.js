@@ -18,7 +18,7 @@ class ItemsList extends Component {
 
   render(){
     return (
-      <div className="ItemList container pre-scrollable">
+      <div className="ItemList container-flex pre-scrollable">
         {this.renderList()}
       </div>
     )

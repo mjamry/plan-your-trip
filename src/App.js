@@ -54,7 +54,7 @@ class App extends Component {
           <div className="col-1">
             <Menu />
           </div>
-          <div className="col-6">
+          <div className="col-sm">
             <Search onFinished={this.handleSearchFinished}/>
                   <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
                   <FileGenerator waypoints={this.state.itemsList}/>
