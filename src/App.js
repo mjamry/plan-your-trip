@@ -5,6 +5,11 @@ import MapView from './components/MapView'
 import Header from './components/Header'
 import store from 'store'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fas)
+
 class App extends Component {
   constructor(props){
     super(props);
