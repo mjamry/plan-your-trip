@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import ItemsList from './components/Items/ItemsList'
 import Menu from './components/Menu/Menu'
-import Search from './components/Search/Search'
 import MapView from './components/MapView'
+import Header from './components/Header'
 import store from 'store'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FileGenerator from './components/FileGenerator';
@@ -50,12 +50,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Menu />
-        <Search onFinished={this.handleSearchFinished}/>
-              <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
-              <FileGenerator waypoints={this.state.itemsList}/>
-        <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
-        <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
+        {/* */}
+        <Header onSearchFinished={this.handleSearchFinished}/>
+        <div className="row container-fluid no-gutters">
+          <div className="col-7">
+            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
+          </div>
+          <div className="col-5">
+            <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
+          </div>
+        </div>
       </div>
     );
   }
