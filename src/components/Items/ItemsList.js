@@ -1,13 +1,23 @@
 import React, {Component} from 'react';
-import Item from './Item'
+import ListItem from './ListItem'
 import ItemsListMenu from './ItemsListMenu';
+import GridItem from './GridItem';
 
 class ItemsList extends Component {
   renderList = () => {
     var output = [];
     for(var item in this.props.list)
     {
-      output.push(<Item value={this.props.list[item]} onSelected={this.props.onSelected} onRemoved={this.handleItemRemoved} key={item} index={item}></Item>)
+      output.push(<ListItem value={this.props.list[item]} onSelected={this.props.onSelected} onRemoved={this.handleItemRemoved} key={item} index={item}></ListItem>)
+    }
+
+    return output;
+  }
+
+  renderGrid = () => {
+    var output = [];
+    for(var item in this.props.list){
+      output.push(<GridItem value={this.props.list[item]} onSelected={this.props.onSelected} onRemoved={this.handleItemRemoved} key={item} index={item}></GridItem>)
     }
 
     return output;
@@ -23,7 +33,8 @@ class ItemsList extends Component {
         <div className="sticky-top">
           <ItemsListMenu waypoints={this.props.list}/>      
         </div>
-        {this.renderList()}
+        <div className="card-columns">{this.renderGrid()}</div>
+        
       </div>
     )
     }
