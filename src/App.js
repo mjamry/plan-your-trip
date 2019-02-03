@@ -37,7 +37,7 @@ class App extends Component {
     this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
   }
 
-  removeAllItems = () => {
+  handleRemoveAllItems = () => {
     this.setState({itemsList: []})
   }
  
@@ -56,7 +56,7 @@ class App extends Component {
         <Header onSearchFinished={this.handleSearchFinished}/>
         <div className="row container-fluid no-gutters">
           <div className="col-7">
-            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected}/>
+            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected} onAllItemsRemoved={this.handleRemoveAllItems}/>
           </div>
           <div className="col-5">
             <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>

@@ -44,7 +44,7 @@ class ItemsList extends Component {
     return (
       <div className="ItemList container">
         <div className="sticky-top">
-          <ItemsListMenu waypoints={this.props.list} onListSelected={this.handleListSelected} onGridSelected={this.handleGridSelected}/>      
+          <ItemsListMenu waypoints={this.props.list} onListSelected={this.handleListSelected} onGridSelected={this.handleGridSelected} onAllItemsRemoved={this.props.onAllItemsRemoved}/>      
         </div>
         {this.state.viewContent()}
       </div>

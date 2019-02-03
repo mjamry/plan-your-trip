@@ -14,7 +14,7 @@ class ItemsListMenu extends Component {
               <FontAwesomeIcon icon='th-large' className='fa-2x' title='show as grid'/>
             </li>
             <li class="nav-items-list-menu-item">
-              <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.removeAllItems}/>
+              <FontAwesomeIcon icon="trash-alt" title="remove all items" className="item-delete fa-2x" onClick={this.props.onAllItemsRemoved}/>
             </li>
             <li class="nav-items-list-menu-item">
               <FileGenerator waypoints={this.props.waypoints}/> 

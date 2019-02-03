@@ -14,7 +14,7 @@ class GridItem extends Component {
             <div className="row container">
               <p className="col-8 grid-item-coordinates"><FontAwesomeIcon icon="map-marker"/> 43°41′S 170°10′E</p>
               <p className="col-2">{this.props.value.attractivness}</p>
-              <p className="col-2 grid-item-remove"><FontAwesomeIcon icon="trash-alt" onClick={()=>this.props.onRemoved(this.props.index)}/></p>
+              <p className="col-2 grid-item-remove"><FontAwesomeIcon icon="trash-alt" title="remove item" onClick={()=>this.props.onRemoved(this.props.index)}/></p>
             </div>
           </div>
           
