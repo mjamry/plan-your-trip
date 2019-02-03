@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import ItemsList from './components/Items/ItemsList'
-import Menu from './components/Menu/Menu'
 import MapView from './components/MapView'
 import Header from './components/Header'
 import store from 'store'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FileGenerator from './components/FileGenerator';
 
 class App extends Component {
   constructor(props){
