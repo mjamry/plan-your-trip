@@ -42,7 +42,7 @@ class App extends Component {
   }
  
   componentDidMount(){
-    this.setState({itemsList: store.get('items')})
+    this.setState({itemsList: store.get('items', [])})
   }
 
   componentDidUpdate(){
