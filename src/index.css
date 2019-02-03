@@ -15,7 +15,7 @@ code {
 
 /*---------------------------------list-item--*/
 .ItemList{
-  max-height: 650px;
+  max-height: 700px;
   overflow-y: scroll;
 }
 .ListItem{
@@ -73,8 +73,13 @@ code {
   height:3em;
 }
 
-.grid-item-name{
+.grid-item-remove{
+  cursor: pointer;
+}
 
+.grid-item-name{
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .grid-item-coordinates{
@@ -83,7 +88,7 @@ code {
 
 .grid-item-image{
   width:100%;
-  max-height:150px;
+  max-height:200px;
 }
 
 /*----------------------------MENU--------*/

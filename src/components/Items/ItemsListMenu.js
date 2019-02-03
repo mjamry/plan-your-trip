@@ -7,10 +7,10 @@ class ItemsListMenu extends Component {
     return (
       <div className="ItemsListMenu">
           <ul class="nav justify-content-end">
-            <li class="nav-items-list-menu-item">
+            <li class="nav-items-list-menu-item" onClick={this.props.onListSelected}>
               <FontAwesomeIcon icon='th-list' className='fa-2x' title='show as list'/>
             </li>
-            <li class="nav-items-list-menu-item">
+            <li class="nav-items-list-menu-item" onClick={this.props.onGridSelected}>
               <FontAwesomeIcon icon='th-large' className='fa-2x' title='show as grid'/>
             </li>
             <li class="nav-items-list-menu-item">
