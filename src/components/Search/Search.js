@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
+import ItemDetailsForm from '../Items/ItemDetailsForm'
 
 const SearchTimeout = 700;
 
@@ -15,12 +16,14 @@ class Search extends Component {
     this.setupTimer = this.setupTimer.bind(this);
     this.handleSearchInputTimeout = this.handleSearchInputTimeout.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
+    this.handleNewItemEditFinished = this.handleNewItemEditFinished.bind(this);
 
     this.state = {
       searchValue: "",
       timer: null,
-      searchResults: []
-    }
+      searchResults: [],
+      selectedItem: null
+    };
   }
 
   onChange(e){
@@ -30,19 +33,31 @@ class Search extends Component {
 
   setupTimer(){
     clearTimeout(this.state.timer);
-    this.setState({timer: setTimeout(this.handleSearchInputTimeout, SearchTimeout)})
+    this.setState({timer: setTimeout(this.handleSearchInputTimeout, SearchTimeout)});
   }
 
   handleSearchInputTimeout(){
-    this.apiWrapper.search(this.state.searchValue).then(results => {this.setState({searchResults: results})})
+    this.apiWrapper.search(this.state.searchValue).then(results => {this.setState({searchResults: results})});
   }
 
   handleSelection(selection){
     this.setState({
       searchResults: [],
       searchValue: ''
-    })
-    this.apiWrapper.getDetails(selection).then(item => this.props.onFinished(item))
+    });
+
+    this.apiWrapper.getDetails(selection).then(item => this.setSelectedItem(item));
+  }
+
+  setSelectedItem(item){
+    this.setState({
+      selectedItem: item
+    });
+  }
+
+  handleNewItemEditFinished(item){
+    this.setSelectedItem(null);
+    this.props.onFinished(item);
   }
 
   render(){
@@ -55,6 +70,7 @@ class Search extends Component {
         <input type="text" className="form-control" placeholder="Search location" onChange={this.onChange} value={this.state.searchValue}/>
         </div>
       <SearchResult results={this.state.searchResults} onSelected={this.handleSelection} isOpened={this.state.searchResults.length > 0 ? 'show' : ''}/>
+      <ItemDetailsForm item={this.state.selectedItem} onFinished={this.handleNewItemEditFinished}/>
       </div>
     )
   }

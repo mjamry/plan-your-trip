@@ -134,6 +134,11 @@ code {
 .search-result{
   width: 100%;
 }
+
+#itemDetailsFormModal{
+  text-align: left;
+  color: gray;
+}
 /*------------------------------------------------*/
 
 #mapid{

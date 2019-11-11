@@ -8,6 +8,7 @@ class SearchResult extends Component {
       output.push(
       <div 
         className="dropdown-item search-result" 
+        data-toggle="modal" data-target="#itemDetailsFormModal"
         onClick={()=>this.handleSelection(this.props.results[index])}>
         {this.props.results[index]}
       </div>)
