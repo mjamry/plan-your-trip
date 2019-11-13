@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Modal from '../../Common/Modal';
 
 const EMPTY_ITEM_DATA = {
     name: "",
@@ -16,7 +17,8 @@ class ItemDetailsForm extends Component{
 
         this.state = {
             item: EMPTY_ITEM_DATA,
-            dataReady: false
+            dataReady: false,
+            show: false
         }
     }
 
@@ -24,9 +26,9 @@ class ItemDetailsForm extends Component{
         if (prevProps.item !== this.props.item && this.props.item !== null) {
             this.setState({
                 item: this.props.item,
-                dataReady: true
+                dataReady: true,
+                show: true
             })
-
         }
     }
 
@@ -63,7 +65,8 @@ class ItemDetailsForm extends Component{
     clearData(){
         this.setState({
             item: EMPTY_ITEM_DATA,
-            dataReady: false
+            dataReady: false,
+            show: false
         })
     }
 
@@ -95,31 +98,27 @@ class ItemDetailsForm extends Component{
             <div class="d-flex justify-content-center">
                 <span>Loading...</span>
             </div>
-        )
+        );
+    }
+
+    renderFooter(){
+        return(
+            <div>
+                <button type="submit" className="btn btn-primary" onClick={this.onSubmit} data-dismiss="modal">Save</button>
+                <button type="button" className="btn" data-dismiss="modal" onClick={this.clearData}>Cancel</button>
+            </div>
+        );
     }
 
     render(){
         return(
-        <div>
-            <div className="modal fade" id="itemDetailsFormModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Edit details</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            {this.state.dataReady ? this.renderForm() : this.renderLoader()}
-                        </div>
-                        <div className="modal-footer">
-                            <button type="submit" className="btn btn-primary" onClick={this.onSubmit} data-dismiss="modal">Save</button>
-                            <button type="button" className="btn" data-dismiss="modal" onClick={this.clearData}>Cancel</button></div>
-                    </div>
-                </div>
+            <div>
+                <Modal 
+                    show={this.state.show} 
+                    content={this.state.dataReady ? this.renderForm() : this.renderLoader()}
+                    header="Edit details" 
+                    footer={this.renderFooter()}/>
             </div>
-        </div>
         )
     }
 };
