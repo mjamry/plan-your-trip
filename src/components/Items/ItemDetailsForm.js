@@ -48,6 +48,7 @@ class ItemDetailsForm extends Component{
             item: {
                 ...this.state.item, 
                 coordinates: {
+                    ...this.state.item.coordinates,
                     [name]: value
                 }
             }
