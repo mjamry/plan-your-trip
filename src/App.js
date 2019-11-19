@@ -32,7 +32,7 @@ class App extends Component {
     arr.splice(parseInt(itemIndex),1);
     this.setState({itemsList: arr})
   }
-  
+
   handleItemSelected = (itemIndex) => {
     this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
   }
@@ -40,7 +40,7 @@ class App extends Component {
   handleRemoveAllItems = () => {
     this.setState({itemsList: []})
   }
- 
+
   componentDidMount(){
     this.setState({itemsList: store.get('items', [])})
   }

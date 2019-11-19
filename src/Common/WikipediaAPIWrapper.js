@@ -3,10 +3,10 @@ import ItemDetails from '../components/Items/LocationdDetailsDto';
 import LanguageProvider from '../Common/LanguageProvider';
 
 const NumberOfResults = 5;
-const API_URL = `https://${LanguageProvider.get()}.wikipedia.org/w/api.php`
+const API_URL = `https://${LanguageProvider.get()}.wikipedia.org/w/api.php`;
 
 export default class WikipediaAPIWrapper{
-    static searchResult = {}
+    static searchResult = {};
 
     static search(input){
         return wiki({apiUrl: API_URL})

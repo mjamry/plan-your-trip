@@ -18,7 +18,6 @@ var Search = (props) => {
   }
 
   var handleSearchInputTimeout = () => { 
-    console.log(searchValue);
     WikipediaAPIWrapper.search(searchValue).then(results => setSearchResults(results));
   }
 
