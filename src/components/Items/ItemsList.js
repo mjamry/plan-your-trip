@@ -1,55 +1,48 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import ListItem from './ListItem'
 import ItemsListMenu from './ItemsListMenu';
 import GridItem from './GridItem';
 
-class ItemsList extends Component {
-  state = {viewContent: ()=>{}}
-  componentDidMount(){
-    this.setState({viewContent: this.renderGrid})
+var ItemsList = (props) => {
+  
+  var renderList = () => {
+    return props.list.map((item, index) => (
+      <ListItem 
+        value={item} 
+        onSelected={props.onSelected} 
+        onRemoved={props.onRemoved} 
+        key={item.name + index} 
+        index={index}></ListItem>
+    ));
   }
 
-  renderList = () => {
-    var output = [];
-    for(var item in this.props.list)
-    {
-      output.push(<ListItem value={this.props.list[item]} onSelected={this.props.onSelected} onRemoved={this.handleItemRemoved} key={item} index={item}></ListItem>)
-    }
+  var renderGrid = () => {
+    var output = props.list.map((item, index) => (
+      <GridItem 
+        value={item} 
+        onSelected={props.onSelected} 
+        onRemoved={props.onRemoved} 
+        key={item.name + index} 
+        index={index}></GridItem>
+    ));
 
-    return output;
+    return <div className="card-columns">{output}</div>
   }
+  
+  const [locationsView, setLocationsView] = useState('grid');
 
-  renderGrid = () => {
-    var output = [];
-    for(var item in this.props.list){
-      output.push(<GridItem value={this.props.list[item]} onSelected={this.props.onSelected} onRemoved={this.handleItemRemoved} key={item} index={item}></GridItem>)
-    }
-
-    return (<div className="card-columns">{output}</div>);
-  }
-
-  handleItemRemoved = (index) => {
-    this.props.onRemoved(index);
-  }
-
-  handleListSelected = () =>{
-    this.setState({viewContent: this.renderList})
-  }
-
-  handleGridSelected = () => {
-    this.setState({viewContent: this.renderGrid})
-  }
-
-  render(){
-    return (
-      <div className="ItemList container">
-        <div className="sticky-top">
-          <ItemsListMenu waypoints={this.props.list} onListSelected={this.handleListSelected} onGridSelected={this.handleGridSelected} onAllItemsRemoved={this.props.onAllItemsRemoved}/>      
-        </div>
-        {this.state.viewContent()}
+  return (
+    <div className="ItemList container">
+      <div className="sticky-top">
+        <ItemsListMenu 
+          waypoints={props.list} 
+          onListSelected={()=>setLocationsView('list')} 
+          onGridSelected={()=>setLocationsView('grid')} 
+          onAllItemsRemoved={props.onAllItemsRemoved}/>      
       </div>
-    )
-  }
+      {locationsView === 'grid' ? renderGrid() : renderList()}
+    </div>
+  )
 }
 
 export default ItemsList;
