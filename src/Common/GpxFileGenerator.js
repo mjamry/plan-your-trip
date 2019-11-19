@@ -18,7 +18,7 @@ class GpxHelper {
     static getMetadata(){
         return `
 <metadata>
-    <link href="${Creator}">
+    <link href="http://${Creator}">
         <text>${Creator}</text>
     </link>
     <time>${new Date().toISOString()}</time>
