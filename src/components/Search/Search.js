@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
@@ -6,74 +6,50 @@ import ItemDetailsForm from '../Items/ItemDetailsForm'
 
 const SearchTimeout = 700;
 
-class Search extends Component {
-  apiWrapper = WikipediaAPIWrapper;
+var Search = (props) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [timer, setTimer] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  constructor(props){
-    super(props);
-
-    this.onChange = this.onChange.bind(this);
-    this.setupTimer = this.setupTimer.bind(this);
-    this.handleSearchInputTimeout = this.handleSearchInputTimeout.bind(this);
-    this.handleSelection = this.handleSelection.bind(this);
-    this.handleNewItemEditFinished = this.handleNewItemEditFinished.bind(this);
-
-    this.state = {
-      searchValue: "",
-      timer: null,
-      searchResults: [],
-      selectedItem: null
-    };
+  var setupTimer = () => {
+    clearTimeout(timer);
+    setTimer(setTimeout(handleSearchInputTimeout, SearchTimeout));
   }
 
-  onChange(e){
-    this.setState({searchValue: e.target.value});
-    this.setupTimer();
+  var handleSearchInputTimeout = () => { 
+    console.log(searchValue);
+    WikipediaAPIWrapper.search(searchValue).then(results => setSearchResults(results));
   }
 
-  setupTimer(){
-    clearTimeout(this.state.timer);
-    this.setState({timer: setTimeout(this.handleSearchInputTimeout, SearchTimeout)});
+  var handleSelection = (selection) => {
+    setSearchResults([]);
+    setSearchValue("");
+ 
+    WikipediaAPIWrapper.getDetails(selection).then(item => setSelectedItem(item));
   }
 
-  handleSearchInputTimeout(){
-    this.apiWrapper.search(this.state.searchValue).then(results => {this.setState({searchResults: results})});
+  var handleNewItemEditFinished = (item) => {
+    setSelectedItem(null);
+    props.onFinished(item);
   }
 
-  handleSelection(selection){
-    this.setState({
-      searchResults: [],
-      searchValue: ''
-    });
+  useEffect(()=>{
+    setupTimer();
+  }, [searchValue])
 
-    this.apiWrapper.getDetails(selection).then(item => this.setSelectedItem(item));
-  }
-
-  setSelectedItem(item){
-    this.setState({
-      selectedItem: item
-    });
-  }
-
-  handleNewItemEditFinished(item){
-    this.setSelectedItem(null);
-    this.props.onFinished(item);
-  }
-
-  render(){
-    return (
-      <div className="Search container">
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-           <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
-          </div>
-        <input type="text" className="form-control" placeholder="Search location" onChange={this.onChange} value={this.state.searchValue}/>
+  return (
+    <div className="Search container">
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
         </div>
-      <SearchResult results={this.state.searchResults} onSelected={this.handleSelection} isOpened={this.state.searchResults.length > 0 ? 'show' : ''}/>
-      <ItemDetailsForm item={this.state.selectedItem} onFinished={this.handleNewItemEditFinished}/>
+      <input type="text" className="form-control" placeholder="Search location" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
       </div>
-    )
-  }
+    <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
+    <ItemDetailsForm item={selectedItem} onFinished={handleNewItemEditFinished}/>
+    </div>
+  )
 }
 
 export default Search;
