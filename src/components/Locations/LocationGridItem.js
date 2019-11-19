@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-var GridItem = (props) => {
+var LocationGridItem = (props) => {
   return (
     <div className="GridItem">
       <div className="card">
@@ -22,4 +22,4 @@ var GridItem = (props) => {
   )
 }
 
-export default GridItem;
+export default LocationGridItem;

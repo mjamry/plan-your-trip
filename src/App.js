@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import ItemsList from './components/Items/ItemsList'
+import LocationsView from './components/Locations/LocationsView'
 import MapView from './components/MapView'
 import Header from './components/Header'
 import store from 'store'
@@ -56,7 +56,7 @@ class App extends Component {
         <Header onSearchFinished={this.handleSearchFinished}/>
         <div className="row container-fluid no-gutters">
           <div className="col-7">
-            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected} onAllItemsRemoved={this.handleRemoveAllItems}/>
+            <LocationsView list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected} onAllItemsRemoved={this.handleRemoveAllItems}/>
           </div>
           <div className="col-5">
             <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
-import ItemDetailsForm from '../Items/ItemDetailsForm'
+import LocationDetailsForm from '../Items/LocationDetailsForm'
 
 const SearchTimeout = 700;
 
@@ -47,7 +47,7 @@ var Search = (props) => {
       <input type="text" className="form-control" placeholder="Search location" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
       </div>
     <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
-    <ItemDetailsForm item={selectedItem} onFinished={handleNewItemEditFinished}/>
+    <LocationDetailsForm item={selectedItem} onFinished={handleNewItemEditFinished}/>
     </div>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import FileGenerator from '../FileGenerator'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-var ItemsListMenu = (props) => {
+var LocationsViewMenu = (props) => {
   return (
     <div className="ItemsListMenu">
         <ul className="nav justify-content-end">
@@ -23,4 +23,4 @@ var ItemsListMenu = (props) => {
   )
 }
 
-export default ItemsListMenu;
+export default LocationsViewMenu;

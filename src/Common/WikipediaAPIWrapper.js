@@ -1,5 +1,5 @@
 import wiki from 'wikijs';
-import ItemDetails from '../ItemDetails';
+import ItemDetails from '../components/Items/LocationdDetailsDto';
 import LanguageProvider from '../Common/LanguageProvider';
 
 const NumberOfResults = 5;

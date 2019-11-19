@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-var ListItem = (props) => {
+var LocationListItem = (props) => {
   return (
     <div className="ListItem row">
       <div className="row col-2">
@@ -21,4 +21,4 @@ var ListItem = (props) => {
   )
 }
 
-export default ListItem;
+export default LocationListItem;

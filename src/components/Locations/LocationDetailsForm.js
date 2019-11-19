@@ -7,7 +7,7 @@ const EMPTY_ITEM_DATA = {
     coordinates: {lat: "", lon: ""}
 }
 
-class ItemDetailsForm extends Component{
+class LocationDetailsForm extends Component{
     constructor(props){
         super(props);
         this.handleFormChanged = this.handleFormChanged.bind(this);
@@ -123,4 +123,4 @@ class ItemDetailsForm extends Component{
     }
 };
 
-export default ItemDetailsForm;
+export default LocationDetailsForm;
