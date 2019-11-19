@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 var GridItem = (props) => {
   return (
     <div className="GridItem">
-      <div class="card">
+      <div className="card">
         <img className="grid-item-image" src={props.value.image} alt={props.value.name}></img>
         <div className="card-body">
           <h5 className="card-title grid-item-name" onClick={()=>props.onSelected(props.index)}>{props.value.name}</h5>

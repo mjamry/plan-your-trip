@@ -5,7 +5,7 @@ import Search from './Search/Search'
 var Header = (props) => {
   return (
     <div className="Header">
-      <nav class="navbar">
+      <nav className="navbar">
           <div><FontAwesomeIcon icon='globe-americas'/> Plan the Trip</div>
           <div>
             <Search onFinished={props.onSearchFinished}/>
