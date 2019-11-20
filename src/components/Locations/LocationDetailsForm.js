@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import Modal from '../../Common/Modal';
 
-const EMPTY_ITEM_DATA = {
+const EMPTY_location_DATA = {
     name: "",
     description: "",
     coordinates: {lat: "", lon: ""}
 }
 
 var LocationDetailsForm = (props) => {
-    const [location, setLocation] = useState(EMPTY_ITEM_DATA);
+    const [location, setLocation] = useState(EMPTY_location_DATA);
     const [dataReady, setDataReady] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(()=>{
-        if(props.item !== null)
+        if(props.location !== null)
         {
-            setLocation(props.item);
+            setLocation(props.location);
             setDataReady(true);
             setShowModal(true);
         }
-    }, [props.item])
+    }, [props.location])
 
     var handleFormChanged = (e) => {
         const name = e.target.name;
@@ -51,7 +51,7 @@ var LocationDetailsForm = (props) => {
     }
 
     var clearData = () => {
-        setLocation(EMPTY_ITEM_DATA);
+        setLocation(EMPTY_location_DATA);
         setDataReady(false);
         setShowModal(false);
     }
@@ -59,22 +59,22 @@ var LocationDetailsForm = (props) => {
     var renderForm = () => {
         return(<form>
             <div className="form-group">
-                <label htmlFor="item-name" className="col-form-label">Name</label>
-                <input name="name" onChange={handleFormChanged} className="form-control" id="item-name" value={location.name}/>
+                <label htmlFor="location-name" className="col-form-label">Name</label>
+                <input name="name" onChange={handleFormChanged} className="form-control" id="location-name" value={location.name}/>
             </div>
             <div className="form-row">
             <div className="form-group col-md-6">
-                <label htmlFor="item-coordinates-lat" className="col-form-label">Gps latitude</label>
-                <input name="lat" onChange={handleGpsFormChanged} className="form-control" id="item-coordinates-lat" value={location.coordinates.lat}/>
+                <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
+                <input name="lat" onChange={handleGpsFormChanged} className="form-control" id="location-coordinates-lat" value={location.coordinates.lat}/>
             </div>
             <div className="form-group col-md-6">
-                <label htmlFor="item-coordinates-lon" className="col-form-label">Gps longitude</label>
-                <input name="lon" onChange={handleGpsFormChanged} className="form-control" id="item-coordinates-lon" value={location.coordinates.lon}/>
+                <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
+                <input name="lon" onChange={handleGpsFormChanged} className="form-control" id="location-coordinates-lon" value={location.coordinates.lon}/>
             </div>
             </div>
             <div className="form-group">
-                <label htmlFor="item-description">Description</label>
-                <textarea name="description" onChange={handleFormChanged} className="form-control" rows="5" id="item-description" value={location.description}></textarea>
+                <label htmlFor="location-description">Description</label>
+                <textarea name="description" onChange={handleFormChanged} className="form-control" rows="5" id="location-description" value={location.description}></textarea>
             </div>
         </form>)
     }

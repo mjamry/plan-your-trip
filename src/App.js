@@ -12,24 +12,24 @@ library.add(fas)
 
 var App = () => {
   const [locations, setLocations] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(undefined);
+  const [selectedlocation, setSelectedlocation] = useState(undefined);
 
   var handleSearchFinished = (newLocation) => {
     setLocations([...locations, newLocation]);
   }
 
-  var handleItemRemoved = (locationIndex) => {
+  var handlelocationRemoved = (locationIndex) => {
     var newLocations = [...locations];
     newLocations.splice(parseInt(locationIndex), 1);
 
     setLocations(newLocations);
   }
 
-  var handleItemSelected = (locationIndex) => {
-    setSelectedItem(locations[parseInt(locationIndex)]);
+  var handlelocationSelected = (locationIndex) => {
+    setSelectedlocation(locations[parseInt(locationIndex)]);
   }
 
-  var handleRemoveAllItems = () => {
+  var handleRemoveAlllocations = () => {
     setLocations([]);
   }
 
@@ -48,14 +48,14 @@ var App = () => {
         <div className="col-7">
           <LocationsView 
             list={locations} 
-            onRemoved={handleItemRemoved} 
-            onSelected={handleItemSelected} 
-            onAllItemsRemoved={handleRemoveAllItems}/>
+            onRemoved={handlelocationRemoved} 
+            onSelected={handlelocationSelected} 
+            onAlllocationsRemoved={handleRemoveAlllocations}/>
         </div>
         <div className="col-5">
           <MapView 
             points={locations} 
-            selected={selectedItem}/>
+            selected={selectedlocation}/>
         </div>
       </div>
     </div>

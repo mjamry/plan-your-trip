@@ -1,4 +1,4 @@
-export default class ItemDetails {
+export default class locationDetails {
   constructor(name, description, attractivness, coordinates, image, link){
     this.name = name;
     this.description = description;

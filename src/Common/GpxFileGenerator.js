@@ -25,29 +25,29 @@ class GpxHelper {
 </metadata>`
     }
 
-    static getWaypoint(item){
+    static getWaypoint(location){
         return `
-<wpt lat="${item.coordinates.lat}" lon="${item.coordinates.lon}">
-    <name>${item.name} [${item.attractivness}]</name>
-    <desc>${item.description}</desc>
+<wpt lat="${location.coordinates.lat}" lon="${location.coordinates.lon}">
+    <name>${location.name} [${location.attractivness}]</name>
+    <desc>${location.description}</desc>
 </wpt>`
     }
 }
 
 export default class GpxFileGenerator{
-    static generate(items){
+    static generate(locations){
         return new Promise((resolve, reject)=>{
             //File headers
             var fileContent = XmlSchema + GpxHeader;
             //File metadata
             fileContent += GpxHelper.getMetadata();
             //Waypoints
-            for(let index in items){
-                let item = items[index];
-                if(item.coordinates){
-                    fileContent += GpxHelper.getWaypoint(item);
+            for(let index in locations){
+                let location = locations[index];
+                if(location.coordinates){
+                    fileContent += GpxHelper.getWaypoint(location);
                 }else{
-                    reject(`The ${item.name} item has incorrect gps coordinates.`);
+                    reject(`The ${location.name} location has incorrect gps coordinates.`);
                 }
             }
             //File closure

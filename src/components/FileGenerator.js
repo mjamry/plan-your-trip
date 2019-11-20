@@ -25,7 +25,7 @@ var FileGenerator = (props) => {
 
   return (
     <div className="FileGenerator">
-      <FontAwesomeIcon icon="file-download" title="generate gpx file" className="item-delete fa-2x" onClick={download}/>
+      <FontAwesomeIcon icon="file-download" title="generate gpx file" className="location-delete fa-2x" onClick={download}/>
     </div>
   )
 }

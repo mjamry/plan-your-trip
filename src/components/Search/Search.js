@@ -10,7 +10,7 @@ var Search = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [timer, setTimer] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedlocation, setSelectedlocation] = useState(null);
 
   var setupTimer = () => {
     clearTimeout(timer);
@@ -25,12 +25,12 @@ var Search = (props) => {
     setSearchResults([]);
     setSearchValue("");
  
-    WikipediaAPIWrapper.getDetails(selection).then(item => setSelectedItem(item));
+    WikipediaAPIWrapper.getDetails(selection).then(location => setSelectedlocation(location));
   }
 
-  var handleNewItemEditFinished = (item) => {
-    setSelectedItem(null);
-    props.onFinished(item);
+  var handleNewlocationEditFinished = (location) => {
+    setSelectedlocation(null);
+    props.onFinished(location);
   }
 
   useEffect(()=>{
@@ -46,7 +46,7 @@ var Search = (props) => {
       <input type="text" className="form-control" placeholder="Search location" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
       </div>
     <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
-    <LocationDetailsForm item={selectedItem} onFinished={handleNewItemEditFinished}/>
+    <LocationDetailsForm location={selectedlocation} onFinished={handleNewlocationEditFinished}/>
     </div>
   )
 }

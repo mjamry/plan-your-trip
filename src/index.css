@@ -13,33 +13,33 @@ code {
     monospace;
 }
 
-/*---------------------------------list-item--*/
-.ItemList{
+/*---------------------------------list-location--*/
+.locationList{
   max-height: 700px;
   overflow-y: scroll;
 }
-.ListItem{
+.Listlocation{
   background-color: #f7fff6;
   border-bottom: 1px solid #b8c0c0;
   margin: 10px 0 10px 0;
 }
 
-.list-item-name{
+.list-location-name{
   font-weight: bold;
   font-size: 14pt;
 }
 
-.list-item-details{
+.list-location-details{
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.list-item-name{
+.list-location-name{
   color:black;
   cursor: pointer;
 }
 
-.list-item-description{
+.list-location-description{
   font-size: 10pt;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,25 +47,25 @@ code {
   height:3em;
 }
 
-.list-item-delete{
+.list-location-delete{
   cursor: pointer;
 }
 
-.list-item-attractivness{
+.list-location-attractivness{
   color: red;
 }
 
-.list-item-image{
+.list-location-image{
   max-width: 80px;
   max-height: 80px;
 }
 
 /*------------------GRID------*/
-.GridItem{
+.Gridlocation{
   width: 20em;
 }
 
-.grid-item-description{
+.grid-location-description{
   font-size: 10pt;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,20 +73,20 @@ code {
   height:3em;
 }
 
-.grid-item-remove{
+.grid-location-remove{
   cursor: pointer;
 }
 
-.grid-item-name{
+.grid-location-name{
   font-weight: bold;
   cursor: pointer;
 }
 
-.grid-item-coordinates{
+.grid-location-coordinates{
   font-size: 8pt;
 }
 
-.grid-item-image{
+.grid-location-image{
   width:100%;
   max-height:200px;
 }
@@ -101,18 +101,18 @@ code {
   background-color: #363538;
 }
 
-.MenuItem{
+.Menulocation{
   color: #f7fff6;
   cursor: pointer;
   padding:5px 2px 5px 2px;
   margin:5px 0 5px 0;
 }
 
-.ItemsListMenu{
+.locationsListMenu{
   background-color: #f7fff6;
 }
 
-.nav-items-list-menu-item{
+.nav-locations-list-menu-location{
   color: #363538;
   cursor: pointer;
   padding:5px 2px 5px 2px;
@@ -135,7 +135,7 @@ code {
   width: 100%;
 }
 
-#itemDetailsFormModal{
+#locationDetailsFormModal{
   text-align: left;
   color: gray;
 }

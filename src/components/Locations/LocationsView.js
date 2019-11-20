@@ -5,23 +5,23 @@ import LocationListItem from './LocationListItem';
 
 var LocationsView = (props) => {
   var renderList = () => {
-    return props.list.map((item, index) => (
+    return props.list.map((location, index) => (
       <LocationListItem
-        value={item}
+        value={location}
         onSelected={props.onSelected}
         onRemoved={props.onRemoved}
-        key={item.id}
+        key={location.id}
         index={index} />
     ));
   }
 
   var renderGrid = () => {
-    var output = props.list.map((item, index) => (
+    var output = props.list.map((location, index) => (
       <LocationGridItem 
-        value={item} 
+        value={location} 
         onSelected={props.onSelected} 
         onRemoved={props.onRemoved} 
-        key={item.id} 
+        key={location.id} 
         index={index} />
     ));
 
@@ -31,13 +31,13 @@ var LocationsView = (props) => {
   const [locationsView, setLocationsView] = useState('grid');
 
   return (
-    <div className="ItemList container">
+    <div className="locationList container">
       <div className="sticky-top">
         <LocationsViewMenu 
           waypoints={props.list} 
           onListSelected={()=>setLocationsView('list')} 
           onGridSelected={()=>setLocationsView('grid')} 
-          onAllItemsRemoved={props.onAllItemsRemoved}/>      
+          onAlllocationsRemoved={props.onAlllocationsRemoved}/>      
       </div>
       {locationsView === 'grid' ? renderGrid() : renderList()}
     </div>
