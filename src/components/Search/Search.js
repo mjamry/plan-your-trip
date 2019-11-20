@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
-import LocationDetailsForm from '../Items/LocationDetailsForm'
+import LocationDetailsForm from '../Locations/LocationDetailsForm'
 
 const SearchTimeout = 700;
 
