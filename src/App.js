@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import LocationsView from './components/Locations/LocationsView'
 import MapView from './components/MapView'
@@ -10,61 +10,56 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 library.add(fas)
 
-class App extends Component {
-  constructor(props){
-    super(props);
+var App = () => {
+  const [locations, setLocations] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(undefined);
 
-    this.state = {
-      itemsList: [],
-      selectedItem: undefined
-    }
+  var handleSearchFinished = (newLocation) => {
+    setLocations([...locations, newLocation]);
   }
 
-  handleSearchFinished = (newItem) => {
-    this.setState(prevState => ({
-      itemsList: [...prevState.itemsList, newItem],
-      selectedItem: undefined
-    }));
+  var handleItemRemoved = (locationIndex) => {
+    var newLocations = [...locations];
+    newLocations.splice(parseInt(locationIndex), 1);
+
+    setLocations(newLocations);
   }
 
-  handleItemRemoved = (itemIndex) => {
-    var arr = [...this.state.itemsList];
-    arr.splice(parseInt(itemIndex),1);
-    this.setState({itemsList: arr})
+  var handleItemSelected = (locationIndex) => {
+    setSelectedItem(locations[parseInt(locationIndex)]);
   }
 
-  handleItemSelected = (itemIndex) => {
-    this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
+  var handleRemoveAllItems = () => {
+    setLocations([]);
   }
 
-  handleRemoveAllItems = () => {
-    this.setState({itemsList: []})
-  }
+  useEffect(()=>{
+    setLocations(store.get('locations', []));
+  }, [])
 
-  componentDidMount(){
-    this.setState({itemsList: store.get('items', [])})
-  }
+  useEffect(()=>{
+    store.set('locations', locations);
+  }, [locations])
 
-  componentDidUpdate(){
-    store.set('items', this.state.itemsList);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        {/* */}
-        <Header onSearchFinished={this.handleSearchFinished}/>
-        <div className="row container-fluid no-gutters">
-          <div className="col-7">
-            <LocationsView list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected} onAllItemsRemoved={this.handleRemoveAllItems}/>
-          </div>
-          <div className="col-5">
-            <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
-          </div>
+  return (
+    <div className="App">
+      <Header onSearchFinished={handleSearchFinished}/>
+      <div className="row container-fluid no-gutters">
+        <div className="col-7">
+          <LocationsView 
+            list={locations} 
+            onRemoved={handleItemRemoved} 
+            onSelected={handleItemSelected} 
+            onAllItemsRemoved={handleRemoveAllItems}/>
+        </div>
+        <div className="col-5">
+          <MapView 
+            points={locations} 
+            selected={selectedItem}/>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
