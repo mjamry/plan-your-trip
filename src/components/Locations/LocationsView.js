@@ -10,7 +10,7 @@ var LocationsView = (props) => {
         value={item}
         onSelected={props.onSelected}
         onRemoved={props.onRemoved}
-        key={item.name + index}
+        key={item.id}
         index={index} />
     ));
   }
@@ -21,7 +21,7 @@ var LocationsView = (props) => {
         value={item} 
         onSelected={props.onSelected} 
         onRemoved={props.onRemoved} 
-        key={item.name + index} 
+        key={item.id} 
         index={index} />
     ));
 

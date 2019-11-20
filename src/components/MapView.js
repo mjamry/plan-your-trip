@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import L from 'leaflet'
 
 var MapView = (props) => {
-    const [visibleMarkers, setVisibleMarkers] = useState([]);
+    const [visibleLocations, setVisibleLocations] = useState([]);
     const [myMap, setMyMap] = useState(null);
 
     useEffect(()=>{
@@ -25,32 +25,35 @@ var MapView = (props) => {
     })
 
     useEffect(()=>{
-        visibleMarkers.forEach(marker => {
-            marker.remove();
+        visibleLocations.forEach(location => {
+            location.marker.remove();
         })
 
-        var markers = [];
+        var locations = [];
         for (var p in props.points) {
-            let marker = props.points[p];
-            if(marker.coordinates.lat && marker.coordinates.lon){
-                let coordinates = [marker.coordinates.lat, marker.coordinates.lon]
-                markers.push(
-                    L.marker(coordinates, {title: marker.name})
-                    .addTo(myMap)
-                    .bindPopup(marker.name)
-                    .openPopup()
-                    );
+            let location = props.points[p];
+            if(location.coordinates.lat && location.coordinates.lon){
+                let coordinates = [location.coordinates.lat, location.coordinates.lon]
+                locations.push({
+                    marker: L.marker(coordinates, {title: location.name})
+                        .addTo(myMap)
+                        .bindPopup(location.name)
+                        .openPopup(),
+                    id: location.id
+                });
 
-                    myMap.setView(coordinates)
+                myMap.setView(coordinates)
             }
         }
         
-        setVisibleMarkers(markers);
+        setVisibleLocations(locations);
     }, [props.points])
 
     useEffect(()=>{
         if(props.selected){
-            myMap.setView([props.selected.coordinates.lat, props.selected.coordinates.lon])
+            myMap.setView([props.selected.coordinates.lat, props.selected.coordinates.lon]);
+            var selectedLocation = visibleLocations.find(el => el.id === props.selected.id);
+            selectedLocation.marker.bindPopup(props.selected.name).openPopup();
         }
     }, [props.selected])
 

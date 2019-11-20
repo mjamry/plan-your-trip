@@ -9,7 +9,8 @@ var SearchResult = (props) => {
       <div 
         className="dropdown-item search-result" 
         data-toggle="modal" data-target="#itemDetailsFormModal"
-        onClick={()=>props.onSelected(props.results[index])}>
+        onClick={()=>props.onSelected(props.results[index])}
+        key={index}>
         {props.results[index]}
       </div>)
     }

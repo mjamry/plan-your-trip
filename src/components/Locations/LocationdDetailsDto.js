@@ -6,7 +6,9 @@ export default class ItemDetails {
     this.coordinates = coordinates;
     this.image = image;
     this.link = link;
+    this.id = (+new Date()).toString(32);
   }
+    id;
     name;
     description;
     attractivness;
