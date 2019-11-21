@@ -4,6 +4,7 @@ import LocationsView from './components/Locations/LocationsView'
 import MapView from './components/MapView'
 import Header from './components/Header'
 import store from 'store'
+import {LocationsStateProvider} from './State/LocationsState'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -43,21 +44,23 @@ var App = () => {
 
   return (
     <div className="App">
-      <Header onSearchFinished={handleSearchFinished}/>
-      <div className="row container-fluid no-gutters">
-        <div className="col-7">
-          <LocationsView 
-            list={locations} 
-            onRemoved={handlelocationRemoved} 
-            onSelected={handlelocationSelected} 
-            onAlllocationsRemoved={handleRemoveAlllocations}/>
+      <LocationsStateProvider initialState={""}>
+        <Header onSearchFinished={handleSearchFinished}/>
+        <div className="row container-fluid no-gutters">
+          <div className="col-7">
+            <LocationsView 
+              list={locations} 
+              onRemoved={handlelocationRemoved} 
+              onSelected={handlelocationSelected} 
+              onAlllocationsRemoved={handleRemoveAlllocations}/>
+          </div>
+          <div className="col-5">
+            <MapView 
+              points={locations} 
+              selected={selectedlocation}/>
+          </div>
         </div>
-        <div className="col-5">
-          <MapView 
-            points={locations} 
-            selected={selectedlocation}/>
-        </div>
-      </div>
+      </LocationsStateProvider>
     </div>
   );
 }
