@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {LocationsStatusActions, useLocationsState} from '../../State/LocationsState'
+import { LocationsStatusActions, useLocationsState } from '../../State/LocationsState'
 
 var LocationGridItem = (props) => {
   const [{}, dispatch] = useLocationsState();

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LocationsViewMenu from './LocationsViewMenu';
 import LocationGridItem from './LocationGridItem';
 import LocationListItem from './LocationListItem';
-import {useLocationsState} from "../../State/LocationsState"
+import { useLocationsState } from "../../State/LocationsState"
 
-var LocationsView = (props) => {
+var LocationsView = () => {
   const [{locations}] = useLocationsState();
 
   var renderList = () => {
@@ -31,7 +31,6 @@ var LocationsView = (props) => {
     <div className="locationList container">
       <div className="sticky-top">
         <LocationsViewMenu 
-          waypoints={locations} 
           onListSelected={()=>setLocationsView('list')} 
           onGridSelected={()=>setLocationsView('grid')} />      
       </div>
