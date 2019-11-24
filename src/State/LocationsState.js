@@ -1,7 +1,7 @@
 import React, {useReducer, useContext, createContext} from 'react';
 import store from 'store'
 
-export const LocationsState = {
+const EmptyState = {
     locations: [],
     locationSelectedToEdit: null,
     locationSelectedOnMap: null
@@ -32,7 +32,7 @@ var _storeLocations = (state) => {
 }
 
 var _restoreLocations = () => {
-    return LocationsState;
+   return store.get('locationsState', EmptyState);
 }
 
 var _reducer = (state, action) => {
