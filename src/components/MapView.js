@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
+import {useLocationsState} from '../State/LocationsState'
 import L from 'leaflet'
 
-var MapView = (props) => {
-    const [visibleLocations, setVisibleLocations] = useState([]);
+var MapView = () => {
+    const [{locations, locationSelectedOnMap}] = useLocationsState();
+    const [visibleMarkers, setVisibleMarkers] = useState([]);
     const [myMap, setMyMap] = useState(null);
 
     useEffect(()=>{
@@ -25,16 +27,15 @@ var MapView = (props) => {
     })
 
     useEffect(()=>{
-        visibleLocations.forEach(location => {
+        visibleMarkers.forEach(location => {
             location.marker.remove();
         })
 
-        var locations = [];
-        for (var p in props.points) {
-            let location = props.points[p];
+        var markers = [];
+        locations.forEach(location => {
             if(location.coordinates.lat && location.coordinates.lon){
                 let coordinates = [location.coordinates.lat, location.coordinates.lon]
-                locations.push({
+                markers.push({
                     marker: L.marker(coordinates, {title: location.name})
                         .addTo(myMap)
                         .bindPopup(location.name)
@@ -44,18 +45,18 @@ var MapView = (props) => {
 
                 myMap.setView(coordinates)
             }
-        }
+        })
         
-        setVisibleLocations(locations);
-    }, [props.points])
+        setVisibleMarkers(markers);
+    }, [locations])
 
     useEffect(()=>{
-        if(props.selected){
-            myMap.setView([props.selected.coordinates.lat, props.selected.coordinates.lon]);
-            var selectedLocation = visibleLocations.find(el => el.id === props.selected.id);
-            selectedLocation.marker.bindPopup(props.selected.name).openPopup();
+        if(locationSelectedOnMap){
+            myMap.setView([locationSelectedOnMap.coordinates.lat, locationSelectedOnMap.coordinates.lon]);
+            var selectedLocation = visibleMarkers.find(el => el.id === locationSelectedOnMap.id);
+            selectedLocation.marker.bindPopup(locationSelectedOnMap.name).openPopup();
         }
-    }, [props.selected])
+    }, [locationSelectedOnMap])
 
     return ( 
         <div className="container">

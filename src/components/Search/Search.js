@@ -3,7 +3,8 @@ import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
 import LocationDetailsForm from '../Locations/LocationDetailsForm'
-
+import {LocationsStatusActions, useLocationsState} from '../../State/LocationsState'
+ 
 const SearchTimeout = 700;
 
 var Search = (props) => {
@@ -11,6 +12,8 @@ var Search = (props) => {
   const [timer, setTimer] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedlocation, setSelectedlocation] = useState(null);
+
+  const [{}, dispatch] = useLocationsState();
 
   var setupTimer = () => {
     clearTimeout(timer);
@@ -31,6 +34,7 @@ var Search = (props) => {
   var handleNewlocationEditFinished = (location) => {
     setSelectedlocation(null);
     props.onFinished(location);
+    dispatch({type: LocationsStatusActions.addLocation, data: location})
   }
 
   useEffect(()=>{

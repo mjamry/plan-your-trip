@@ -1,35 +1,65 @@
 import React, {useReducer, useContext, createContext} from 'react';
+import store from 'store'
 
-export const LocationsStatusAction = {
-    addLocation: 'addLocation',
-    removeLocation: 'removeLocation',
-    editLocation: 'editLocation'
+export const LocationsState = {
+    locations: [],
+    locationSelectedToEdit: null,
+    locationSelectedOnMap: null
 }
 
-var reducer = (state, action) => {
-    switch(action.type){
-        case LocationsStatusAction.addLocation: 
-            console.log(action.data);
-            break;
-        case LocationsStatusAction.removeLocation:
-            console.log(action.data);
-            break;
-        case LocationsStatusAction.editLocation:
-            console.log(action.data);
-            break;
-        default:
-            console.error("LocationsStatusAction {action.type} was not defined.");
-    }
+export const LocationsStatusActions = {
+    addLocation: 'addLocation',
+    removeLocation: 'removeLocation',
+    editLocation: 'editLocation',
+    selectOnMap: 'selectOnMap',
+    removeAllLocations: 'removeAllLocations'
 }
 
 export const LocationsStateContext = createContext();
 
-export const LocationsStateProvider = ({initialState, children}) => {
+export const LocationsStateProvider = ({children}) => {
     return (
-        <LocationsStateContext.Provider value={useReducer(reducer, initialState)}>
+        <LocationsStateContext.Provider value={useReducer(_reducer, _restoreLocations())}>
             {children}
         </LocationsStateContext.Provider>
     )
 }
 
 export var useLocationsState = () => useContext(LocationsStateContext);
+
+var _storeLocations = (state) => {
+    store.set('locationsState', state);
+}
+
+var _restoreLocations = () => {
+    return LocationsState;
+}
+
+var _reducer = (state, action) => {
+    var newState = {};
+
+    switch(action.type){
+        case LocationsStatusActions.addLocation: 
+            newState =  {...state, locations: [...state.locations, action.data]};
+            break;
+        case LocationsStatusActions.removeLocation:
+            var updatedLocations = state.locations.filter(location => location.id !== action.data.id) || [];
+            newState = {...state, locations: updatedLocations};
+            break;
+        case LocationsStatusActions.editLocation:
+            console.log(action.data);
+            break;
+        case LocationsStatusActions.selectOnMap:
+            newState = {...state, locationSelectedOnMap: action.data};
+            break;
+        case LocationsStatusActions.removeAllLocations:
+            newState = {...state, locations: []};
+            break;
+        default:
+            newState = state;    
+            console.error(`[LocationsStatus] Action: "${action.type}" was not defined.`);
+    }
+
+    _storeLocations(newState);
+    return newState;
+}

@@ -1,8 +1,11 @@
 import React from 'react';
-import FileGenerator from '../FileGenerator'
+import GpxFileDownloader from '../../Common/GpxFileDownloader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocationsState, LocationsStatusActions } from '../../State/LocationsState'
 
 var LocationsViewMenu = (props) => {
+  const [{locations}, dispatch] = useLocationsState();
+
   return (
     <div className="locationsListMenu">
         <ul className="nav justify-content-end">
@@ -13,10 +16,18 @@ var LocationsViewMenu = (props) => {
             <FontAwesomeIcon icon='th-large' className='fa-2x' title='show as grid'/>
           </li>
           <li className="nav-locations-list-menu-location">
-            <FontAwesomeIcon icon="trash-alt" title="remove all locations" className="location-delete fa-2x" onClick={props.onAlllocationsRemoved}/>
+            <FontAwesomeIcon 
+              icon="trash-alt" 
+              title="remove all locations" 
+              className="location-delete fa-2x" 
+              onClick={()=>dispatch({type: LocationsStatusActions.removeAllLocations})}/>
           </li>
           <li className="nav-locations-list-menu-location">
-            <FileGenerator waypoints={props.waypoints}/> 
+          <FontAwesomeIcon 
+            icon="file-download" 
+            title="generate gpx file" 
+            className="location-delete fa-2x" 
+            onClick={()=>GpxFileDownloader.download(locations)}/>
           </li>
         </ul>
     </div>
