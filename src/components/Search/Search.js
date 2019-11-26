@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
 import LocationDetailsForm from '../Locations/LocationDetailsForm'
 import { LocationsStatusActions, useLocationsState } from '../../State/LocationsState'
+import { ModalStateAction, useModalState } from '../../State/ModalStateProvider'
  
 const SearchTimeout = 700;
 
@@ -13,7 +14,8 @@ var Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedlocation, setSelectedlocation] = useState(null);
 
-  const [{}, dispatch] = useLocationsState();
+  const [{}, dispatchLocation] = useLocationsState();
+  const [{}, dispatchModal] = useModalState();
 
   var setupTimer = () => {
     clearTimeout(timer);
@@ -28,12 +30,14 @@ var Search = () => {
     setSearchResults([]);
     setSearchValue("");
  
-    WikipediaAPIWrapper.getDetails(selection).then(location => setSelectedlocation(location));
+    WikipediaAPIWrapper.getDetails(selection).then(location => {
+      dispatchModal({type: ModalStateAction.show, data: location});
+    });
   }
 
   var handleNewlocationEditFinished = (location) => {
     setSelectedlocation(null);
-    dispatch({type: LocationsStatusActions.addLocation, data: location})
+    dispatchLocation({type: LocationsStatusActions.addLocation, data: location})
   }
 
   useEffect(()=>{

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Modal from '../../Common/Modal';
+import Modal from '../modals/Modal';
 
 const EMPTY_location_DATA = {
     name: "",

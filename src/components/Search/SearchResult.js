@@ -7,8 +7,7 @@ var SearchResult = (props) => {
     for(let index in props.results){
       output.push(
       <div 
-        className="dropdown-item search-result" 
-        data-toggle="modal" data-target="#locationDetailsFormModal"
+        className="dropdown-item search-result"
         onClick={()=>props.onSelected(props.results[index])}
         key={index}>
         {props.results[index]}

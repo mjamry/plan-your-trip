@@ -2,7 +2,7 @@ import React  from 'react';
 
 var Modal = (props) => {
     return(
-        <div className="modal-container" style={{display: props.show ? "block" : "none"}}>
+        <div className="modal-container" style={{display: props.isVisible ? "block" : "none"}}>
             <div className="modal">
                 <div className="modal-header">
                     {props.header}                        
