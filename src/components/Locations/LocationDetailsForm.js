@@ -88,12 +88,7 @@ var LocationDetailsForm = (props) => {
     }
 
     var renderFooter = ()  => {
-        return(
-            <div>
-                <button type="submit" className="btn btn-primary" onClick={onSubmit} data-dismiss="modal">Save</button>
-                <button type="button" className="btn" data-dismiss="modal" onClick={clearData}>Cancel</button>
-            </div>
-        );
+        ;
     }
 
     return(
@@ -106,5 +101,43 @@ var LocationDetailsForm = (props) => {
         </div>
     )
 };
+
+export const LocationDetailsFormModalFooter = (props) => {
+    return(
+        <div>
+            <button type="submit" className="btn btn-primary" onClick="" data-dismiss="modal">Save</button>
+            <button type="button" className="btn" data-dismiss="modal" onClick="">Cancel</button>
+        </div>
+    )
+}
+
+export const LocationDetailsFormHeader = (props) => {
+    return(
+        <div>Location FORM</div>
+    )
+}
+
+export const LocationDetailsFormBody = (props) => {
+    return(<form>
+        <div className="form-group">
+            <label htmlFor="location-name" className="col-form-label">Name</label>
+            <input name="name" onChange="" className="form-control" id="location-name" value=""/>
+        </div>
+        <div className="form-row">
+        <div className="form-group col-md-6">
+            <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
+            <input name="lat" onChange="" className="form-control" id="location-coordinates-lat" value=""/>
+        </div>
+        <div className="form-group col-md-6">
+            <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
+            <input name="lon" onChange="" className="form-control" id="location-coordinates-lon" value=""/>
+        </div>
+        </div>
+        <div className="form-group">
+            <label htmlFor="location-description">Description</label>
+            <textarea name="description" onChange="" className="form-control" rows="5" id="location-description" value=""></textarea>
+        </div>
+    </form>)
+}
 
 export default LocationDetailsForm;

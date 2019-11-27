@@ -1,5 +1,12 @@
 import React, {createContext, useContext, useReducer} from 'react'
 
+export const ModalTypes = {
+    addLocation: 'addLocation',
+    editLocation: 'editLocation',
+    search: 'search',
+    confirmation: 'confirmation'
+}
+
 export const ModalStateAction = {
     show: 'show',
     hide: 'hide'
@@ -14,7 +21,7 @@ const ModalState = {
 var _reducer = (state, action) => {
     switch(action.type){
         case ModalStateAction.show:
-            return {...state, data: action.data, isVisible: true};
+            return {...state, data: action.data, type: action.modalType, isVisible: true};
         case ModalStateAction.hide: 
             return {data: null, type: null, isVisible: false};
         default: 

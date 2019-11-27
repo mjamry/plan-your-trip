@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
 import LocationDetailsForm from '../Locations/LocationDetailsForm'
 import { LocationsStatusActions, useLocationsState } from '../../State/LocationsState'
-import { ModalStateAction, useModalState } from '../../State/ModalStateProvider'
+import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalStateProvider'
  
 const SearchTimeout = 700;
 
@@ -31,7 +31,7 @@ var Search = () => {
     setSearchValue("");
  
     WikipediaAPIWrapper.getDetails(selection).then(location => {
-      dispatchModal({type: ModalStateAction.show, data: location});
+      dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.addLocation});
     });
   }
 
