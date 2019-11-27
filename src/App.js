@@ -17,9 +17,9 @@ library.add(fas)
 var App = () => {
   return (
     <div className="App">
+      <LocationsStateProvider>
       <ModalStateProvider>
         <ModalContainer />
-      <LocationsStateProvider>
         <Header />
         <div className="row container-fluid no-gutters">
           <div className="col-7">
@@ -29,8 +29,8 @@ var App = () => {
             <MapView />
           </div>
         </div>
-      </LocationsStateProvider>
       </ModalStateProvider>
+      </LocationsStateProvider>
     </div>
   );
 }

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
-import LocationDetailsForm from '../Locations/LocationDetailsForm'
-import { LocationsStatusActions, useLocationsState } from '../../State/LocationsState'
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalStateProvider'
  
 const SearchTimeout = 700;
@@ -12,9 +10,7 @@ var Search = () => {
   const [searchValue, setSearchValue] = useState("");
   const [timer, setTimer] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedlocation, setSelectedlocation] = useState(null);
 
-  const [{}, dispatchLocation] = useLocationsState();
   const [{}, dispatchModal] = useModalState();
 
   var setupTimer = () => {
@@ -35,11 +31,6 @@ var Search = () => {
     });
   }
 
-  var handleNewlocationEditFinished = (location) => {
-    setSelectedlocation(null);
-    dispatchLocation({type: LocationsStatusActions.addLocation, data: location})
-  }
-
   useEffect(()=>{
     setupTimer();
   }, [searchValue])
@@ -53,7 +44,6 @@ var Search = () => {
       <input type="text" className="form-control" placeholder="Search location" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
       </div>
     <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
-    <LocationDetailsForm location={selectedlocation} onFinished={handleNewlocationEditFinished}/>
     </div>
   )
 }

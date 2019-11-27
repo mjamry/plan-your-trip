@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
-import { useModalState, ModalTypes } from '../../State/ModalStateProvider'
+import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
+import { useLocationsState, LocationsStatusActions } from '../../State/LocationsState'
 import { LocationDetailsFormBody, LocationDetailsFormHeader, LocationDetailsFormModalFooter } from '../Locations/LocationDetailsForm'
 
 const _emptyModalContent = {header: "", body: "", footer: ""};
 
-var _modalContentFactory = (modalType) => {
+var _modalContentFactory = (modalType, model, dispatchLocation, dispatchModal) => {
     switch(modalType){
         case ModalTypes.addLocation:
             return {
-                header: <LocationDetailsFormHeader />,
-                body: <LocationDetailsFormBody />,
-                footer: <LocationDetailsFormModalFooter />
+                header: <LocationDetailsFormHeader title="Add new location"/>,
+                body: <LocationDetailsFormBody location={model.data}/>,
+                footer: <LocationDetailsFormModalFooter 
+                    submit={()=>{
+                        dispatchLocation({
+                            type: LocationsStatusActions.addLocation, 
+                            data: model.data})
+                        dispatchModal({
+                            type: ModalStateAction.hide})}}
+                    cancel={()=>{dispatchModal({
+                        type: ModalStateAction.hide})}}/>
             }
         default: 
             console.log(`[ModalFactory] Incorrect modal type: "${modalType}"`);
@@ -21,10 +30,11 @@ var _modalContentFactory = (modalType) => {
 
 var ModalContainer = () => {
     const [modalContent, setModalContent] = useState(_emptyModalContent);
-    const [modalModel] = useModalState();
+    const [modalModel, dispatchModal] = useModalState();
+    const [locationsModel, dispatchLocations] = useLocationsState();
 
     useEffect(()=>{
-        setModalContent(_modalContentFactory(modalModel.type));
+        setModalContent(_modalContentFactory(modalModel.type, modalModel, dispatchLocations, dispatchModal));
     }, [modalModel])
 
     return <Modal 

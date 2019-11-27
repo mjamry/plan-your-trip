@@ -8,7 +8,7 @@ var Modal = (props) => {
                     {props.header}                        
                 </div>
                 <div className="modal-content">
-                    {props.content}
+                    {props.body}
                 </div>
                 <div className="modal-footer">
                     {props.footer}

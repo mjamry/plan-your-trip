@@ -38,7 +38,6 @@ var _reducer = (state, action) => {
     var newState = {};
 
     switch(action.type){
-        //---LOCATIONS
         case LocationsStatusActions.addLocation: 
             newState =  {...state, locations: [...state.locations, action.data]};
             break;
