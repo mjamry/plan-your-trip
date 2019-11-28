@@ -31,7 +31,7 @@ export const LocationDetailsFormBody = (props) => {
                 className="form-control" 
                 id="location-name" 
                 onChange={handleInputChanged}
-                value={location.input}/>
+                value={location.name}/>
         </div>
         <div className="form-row">
         <div className="form-group col-md-6">

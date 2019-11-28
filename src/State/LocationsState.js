@@ -48,7 +48,7 @@ var _reducer = (state, action) => {
         case LocationsStateActions.editLocation:
             var editedItemIndex = state.locations.findIndex(l => l.id === action.data.id);
             state.locations[editedItemIndex] = action.data;
-            newState = {...state, locations: state.locations};
+            newState = {...state, locations: [...state.locations]};
             break;
         case LocationsStateActions.selectOnMap:
             newState = {...state, locationSelectedOnMap: action.data};
