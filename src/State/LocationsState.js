@@ -6,7 +6,7 @@ const EmptyState = {
     locationSelectedOnMap: null
 }
 
-export const LocationsStatusActions = {
+export const LocationsStateActions = {
     addLocation: 'addLocation',
     removeLocation: 'removeLocation',
     editLocation: 'editLocation',
@@ -38,20 +38,22 @@ var _reducer = (state, action) => {
     var newState = {};
 
     switch(action.type){
-        case LocationsStatusActions.addLocation: 
+        case LocationsStateActions.addLocation: 
             newState =  {...state, locations: [...state.locations, action.data]};
             break;
-        case LocationsStatusActions.removeLocation:
-            var updatedLocations = state.locations.filter(location => location.id !== action.data.id) || [];
+        case LocationsStateActions.removeLocation:
+            var updatedLocations = state.locations.filter(l => l.id !== action.data.id) || [];
             newState = {...state, locations: updatedLocations};
             break;
-        case LocationsStatusActions.editLocation:
-            console.log(action.data);
+        case LocationsStateActions.editLocation:
+            var editedItemIndex = state.locations.findIndex(l => l.id === action.data.id);
+            state.locations[editedItemIndex] = action.data;
+            newState = {...state, locations: state.locations};
             break;
-        case LocationsStatusActions.selectOnMap:
+        case LocationsStateActions.selectOnMap:
             newState = {...state, locationSelectedOnMap: action.data};
             break;
-        case LocationsStatusActions.removeAllLocations:
+        case LocationsStateActions.removeAllLocations:
             newState = {...state, locations: []};
             break;
         default:

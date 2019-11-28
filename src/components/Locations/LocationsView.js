@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import LocationsViewMenu from './LocationsViewMenu';
 import LocationGridItem from './LocationGridItem';
 import LocationListItem from './LocationListItem';
-import { useLocationsState } from "../../State/LocationsState"
+import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
+import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 
 var LocationsView = () => {
-  const [{locations}] = useLocationsState();
+  const [{locations}, dispatchlocations] = useLocationsState();
+  const [{}, dispatchModal] = useModalState();
 
   var renderList = () => {
     return locations.map((location) => (
       <LocationListItem
         location={location}
-        key={location.id} />
+        key={location.id}
+        onRemove={()=>dispatchlocations({type: LocationsStateActions.removeLocation, data: location})}
+        onEdit={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.editLocation})} 
+        onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
   }
 
@@ -19,7 +24,10 @@ var LocationsView = () => {
     var output = locations.map((location) => (
       <LocationGridItem 
         location={location} 
-        key={location.id}/>
+        key={location.id}
+        onRemove={()=>dispatchlocations({type: LocationsStateActions.removeLocation, data: location})} 
+        onEdit={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.editLocation})} 
+        onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
 
     return <div className="card-columns">{output}</div>

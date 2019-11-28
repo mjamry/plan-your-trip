@@ -1,7 +1,7 @@
 import React from 'react';
 import GpxFileDownloader from '../../Common/GpxFileDownloader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useLocationsState, LocationsStatusActions } from '../../State/LocationsState'
+import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 
 var LocationsViewMenu = (props) => {
   const [{locations}, dispatch] = useLocationsState();
@@ -20,7 +20,7 @@ var LocationsViewMenu = (props) => {
               icon="trash-alt" 
               title="remove all locations" 
               className="location-delete fa-2x" 
-              onClick={()=>dispatch({type: LocationsStatusActions.removeAllLocations})}/>
+              onClick={()=>dispatch({type: LocationsStateActions.removeAllLocations})}/>
           </li>
           <li className="nav-locations-list-menu-location">
           <FontAwesomeIcon 
