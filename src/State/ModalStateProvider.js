@@ -9,7 +9,8 @@ export const ModalTypes = {
 
 export const ModalStateAction = {
     show: 'show',
-    hide: 'hide'
+    hide: 'hide',
+    update: 'update'
 }
 
 const ModalState = {
@@ -24,6 +25,8 @@ var _reducer = (state, action) => {
             return {...state, data: action.data, type: action.modalType, isVisible: true};
         case ModalStateAction.hide: 
             return {data: null, type: null, isVisible: false};
+        case ModalStateAction.update:
+            return {...state, data: action.data};
         default: 
             console.error(`[ModalStatus] Action: "${action.type}" was not defined.`);
             return state;

@@ -1,13 +1,4 @@
-import React from 'react';
-
-export const LocationDetailsFormModalFooter = (props) => {
-    return(
-        <div>
-            <button type="submit" className="btn btn-primary" data-dismiss="modal" onClick={props.submit}>Save</button>
-            <button type="button" className="btn" data-dismiss="modal" onClick={props.cancel}>Cancel</button>
-        </div>
-    )
-}
+import React, {useState} from 'react';
 
 export const LocationDetailsFormHeader = (props) => {
     return(
@@ -16,14 +7,31 @@ export const LocationDetailsFormHeader = (props) => {
 }
 
 export const LocationDetailsFormBody = (props) => {
-    return(<form>
+    const [location, setLocation] = useState(props.location);
+    const [coordinates, setCoordinates] = useState(props.location.coordinates);
+
+    const handleInputChanged = (e) => {
+        setLocation({...location, [e.target.name]: e.target.value });
+    }
+
+    const handleCoordinatesChanged = (e) => {
+        setCoordinates({...coordinates, [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.onSubmit({...location, coordinates: coordinates});
+    }
+
+    return(<form onSubmit={handleSubmit}>
         <div className="form-group">
             <label htmlFor="location-name" className="col-form-label">Name</label>
             <input 
                 name="name" 
                 className="form-control" 
                 id="location-name" 
-                defaultValue={props.location.name}/>
+                onChange={handleInputChanged}
+                value={location.input}/>
         </div>
         <div className="form-row">
         <div className="form-group col-md-6">
@@ -32,7 +40,8 @@ export const LocationDetailsFormBody = (props) => {
                 name="lat" 
                 className="form-control" 
                 id="location-coordinates-lat" 
-                defaultValue={props.location.coordinates.lat}/>
+                onChange={handleCoordinatesChanged}
+                value={coordinates.lat}/>
         </div>
         <div className="form-group col-md-6">
             <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
@@ -40,7 +49,8 @@ export const LocationDetailsFormBody = (props) => {
                 name="lon" 
                 className="form-control" 
                 id="location-coordinates-lon" 
-                defaultValue={props.location.coordinates.lon}/>
+                onChange={handleCoordinatesChanged}
+                value={coordinates.lon}/>
         </div>
         </div>
         <div className="form-group">
@@ -49,7 +59,10 @@ export const LocationDetailsFormBody = (props) => {
                 name="description" 
                 className="form-control" 
                 rows="5" id="location-description" 
-                defaultValue={props.location.description}></textarea>
+                onChange={handleInputChanged}
+                value={location.description}></textarea>
         </div>
+        <button type="submit" className="btn btn-primary" data-dismiss="modal">Save</button>
+        <button type="button" className="btn" data-dismiss="modal" onClick={props.onCancel}>Cancel</button>
     </form>)
 }

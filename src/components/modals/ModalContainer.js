@@ -15,16 +15,17 @@ var useModalContentFactory = () => {
         case ModalTypes.addLocation:
             return {
                 header: <LocationDetailsFormHeader title="Add new location"/>,
-                body: <LocationDetailsFormBody location={modalModel.data}/>,
-                footer: <LocationDetailsFormModalFooter 
-                    submit={()=>{
+                body: <LocationDetailsFormBody 
+                    location={modalModel.data}
+                    onSubmit={(data)=>{
                         dispatchLocations({
                             type: LocationsStatusActions.addLocation, 
-                            data: modalModel.data})
+                            data: data})
                         dispatchModal({
                             type: ModalStateAction.hide})}}
-                    cancel={()=>{dispatchModal({
-                        type: ModalStateAction.hide})}}/>
+                    onCancel={()=>{dispatchModal({
+                        type: ModalStateAction.hide})}}/>,
+                footer: ""
             }
         default: 
             console.log(`[ModalFactory] Incorrect modal type: "${modalType}"`);
