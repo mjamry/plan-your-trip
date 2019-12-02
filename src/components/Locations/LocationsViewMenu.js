@@ -2,9 +2,11 @@ import React from 'react';
 import GpxFileDownloader from '../../Common/GpxFileDownloader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
+import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 
 var LocationsViewMenu = (props) => {
-  const [{locations}, dispatch] = useLocationsState();
+  const [{locations}, dispatchLocations] = useLocationsState();
+  const [{}, dispatchModal] = useModalState();
 
   return (
     <div className="locationsListMenu">
@@ -20,14 +22,21 @@ var LocationsViewMenu = (props) => {
               icon="trash-alt" 
               title="remove all locations" 
               className="location-delete fa-2x" 
-              onClick={()=>dispatch({type: LocationsStateActions.removeAllLocations})}/>
+              onClick={()=>dispatchLocations({type: LocationsStateActions.removeAllLocations})}/>
           </li>
           <li className="nav-locations-list-menu-location">
-          <FontAwesomeIcon 
-            icon="file-download" 
-            title="generate gpx file" 
-            className="location-delete fa-2x" 
-            onClick={()=>GpxFileDownloader.download(locations)}/>
+            <FontAwesomeIcon 
+              icon="file-download" 
+              title="generate gpx file" 
+              className="location-delete fa-2x" 
+              onClick={()=>GpxFileDownloader.download(locations)}/>
+          </li>
+          <li className="nav-locations-list-menu-location">
+            <FontAwesomeIcon
+              icon="search-plus"
+              title="search"
+              className="fa-2x"
+              onClick={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.search})}/>
           </li>
         </ul>
     </div>

@@ -3,6 +3,7 @@ import Modal from './Modal'
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { LocationDetailsFormBody, LocationDetailsFormHeader } from '../Locations/LocationDetailsForm'
+import Search from '../Search/Search'
 
 const _emptyModalContent = {header: "", body: "", footer: ""};
 
@@ -43,6 +44,14 @@ var useModalContentFactory = () => {
                                 type: ModalStateAction.hide})}}/>,
                         footer: ""
                     }
+                    
+            case ModalTypes.search: 
+                    return {
+                        header: "Search location by name",
+                        body: <Search />,
+                        footer: ""
+                    }
+
         default: 
             console.log(`[ModalFactory] Incorrect modal type: "${modalType}"`);
             return _emptyModalContent;
