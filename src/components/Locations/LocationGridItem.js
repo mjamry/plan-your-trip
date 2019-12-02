@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LocationButtons from './LocationButtons'
 
 var LocationGridItem = (props) => {
   return (
@@ -15,16 +16,7 @@ var LocationGridItem = (props) => {
             <p className="col-8 grid-location-coordinates">
               <FontAwesomeIcon icon="map-marker"/>{props.location.coordinates.lat}, {props.location.coordinates.lon}</p>
             <p className="col-2">{props.location.attractivness}</p>
-            <p className="col-2 grid-location-remove">
-              <FontAwesomeIcon 
-                icon="trash-alt" 
-                title="remove location" 
-                onClick={props.onRemove}/></p>
-            <p className="col-2 grid-location-remove">
-              <FontAwesomeIcon 
-                icon="edit" 
-                title="edit location" 
-                onClick={props.onEdit}/></p>
+            <LocationButtons onEdit={props.onEdit} onRemove={props.onRemove} />
           </div>
         </div>
         

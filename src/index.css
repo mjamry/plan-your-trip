@@ -91,6 +91,23 @@ code {
   max-height:200px;
 }
 
+/*----------grid buttons----------*/
+
+.grid-locations-container{
+  display: flex;
+  justify-content: space-around;
+  width:100%;
+}
+
+.grid-location-buttons{
+  border: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0px;
+  cursor: pointer;
+  font-size: 12pt;
+}
+
 /*----------------------------MENU--------*/
 .Menu{
   position: absolute;
