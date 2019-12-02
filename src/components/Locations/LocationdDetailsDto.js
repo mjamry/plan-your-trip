@@ -2,7 +2,7 @@ export default class locationDetails {
   constructor(name, description, attractivness, coordinates, image, link){
     this.name = name;
     this.description = description;
-    this.attractivness = attractivness;
+    this.attractivness = attractivness || 1;
     this.coordinates = coordinates;
     this.image = image;
     this.link = link;

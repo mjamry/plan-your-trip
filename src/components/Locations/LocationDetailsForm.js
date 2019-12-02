@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import LocationAttractivnessButton from '../Locations/LocationAttractivnessButton'
 
 export const LocationDetailsFormHeader = (props) => {
     return(
@@ -51,6 +52,11 @@ export const LocationDetailsFormBody = (props) => {
                 id="location-coordinates-lon" 
                 onChange={handleCoordinatesChanged}
                 value={coordinates.lon}/>
+        </div>
+        <div className="form-row">
+            <LocationAttractivnessButton 
+                value={location.attractiveness} 
+                onSelect={(value)=>{setLocation({...location, attractivness: value})}} />
         </div>
         </div>
         <div className="form-group">

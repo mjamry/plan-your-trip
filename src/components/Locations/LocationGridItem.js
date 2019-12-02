@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LocationButtons from './LocationButtons'
+import LocationAttractivnessButton from './LocationAttractivnessButton'
 
 var LocationGridItem = (props) => {
   return (
@@ -14,8 +15,9 @@ var LocationGridItem = (props) => {
           <hr></hr>
           <div className="row container">
             <p className="col-8 grid-location-coordinates">
-              <FontAwesomeIcon icon="map-marker"/>{props.location.coordinates.lat}, {props.location.coordinates.lon}</p>
-            <p className="col-2">{props.location.attractivness}</p>
+              <FontAwesomeIcon icon="map-marker"/>{props.location.coordinates.lat}, {props.location.coordinates.lon}
+            </p>
+            <LocationAttractivnessButton onSelect={val=>{console.log(val)}} value={props.location.attractivness}/>
             <LocationButtons onEdit={props.onEdit} onRemove={props.onRemove} />
           </div>
         </div>

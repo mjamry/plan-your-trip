@@ -97,6 +97,7 @@ code {
   display: flex;
   justify-content: space-around;
   width:100%;
+  
 }
 
 .grid-location-buttons{
@@ -106,6 +107,23 @@ code {
   border-radius: 0px;
   cursor: pointer;
   font-size: 12pt;
+}
+
+/*--------------Stars-------------*/
+
+.location-attractivness-container{
+  display: flex;
+  justify-content: center;
+  flex-flow: row-reverse;
+  width: 100%;
+}
+.location-attractivness-star, .location-attractivness-star-selected{
+  font-size: 20pt;
+  cursor: pointer;
+}
+
+.location-attractivness-star:hover, .location-attractivness-star:hover ~ .location-attractivness-star, .location-attractivness-star-selected {
+  color: #f58a07;
 }
 
 /*----------------------------MENU--------*/
