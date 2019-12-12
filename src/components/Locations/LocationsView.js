@@ -39,7 +39,7 @@ var LocationsView = () => {
 
   return (
     <div className="location-view-container">
-      <div className="sticky-top">
+      <div className="locations-view-menu">
         <LocationsViewMenu 
           onListSelected={()=>setLocationsView('list')} 
           onGridSelected={()=>setLocationsView('grid')} />      

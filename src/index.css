@@ -38,6 +38,8 @@ code {
 /*--------------------------location--view---*/
 .location-view-container{
   padding:10px;
+  display: flex;
+  flex-direction: column;
 }
 
 /*---------------------------------list-location--*/
