@@ -61,52 +61,74 @@ code {
 }
 
 /*------------------GRID------*/
-.Gridlocation{
-  width: 20em;
+.location-view-grid-container{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
-.grid-location-description{
+.location-card{
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 calc(100% - 1em);
+  border: 1px solid lightgrey;
+  margin-bottom: 10px;
+}
+
+.location-card-description{
   font-size: 10pt;
   overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5em;
-  height:3em;
+  max-height: 100px;
 }
 
-.grid-location-remove{
-  cursor: pointer;
-}
-
-.grid-location-name{
+.location-card-name{
   font-weight: bold;
   cursor: pointer;
 }
 
-.grid-location-coordinates{
-  font-size: 8pt;
-}
-
-.grid-location-image{
+.location-card-image{
   width:100%;
-  max-height:200px;
+  max-height:100px;
 }
 
+@media screen and (min-width: 700px) {
+  .location-card {
+      flex: 0 1 calc(50% - 1em);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .location-card {
+      flex: 0 1 calc(25% - 1em);
+  }
+}
+
+.location-card-bottom-container{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-top: 1px solid lightgray;  
+}
 /*----------grid buttons----------*/
 
-.grid-locations-container{
+.location-card-buttons-container{
   display: flex;
   justify-content: space-around;
   width:100%;
-  
+  border-top: 1px solid lightgray;
 }
 
-.grid-location-buttons{
+.location-card-button{
   border: 0;
   background: none;
   box-shadow: none;
   border-radius: 0px;
   cursor: pointer;
   font-size: 12pt;
+}
+
+.location-card-button:after{
+  border-left: 1px solid lightgray;
 }
 
 /*--------------Stars-------------*/
@@ -175,10 +197,19 @@ code {
   color: gray;
 }
 /*------------------------------------------------*/
+.map-container{
+
+}
 
 #mapid{
   height:750px;
   width:100%;
+}
+
+@media screen and (max-width: 700px) {
+  .map-container{
+    display: none;
+  }
 }
 
 /*------------------------------------MODAL------------*/

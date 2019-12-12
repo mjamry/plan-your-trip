@@ -10,7 +10,7 @@ var LocationsView = () => {
   const [{}, dispatchModal] = useModalState();
 
   var renderList = () => {
-    return locations.map((location) => (
+    var output = locations.map((location) => (
       <LocationListItem
         location={location}
         key={location.id}
@@ -18,6 +18,8 @@ var LocationsView = () => {
         onEdit={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.editLocation})} 
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
+
+    return <div className="location-view-list-container">{output}</div>
   }
 
   var renderGrid = () => {
@@ -30,7 +32,7 @@ var LocationsView = () => {
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
 
-    return <div className="card-columns">{output}</div>
+    return <div className="location-view-grid-container">{output}</div>
   }
   
   const [locationsView, setLocationsView] = useState('grid');

@@ -63,7 +63,7 @@ var MapView = () => {
     }, [locationSelectedOnMap])
 
     return ( 
-        <div className="container">
+        <div className="map-container">
             <div className="row">
                 <div id="mapid"></div> 
             </div> 

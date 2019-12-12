@@ -7,7 +7,7 @@ var LocationAttractivnessButton = ({value, onSelect}) => {
 
     useEffect(()=>{
         setStars(getStars(value));
-    }, [])
+    }, [value])
 
     var getStars = (value) => {
         var output = [...Array(NUMER_OF_STARS)];

@@ -55,7 +55,7 @@ export const LocationDetailsFormBody = (props) => {
         </div>
         <div className="form-row">
             <LocationAttractivnessButton 
-                value={location.attractiveness} 
+                value={location.attractivness} 
                 onSelect={(value)=>{setLocation({...location, attractivness: value})}} />
         </div>
         </div>

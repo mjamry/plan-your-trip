@@ -1,29 +1,20 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LocationButtons from './LocationButtons'
 import LocationAttractivnessButton from './LocationAttractivnessButton'
 
 var LocationGridItem = (props) => {
   return (
-    <div className="Gridlocation">
-      <div className="card">
-        <img className="grid-location-image" src={props.location.image} alt={props.location.name}></img>
-        <div className="card-body">
-          <h5 className="card-title grid-location-name" 
-            onClick={props.onSelect}>{props.location.name}</h5>
-          <p className="card-text grid-location-description" title={props.location.description}>{props.location.description}</p>
-          <hr></hr>
-          <div className="row container">
-            <p className="col-8 grid-location-coordinates">
-              <FontAwesomeIcon icon="map-marker"/>{props.location.coordinates.lat}, {props.location.coordinates.lon}
-            </p>
-            <LocationAttractivnessButton onSelect={val=>{console.log(val)}} value={props.location.attractivness}/>
-            <LocationButtons onEdit={props.onEdit} onRemove={props.onRemove} />
-          </div>
-        </div>
-        
+    <div className="location-card">
+      <img className="location-card-image" src={props.location.image} alt={props.location.name}></img>
+      <h5 className="location-card-name" onClick={props.onSelect}>{props.location.name}</h5>
+      <p className="location-card-description" title={props.location.description}>{props.location.description}</p>
+      <div className="location-card-bottom-container">
+        <LocationAttractivnessButton onSelect={val=>{console.log(val)}} value={props.location.attractivness}/>
+        <LocationButtons onEdit={props.onEdit} onRemove={props.onRemove} />
       </div>
+      
     </div>
+        
   )
 }
 
