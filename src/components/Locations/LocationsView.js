@@ -38,7 +38,7 @@ var LocationsView = () => {
   const [locationsView, setLocationsView] = useState('grid');
 
   return (
-    <div className="locationList container">
+    <div className="location-view-container">
       <div className="sticky-top">
         <LocationsViewMenu 
           onListSelected={()=>setLocationsView('list')} 

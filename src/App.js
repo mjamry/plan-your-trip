@@ -21,11 +21,11 @@ var App = () => {
       <ModalStateProvider>
         <ModalContainer />
         <Header />
-        <div className="row container-fluid no-gutters">
-          <div className="col-7">
+        <div className="app-content-container">
+          <div className="app-locations-view">
             <LocationsView />
           </div>
-          <div className="col-5">
+          <div className="app-map-view">
             <MapView />
           </div>
         </div>
