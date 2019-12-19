@@ -6,6 +6,7 @@ import './Styles/LocationViewRow.css'
 import './Styles/LocationViewCard.css'
 import './Styles/LocationAttractivness.css'
 import './Styles/Modal.css'
+import './Styles/LocationEditForm.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'

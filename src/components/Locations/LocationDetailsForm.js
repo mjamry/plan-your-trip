@@ -24,51 +24,58 @@ export const LocationDetailsFormBody = (props) => {
         props.onSubmit({...location, coordinates: coordinates});
     }
 
-    return(<form onSubmit={handleSubmit}>
-        <div className="form-group">
-            <label htmlFor="location-name" className="col-form-label">Name</label>
-            <input 
-                name="name" 
-                className="form-control" 
-                id="location-name" 
-                onChange={handleInputChanged}
-                value={location.name}/>
+    return(
+    <form onSubmit={handleSubmit}>
+        <div className="location-edit-form-container">
+            <div className="location-edit-form-item">
+                <label htmlFor="location-name" className="col-form-label">Name</label>
+                <input 
+                    name="name" 
+                    className="form-control" 
+                    id="location-name" 
+                    onChange={handleInputChanged}
+                    value={location.name}/>
+            </div>
+            <div className="location-edit-form-row">
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
+                    <input 
+                        name="lat" 
+                        className="form-control" 
+                        id="location-coordinates-lat" 
+                        onChange={handleCoordinatesChanged}
+                        value={coordinates.lat}/>
+                </div>
+                
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
+                    <input 
+                        name="lon" 
+                        className="form-control" 
+                        id="location-coordinates-lon" 
+                        onChange={handleCoordinatesChanged}
+                        value={coordinates.lon}/>
+                </div>
+            </div>
+            <div className="location-edit-form-item">
+                Atractivness:
+                <LocationAttractivnessButton 
+                        value={location.attractivness} 
+                        onSelect={(value)=>{setLocation({...location, attractivness: value})}} />
+            </div>
+            <div className="location-edit-form-item">
+                <label htmlFor="location-description">Description</label>
+                <textarea 
+                    name="description" 
+                    className="form-control" 
+                    rows="5" id="location-description" 
+                    onChange={handleInputChanged}
+                    value={location.description}></textarea>
+            </div>
+            <div className="location-edit-form-buttons">
+                <button type="submit" className="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" className="btn" data-dismiss="modal" onClick={props.onCancel}>Cancel</button>
+            </div>
         </div>
-        <div className="form-row">
-        <div className="form-group col-md-6">
-            <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
-            <input 
-                name="lat" 
-                className="form-control" 
-                id="location-coordinates-lat" 
-                onChange={handleCoordinatesChanged}
-                value={coordinates.lat}/>
-        </div>
-        <div className="form-group col-md-6">
-            <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
-            <input 
-                name="lon" 
-                className="form-control" 
-                id="location-coordinates-lon" 
-                onChange={handleCoordinatesChanged}
-                value={coordinates.lon}/>
-        </div>
-        <div className="form-row">
-            <LocationAttractivnessButton 
-                value={location.attractivness} 
-                onSelect={(value)=>{setLocation({...location, attractivness: value})}} />
-        </div>
-        </div>
-        <div className="form-group">
-            <label htmlFor="location-description">Description</label>
-            <textarea 
-                name="description" 
-                className="form-control" 
-                rows="5" id="location-description" 
-                onChange={handleInputChanged}
-                value={location.description}></textarea>
-        </div>
-        <button type="submit" className="btn btn-primary" data-dismiss="modal">Save</button>
-        <button type="button" className="btn" data-dismiss="modal" onClick={props.onCancel}>Cancel</button>
     </form>)
 }
