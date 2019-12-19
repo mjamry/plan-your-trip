@@ -1,0 +1,22 @@
+/*---------------------app-content----*/
+.app-content-container{
+  display: flex;
+}
+
+.app-locations-view{
+  flex: 0 1 calc(66% - 1em);
+}
+
+.app-map-view{
+  flex: 0 1 calc(33% - 1em);
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  .app-locations-view{
+    flex: 0 1 calc(100% - 1em);
+  }
+  .app-map-view{
+    display: none;
+  }
+}

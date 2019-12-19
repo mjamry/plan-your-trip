@@ -1,0 +1,16 @@
+.locations-view-container{
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.locations-view-list-container{
+    max-height: 700px;
+    overflow-y: scroll;
+}
+  
+.locations-view-grid-container{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

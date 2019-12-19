@@ -1,0 +1,40 @@
+.modal-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+}
+  
+.modal{
+    position:fixed;
+    background: white;
+    height: auto;
+    top:30%;
+    left:50%;
+    transform: translate(-50%,-30%);
+    display: block;
+}
+  
+.modal-header{
+    padding: 10px;
+    padding-left: 30px;
+    font-size: 20pt;
+    font-weight: bold;
+    color: black;
+}
+  
+.modal-content{
+    padding: 15px;
+    font-size: 12pt;
+    color: gray;
+    text-align: left;
+}
+  
+.modal-footer{
+    padding: 10px;
+    font-size: 20pt;
+    color: black;
+}

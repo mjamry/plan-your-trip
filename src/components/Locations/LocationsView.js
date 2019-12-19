@@ -19,7 +19,7 @@ var LocationsView = () => {
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
 
-    return <div className="location-view-list-container">{output}</div>
+    return <div className="locations-view-list-container">{output}</div>
   }
 
   var renderGrid = () => {
@@ -32,13 +32,13 @@ var LocationsView = () => {
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
 
-    return <div className="location-view-grid-container">{output}</div>
+    return <div className="locations-view-grid-container">{output}</div>
   }
   
   const [locationsView, setLocationsView] = useState('grid');
 
   return (
-    <div className="location-view-container">
+    <div className="locations-view-container">
       <div className="locations-view-menu">
         <LocationsViewMenu 
           onListSelected={()=>setLocationsView('list')} 

@@ -1,5 +1,11 @@
 
-import './App.css';
+import './Styles/App.css';
+import './Styles/LocationsView.css'
+import './Styles/LocationsViewMenu.css'
+import './Styles/LocationViewRow.css'
+import './Styles/LocationViewCard.css'
+import './Styles/LocationAttractivness.css'
+import './Styles/Modal.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
