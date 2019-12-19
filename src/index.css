@@ -43,50 +43,57 @@ code {
 }
 
 /*---------------------------------list-location--*/
-.locationList{
+.location-view-list-container{
   max-height: 700px;
   overflow-y: scroll;
 }
-.Listlocation{
+
+.location-row-container{
   background-color: #f7fff6;
   border-bottom: 1px solid #b8c0c0;
   margin: 10px 0 10px 0;
+  display: flex;
+  flex-direction: row;
 }
 
-.list-location-name{
+.location-row-name{
   font-weight: bold;
   font-size: 14pt;
-}
-
-.list-location-details{
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.list-location-name{
   color:black;
   cursor: pointer;
+  flex: 1 100px;
 }
 
-.list-location-description{
+.location-row-description{
   font-size: 10pt;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5em;
   height:3em;
+  flex: 5;
 }
 
-.list-location-delete{
-  cursor: pointer;
+.location-row-attractivness{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex: 0.5;
 }
 
-.list-location-attractivness{
-  color: red;
-}
-
-.list-location-image{
+.location-row-image{
   max-width: 80px;
   max-height: 80px;
+  flex: 1 50px;
+}
+
+.location-row-buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.location-row-button{
+  cursor: pointer;
 }
 
 /*------------------GRID------*/
