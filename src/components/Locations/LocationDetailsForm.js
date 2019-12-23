@@ -1,9 +1,132 @@
-import React, {useState} from 'react';
+import React, {useState, createContext, useContext, useReducer} from 'react';
 import LocationAttractivnessButton from '../Locations/LocationAttractivnessButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const LastStep = 2;
+
+const LocationFormState = {
+    step: 1,
+    location: {},
+    coordinates: {}
+}
+
+export const LocationFormContext = createContext();
+
+export const LocationFormStateProvider = ({children}) => {
+    return (
+        <LocationFormContext.Provider value={useReducer(_reducer, LocationFormState)}>
+            {children}
+        </LocationFormContext.Provider>
+    )
+}
+
+export var useLocationFormState = () => useContext(LocationFormContext);
+
+var _reducer = (state, action) => {
+    switch(action.type){
+        case "updateLocation":
+            return {...state, locations: action.data};
+        case "updateCoordinates":
+            return {...state, coordinates: action.data};
+        case "nextStep":
+            var nextStep = state.step + 1 === LastStep ? LastStep : state.step + 1;
+            return {...state, step: nextStep};
+        case "previousStep":
+            var previousStep = state.step - 1 === 0 ? 0 : state.step - 1;
+            return {...state, step: previousStep};
+        default:
+            return state;
+    }
+}
+
+var useLocationFormContainer = (props) => {
+    // const [location, setLocation] = useState(props.location);
+    // const [coordinates, setCoordinates] = useState(props.location.coordinates);
+     const [step, setStep] = useState(1);
+
+    // var handleInputChanged = (e) => {
+    //     setLocation({...location, [e.target.name]: e.target.value });
+    // }
+
+    // var handleCoordinatesChanged = (e) => {
+    //     setCoordinates({...coordinates, [e.target.name]: e.target.value});
+    // }
+
+    // var handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     props.onSubmit({...location, coordinates: coordinates});
+    // }
+
+    var handleNext = (e) => {
+        console.log(e);
+    }
+
+    return {
+        handleNext
+    }
+}
+
+export var useLocationFormBuilder = () => {
+    
+    var build = ({title, location, onSubmit, onCancel}) => {
+        return {
+            header: <LocationDetailsFormHeader title={title} onCancel={onCancel}/>,
+            body: 
+            <LocationFormStateProvider>
+                <LocationDetailsFormBody location={location} onSubmit={onSubmit}></LocationDetailsFormBody>
+            </LocationFormStateProvider>,
+            footer: 
+            <LocationFormStateProvider>
+                <LocationDetailsFooter onSubmit={onSubmit}></LocationDetailsFooter>
+            </LocationFormStateProvider> 
+        }
+    }
+
+    return build;
+}
 
 export const LocationDetailsFormHeader = (props) => {
     return(
-        <div>{props.title}</div>
+        <div className="modal-header-container">
+            <div>{props.title}</div>
+            <div onClick={props.onCancel} className="modal-header-close-button">
+                <FontAwesomeIcon icon='window-close' title='close'/>
+            </div>
+        </div>
+    )
+}
+
+const LocationDetailsFooter = (onSubmit) => {
+    const [formState, dispatchFormState] = useLocationFormState();
+
+    var renderPrevious = () => {
+        if(formState.step > 1){
+            return (
+                <button type="button" className="btn" onClick={()=>dispatchFormState({type: "previousStep"})}>Previous</button>
+            )
+        }
+    }
+
+    var renderNext = () => {
+        if(formState.step < LastStep){
+            return (
+                <button type="button" className="btn" onClick={()=>dispatchFormState({type: "nextStep"})}>Next</button>
+            )
+        }
+    }
+
+    var renderSubmit = () => {
+        if(formState.step === LastStep){
+            return (
+                <button type="button" className="btn btn-primary" onClick={onSubmit}>Save</button>
+            )
+        }
+    }
+
+    return(
+        <div>
+            {renderPrevious()}{renderNext()}{renderSubmit()}
+        </div>
     )
 }
 

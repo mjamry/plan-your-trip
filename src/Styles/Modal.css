@@ -22,11 +22,24 @@
 .modal-header{
     padding: 10px;
     padding-left: 30px;
-    font-size: 18pt;
+    font-size: 16pt;
     font-weight: bold;
     color: black;
     top: 0;
-    height: 50px;
+    height:50px;
+}
+
+.modal-header-container{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modal-header-close-button{
+    cursor: pointer;
+    color: gray;
+    margin-right: 5px;
 }
   
 .modal-content{

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
-import { LocationDetailsFormBody, LocationDetailsFormHeader } from '../Locations/LocationDetailsForm'
+import { useLocationFormBuilder, LocationDetailsFormBody, LocationDetailsFormHeader } from '../Locations/LocationDetailsForm'
 import Search from '../Search/Search'
 
 const _emptyModalContent = {header: "", body: "", footer: ""};
@@ -12,38 +12,40 @@ var useModalContentFactory = () => {
     const [{}, dispatchLocations] = useLocationsState();
 
     var create = (modalType) => {
+        var locationFormBuilder = useLocationFormBuilder();
+
         switch(modalType){
             case ModalTypes.addLocation:
-                return {
-                    header: <LocationDetailsFormHeader title="Add new location"/>,
-                    body: <LocationDetailsFormBody 
-                        location={modalModel.data}
-                        onSubmit={(data)=>{
+                return locationFormBuilder(
+                    {
+                        title: "Add new location",
+                        location: modalModel.data,
+                        onSubmit: (data)=>{
                             dispatchLocations({
                                 type: LocationsStateActions.addLocation, 
                                 data: data})
                             dispatchModal({
-                                type: ModalStateAction.hide})}}
-                        onCancel={()=>{dispatchModal({
-                            type: ModalStateAction.hide})}}/>,
-                    footer: ""
-                }
+                                type: ModalStateAction.hide})},
+                        onCancel: ()=>{dispatchModal({
+                            type: ModalStateAction.hide})
+                    }
+                })
                 
             case ModalTypes.editLocation:
-                    return {
-                        header: <LocationDetailsFormHeader title="Edit location"/>,
-                        body: <LocationDetailsFormBody 
-                            location={modalModel.data}
-                            onSubmit={(data)=>{
-                                dispatchLocations({
-                                    type: LocationsStateActions.editLocation, 
-                                    data: data})
-                                dispatchModal({
-                                    type: ModalStateAction.hide})}}
-                            onCancel={()=>{dispatchModal({
-                                type: ModalStateAction.hide})}}/>,
-                        footer: ""
+                return locationFormBuilder(
+                    {
+                        title: "Edit location",
+                        location: modalModel.data,
+                        onSubmit: (data)=>{
+                            dispatchLocations({
+                                type: LocationsStateActions.editLocation, 
+                                data: data})
+                            dispatchModal({
+                                type: ModalStateAction.hide})},
+                        onCancel: ()=>{dispatchModal({
+                            type: ModalStateAction.hide})
                     }
+                })
                     
             case ModalTypes.search: 
                     return {
