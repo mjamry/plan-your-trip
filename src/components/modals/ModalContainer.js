@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
-import { useLocationFormBuilder, LocationDetailsFormBody, LocationDetailsFormHeader } from '../Locations/LocationDetailsForm'
+import { useLocationFormBuilder } from './LocationDetailsForm/LocationDetailsForm'
 import Search from '../Search/Search'
 
-const _emptyModalContent = {header: "", body: "", footer: ""};
+const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
@@ -41,7 +41,8 @@ var useModalContentFactory = () => {
                                 type: LocationsStateActions.editLocation, 
                                 data: data})
                             dispatchModal({
-                                type: ModalStateAction.hide})},
+                                type: ModalStateAction.hide})
+                            console.log("EDIT!")},
                         onCancel: ()=>{dispatchModal({
                             type: ModalStateAction.hide})
                     }
@@ -67,15 +68,33 @@ var ModalContainer = () => {
     const [modalModel] = useModalState();
     const factory = useModalContentFactory();
 
+    var renderModal = () => {
+        var render = (ModalState) => {
+            if(ModalState) {
+                return  <ModalState>
+                            <Modal 
+                                isVisible={modalModel.isVisible} 
+                                header={modalContent.header}
+                                body={modalContent.body}
+                                footer={modalContent.footer}/>
+                        </ModalState>}
+            else {
+                return <Modal 
+                    isVisible={modalModel.isVisible} 
+                    header={modalContent.header}
+                    body={modalContent.body}
+                    footer={modalContent.footer}/>
+            }
+        }
+
+        return render(modalContent.state);
+    }
+
     useEffect(()=>{
         setModalContent(factory(modalModel.type));
     }, [modalModel])
 
-    return <Modal 
-                isVisible={modalModel.isVisible} 
-                header={modalContent.header}
-                body={modalContent.body}
-                footer={modalContent.footer}/>
+    return renderModal();
 }
 
 export default ModalContainer
