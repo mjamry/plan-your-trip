@@ -1,0 +1,14 @@
+.search-result-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result-item{
+    cursor: pointer;
+    padding-left: 70px;
+    height: 30px;
+}
+
+.search-result-item-error{
+    color: red;
+}

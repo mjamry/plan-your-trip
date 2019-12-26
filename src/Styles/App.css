@@ -1,6 +1,7 @@
 /*---------------------app-content----*/
 .app-content-container{
   display: flex;
+  overflow: hidden;
 }
 
 .app-locations-view{
