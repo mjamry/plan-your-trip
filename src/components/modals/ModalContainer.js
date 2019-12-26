@@ -46,9 +46,9 @@ var useModalContentFactory = () => {
                     
             case ModalTypes.search: 
                     return {
-                        header: <ModalHeader title="Search location by name"/>,
+                        header: <ModalHeader title="Search location"/>,
                         body: <Search />,
-                        footer: ""
+                        footer: null
                     }
 
         default: 

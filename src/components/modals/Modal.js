@@ -10,7 +10,7 @@ var Modal = (props) => {
                 <div className="modal-content">
                     {props.body}
                 </div>
-                <div className="modal-footer">
+                <div className="modal-footer" style={{display: props.footer ? "block" : "none"}}>
                     {props.footer}
                 </div>
             </div>

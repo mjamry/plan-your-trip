@@ -41,7 +41,7 @@ var Search = () => {
         <div className="input-group-prepend">
           <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
         </div>
-      <input type="text" className="form-control" placeholder="Search location" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
+      <input type="text" className="form-control" placeholder="enter name" onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
       </div>
     <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
     </div>
