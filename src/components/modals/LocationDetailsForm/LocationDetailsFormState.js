@@ -30,7 +30,7 @@ const LocationFormState = {
 var _reducer = (state, action) => {
     switch(action.type){
         case LocationFormStateActions.updateLocation:
-            return {...state, locations: action.data};
+            return {...state, location: action.data};
         case LocationFormStateActions.updateCoordinates:
             return {...state, coordinates: action.data};
         case LocationFormStateActions.nextStep:

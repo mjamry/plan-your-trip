@@ -1,35 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import LocationAttractivnessButton from '../../Locations/LocationAttractivnessButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocationFormState, LastStep, LocationFormStateActions, LocationFormStateProvider } from './LocationDetailsFormState'
-import { LocationsStateActions } from '../../../State/LocationsState';
-
-// var useLocationFormContainer = (props) => {
-//     // const [location, setLocation] = useState(props.location);
-//     // const [coordinates, setCoordinates] = useState(props.location.coordinates);
-//      const [step, setStep] = useState(1);
-
-//     // var handleInputChanged = (e) => {
-//     //     setLocation({...location, [e.target.name]: e.target.value });
-//     // }
-
-//     // var handleCoordinatesChanged = (e) => {
-//     //     setCoordinates({...coordinates, [e.target.name]: e.target.value});
-//     // }
-
-//     // var handleSubmit = (e) => {
-//     //     e.preventDefault();
-//     //     props.onSubmit({...location, coordinates: coordinates});
-//     // }
-
-//     var handleNext = (e) => {
-//         console.log(e);
-//     }
-
-//     return {
-//         handleNext
-//     }
-// }
 
 export const useLocationFormBuilder = () => {
     
@@ -107,19 +79,23 @@ const LocationDetailsFooter = ({onSubmit}) => {
             {renderPrevious()}{renderNext()}{renderSubmit()}
         </div>
     )
-    return <div></div>    
 }
 
-export const LocationDetailsFormBody = (props) => {
+const LocationDetailsFormBody = (props) => {
     const [formState, dispatchFormState] = useLocationFormState();
 
-    const handleInputChanged = (e) => {
-        //setLocation({...location, [e.target.name]: e.target.value });
-        dispatchFormState({type: LocationsStateActions.updateLocation, data: {...formState.location, [e.target.name]: e.target.value }})
+    //setup state values
+    useEffect(()=>{
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: props.location});
+        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: props.location.coordinates});
+    }, [])
+
+    var handleInputChanged = (e) => {
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, [e.target.name]: e.target.value }})
     }
 
-    const handleCoordinatesChanged = (e) => {
-       // setCoordinates({...coordinates, [e.target.name]: e.target.value});
+    var handleCoordinatesChanged = (e) => {
+        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {...formState.location.coordinates, [e.target.name]: e.target.value }})
     }
 
     var renderStep = (step) => {
@@ -127,7 +103,7 @@ export const LocationDetailsFormBody = (props) => {
             case 1:
                 return (
                     <form>
-                        <div className="location-edit-form-container">
+                        <div >
                             <div className="location-edit-form-item">
                                 <label htmlFor="location-name" className="col-form-label">Name</label>
                                 <input 
@@ -135,13 +111,13 @@ export const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-name" 
                                     onChange={handleInputChanged}
-                                    value={props.location.name}/>
+                                    value={formState.location.name}/>
                             </div>
                             
                             <div className="location-edit-form-item">
                                 Atractivness:
                                 <LocationAttractivnessButton 
-                                        value={props.location.attractivness} 
+                                        value={formState.location.attractivness} 
                                         onSelect={(value)=>{}} />
                             </div>
                             <div className="location-edit-form-item">
@@ -151,7 +127,7 @@ export const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     rows="5" id="location-description" 
                                     onChange={handleInputChanged}
-                                    value={props.location.description}></textarea>
+                                    value={formState.location.description}></textarea>
                             </div>
                             
                         </div>
@@ -169,7 +145,7 @@ export const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lat" 
                                     onChange={handleCoordinatesChanged}
-                                    value={props.location.coordinates.lat}/>
+                                    value={formState.coordinates.lat}/>
                             </div>
                             
                             <div className="location-edit-form-item">
@@ -179,7 +155,7 @@ export const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lon" 
                                     onChange={handleCoordinatesChanged}
-                                    value={props.location.coordinates.lon}/>
+                                    value={formState.coordinates.lon}/>
                             </div>
                         </div>
                     </form>
@@ -190,7 +166,7 @@ export const LocationDetailsFormBody = (props) => {
     }
 
     return(
-        <div>
+        <div className="location-edit-form-container">
             {renderStep(formState.step)}
         </div>
     )
