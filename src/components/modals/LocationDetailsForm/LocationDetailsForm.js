@@ -94,6 +94,10 @@ const LocationDetailsFormBody = (props) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, [e.target.name]: e.target.value }})
     }
 
+    var handleAttractivnessChanged = (value) => {
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, attractivness: value}})
+    }
+
     var handleCoordinatesChanged = (e) => {
         dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {...formState.location.coordinates, [e.target.name]: e.target.value }})
     }
@@ -118,7 +122,7 @@ const LocationDetailsFormBody = (props) => {
                                 Atractivness:
                                 <LocationAttractivnessButton 
                                         value={formState.location.attractivness} 
-                                        onSelect={(value)=>{}} />
+                                        onSelect={(value)=>{handleAttractivnessChanged(value)}} />
                             </div>
                             <div className="location-edit-form-item">
                                 <label htmlFor="location-description">Description</label>
