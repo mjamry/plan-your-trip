@@ -3,6 +3,7 @@ import Modal from './Modal'
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useLocationFormBuilder } from './LocationDetailsForm/LocationDetailsForm'
+import ModalHeader from './ModalHeader'
 import Search from '../Search/Search'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
@@ -25,11 +26,9 @@ var useModalContentFactory = () => {
                                 type: LocationsStateActions.addLocation, 
                                 data: data})
                             dispatchModal({
-                                type: ModalStateAction.hide})},
-                        onCancel: ()=>{dispatchModal({
-                            type: ModalStateAction.hide})
+                                type: ModalStateAction.hide})}
                     }
-                })
+                )
                 
             case ModalTypes.editLocation:
                 return locationFormBuilder(
@@ -41,16 +40,13 @@ var useModalContentFactory = () => {
                                 type: LocationsStateActions.editLocation, 
                                 data: data})
                             dispatchModal({
-                                type: ModalStateAction.hide})
-                            console.log("EDIT!")},
-                        onCancel: ()=>{dispatchModal({
-                            type: ModalStateAction.hide})
+                                type: ModalStateAction.hide})}
                     }
-                })
+                )
                     
             case ModalTypes.search: 
                     return {
-                        header: "Search location by name",
+                        header: <ModalHeader title="Search location by name"/>,
                         body: <Search />,
                         footer: ""
                     }

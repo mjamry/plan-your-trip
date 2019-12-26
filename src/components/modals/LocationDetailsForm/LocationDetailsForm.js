@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import LocationAttractivnessButton from '../../Locations/LocationAttractivnessButton'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocationFormState, LastStep, LocationFormStateActions, LocationFormStateProvider } from './LocationDetailsFormState'
+import ModalHeader from '../ModalHeader'
 
 export const useLocationFormBuilder = () => {
     
     var build = ({title, location, onSubmit, onCancel}) => {
         return {
-            header: <LocationDetailsFormHeader title={title} onCancel={onCancel}/>,
+            header: <ModalHeader title={title} onCancel={onCancel}/>,
             body: 
                     <LocationDetailsFormBody location={location}></LocationDetailsFormBody>,
             footer: 
@@ -17,18 +17,6 @@ export const useLocationFormBuilder = () => {
     }
 
     return build;
-}
-
-export const LocationDetailsFormHeader = (props) => {
-
-    return(
-        <div className="modal-header-container">
-            <div>{props.title}</div>
-            <div onClick={props.onCancel} className="modal-header-close-button">
-                <FontAwesomeIcon icon='window-close' title='close'/>
-            </div>
-        </div>
-    )
 }
 
 const LocationDetailsFooter = ({onSubmit}) => {
