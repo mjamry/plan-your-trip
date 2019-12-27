@@ -1,6 +1,6 @@
 .location-attractivness-container{
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     flex-flow: row-reverse;
     width: 100%;
 }
