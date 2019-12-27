@@ -7,7 +7,7 @@ var LocationButtons = ({onEdit, onRemove}) => {
             <button
                 title="edit location" 
                 onClick={onEdit}
-                className="location-card-button">
+                className="location-card-button location-card-button-left">
                 <FontAwesomeIcon icon="edit" /> Edit
             </button>
             <button 

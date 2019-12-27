@@ -3,10 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 var Header = (props) => {
   return (
-    <div className="Header">
-      <nav className="navbar">
-          <div><FontAwesomeIcon icon='globe-americas'/> Plan the Trip</div>
-      </nav>
+    <div className="header">
+        <div><FontAwesomeIcon icon='globe-americas'/> Plan the Trip</div>
     </div>
   )
 }

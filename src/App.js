@@ -8,6 +8,7 @@ import './Styles/LocationAttractivness.css'
 import './Styles/Modal.css'
 import './Styles/LocationEditForm.css'
 import './Styles/SearchResult.css'
+import './Styles/Header.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'

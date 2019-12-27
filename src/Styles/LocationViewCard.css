@@ -4,6 +4,7 @@
     flex: 0 1 calc(100% - 1em);
     border: 1px solid lightgrey;
     margin-bottom: 10px;
+    padding: 5px;
 }
   
 .location-card-description{
@@ -58,6 +59,7 @@
     justify-content: space-around;
     width:100%;
     border-top: 1px solid lightgray;
+    padding-top: 5px;
 }
   
 .location-card-button{
@@ -68,6 +70,10 @@
     cursor: pointer;
     font-size: 12pt;
     flex: 1;
+}
+
+.location-card-button-left{
+    border-right: 1px solid lightgray;
 }
   
 .location-card-button:after{

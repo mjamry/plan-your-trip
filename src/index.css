@@ -14,21 +14,6 @@ code {
     monospace;
 }
 
-/*-----------------------------HEADER-*/
-.Header{
-  background-color: #363538;
-
-  color: #f7fff6;
-}
-
-/*---------------------------------SEARCH--------*/
-.Search{
-  margin-top:20px;
-}
-
-.search-result{
-  width: 100%;
-}
 
 /*------------------------------------------------*/
 #mapid{

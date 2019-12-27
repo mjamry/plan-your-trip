@@ -12,22 +12,23 @@
     color:black;
     cursor: pointer;
     flex: 1 100px;
+    line-height: 4em;
 }
   
 .location-row-description{
     font-size: 10pt;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.5em;
-    height:3em;
+    line-height: 1.3em;
+    height:5.2em;
     flex: 5;
 }
   
 .location-row-attractivness{
     display: flex;
-    align-content: center;
     justify-content: center;
     flex: 0.5;
+    line-height: 5em;
 }
   
 .location-row-image{
