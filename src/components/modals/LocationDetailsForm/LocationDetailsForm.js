@@ -110,7 +110,8 @@ const LocationDetailsFormBody = (props) => {
                                 Atractivness:
                                 <LocationAttractivnessButton 
                                         value={formState.location.attractivness} 
-                                        onSelect={(value)=>{handleAttractivnessChanged(value)}} />
+                                        onSelect={(value)=>{handleAttractivnessChanged(value)}} 
+                                        isActive={true}/>
                             </div>
                             <div className="location-edit-form-item">
                                 <label htmlFor="location-description">Description</label>

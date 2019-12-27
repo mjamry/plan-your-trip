@@ -9,7 +9,7 @@ var LocationGridItem = (props) => {
       <h5 className="location-card-name" onClick={props.onSelect}>{props.location.name}</h5>
       <p className="location-card-description" title={props.location.description}>{props.location.description}</p>
       <div className="location-card-bottom-container">
-        <LocationAttractivnessButton onSelect={val=>{console.log(val)}} value={props.location.attractivness}/>
+        <LocationAttractivnessButton value={props.location.attractivness}/>
         <LocationButtons onEdit={props.onEdit} onRemove={props.onRemove} />
       </div>
       

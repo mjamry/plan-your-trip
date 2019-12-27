@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const NUMER_OF_STARS = 5;
 
-var LocationAttractivnessButton = ({value, onSelect}) => {
+var LocationAttractivnessButton = ({value, onSelect = ()=>{}, isActive = false}) => {
     const [stars, setStars] = useState();
 
     useEffect(()=>{
@@ -14,15 +14,29 @@ var LocationAttractivnessButton = ({value, onSelect}) => {
 
         output.map((item, index) => {
             if(index>value){
-                output[index] = <span className="location-attractivness-star" onClick={()=>onSelect(index)} key={index}>☆</span>
+                output[index] = <span 
+                                    className={isActive ? "location-attractivness-star" : "location-attractivness-star-inactive"} 
+                                    onClick={()=>onSelect(index)} 
+                                    key={index}>☆</span>
             }
-            else output[index] = <span className="location-attractivness-star-selected" onClick={()=>onSelect(index)} key={index}>☆</span>
+            else output[index] = <span 
+                                    className={isActive ? "location-attractivness-star-selected" : "location-attractivness-star-selected-inactive"} 
+                                    onClick={()=>onSelect(index)} 
+                                    key={index}>☆</span>
         })
         return output.reverse();
     }
     
+    if(isActive){
+        return (
+            <div className="location-attractivness-container" onMouseOver={()=>setStars(getStars(0))} onMouseOut={()=>setStars(getStars(value))}>
+                {stars}
+            </div>
+        )
+    }
+
     return (
-        <div className="location-attractivness-container" onMouseOver={()=>setStars(getStars(0))} onMouseOut={()=>setStars(getStars(value))}>
+        <div className="location-attractivness-container">
             {stars}
         </div>
     )
