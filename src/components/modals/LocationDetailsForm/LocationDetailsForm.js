@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import LocationAttractivnessButton from '../../Locations/LocationAttractivnessButton'
 import { useLocationFormState, LastStep, LocationFormStateActions, LocationFormStateProvider } from './LocationDetailsFormState'
 import ModalHeader from '../ModalHeader'
+import LocationFormMapView from '../../MapView/LocationFormMapView'
 
 export const useLocationFormBuilder = () => {
     
@@ -90,6 +91,13 @@ const LocationDetailsFormBody = (props) => {
         dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {...formState.location.coordinates, [e.target.name]: e.target.value }})
     }
 
+    var handleMapCoordinatesChanged = (coordinates) => {
+        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {
+                                                                                ...formState.location.coordinates, 
+                                                                                lat: coordinates.lat, 
+                                                                                lon: coordinates.lng }})
+    }
+
     var renderStep = (step) => {
         switch(step){
             case 1:
@@ -150,7 +158,12 @@ const LocationDetailsFormBody = (props) => {
                                     onChange={handleCoordinatesChanged}
                                     value={formState.coordinates.lon}/>
                             </div>
+
                         </div>
+
+                        <div className="location-edit-form-row">
+                                <LocationFormMapView location={formState.location} onCoordinatesUpdated={handleMapCoordinatesChanged}/>
+                            </div>
                     </form>
                 );
 

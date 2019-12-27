@@ -9,10 +9,11 @@ import './Styles/Modal.css'
 import './Styles/LocationEditForm.css'
 import './Styles/SearchResult.css'
 import './Styles/Header.css'
+import './Styles/MapView.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
-import MapView from './components/MapView'
+import LocationsMapView from './components/MapView/LocationsMapView'
 import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
 import { LocationsStateProvider } from './State/LocationsState'
@@ -35,7 +36,7 @@ var App = () => {
             <LocationsView />
           </div>
           <div className="app-map-view">
-            <MapView />
+            <LocationsMapView />
           </div>
         </div>
       </ModalStateProvider>

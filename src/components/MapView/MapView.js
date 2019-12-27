@@ -1,12 +1,32 @@
 import React, {useState, useEffect} from 'react';
-import {useLocationsState} from '../State/LocationsState'
 import L from 'leaflet'
 
-var MapView = () => {
-    const [{locations, locationSelectedOnMap}] = useLocationsState();
+const defaultOptions = {
+    draggable: false,
+    style: "locations-map-view"
+}
+
+var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
     const [visibleMarkers, setVisibleMarkers] = useState([]);
     const [mapObject, setMapObject] = useState(null);
     
+    var setupMarker = (location, coordinates) => {
+
+        var marker = L.marker(coordinates, {...options, title: location.name})
+                            .addTo(mapObject)
+                            .bindPopup(location.name)
+                            .openPopup()
+
+        if(options.draggable){
+            marker.on('dragend', (e) => {
+                console.log(e);
+                console.log(marker.getLatLng());
+                options.onCoordinatesUpdated(marker.getLatLng())
+            })
+        }
+        return marker;
+    }
+
     useEffect(()=>{
         var map = L.map('mapid', 
         {
@@ -34,12 +54,9 @@ var MapView = () => {
             var markers = [];
             locations.forEach(location => {
                 if(location.coordinates.lat && location.coordinates.lon){
-                    let coordinates = [location.coordinates.lat, location.coordinates.lon]
+                    let coordinates = [location.coordinates.lat, location.coordinates.lon];
                     markers.push({
-                        marker: L.marker(coordinates, {title: location.name})
-                            .addTo(mapObject)
-                            .bindPopup(location.name)
-                            .openPopup(),
+                        marker: setupMarker(location, coordinates),
                         id: location.id
                     });
 
@@ -52,20 +69,20 @@ var MapView = () => {
     }, [mapObject, locations])
 
     useEffect(()=>{
-        if(locationSelectedOnMap && mapObject)
+        if(selectedLocation && mapObject)
         {
-            var selectedLocation = visibleMarkers.find(el => el.id === locationSelectedOnMap.id);
+            var selectedLocation = visibleMarkers.find(el => el.id === selectedLocation.id);
             if(selectedLocation){
-                mapObject.setView([locationSelectedOnMap.coordinates.lat, locationSelectedOnMap.coordinates.lon]);
-                selectedLocation.marker.bindPopup(locationSelectedOnMap.name).openPopup();
+                mapObject.setView([selectedLocation.coordinates.lat, selectedLocation.coordinates.lon]);
+                selectedLocation.marker.bindPopup(selectedLocation.name).openPopup();
             }
         }
-    }, [locationSelectedOnMap])
+    }, [selectedLocation])
 
     return ( 
         <div className="map-container">
             <div className="row">
-                <div id="mapid"></div> 
+                <div id="mapid" className={options.style}></div> 
             </div> 
         </div>
     );
