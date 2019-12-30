@@ -70,13 +70,8 @@ const LocationDetailsFooter = ({onSubmit}) => {
     )
 }
 
-const LocationDetailsFormBody = (props) => {
+const LocationDetailsForm = () => {
     const [formState, dispatchFormState] = useLocationFormState();
-
-    //setup state values
-    useEffect(()=>{
-        dispatchFormState({type: LocationFormStateActions.updateLocation, data: props.location});
-    }, [])
 
     var handleInputChanged = (e) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, [e.target.name]: e.target.value }})
@@ -85,6 +80,44 @@ const LocationDetailsFormBody = (props) => {
     var handleAttractivnessChanged = (value) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, attractivness: value}})
     }
+
+    return (
+        <form>
+            <div >
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-name" className="col-form-label">Name</label>
+                    <input 
+                        name="name" 
+                        className="form-control" 
+                        id="location-name" 
+                        onChange={handleInputChanged}
+                        value={formState.location.name || ''}/>
+                </div>
+                
+                <div className="location-edit-form-item">
+                    Atractivness:
+                    <LocationAttractivnessButton 
+                            value={formState.location.attractivness || ''} 
+                            onSelect={(value)=>{handleAttractivnessChanged(value)}} 
+                            isActive={true}/>
+                </div>
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-description">Description</label>
+                    <textarea 
+                        name="description" 
+                        className="form-control" 
+                        rows="5" id="location-description" 
+                        onChange={handleInputChanged}
+                        value={formState.location.description || ''}></textarea>
+                </div>
+                
+            </div>
+        </form>
+    );
+}
+
+const LocationCoordinatesForm = () => {
+    const [formState, dispatchFormState] = useLocationFormState();
 
     var handleCoordinatesChanged = (e) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: 
@@ -106,75 +139,53 @@ const LocationDetailsFormBody = (props) => {
                                                                                 }}})
     }
 
+    return (
+        <form>
+            <div className="location-edit-form-row">
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
+                    <input 
+                        name="lat" 
+                        className="form-control" 
+                        id="location-coordinates-lat" 
+                        onChange={handleCoordinatesChanged}
+                        value={formState.location.coordinates.lat || ''}/>
+                </div>
+                
+                <div className="location-edit-form-item">
+                    <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
+                    <input 
+                        name="lon" 
+                        className="form-control" 
+                        id="location-coordinates-lon" 
+                        onChange={handleCoordinatesChanged}
+                        value={formState.location.coordinates.lon || ''}/>
+                </div>
+
+            </div>
+
+            <div className="location-edit-form-row">
+                    <LocationFormMapView location={formState.location} onCoordinatesUpdated={handleMapCoordinatesChanged}/>
+                </div>
+        </form>
+    );
+}
+
+const LocationDetailsFormBody = (props) => {
+    const [formState, dispatchFormState] = useLocationFormState();
+
+    //setup state values
+    useEffect(()=>{
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: props.location});
+    }, [])
+
     var renderStep = (step) => {
         switch(step){
             case 1:
-                return (
-                    <form>
-                        <div >
-                            <div className="location-edit-form-item">
-                                <label htmlFor="location-name" className="col-form-label">Name</label>
-                                <input 
-                                    name="name" 
-                                    className="form-control" 
-                                    id="location-name" 
-                                    onChange={handleInputChanged}
-                                    value={formState.location.name || ''}/>
-                            </div>
-                            
-                            <div className="location-edit-form-item">
-                                Atractivness:
-                                <LocationAttractivnessButton 
-                                        value={formState.location.attractivness || ''} 
-                                        onSelect={(value)=>{handleAttractivnessChanged(value)}} 
-                                        isActive={true}/>
-                            </div>
-                            <div className="location-edit-form-item">
-                                <label htmlFor="location-description">Description</label>
-                                <textarea 
-                                    name="description" 
-                                    className="form-control" 
-                                    rows="5" id="location-description" 
-                                    onChange={handleInputChanged}
-                                    value={formState.location.description || ''}></textarea>
-                            </div>
-                            
-                        </div>
-                    </form>
-                );
+                return <LocationDetailsForm {...props} />
 
             case 2: 
-                return (
-                    <form>
-                        <div className="location-edit-form-row">
-                            <div className="location-edit-form-item">
-                                <label htmlFor="location-coordinates-lat" className="col-form-label">Gps latitude</label>
-                                <input 
-                                    name="lat" 
-                                    className="form-control" 
-                                    id="location-coordinates-lat" 
-                                    onChange={handleCoordinatesChanged}
-                                    value={formState.location.coordinates.lat || ''}/>
-                            </div>
-                            
-                            <div className="location-edit-form-item">
-                                <label htmlFor="location-coordinates-lon" className="col-form-label">Gps longitude</label>
-                                <input 
-                                    name="lon" 
-                                    className="form-control" 
-                                    id="location-coordinates-lon" 
-                                    onChange={handleCoordinatesChanged}
-                                    value={formState.location.coordinates.lon || ''}/>
-                            </div>
-
-                        </div>
-
-                        <div className="location-edit-form-row">
-                                <LocationFormMapView location={formState.location} onCoordinatesUpdated={handleMapCoordinatesChanged}/>
-                            </div>
-                    </form>
-                );
-
+                return <LocationCoordinatesForm {...props} />
             default: return "";
         }
     }
