@@ -29,7 +29,6 @@ const LocationFormState = {
 }
 
 var _reducer = (state, action) => {
-    console.log(action.type);
     switch(action.type){
         case LocationFormStateActions.setError:
             return {...state, errors: {...state.errors, [action.data.name]:action.data.value}}
