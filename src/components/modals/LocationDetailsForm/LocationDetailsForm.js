@@ -58,7 +58,7 @@ const LocationDetailsFooter = ({onSubmit}) => {
                     type="button" 
                     className="btn btn-primary" 
                     onClick={() => 
-                        onSubmit({...formState.location, coordinates: formState.coordinates})}>Save</button>
+                        onSubmit(formState.location)}>Save</button>
             )
         }
     }
@@ -76,7 +76,6 @@ const LocationDetailsFormBody = (props) => {
     //setup state values
     useEffect(()=>{
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: props.location});
-        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: props.location.coordinates});
     }, [])
 
     var handleInputChanged = (e) => {
@@ -88,14 +87,23 @@ const LocationDetailsFormBody = (props) => {
     }
 
     var handleCoordinatesChanged = (e) => {
-        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {...formState.location.coordinates, [e.target.name]: e.target.value }})
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: 
+                                                                            {
+                                                                                ...formState.location, 
+                                                                                coordinates: {
+                                                                                    ...formState.location.coordinates, 
+                                                                                    [e.target.name]: e.target.value 
+                                                                            }}})
     }
 
     var handleMapCoordinatesChanged = (coordinates) => {
-        dispatchFormState({type: LocationFormStateActions.updateCoordinates, data: {
-                                                                                ...formState.location.coordinates, 
-                                                                                lat: coordinates.lat, 
-                                                                                lon: coordinates.lng }})
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: 
+                                                                                {
+                                                                                    ...formState.location,
+                                                                                    coordinates: { 
+                                                                                        lat: coordinates.lat, 
+                                                                                        lon: coordinates.lng 
+                                                                                }}})
     }
 
     var renderStep = (step) => {
@@ -146,7 +154,7 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lat" 
                                     onChange={handleCoordinatesChanged}
-                                    value={formState.coordinates.lat}/>
+                                    value={formState.location.coordinates.lat}/>
                             </div>
                             
                             <div className="location-edit-form-item">
@@ -156,7 +164,7 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lon" 
                                     onChange={handleCoordinatesChanged}
-                                    value={formState.coordinates.lon}/>
+                                    value={formState.location.coordinates.lon}/>
                             </div>
 
                         </div>

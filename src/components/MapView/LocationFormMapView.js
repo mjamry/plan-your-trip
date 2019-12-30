@@ -1,7 +1,7 @@
 import React from 'react';
 import MapView from './MapView'
 
-const LocationsFormMapView = ({location, onCoordinatesUpdated}) => {
+const LocationFormMapView = ({location, onCoordinatesUpdated}) => {
     var locations = [location]
     var options = {
         draggable: true,
@@ -15,4 +15,4 @@ const LocationsFormMapView = ({location, onCoordinatesUpdated}) => {
     )
 }
 
-export default LocationsFormMapView;
+export default LocationFormMapView;

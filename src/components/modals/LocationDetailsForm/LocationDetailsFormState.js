@@ -23,16 +23,13 @@ export const useLocationFormState = () => useContext(LocationFormContext);
 
 const LocationFormState = {
     step: 1,
-    location: {},
-    coordinates: {}
+    location: {}
 }
 
 var _reducer = (state, action) => {
     switch(action.type){
         case LocationFormStateActions.updateLocation:
             return {...state, location: action.data};
-        case LocationFormStateActions.updateCoordinates:
-            return {...state, coordinates: action.data};
         case LocationFormStateActions.nextStep:
             var nextStep = state.step + 1 === LastStep ? LastStep : state.step + 1;
             return {...state, step: nextStep};
