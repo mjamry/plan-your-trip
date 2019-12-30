@@ -5,21 +5,12 @@ const isNumber = (value) => {
     return reg.test(value);
 }
 
-export default class CoordinatesValidator{
-    static isLatitudeValid = (lat) => {
-        
-        if(isNumber(lat)){
-            return true;
-        }
-
-        return false;
+const CoordinatesValidator = () => {
+    var isValid = (value) => {
+        return isNumber(value);
     }
 
-    static isLongitudeValid = (lon) => {
-        if(isNumber(lon)){
-            return true;
-        }
-
-        return false;
-    }
+    return {isValid: isValid}
 }
+
+export default CoordinatesValidator;

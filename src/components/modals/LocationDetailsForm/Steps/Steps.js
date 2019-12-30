@@ -5,6 +5,7 @@ import CoordinatesValidator from '../../../../Common/CoordinatesValidator'
 
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState'
 
+const ERROR_MESSAGE = "Incorrect value";
 
 export const LocationDetailsForm = () => {
     const [formState, dispatchFormState] = useLocationFormState();
@@ -64,7 +65,6 @@ export const LocationDetailsFormValidator = () => {
 
 export const LocationCoordinatesForm = () => {
     const [formState, dispatchFormState] = useLocationFormState();
-    const ERROR_MESSAGE = "Incorect value";
 
     var handleCoordinatesChanged = (e) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: 
@@ -97,7 +97,7 @@ export const LocationCoordinatesForm = () => {
                         id="location-coordinates-lat" 
                         onChange={handleCoordinatesChanged}
                         value={formState.location.coordinates.lat || ''}/>
-                        <div className="location-form-error">{CoordinatesValidator.isLatitudeValid(formState.location.coordinates.lat) ? "" : ERROR_MESSAGE}</div> 
+                        <div className="location-form-error">{CoordinatesValidator().isValid(formState.location.coordinates.lat) ? "" : ERROR_MESSAGE}</div> 
                 </div>
                 
                 <div className="location-edit-form-item">
@@ -108,7 +108,7 @@ export const LocationCoordinatesForm = () => {
                         id="location-coordinates-lon" 
                         onChange={handleCoordinatesChanged}
                         value={formState.location.coordinates.lon || ''}/>
-                        <div className="location-form-error">{CoordinatesValidator.isLongitudeValid(formState.location.coordinates.lon) ? "" : ERROR_MESSAGE}</div> 
+                        <div className="location-form-error">{CoordinatesValidator().isValid(formState.location.coordinates.lon) ? "" : ERROR_MESSAGE}</div> 
                 </div>
 
             </div>
@@ -122,7 +122,7 @@ export const LocationCoordinatesForm = () => {
 
 export const LocationCoordinatesFormValidator = () =>{
     var isValid = (location) => {
-        return (CoordinatesValidator.isLatitudeValid(location.coordinates.lat) && CoordinatesValidator.isLongitudeValid(location.coordinates.lon))
+        return (CoordinatesValidator().isValid(location.coordinates.lat) && CoordinatesValidator().isValid(location.coordinates.lon))
     }
 
     return {isValid: isValid};

@@ -54,8 +54,8 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
 
             var markers = [];
             locations.forEach(location => {
-                if(CoordinatesValidator.isLatitudeValid(location.coordinates.lat) 
-                && CoordinatesValidator.isLongitudeValid(location.coordinates.lon))
+                if(CoordinatesValidator().isValid(location.coordinates.lat) 
+                && CoordinatesValidator().isValid(location.coordinates.lon))
                 {
                     let coordinates = [location.coordinates.lat, location.coordinates.lon];
                     markers.push({
