@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import L from 'leaflet'
+import CoordinatesValidator from '../../Common/CoordinatesValidator'
 
 const defaultOptions = {
     draggable: false,
@@ -13,7 +14,6 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
     const [mapObject, setMapObject] = useState(null);
     
     var setupMarker = (location, coordinates) => {
-
         var marker = L.marker(coordinates, {...options, title: location.name})
                             .addTo(mapObject)
                             .bindPopup(location.name)
@@ -24,6 +24,7 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
                 options.onCoordinatesUpdated(marker.getLatLng())
             })
         }
+
         return marker;
     }
 
@@ -53,7 +54,9 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
 
             var markers = [];
             locations.forEach(location => {
-                if(location.coordinates.lat && location.coordinates.lon){
+                if(CoordinatesValidator.isLatitudeValid(location.coordinates.lat) 
+                && CoordinatesValidator.isLongitudeValid(location.coordinates.lon))
+                {
                     let coordinates = [location.coordinates.lat, location.coordinates.lon];
                     markers.push({
                         marker: setupMarker(location, coordinates),
@@ -68,7 +71,6 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
 
             if(options.canAddMarker){
                 mapObject.on('click', (e)=>{
-                    console.log(e.latlng)
                     options.onCoordinatesUpdated(e.latlng);
                 })
             }

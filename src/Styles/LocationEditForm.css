@@ -53,3 +53,8 @@
         margin-top: 5px;
     }
 }
+
+.location-form-error{
+    color: red;
+    text-align: center;
+}

@@ -1,12 +1,13 @@
 import React, {createContext, useContext, useReducer} from 'react';
-
-export const LastStep = 2;
+import {FirstStep, LastStep} from './Steps/StepsCoordinator'
+import { LocationsStateActions } from '../../../State/LocationsState';
 
 export const LocationFormStateActions = {
-    nextStep: "nextStep",
-    previousStep: "previousStep",
+    setStep: "setStep",
     updateLocation: "updateLocation",
-    updateCoordinates: "updateCoordinates"
+    updateCoordinates: "updateCoordinates",
+    setError: "setError",
+    clearError: "clearError"
 }
 
 const LocationFormContext = createContext();
@@ -22,20 +23,22 @@ export const LocationFormStateProvider = ({children}) => {
 export const useLocationFormState = () => useContext(LocationFormContext);
 
 const LocationFormState = {
-    step: 1,
-    location: {}
+    step: FirstStep,
+    location: {},
+    errors: {}
 }
 
 var _reducer = (state, action) => {
+    console.log(action.type);
     switch(action.type){
+        case LocationFormStateActions.setError:
+            return {...state, errors: {...state.errors, [action.data.name]:action.data.value}}
+        case LocationFormStateActions.clearError:
+            return {...state, errors: {...state.errors, [action.data.name]:null}}
         case LocationFormStateActions.updateLocation:
             return {...state, location: action.data};
-        case LocationFormStateActions.nextStep:
-            var nextStep = state.step + 1 === LastStep ? LastStep : state.step + 1;
-            return {...state, step: nextStep};
-        case LocationFormStateActions.previousStep:
-            var previousStep = state.step - 1 === 0 ? 0 : state.step - 1;
-            return {...state, step: previousStep};
+        case LocationFormStateActions.setStep:
+            return {...state, step: action.data};
         default:
             return state;
     }
