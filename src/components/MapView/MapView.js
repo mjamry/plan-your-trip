@@ -3,7 +3,9 @@ import L from 'leaflet'
 
 const defaultOptions = {
     draggable: false,
-    style: "locations-map-view"
+    style: "locations-map-view",
+    canAddMarker: false,
+    title:""
 }
 
 var MapView = ({locations, selLoc, options = defaultOptions}) => {
@@ -63,6 +65,13 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
             })
             
             setVisibleMarkers(markers);
+
+            if(options.canAddMarker){
+                mapObject.on('click', (e)=>{
+                    console.log(e.latlng)
+                    options.onCoordinatesUpdated(e.latlng);
+                })
+            }
         }
     }, [mapObject, locations])
 
@@ -78,7 +87,7 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
     }, [selLoc])
 
     return ( 
-        <div className="map-container">
+        <div className="map-container" title={options.title}>
             <div className="row">
                 <div id="mapid" className={options.style}></div> 
             </div> 

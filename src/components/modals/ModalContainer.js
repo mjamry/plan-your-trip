@@ -5,6 +5,7 @@ import { useLocationsState, LocationsStateActions } from '../../State/LocationsS
 import { useLocationFormBuilder } from './LocationDetailsForm/LocationDetailsForm'
 import ModalHeader from './ModalHeader'
 import Search from '../Search/Search'
+import AddNewLocationSelect from './AddNewLocationSelect'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 
@@ -19,7 +20,7 @@ var useModalContentFactory = () => {
             case ModalTypes.addLocation:
                 return locationFormBuilder(
                     {
-                        title: "Add new location",
+                        title: "Add location",
                         location: modalModel.data,
                         onSubmit: (data)=>{
                             dispatchLocations({
@@ -45,11 +46,18 @@ var useModalContentFactory = () => {
                 )
                     
             case ModalTypes.search: 
-                    return {
-                        header: <ModalHeader title="Search location"/>,
-                        body: <Search />,
-                        footer: null
-                    }
+                return {
+                    header: <ModalHeader title="Search location"/>,
+                    body: <Search />,
+                    footer: null
+                }
+
+            case ModalTypes.addNewLocationSelect:
+                return {
+                    header: <ModalHeader title="Select option"/>,
+                    body: <AddNewLocationSelect />,
+                    footer: null
+                }
 
         default: 
             console.log(`[ModalFactory] Incorrect modal type: "${modalType}"`);

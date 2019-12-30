@@ -7,7 +7,9 @@ const LocationFormMapView = ({location, onCoordinatesUpdated}) => {
         draggable: true,
         autoPan: true,
         onCoordinatesUpdated: onCoordinatesUpdated,
-        style: "location-form-map-view"
+        style: "location-form-map-view",
+        canAddMarker: true,
+        title: "click to add/move marker"
     }
 
     return (

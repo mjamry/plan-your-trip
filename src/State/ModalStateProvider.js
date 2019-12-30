@@ -4,7 +4,8 @@ export const ModalTypes = {
     addLocation: 'addLocation',
     editLocation: 'editLocation',
     search: 'search',
-    confirmation: 'confirmation'
+    confirmation: 'confirmation',
+    addNewLocationSelect: 'addNewLocationSelect'
 }
 
 export const ModalStateAction = {

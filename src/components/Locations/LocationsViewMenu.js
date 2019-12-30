@@ -34,9 +34,9 @@ var LocationsViewMenu = (props) => {
           <li className="locations-view-menu-item">
             <FontAwesomeIcon
               icon="search-plus"
-              title="search"
+              title="add new location"
               className="fa-2x"
-              onClick={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.search})}/>
+              onClick={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})}/>
           </li>
         </ul>
     </div>
