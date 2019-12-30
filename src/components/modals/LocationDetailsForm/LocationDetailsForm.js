@@ -119,13 +119,13 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-name" 
                                     onChange={handleInputChanged}
-                                    value={formState.location.name}/>
+                                    value={formState.location.name || ''}/>
                             </div>
                             
                             <div className="location-edit-form-item">
                                 Atractivness:
                                 <LocationAttractivnessButton 
-                                        value={formState.location.attractivness} 
+                                        value={formState.location.attractivness || ''} 
                                         onSelect={(value)=>{handleAttractivnessChanged(value)}} 
                                         isActive={true}/>
                             </div>
@@ -136,7 +136,7 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     rows="5" id="location-description" 
                                     onChange={handleInputChanged}
-                                    value={formState.location.description}></textarea>
+                                    value={formState.location.description || ''}></textarea>
                             </div>
                             
                         </div>
@@ -154,7 +154,7 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lat" 
                                     onChange={handleCoordinatesChanged}
-                                    value={formState.location.coordinates.lat}/>
+                                    value={formState.location.coordinates.lat || ''}/>
                             </div>
                             
                             <div className="location-edit-form-item">
@@ -164,7 +164,7 @@ const LocationDetailsFormBody = (props) => {
                                     className="form-control" 
                                     id="location-coordinates-lon" 
                                     onChange={handleCoordinatesChanged}
-                                    value={formState.location.coordinates.lon}/>
+                                    value={formState.location.coordinates.lon || ''}/>
                             </div>
 
                         </div>

@@ -6,7 +6,7 @@ const defaultOptions = {
     style: "locations-map-view"
 }
 
-var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
+var MapView = ({locations, selLoc, options = defaultOptions}) => {
     const [visibleMarkers, setVisibleMarkers] = useState([]);
     const [mapObject, setMapObject] = useState(null);
     
@@ -19,8 +19,6 @@ var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
 
         if(options.draggable){
             marker.on('dragend', (e) => {
-                console.log(e);
-                console.log(marker.getLatLng());
                 options.onCoordinatesUpdated(marker.getLatLng())
             })
         }
@@ -69,7 +67,7 @@ var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
     }, [mapObject, locations])
 
     useEffect(()=>{
-        if(selectedLocation && mapObject)
+        if(selLoc && mapObject)
         {
             var selectedLocation = visibleMarkers.find(el => el.id === selectedLocation.id);
             if(selectedLocation){
@@ -77,7 +75,7 @@ var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
                 selectedLocation.marker.bindPopup(selectedLocation.name).openPopup();
             }
         }
-    }, [selectedLocation])
+    }, [selLoc])
 
     return ( 
         <div className="map-container">
