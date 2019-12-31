@@ -9,6 +9,7 @@
     height: 30px;
 }
 
-.search-result-item-error{
+.search-result-error{
     color: red;
+    padding-left: 70px;
 }

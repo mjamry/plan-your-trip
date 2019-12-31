@@ -9,7 +9,7 @@ const SearchTimeout = 700;
 var Search = () => {
   const [searchValue, setSearchValue] = useState("");
   const [timer, setTimer] = useState(null);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
 
   const [{}, dispatchModal] = useModalState();
 
@@ -23,7 +23,7 @@ var Search = () => {
   }
 
   var handleSelection = (selection) => {
-    setSearchResults([]);
+    setSearchResults(null);
     setSearchValue("");
  
     WikipediaAPIWrapper.getDetails(selection).then(location => {
@@ -32,7 +32,10 @@ var Search = () => {
   }
 
   useEffect(()=>{
-    setupTimer();
+    if(searchValue !== "")
+    {
+      setupTimer();
+    }
   }, [searchValue])
 
   return (
@@ -43,7 +46,7 @@ var Search = () => {
         </div>
       <input type="text" className="form-control" placeholder="enter name" onChange={e => setSearchValue(e.target.value)} value={searchValue} autoFocus/>
       </div>
-    <SearchResult results={searchResults} onSelected={handleSelection} isOpened={searchResults.length > 0 ? 'show' : ''}/>
+    <SearchResult results={searchResults} onSelected={handleSelection}/>
     </div>
   )
 }
