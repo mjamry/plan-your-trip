@@ -21,11 +21,18 @@ namespace trip_planner
         }
 
         public IConfiguration Configuration { get; }
+        readonly string MyOriginsPolicy = "_myOriginPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options => {
+                options.AddPolicy(MyOriginsPolicy, 
+                builder => {
+                    builder.AllowAnyOrigin().AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +43,7 @@ namespace trip_planner
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(MyOriginsPolicy);
             app.UseHttpsRedirection();
 
             app.UseRouting();
