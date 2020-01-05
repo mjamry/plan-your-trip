@@ -5,5 +5,9 @@
     <RootNamespace>trip_planner</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
+  </ItemGroup>
+
 
 </Project>
