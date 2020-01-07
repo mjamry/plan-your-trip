@@ -19,6 +19,7 @@ import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
 import { LocationsStateProvider } from './State/LocationsState'
 import { ModalStateProvider } from './State/ModalStateProvider'
+import LocationsDataDownloader from './components/LocationsDataDownloader'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +30,7 @@ var App = () => {
   return (
     <div className="App">
       <LocationsStateProvider>
+      <LocationsDataDownloader />
       <ModalStateProvider>
         <ModalContainer />
         <Header />
