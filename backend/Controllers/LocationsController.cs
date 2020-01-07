@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using trip_planner.Models;
+using trip_planner.Data.Models;
+using trip_planner.Data;
 
 namespace trip_planner.Controllers
 {
@@ -9,23 +10,38 @@ namespace trip_planner.Controllers
     [Route("[controller]")]
     public class LocationsController : ControllerBase
     {
-        [HttpGet]
-        [Route("{id}")]
-        public LocationDetailsDTO Get(string id){
-            return new LocationDetailsDTO(id.ToString(), "Loc2", "Desc2", 2, new Coordinates(50.1234, 50.34324), "");
+        private ILocationsRepository _repo;
+
+        public LocationsController(ILocationsRepository repo){
+            _repo = repo;
         }
 
         [HttpGet]
-        public IEnumerable<LocationDetailsDTO> GetLocations(){
-            var locations = new[] {new LocationDetailsDTO("aa", "Loc1", "Desc1", 1, new Coordinates(50.15, 23.34), ""),
-                new LocationDetailsDTO("bb", "Loc2", "Desc2", 2, new Coordinates(50.1, -20.43), "")};
+        [Route("{id}")]
+        public Location Get(int id){
+            return new Location("Loc2", "Desc2", 2, new Coordinate(50.1234, 50.34324), "");
+        }
+
+        [HttpGet]
+        public IEnumerable<Location> GetLocations(){
+            var locations = _repo.GetLocations();
 
             return locations;
         }
 
+        [HttpGet]
+        [Route("test")]
+        public Location Test(){
+            var rand = new Random();
+            var data = new Location("Location " + rand.Next() * 100, "Description1", 2, new Coordinate(){Lat = rand.NextDouble()*180 - 90, Lon = rand.NextDouble()*360 - 180}, "");
+            
+            _repo.CreateLocation(data);
+            return data;
+        }
+
         [HttpPost]
         [Route("save")]
-        public IActionResult SaveLocation(LocationDetailsDTO location){
+        public IActionResult SaveLocation(Location location){
             Console.WriteLine("S_"+location.Name);
 
             return Ok();
@@ -33,7 +49,7 @@ namespace trip_planner.Controllers
 
         [HttpPost]
         [Route("update")]
-        public IActionResult UpdateLocation(LocationDetailsDTO location){
+        public IActionResult UpdateLocation(Location location){
             Console.WriteLine("U_"+location.Name);
 
             return Ok();
@@ -41,7 +57,7 @@ namespace trip_planner.Controllers
 
         [HttpPost]
         [Route("delete")]
-        public IActionResult DeleteLocation(LocationDetailsDTO location){
+        public IActionResult DeleteLocation(Location location){
             Console.WriteLine("D_"+location.Name);
 
             return Ok();
