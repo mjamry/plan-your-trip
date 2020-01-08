@@ -18,8 +18,9 @@ namespace trip_planner.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public Location Get(int id){
-            return new Location("Loc2", "Desc2", 2, new Coordinate(50.1234, 50.34324), "");
+        public Location Get(int id)
+        {
+            return _repo.GetLocation(id);
         }
 
         [HttpGet]
@@ -40,27 +41,27 @@ namespace trip_planner.Controllers
         }
 
         [HttpPost]
-        [Route("save")]
-        public IActionResult SaveLocation(Location location){
-            Console.WriteLine("S_"+location.Name);
+        [Route("create")]
+        public IActionResult CreateLocation(Location location){
+            _repo.CreateLocation(location);
 
-            return Ok();
+            return Created($"[controller]/{location.Id}", location);
         }
 
         [HttpPost]
         [Route("update")]
         public IActionResult UpdateLocation(Location location){
-            Console.WriteLine("U_"+location.Name);
+            _repo.UpdateLocation(location);
 
-            return Ok();
+            return Ok(location);
         }
 
         [HttpPost]
         [Route("delete")]
         public IActionResult DeleteLocation(Location location){
-            Console.WriteLine("D_"+location.Name);
+            var result = _repo.RemoveLocation(location);
 
-            return Ok();
+            return Ok(result);
         }
     }
 }

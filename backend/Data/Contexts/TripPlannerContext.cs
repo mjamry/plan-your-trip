@@ -1,19 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-
 using trip_planner.Data.Models;
 
-namespace trip_planner.Data.Contexts {
-    public class TripPlannerContext : DbContext {
+namespace trip_planner.Data.Contexts
+{
+    public class TripPlannerContext : DbContext
+    {
 
-        protected override void OnModelCreating (ModelBuilder modelBuilder) {
-            modelBuilder.Entity<UserLists> ()
-                .HasKey (ul => new { ul.UserId, ul.ListId });
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserLists>()
+                .HasKey(ul => new { ul.UserId, ul.ListId });
 
-            modelBuilder.Entity<ListLocations> ()
-                .HasKey (ll => new { ll.LocationId, ll.ListId });
+            modelBuilder.Entity<ListLocations>()
+                .HasKey(ll => new { ll.LocationId, ll.ListId });
         }
 
-        public TripPlannerContext (DbContextOptions options) : base (options) {}
+        public TripPlannerContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Location> Locations { get; set; }
 
