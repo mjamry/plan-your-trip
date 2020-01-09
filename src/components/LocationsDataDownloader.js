@@ -14,9 +14,7 @@ const LocationsDataDownloader = () => {
                     response.json()
                         .then(data => {
                             if (data) {
-                                data.forEach(location => {
-                                    storeLocation(location);
-                                });
+                                storeLocation(data);
                             }
 
                         })
@@ -24,10 +22,10 @@ const LocationsDataDownloader = () => {
             })
     }, [])
 
-    var storeLocation = (location) => {
+    var storeLocation = (locations) => {
         dispatchLocations({
-            type: LocationsStateActions.addLocation,
-            data: location
+            type: LocationsStateActions.loadLocations,
+            data: locations
         })
     }
 
