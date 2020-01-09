@@ -42,7 +42,7 @@ namespace trip_planner.Controllers
 
         [HttpPost]
         [Route("create")]
-        public IActionResult CreateLocation(Location location){
+        public IActionResult CreateLocation([FromBody] Location location){
             _repo.CreateLocation(location);
 
             return Created($"[controller]/{location.Id}", location);
@@ -50,7 +50,7 @@ namespace trip_planner.Controllers
 
         [HttpPost]
         [Route("update")]
-        public IActionResult UpdateLocation(Location location){
+        public IActionResult UpdateLocation([FromBody] Location location){
             _repo.UpdateLocation(location);
 
             return Ok(location);
@@ -58,7 +58,7 @@ namespace trip_planner.Controllers
 
         [HttpPost]
         [Route("delete")]
-        public IActionResult DeleteLocation(Location location){
+        public IActionResult DeleteLocation([FromBody] Location location){
             var result = _repo.RemoveLocation(location);
 
             return Ok(result);
