@@ -34,6 +34,8 @@ namespace trip_planner.Data
 
         public Location CreateLocation(Location location)
         {
+            _context.Coordinates.Add(location.Coordinates);
+
             _context.Locations.Add(location);
 
             _context.SaveChanges();
