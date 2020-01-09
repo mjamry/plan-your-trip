@@ -3,8 +3,8 @@ import { LocationsStateProvider, LocationsStateActions, _defaultReducer, EmptySt
 
 const DbActions = {
     add: 'create',
-    remove: 'remove',
-    edit: 'update',
+    delete: 'delete',
+    update: 'update',
     removeAll: 'removeAll'
 }
 
@@ -36,10 +36,13 @@ var dbAction = async (action) => {
         case LocationsStateActions.addLocation:
             return await dispatchDbAction(DbActions.add, action.data);
         case LocationsStateActions.removeLocation:
+            return await dispatchDbAction(DbActions.delete, action.data);
             break;
         case LocationsStateActions.editLocation:
+            return await dispatchDbAction(DbActions.update, action.data)
             break;
         case LocationsStateActions.removeAllLocations:
+            //TODO: has to be implemented on the backend site - maybe this will be just a list id removal - locations will remain for search
             break;
         default:
             console.info(`[DbPersistentLocationState] Action: "${action.type}" id not db action.`);
@@ -58,7 +61,7 @@ const dispatchDbAction = async (dbAction, data) => {
         body: JSON.stringify(data)
     });
 
-    if(rawResponse.status !== 200 || rawResponse.status !== 201){
+    if(rawResponse.status !== 200 && rawResponse.status !== 201){
         console.error(rawResponse);
         return null;
     }
