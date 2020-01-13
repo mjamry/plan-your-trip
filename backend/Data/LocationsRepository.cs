@@ -11,7 +11,7 @@ namespace trip_planner.Data
         Location GetLocation(int id);
         Location CreateLocation(Location location);
         Location UpdateLocation(Location location);
-        bool RemoveLocation(Location location);
+        bool DeleteLocation(Location location);
     }
 
     public class LocationsRepository : ILocationsRepository
@@ -47,12 +47,11 @@ namespace trip_planner.Data
             throw new System.NotImplementedException();
         }
 
-        public bool RemoveLocation(Location location)
+        public bool DeleteLocation(Location location)
         {
             _context.Locations.Remove(location);
 
             _context.SaveChanges();
-            //TODO: handle errors
             return true;
         }
     }

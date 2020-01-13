@@ -31,13 +31,16 @@ namespace trip_planner.Controllers
         }
 
         [HttpGet]
-        [Route("test")]
-        public Location Test(){
+        [Route("test/{number}")]
+        public IActionResult Test(int number){
             var rand = new Random();
-            var data = new Location("Location " + rand.Next() * 100, "Description1", 2, new Coordinate(){Lat = rand.NextDouble()*180 - 90, Lon = rand.NextDouble()*360 - 180}, "");
-            
-            _repo.CreateLocation(data);
-            return data;
+            for(int i=0;i<number; i++)
+            {
+                var data = new Location("Location " + rand.Next() * 100, "Description1", 2, new Coordinate(){Lat = rand.NextDouble()*180 - 90, Lon = rand.NextDouble()*360 - 180}, "");
+                _repo.CreateLocation(data);   
+            }
+
+            return Ok(GetLocations());
         }
 
         [HttpPost]
@@ -59,9 +62,14 @@ namespace trip_planner.Controllers
         [HttpPost]
         [Route("delete")]
         public IActionResult DeleteLocation([FromBody] Location location){
-            var result = _repo.RemoveLocation(location);
+            var dbLocation = Get(location.Id);
+            if(dbLocation == null){
+                return NotFound();
+            }
 
-            return Ok(result);
+            _repo.DeleteLocation(dbLocation);
+
+            return Ok(dbLocation);
         }
     }
 }

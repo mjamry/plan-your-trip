@@ -61,6 +61,8 @@ const dispatchDbAction = async (dbAction, data) => {
         body: JSON.stringify(data)
     });
 
+    console.log(rawResponse);
+
     if(rawResponse.status !== 200 && rawResponse.status !== 201){
         console.error(rawResponse);
         return null;
