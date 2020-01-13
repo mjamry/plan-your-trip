@@ -54,7 +54,11 @@ namespace trip_planner.Controllers
         [HttpPost]
         [Route("update")]
         public IActionResult UpdateLocation([FromBody] Location location){
-            _repo.UpdateLocation(location);
+            var result = _repo.UpdateLocation(location);
+
+            if(result == null){
+                return NotFound($"There is no location with specified ID: {location.Id}");
+            }
 
             return Ok(location);
         }
@@ -62,14 +66,13 @@ namespace trip_planner.Controllers
         [HttpPost]
         [Route("delete")]
         public IActionResult DeleteLocation([FromBody] Location location){
-            var dbLocation = Get(location.Id);
-            if(dbLocation == null){
-                return NotFound();
+            var result = _repo.DeleteLocation(location);
+
+            if(result == null){
+                return NotFound($"There is no location with specified ID: {location.Id}");
             }
 
-            _repo.DeleteLocation(dbLocation);
-
-            return Ok(dbLocation);
+            return Ok(result);
         }
     }
 }

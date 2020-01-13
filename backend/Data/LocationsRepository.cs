@@ -11,7 +11,7 @@ namespace trip_planner.Data
         Location GetLocation(int id);
         Location CreateLocation(Location location);
         Location UpdateLocation(Location location);
-        bool DeleteLocation(Location location);
+        Location DeleteLocation(Location location);
     }
 
     public class LocationsRepository : ILocationsRepository
@@ -44,15 +44,31 @@ namespace trip_planner.Data
 
         public Location UpdateLocation(Location location)
         {
-            throw new System.NotImplementedException();
+            var dbLocation = GetLocation(location.Id);
+            if(dbLocation != null){
+                dbLocation.Name = location.Name;
+                dbLocation.Description = location.Description;
+                dbLocation.Attractivness = location.Attractivness;
+                dbLocation.Image = location.Image;
+                dbLocation.Coordinates.Lat = location.Coordinates.Lat;
+                dbLocation.Coordinates.Lon = location.Coordinates.Lon;
+
+                _context.SaveChanges();
+            }
+
+            return dbLocation;
         }
 
-        public bool DeleteLocation(Location location)
+        public Location DeleteLocation(Location location)
         {
-            _context.Locations.Remove(location);
+            var dbLocation = GetLocation(location.Id);
+            System.Console.WriteLine(dbLocation);
+            if(dbLocation != null){
+                _context.Locations.Remove(location);
+                _context.SaveChanges();
+            }
 
-            _context.SaveChanges();
-            return true;
+            return dbLocation;
         }
     }
 }
