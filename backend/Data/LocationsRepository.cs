@@ -62,9 +62,8 @@ namespace trip_planner.Data
         public Location DeleteLocation(Location location)
         {
             var dbLocation = GetLocation(location.Id);
-            System.Console.WriteLine(dbLocation);
             if(dbLocation != null){
-                _context.Locations.Remove(location);
+                _context.Locations.Remove(dbLocation);
                 _context.SaveChanges();
             }
 
