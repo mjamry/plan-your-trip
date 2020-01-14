@@ -10,6 +10,7 @@ var Search = () => {
   const [searchValue, setSearchValue] = useState("");
   const [timer, setTimer] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [{}, dispatchModal] = useModalState();
 
@@ -19,7 +20,12 @@ var Search = () => {
   }
 
   var handleSearchInputTimeout = () => { 
-    WikipediaAPIWrapper.search(searchValue).then(results => setSearchResults(results));
+    setIsLoading(true);
+    WikipediaAPIWrapper.search(searchValue).then(results => 
+      {
+        setSearchResults(results)
+        setIsLoading(false);
+      });
   }
 
   var handleSelection = (selection) => {
@@ -35,6 +41,7 @@ var Search = () => {
     if(searchValue !== "")
     {
       setupTimer();
+      setIsLoading(false);
     }
   }, [searchValue])
 
@@ -45,6 +52,11 @@ var Search = () => {
           <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
         </div>
       <input type="text" className="form-control" placeholder="enter name" onChange={e => setSearchValue(e.target.value)} value={searchValue} autoFocus/>
+        <div className="search-loading-indicator" style={{display: isLoading ? "block" : "none"}}>
+          <div className="search-loading-indicator-icon">
+            <FontAwesomeIcon icon="spinner" className="fa-2x"/> 
+          </div>
+        </div>
       </div>
     <SearchResult results={searchResults} onSelected={handleSelection}/>
     </div>
