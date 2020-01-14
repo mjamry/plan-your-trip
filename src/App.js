@@ -24,8 +24,9 @@ import LocationsDataDownloader from './components/LocationsDataDownloader'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
-library.add(fas)
+library.add(fas, faWikipediaW)
 
 var App = () => {
   return (

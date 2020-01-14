@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 var SearchResult = (props) => {
 
@@ -7,12 +8,13 @@ var SearchResult = (props) => {
 
     for(let index in props.results){
       output.push(
-      <div 
-        className="search-result-item"
-        onClick={()=>props.onSelected(props.results[index])}
-        key={index}>
-        {props.results[index]}
-      </div>)
+        <div className="search-result-item" key={index}>
+          <FontAwesomeIcon icon={['fab', 'wikipedia-w']} className="fab search-result-icon"/>
+          <div 
+            onClick={()=>props.onSelected(props.results[index])}>
+            {props.results[index]}
+          </div>
+        </div>)
     }
 
     return output;
