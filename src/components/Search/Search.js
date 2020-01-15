@@ -31,7 +31,9 @@ var Search = () => {
   var handleSelection = (selection) => {
     setSearchResults(null);
     setSearchValue("");
- 
+    
+    dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.loading});
+
     WikipediaAPIWrapper.getDetails(selection).then(location => {
       dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.addLocation});
     });
@@ -54,7 +56,7 @@ var Search = () => {
       <input type="text" className="form-control" placeholder="enter name" onChange={e => setSearchValue(e.target.value)} value={searchValue} autoFocus/>
         <div className="search-loading-indicator" style={{display: isLoading ? "block" : "none"}}>
           <div className="search-loading-indicator-icon">
-            <FontAwesomeIcon icon="spinner" className="fa-2x"/> 
+            <FontAwesomeIcon icon="spinner" spin className="fa-2x"/> 
           </div>
         </div>
       </div>

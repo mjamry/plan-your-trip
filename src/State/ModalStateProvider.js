@@ -4,7 +4,7 @@ export const ModalTypes = {
     addLocation: 'addLocation',
     editLocation: 'editLocation',
     search: 'search',
-    confirmation: 'confirmation',
+    loading: 'loading',
     removeLocation: 'removeLocation',
     addNewLocationSelect: 'addNewLocationSelect'
 }

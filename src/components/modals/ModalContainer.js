@@ -7,8 +7,10 @@ import ModalHeader from './ModalHeader'
 import Search from '../Search/Search'
 import AddNewLocationSelect from './AddNewLocationSelect'
 import Confirmation from './Confirmation'
+import LoadingIndicator from './LoadingIndicator'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
+const LoadingTimeoutInSec = 60; 
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
@@ -72,6 +74,13 @@ var useModalContentFactory = () => {
                 return {
                     header: <ModalHeader title="Select option"/>,
                     body: <AddNewLocationSelect />,
+                    footer: null
+                }
+
+            case ModalTypes.loading:
+                return {
+                    header: <ModalHeader title="Loading..." />,
+                    body: <LoadingIndicator />,
                     footer: null
                 }
 
