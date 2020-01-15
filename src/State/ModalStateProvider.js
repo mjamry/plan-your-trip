@@ -5,6 +5,7 @@ export const ModalTypes = {
     editLocation: 'editLocation',
     search: 'search',
     confirmation: 'confirmation',
+    removeLocation: 'removeLocation',
     addNewLocationSelect: 'addNewLocationSelect'
 }
 

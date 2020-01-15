@@ -6,6 +6,7 @@ import { useLocationFormBuilder } from './LocationDetailsForm/LocationDetailsFor
 import ModalHeader from './ModalHeader'
 import Search from '../Search/Search'
 import AddNewLocationSelect from './AddNewLocationSelect'
+import Confirmation from './Confirmation'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 
@@ -44,6 +45,21 @@ var useModalContentFactory = () => {
                                 type: ModalStateAction.hide})}
                     }
                 )
+
+            case ModalTypes.removeLocation:
+                var submitAction = (data)=>{
+                    dispatchLocations({
+                        type: LocationsStateActions.removeLocation, 
+                        data: data})
+                    dispatchModal({type: ModalStateAction.hide})};
+
+                return {
+                    header: <ModalHeader title={`Do you want to remove\n\r "${modalModel.data.name}"`}/>,
+                    body: <Confirmation 
+                        onSubmit={()=>submitAction(modalModel.data)}
+                        onCancel={()=>dispatchModal({type: ModalStateAction.hide})}/>,
+                    footer: null
+                }
                     
             case ModalTypes.search: 
                 return {

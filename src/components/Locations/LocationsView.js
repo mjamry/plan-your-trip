@@ -14,7 +14,7 @@ var LocationsView = () => {
       <LocationListItem
         location={location}
         key={location.id}
-        onRemove={()=>dispatchlocations({type: LocationsStateActions.removeLocation, data: location})}
+        onRemove={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.removeLocation})}
         onEdit={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.editLocation})} 
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));
@@ -27,7 +27,7 @@ var LocationsView = () => {
       <LocationGridItem 
         location={location} 
         key={location.id}
-        onRemove={()=>dispatchlocations({type: LocationsStateActions.removeLocation, data: location})} 
+        onRemove={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.removeLocation})} 
         onEdit={()=>dispatchModal({type: ModalStateAction.show, data: location, modalType: ModalTypes.editLocation})} 
         onSelect={()=>dispatchlocations({type: LocationsStateActions.selectOnMap, data: location})}/>
     ));

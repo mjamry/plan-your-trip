@@ -12,6 +12,7 @@ import './Styles/Header.css'
 import './Styles/MapView.css'
 import './Styles/AddNewLocationSelect.css'
 import './Styles/Search.css'
+import './Styles/Confirmation.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
