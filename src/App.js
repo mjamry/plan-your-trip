@@ -14,6 +14,7 @@ import './Styles/AddNewLocationSelect.css'
 import './Styles/Search.css'
 import './Styles/Confirmation.css'
 import './Styles/LoadingIndicator.css'
+import './Styles/ToasterNotifications.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
@@ -23,6 +24,7 @@ import ModalContainer from './components/modals/ModalContainer'
 import DbPersistentLocationState from './State/DbPersistentLocationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
+import ToasterNotifications from './components/ToasterNotifications'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -33,6 +35,7 @@ library.add(fas, faWikipediaW)
 var App = () => {
   return (
     <div className="App">
+      <ToasterNotifications/>
       <DbPersistentLocationState>
       <LocationsDataDownloader />
       <ModalStateProvider>
