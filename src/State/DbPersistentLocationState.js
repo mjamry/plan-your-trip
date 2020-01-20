@@ -8,7 +8,7 @@ const DbActions = {
     removeAll: 'removeAll'
 }
 
-const DbPersistentLocationState = ({ children }) => {
+const DbPersistentLocationStateProvider = ({ children }) => {
     return <LocationsStateProvider reducerHook={useDbReducer(_defaultReducer, EmptyState)}>
         {children}
     </LocationsStateProvider>
@@ -72,4 +72,4 @@ const dispatchDbAction = async (dbAction, data) => {
     return content;
 }
 
-export default DbPersistentLocationState;
+export default DbPersistentLocationStateProvider;

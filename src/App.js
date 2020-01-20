@@ -21,7 +21,8 @@ import LocationsView from './components/Locations/LocationsView'
 import LocationsMapView from './components/MapView/LocationsMapView'
 import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
-import DbPersistentLocationState from './State/DbPersistentLocationState'
+import DbPersistentLocationStateProvider from './State/DbPersistentLocationState'
+import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
@@ -35,8 +36,9 @@ library.add(fas, faWikipediaW)
 var App = () => {
   return (
     <div className="App">
+      <NotificationStateProvider>
       <ToasterNotifications/>
-      <DbPersistentLocationState>
+      <DbPersistentLocationStateProvider>
       <LocationsDataDownloader />
       <ModalStateProvider>
         <ModalContainer />
@@ -50,7 +52,8 @@ var App = () => {
           </div>
         </div>
       </ModalStateProvider>
-      </DbPersistentLocationState>
+      </DbPersistentLocationStateProvider>
+      </NotificationStateProvider>
     </div>
   );
 }

@@ -1,12 +1,34 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import {useNotificationState, NotificationTypes} from './../State/NotificationState'
+
+const CreateToasterNotification = (type, content) => {
+    switch(type){
+        case NotificationTypes.info:
+        case NotificationTypes.success:
+            return <ToasterNotificationSuccess message={content} />
+        case NotificationTypes.error:
+            return <ToasterNotificationError message={content} />
+    }
+    
+}
+
 const ToasterNotifications = () => {
+    const [{notifications}, dispatchNotifications] = useNotificationState();
+
+    var renderNotifications = () => {
+        var output = notifications.map((notification) => (
+            CreateToasterNotification(notification.type, notification.content)
+        ));
+
+        return output;
+    }
+
     return (
         <div className="toaster-notifications-container">
             <div className="toaster-notifications-box">
-                <ToasterNotificationError message="Something went wrong"/>
-                <ToasterNotificationSuccess />
+                {renderNotifications()}
             </div>
         </div>
     )

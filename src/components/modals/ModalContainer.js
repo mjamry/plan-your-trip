@@ -8,13 +8,15 @@ import Search from '../Search/Search'
 import AddNewLocationSelect from './AddNewLocationSelect'
 import Confirmation from './Confirmation'
 import LoadingIndicator from './LoadingIndicator'
+import useLocationService from '../../State/LocationService'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 const LoadingTimeoutInSec = 60; 
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
-    const [{}, dispatchLocations] = useLocationsState();
+    const [{}, dispatchLocations] = useLocationsState()
+    const locationService = useLocationService();
 
     var create = (modalType) => {
         var locationFormBuilder = useLocationFormBuilder();
@@ -25,10 +27,8 @@ var useModalContentFactory = () => {
                     {
                         title: "Add location",
                         location: modalModel.data,
-                        onSubmit: (data)=>{
-                            dispatchLocations({
-                                type: LocationsStateActions.addLocation, 
-                                data: data})
+                        onSubmit: ()=>{
+                            locationService.add(modalModel.data)
                             dispatchModal({
                                 type: ModalStateAction.hide})}
                     }
@@ -39,20 +39,16 @@ var useModalContentFactory = () => {
                     {
                         title: "Edit location",
                         location: modalModel.data,
-                        onSubmit: (data)=>{
-                            dispatchLocations({
-                                type: LocationsStateActions.editLocation, 
-                                data: data})
+                        onSubmit: ()=>{
+                            locationService.edit(modalModel.data)
                             dispatchModal({
                                 type: ModalStateAction.hide})}
                     }
                 )
 
             case ModalTypes.removeLocation:
-                var submitAction = (data)=>{
-                    dispatchLocations({
-                        type: LocationsStateActions.removeLocation, 
-                        data: data})
+                var submitAction = ()=>{
+                    locationService.remove(modalModel.data)
                     dispatchModal({type: ModalStateAction.hide})};
 
                 return {
