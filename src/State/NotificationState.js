@@ -2,6 +2,12 @@ import React, {createContext, useContext, useReducer} from 'react'
 
 export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState}
 
+const Notification = (type, content) => {
+    
+
+
+}
+
 const NotificationTypes = {
     error: 'error',
     success: 'success',

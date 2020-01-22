@@ -21,7 +21,6 @@ import LocationsView from './components/Locations/LocationsView'
 import LocationsMapView from './components/MapView/LocationsMapView'
 import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
-import DbPersistentLocationStateProvider from './State/DbPersistentLocationState'
 import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
@@ -30,6 +29,7 @@ import ToasterNotifications from './components/ToasterNotifications'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
+import { LocationsStateProvider } from './State/LocationsState';
 
 library.add(fas, faWikipediaW)
 
@@ -38,7 +38,7 @@ var App = () => {
     <div className="App">
       <NotificationStateProvider>
       <ToasterNotifications/>
-      <DbPersistentLocationStateProvider>
+      <LocationsStateProvider>
       <LocationsDataDownloader />
       <ModalStateProvider>
         <ModalContainer />
@@ -52,7 +52,7 @@ var App = () => {
           </div>
         </div>
       </ModalStateProvider>
-      </DbPersistentLocationStateProvider>
+      </LocationsStateProvider>
       </NotificationStateProvider>
     </div>
   );
