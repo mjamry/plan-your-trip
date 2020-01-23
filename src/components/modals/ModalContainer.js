@@ -36,10 +36,11 @@ var useModalContentFactory = () => {
                     {
                         title: "Edit location",
                         location: modalModel.data,
-                        onSubmit: ()=>{
-                            locationService.edit(modalModel.data)
-                            dispatchModal({
-                                type: ModalStateAction.hide})}
+                        onSubmit: (data)=>{
+                                locationService.edit(data)
+                                dispatchModal({
+                                    type: ModalStateAction.hide})
+                            }
                     }
                 )
 
