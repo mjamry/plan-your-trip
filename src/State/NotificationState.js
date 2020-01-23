@@ -1,11 +1,20 @@
 import React, {createContext, useContext, useReducer} from 'react'
 
-export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState}
+export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState, Notification}
 
-const Notification = (type, content) => {
-    
+const DefaultNotificationTimeout = 2000;
 
-
+class Notification {
+    constructor(type, content, timeout){
+        this.type = type;
+        this.content = content;
+        this.id = (+new Date()).toString(32);
+        this.timeout = timeout;
+    }
+    type;
+    content;
+    timeout;
+    id;
 }
 
 const NotificationTypes = {
@@ -38,11 +47,12 @@ var useNotificationState = () => useContext(NotificationStateContext);
 const _reducer = (state, action) => {
     switch(action.type){
         case NotificationsActions.show:
-            state = {...state, notifications: [...state.notifications, {type: action.notificationType, content: action.data}]}
-            return state;
+            state = {...state, notifications: [...state.notifications, new Notification(action.notificationType, action.data, DefaultNotificationTimeout)]}
+            break;
         case NotificationsActions.hide:
-            console.log(`hide ${action.data}`);
-            return state;
+            var updatedNotifications = state.notifications.filter(n => n.id !== action.data) || [];
+            state = {...state, notifications: updatedNotifications}
+            break;
         default:
             console.info(`[NotificationsState] Action: "${action.type}" not correct.`);
     }

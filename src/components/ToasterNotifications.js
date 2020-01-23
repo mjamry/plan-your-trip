@@ -1,15 +1,16 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import {useNotificationState, NotificationTypes} from './../State/NotificationState'
+import {useNotificationState, NotificationTypes, NotificationsActions} from './../State/NotificationState'
 
-const CreateToasterNotification = (type, content) => {
-    switch(type){
+const CreateToasterNotification = (notification, onClose) => {
+    console.log(notification)
+    switch(notification.type){
         case NotificationTypes.info:
         case NotificationTypes.success:
-            return <ToasterNotificationSuccess message={content} />
+            return <ToasterNotificationSuccess message={notification.content} timeout={notification.timeout} onClose={onClose}/>
         case NotificationTypes.error:
-            return <ToasterNotificationError message={content} />
+            return <ToasterNotificationError message={notification.content} timeout={notification.timeout} onClose={onClose}/>
     }
     
 }
@@ -19,7 +20,10 @@ const ToasterNotifications = () => {
 
     var renderNotifications = () => {
         var output = notifications.map((notification) => (
-            CreateToasterNotification(notification.type, notification.content)
+            CreateToasterNotification(
+                notification, 
+                ()=>{dispatchNotifications({type: NotificationsActions.hide, data: notification.id})}
+            )
         ));
 
         return output;
@@ -34,8 +38,10 @@ const ToasterNotifications = () => {
     )
 }
 
-const ToasterNotificationItem = ({type, title, content, icon}) => {
-    return <div className={`toaster-notification-item toaster-notification-item-${type}`}>
+const ToasterNotificationItem = ({type, title, content, icon, timeout, onClose}) => {
+    console.log(timeout)
+    setTimeout(onClose, timeout)
+    return <div className={`toaster-notification-item toaster-notification-item-${type}`} onClick={()=>onClose()}>
         <div className="toaster-notification-item-icon">
             <FontAwesomeIcon icon={icon} className="fa-2x"/>
         </div>
@@ -46,15 +52,15 @@ const ToasterNotificationItem = ({type, title, content, icon}) => {
     </div>
 }
 
-const ToasterNotificationError = ({message}) => {
+const ToasterNotificationError = ({message, timeout, onClose}) => {
 
-    return (<ToasterNotificationItem title="Error" type="error" icon="exclamation" content={message}/>);
+    return (<ToasterNotificationItem title="Error" type="error" icon="exclamation" content={message} timeout={timeout} onClose={onClose}/>);
                 
 }
 
-const ToasterNotificationSuccess = ({message}) => {
+const ToasterNotificationSuccess = ({message,timeout, onClose}) => {
                 
-    return (<ToasterNotificationItem title="Success" type="info" content="test content" icon="check" content={message}/>);
+    return (<ToasterNotificationItem title="Success" type="info" icon="check" content={message} timeout={timeout} onClose={onClose}/>);
 }
 
 export default ToasterNotifications;
