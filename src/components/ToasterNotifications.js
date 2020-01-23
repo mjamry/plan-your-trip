@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {useNotificationState, NotificationTypes, NotificationsActions} from './../State/NotificationState'
 
 const CreateToasterNotification = (notification, onClose) => {
-    console.log(notification)
     switch(notification.type){
         case NotificationTypes.info:
         case NotificationTypes.success:
             return <ToasterNotificationSuccess message={notification.content} timeout={notification.timeout} onClose={onClose}/>
         case NotificationTypes.error:
             return <ToasterNotificationError message={notification.content} timeout={notification.timeout} onClose={onClose}/>
+        default: 
+            console.info(`[ToasterNotification] Incorrect notification type: "${notification.type}".`);
     }
     
 }
@@ -39,7 +40,6 @@ const ToasterNotifications = () => {
 }
 
 const ToasterNotificationItem = ({type, title, content, icon, timeout, onClose}) => {
-    console.log(timeout)
     setTimeout(onClose, timeout)
     return <div className={`toaster-notification-item toaster-notification-item-${type}`} onClick={()=>onClose()}>
         <div className="toaster-notification-item-icon">
@@ -53,13 +53,11 @@ const ToasterNotificationItem = ({type, title, content, icon, timeout, onClose})
 }
 
 const ToasterNotificationError = ({message, timeout, onClose}) => {
-
     return (<ToasterNotificationItem title="Error" type="error" icon="exclamation" content={message} timeout={timeout} onClose={onClose}/>);
                 
 }
 
 const ToasterNotificationSuccess = ({message,timeout, onClose}) => {
-                
     return (<ToasterNotificationItem title="Success" type="info" icon="check" content={message} timeout={timeout} onClose={onClose}/>);
 }
 

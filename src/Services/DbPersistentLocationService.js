@@ -1,7 +1,3 @@
-import React, { useReducer, useContext, createContext } from 'react';
-import { LocationsStateProvider, LocationsStateActions, _defaultReducer, EmptyState } from './LocationsState'
-import useNotificationService from './NotificationService'
-
 const DbActions = {
     add: 'create',
     delete: 'delete',
@@ -50,7 +46,7 @@ const dispatchDbAction = async (dbAction, data) => {
 
     if(rawResponse.status !== 200 && rawResponse.status !== 201){
         console.error(rawResponse);
-        throw "Cannot get data";
+        throw new Error(rawResponse);
     }
     
     const content = await rawResponse.json();

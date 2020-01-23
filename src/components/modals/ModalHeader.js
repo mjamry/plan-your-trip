@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useModalState, ModalStateAction } from '../../State/ModalStateProvider'
 
 const ModalHeader = (props) => {
-    const [modalModel, dispatchModal] = useModalState();
+    const [{}, dispatchModal] = useModalState();
 
     return(
         <div className="modal-header-container">

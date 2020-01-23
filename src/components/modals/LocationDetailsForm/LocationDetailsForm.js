@@ -20,7 +20,7 @@ export const useLocationFormBuilder = () => {
 }
 
 const LocationDetailsFooter = ({onSubmit}) => {
-    const [formState, dispatchFormState] = useLocationFormState();
+    const [formState] = useLocationFormState();
     const coordinator = StepsCoordinator();
 
     var renderPrevious = () => {
@@ -72,7 +72,7 @@ const LocationDetailsFooter = ({onSubmit}) => {
 
 
 const LocationDetailsFormBody = (props) => {
-    const [formState, dispatchFormState] = useLocationFormState();
+    const [{}, dispatchFormState] = useLocationFormState();
 
     //setup state values
     useEffect(()=>{

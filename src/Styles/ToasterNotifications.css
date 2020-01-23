@@ -17,6 +17,7 @@
 
 .toaster-notification-item-content{
     font-size: 10pt;
+    cursor: pointer;
 }
 
 .toaster-notification-item-title{

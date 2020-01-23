@@ -1,21 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react'
-
-export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState, Notification}
-
-const DefaultNotificationTimeout = 2000;
-
-class Notification {
-    constructor(type, content, timeout){
-        this.type = type;
-        this.content = content;
-        this.id = (+new Date()).toString(32);
-        this.timeout = timeout;
-    }
-    type;
-    content;
-    timeout;
-    id;
-}
+import {Notification, DefaultNotificationTimeout} from '../Services/Notification'
 
 const NotificationTypes = {
     error: 'error',
@@ -61,3 +45,4 @@ const _reducer = (state, action) => {
 }
 
 export default NotificationStateProvider;
+export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState}

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
 
 const LocationsDataDownloader = () => {
-    const [{ locations }, dispatchLocations] = useLocationsState();
+    const [{}, dispatchLocations] = useLocationsState();
 
     useEffect(() => {
-        fetch("https://localhost:5001/Locations")
+        fetch("http://localhost:5000/Locations")
             .then(response => {
                 if (response.status !== 200) {
                     console.error("Download error!")

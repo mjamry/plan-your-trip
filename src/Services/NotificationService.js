@@ -1,5 +1,5 @@
 
-import {NotificationTypes, NotificationsActions, useNotificationState} from './NotificationState'
+import {NotificationTypes, NotificationsActions, useNotificationState} from '../State/NotificationState'
 
 const useNotificationService = () => {
     const [{}, dispatchNotification] = useNotificationState();
@@ -14,10 +14,6 @@ const useNotificationService = () => {
 
     var showSuccess = (content) => {
         dispatchNotification({type: NotificationsActions.show, data: content, notificationType: NotificationTypes.success})
-    }
-
-    var hide = (notificationId) => {
-
     }
 
     return {

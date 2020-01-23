@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalStateProvider'
-import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useLocationFormBuilder } from './LocationDetailsForm/LocationDetailsForm'
 import ModalHeader from './ModalHeader'
 import Search from '../Search/Search'
 import AddNewLocationSelect from './AddNewLocationSelect'
 import Confirmation from './Confirmation'
 import LoadingIndicator from './LoadingIndicator'
-import useLocationService from '../../State/LocationService'
+import useLocationService from '../../Services/LocationService'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
-const LoadingTimeoutInSec = 60; 
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
-    const [{}, dispatchLocations] = useLocationsState()
     const locationService = useLocationService();
 
     var create = (modalType) => {

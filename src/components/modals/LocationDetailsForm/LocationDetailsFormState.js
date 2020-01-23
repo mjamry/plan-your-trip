@@ -1,6 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import {FirstStep, LastStep} from './Steps/StepsCoordinator'
-import { LocationsStateActions } from '../../../State/LocationsState';
+import {FirstStep} from './Steps/StepsCoordinator'
 
 export const LocationFormStateActions = {
     setStep: "setStep",

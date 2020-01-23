@@ -1,5 +1,5 @@
-import { useLocationsState, LocationsStateActions } from './LocationsState'
-import useNotificationService from './NotificationService'
+import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
+import useNotificationService from '../Services/NotificationService'
 import useDbPersistenceService from './DbPersistentLocationService'
 
 const useLocationService = () => {

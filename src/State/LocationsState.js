@@ -1,8 +1,6 @@
 import React, { useReducer, useContext, createContext } from 'react';
 import store from 'store'
 
-export { EmptyState, LocationsStateActions, LocationsStateContext, LocationsStateProvider, useLocationsState, _defaultReducer }
-
 const EmptyState = {
     locations: [],
     locationSelectedOnMap: null
@@ -71,3 +69,5 @@ var _defaultReducer = (state, action) => {
     //_storeLocations(newState);
     return newState;
 }
+
+export { EmptyState, LocationsStateActions, LocationsStateContext, LocationsStateProvider, useLocationsState, _defaultReducer }
