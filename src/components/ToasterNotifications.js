@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {useNotificationState, NotificationTypes, NotificationsActions} from './../State/NotificationState'
@@ -40,8 +40,27 @@ const ToasterNotifications = () => {
 }
 
 const ToasterNotificationItem = ({type, title, content, icon, timeout, onClose}) => {
-    setTimeout(onClose, timeout)
-    return <div className={`toaster-notification-item toaster-notification-item-${type}`} onClick={()=>onClose()}>
+    const [timer, setTimer] = useState(null);
+
+    useEffect(() => {
+        startTimer()
+    }, [])
+    
+
+    var startTimer = () => {
+        setTimer(setTimeout(onClose, timeout));
+    }
+
+    var stopTimer = () => {
+        clearTimeout(timer);
+    }
+
+    return <div 
+                className={`toaster-notification-item toaster-notification-item-${type}`} 
+                onClick={()=>onClose()}
+                onMouseEnter={()=>stopTimer()}
+                onMouseLeave={()=>startTimer()}
+                >
         <div className="toaster-notification-item-icon">
             <FontAwesomeIcon icon={icon} className="fa-2x"/>
         </div>

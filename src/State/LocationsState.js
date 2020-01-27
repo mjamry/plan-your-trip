@@ -1,9 +1,11 @@
 import React, { useReducer, useContext, createContext } from 'react';
 import store from 'store'
+import { LocationFormStateActions } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
 
 const EmptyState = {
     locations: [],
-    locationSelectedOnMap: null
+    locationSelectedOnMap: null,
+    isLoading: false
 }
 
 const LocationsStateActions = {
@@ -12,7 +14,8 @@ const LocationsStateActions = {
     editLocation: 'editLocation',
     selectOnMap: 'selectOnMap',
     removeAllLocations: 'removeAllLocations',
-    loadLocations: 'loadLocations'
+    loadLocations: 'loadLocations',
+    isLoading: 'isLoading'
 }
 
 const LocationsStateContext = createContext();
@@ -60,6 +63,9 @@ var _defaultReducer = (state, action) => {
             break;
         case LocationsStateActions.loadLocations:
             newState = { ...state, locations: action.data };
+            break;
+        case LocationsStateActions.isLoading:
+            newState = { ...state, isLoading: action.data };
             break;
         default:
             newState = state;

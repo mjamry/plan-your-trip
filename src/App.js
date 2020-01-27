@@ -16,6 +16,8 @@ import './Styles/Confirmation.css'
 import './Styles/LoadingIndicator.css'
 import './Styles/ToasterNotifications.css'
 
+import './Styles/LocationActionLoadingIndicator.css'
+
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
 import LocationsMapView from './components/MapView/LocationsMapView'
@@ -25,6 +27,7 @@ import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
+import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -37,22 +40,23 @@ var App = () => {
   return (
     <div className="App">
       <NotificationStateProvider>
-      <ToasterNotifications/>
-      <LocationsStateProvider>
-      <LocationsDataDownloader />
-      <ModalStateProvider>
-        <ModalContainer />
-        <Header />
-        <div className="app-content-container">
-          <div className="app-locations-view">
-            <LocationsView />
-          </div>
-          <div className="app-map-view">
-            <LocationsMapView />
-          </div>
-        </div>
-      </ModalStateProvider>
-      </LocationsStateProvider>
+        <ToasterNotifications/>
+        <LocationsStateProvider>
+          <LocationActionLoadingIndicator/>
+          <LocationsDataDownloader />
+          <ModalStateProvider>
+            <ModalContainer />
+            <Header />
+            <div className="app-content-container">
+              <div className="app-locations-view">
+                <LocationsView />
+              </div>
+              <div className="app-map-view">
+                <LocationsMapView />
+              </div>
+            </div>
+          </ModalStateProvider>
+        </LocationsStateProvider>
       </NotificationStateProvider>
     </div>
   );

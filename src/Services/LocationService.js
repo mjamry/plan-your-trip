@@ -7,7 +7,20 @@ const useLocationService = () => {
     const notificationService = useNotificationService();
     const dbPersistentLocationService = useDbPersistenceService();
 
+    var setLoading = () => {
+        dispatchLocations({
+            type: LocationsStateActions.isLoading, 
+            data: true});
+    }
+
+    var clearLoading = () => {
+        dispatchLocations({
+            type: LocationsStateActions.isLoading, 
+            data: false});
+    }
+
     var add = async (location) => {
+        setLoading();
         try{
             await dbPersistentLocationService.add(location)
             dispatchLocations({
@@ -20,10 +33,14 @@ const useLocationService = () => {
         {
             notificationService.error(`Error while adding location: ${location.name}`);
         }
+        finally{
+            clearLoading();
+        }
   
     }
 
     var edit = async (location) => {
+        setLoading();
         try{
             await dbPersistentLocationService.edit(location)
             dispatchLocations({
@@ -36,9 +53,13 @@ const useLocationService = () => {
         {
             notificationService.error(`Error while editing location: ${location.name}`);
         }
+        finally{
+            clearLoading();
+        }
     }
 
     var remove = async (location) => {
+        setLoading();
         try{
             await dbPersistentLocationService.remove(location)
             dispatchLocations({
@@ -50,6 +71,9 @@ const useLocationService = () => {
         catch(e)
         {
             notificationService.error(`Error while removing location: ${location.name}`);
+        }
+        finally{
+            clearLoading();
         }
     }
 
