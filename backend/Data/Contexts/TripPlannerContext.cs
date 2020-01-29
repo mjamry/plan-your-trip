@@ -15,7 +15,7 @@ namespace trip_planner.Data.Contexts
                 .HasKey(ll => new { ll.LocationId, ll.ListId });
         }
 
-        public TripPlannerContext(DbContextOptions options) : base(options) { }
+        public TripPlannerContext(DbContextOptions<TripPlannerContext> options) : base(options) { }
 
         public DbSet<Location> Locations { get; set; }
 

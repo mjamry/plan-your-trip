@@ -41,8 +41,10 @@ namespace trip_planner
                     });
             });
 
-            string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<TripPlannerContext> (options => options.UseMySql (connectionString));
+            string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
+            services.AddDbContext<TripPlannerContext> (options => options.UseMySql (dataConnectionString));
+            string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
+            services.AddDbContext<DiagnosticsContext> (options => options.UseMySql(diagnosticsConnectionString));
             services.AddScoped<ILocationsRepository, LocationsRepository>();
         }
 
