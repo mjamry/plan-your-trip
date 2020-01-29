@@ -3,7 +3,7 @@ const styles = {
     error: 'background: red; color white;font-size: 12pt',
     warning: "background: yellow; color: black; font-size: 11pt;display: block",
     info: 'background: white; color: black',
-    debug: 'background: gray; color: black'
+    debug: 'background: coral; color: black'
 }
 
 const useConsoleLog = () => {
@@ -11,8 +11,11 @@ const useConsoleLog = () => {
         console.log(`%c${message}`, style);
     }
 
-    var error = (message) => {
+    var error = (message, ex) => {
         console.groupCollapsed(`%c${message}`, styles.error);
+        if(ex){
+            console.log(ex)
+        }
         console.trace();
         console.groupEnd();
     }
@@ -27,8 +30,15 @@ const useConsoleLog = () => {
         _log(message, styles.info);
     }
 
-    var debug = (message) => {  
-        _log(message, styles.debug);
+    var debug = (message, data) => {  
+        if(data){
+            console.groupCollapsed(`%c${message}`, styles.debug);
+            console.log(data);
+            console.groupEnd();
+        }
+        else{
+            _log(message, styles.debug);
+        }
     }
 
     return {

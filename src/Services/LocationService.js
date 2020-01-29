@@ -1,11 +1,13 @@
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
 import useNotificationService from '../Services/NotificationService'
 import useDbPersistenceService from './DbPersistentLocationService'
+import useLoggerService from './Diagnostics/LoggerService'
 
 const useLocationService = () => {
     const [{}, dispatchLocations] = useLocationsState();
     const notificationService = useNotificationService();
     const dbPersistentLocationService = useDbPersistenceService();
+    const logger = useLoggerService();
 
     var setLoading = () => {
         dispatchLocations({
@@ -22,16 +24,18 @@ const useLocationService = () => {
     var add = async (location) => {
         setLoading();
         try{
-            await dbPersistentLocationService.add(location)
+            var locationData = await dbPersistentLocationService.add(location)
             dispatchLocations({
                 type: LocationsStateActions.addLocation, 
-                data: location});
+                data: locationData});
             
-            notificationService.success(`New location added: ${location.name}`);
+            notificationService.success(`New location added: ${locationData.name}`);
+            logger.info(`[LocationService] Successfully added location -> Id: ${locationData.id} Name: ${locationData.name}`)
         }
         catch(e)
         {
             notificationService.error(`Error while adding location: ${location.name}`);
+            logger.error(`Error while adding new location: Name: ${location.name}`, e);
         }
         finally{
             clearLoading();
@@ -48,10 +52,12 @@ const useLocationService = () => {
                 data: location})
     
             notificationService.success(`Location modified: ${location.name}`);
+            logger.info(`[LocationService] Successfully edited location -> Id: ${location.id} Name: ${location.name}`)
         }
         catch(e)
         {
             notificationService.error(`Error while editing location: ${location.name}`);
+            logger.error(`Error while editing location: Id: ${location.id} Name: ${location.name}`, e);
         }
         finally{
             clearLoading();
@@ -67,10 +73,12 @@ const useLocationService = () => {
                 data: location})
                 
             notificationService.success(`Location removed: ${location.name}`);
+            logger.info(`[LocationService] Successfully removed location -> Id: ${location.id} Name: ${location.name}`)
         }
         catch(e)
         {
             notificationService.error(`Error while removing location: ${location.name}`);
+            logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`, e);
         }
         finally{
             clearLoading();

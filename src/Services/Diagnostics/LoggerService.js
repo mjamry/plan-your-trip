@@ -7,11 +7,11 @@ const useLoggerService = () => {
         return `[${new Date().toISOString()}] [${level}] ${message}`;
     }
 
-    var error = (message) => {
+    var error = (message, exception) => {
         var logEntry = _generateLogMessageWithTimeStamp('ERR', message);
 
         loggers.forEach((logger)=>{
-            logger.error(logEntry);
+            logger.error(logEntry, exception);
         })
     }
 
@@ -31,11 +31,11 @@ const useLoggerService = () => {
         })
     }
 
-    var debug = (message) => {  
+    var debug = (message, data) => {  
         var logEntry = _generateLogMessageWithTimeStamp('DBG', message);
 
         loggers.forEach((logger)=>{
-            logger.debug(logEntry);
+            logger.debug(logEntry, data);
         })
     }
 

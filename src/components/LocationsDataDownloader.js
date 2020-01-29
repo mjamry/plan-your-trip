@@ -16,6 +16,7 @@ const LocationsDataDownloader = () => {
                     response.json()
                         .then(data => {
                             if (data) {
+                                logger.info(`Successfully loaded ${data.length} locations`)
                                 storeLocation(data);
                             }
 

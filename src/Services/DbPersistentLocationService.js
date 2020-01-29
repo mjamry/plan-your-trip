@@ -11,7 +11,7 @@ const useDbPresistentLocationService = () => {
     const logger = useLoggerService();
 
     var add = async (location) => {
-        await dispatchDbAction(DbActions.add, location);
+        return await dispatchDbAction(DbActions.add, location);
     }
 
     var remove = async (location) => {
@@ -48,11 +48,12 @@ const dispatchDbAction = async (dbAction, data) => {
     });
 
     if(rawResponse.status !== 200 && rawResponse.status !== 201){
-        logger.error(`[DbPresistentLocationService] Message: ${rawResponse.statusText} Code: ${rawResponse.status}`);
+        logger.error(`[DbPresistentLocationService] Error - Action: ${dbAction}`, rawResponse);
         throw new Error(rawResponse);
     }
     
     const content = await rawResponse.json();
+    logger.debug(`[DbPresistentLocationService] Success -> Action: ${dbAction}`, content)
     return content;
 }
 
