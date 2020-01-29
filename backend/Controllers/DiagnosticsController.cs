@@ -42,7 +42,6 @@ namespace trip_planner.Controllers
         [Route("logs/{userId}/{start}/{end}")]
         public IEnumerable<Log> GetLogs(int userId, DateTime start, DateTime end)
         {
-            Console.WriteLine($"start: {start} end: {end}");
             return _repo.GetLogs(userId, start, end);
         }
 
