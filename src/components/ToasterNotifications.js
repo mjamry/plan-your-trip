@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import useLoggerService from '../Services/Diagnostics/LoggerService'
+
 
 import {useNotificationState, NotificationTypes, NotificationsActions} from './../State/NotificationState'
 
 const CreateToasterNotification = (notification, onClose) => {
+    var logger = useLoggerService();
     switch(notification.type){
         case NotificationTypes.info:
         case NotificationTypes.success:
@@ -11,7 +14,7 @@ const CreateToasterNotification = (notification, onClose) => {
         case NotificationTypes.error:
             return <ToasterNotificationError message={notification.content} timeout={notification.timeout} onClose={onClose}/>
         default: 
-            console.info(`[ToasterNotification] Incorrect notification type: "${notification.type}".`);
+            logger.debug(`[ToasterNotification] Incorrect notification type: "${notification.type}".`);
     }
     
 }

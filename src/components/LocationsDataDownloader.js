@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
+import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const LocationsDataDownloader = () => {
     const [{}, dispatchLocations] = useLocationsState();
+    var logger = useLoggerService();
 
     useEffect(() => {
         fetch("http://localhost:5000/Locations")
             .then(response => {
                 if (response.status !== 200) {
-                    console.error("Download error!")
+                    logger.error(`[LocationsDataDownloader] Cannot fetch locations. Error: ${response.statusText}. Code: ${response.status}`)
                 }
                 else {
                     response.json()

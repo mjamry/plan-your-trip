@@ -1,6 +1,6 @@
 import React, { useReducer, useContext, createContext } from 'react';
 import store from 'store'
-import { LocationFormStateActions } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
+import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const EmptyState = {
     locations: [],
@@ -41,6 +41,7 @@ var _restoreLocations = () => {
 
 var _defaultReducer = (state, action) => {
     var newState = {};
+    var logger = useLoggerService();
 
     switch (action.type) {
         case LocationsStateActions.addLocation:
@@ -69,7 +70,7 @@ var _defaultReducer = (state, action) => {
             break;
         default:
             newState = state;
-            console.error(`[LocationsStatus] Action: "${action.type}" was not defined.`);
+            logger.debug(`[LocationsStatus] Action: "${action.type}" was not defined.`);
     }
 
     //_storeLocations(newState);

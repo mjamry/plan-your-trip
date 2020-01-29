@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react'
+import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 export const ModalTypes = {
     addLocation: 'addLocation',
@@ -22,6 +23,7 @@ const ModalState = {
 }
 
 var _reducer = (state, action) => {
+    var logger = useLoggerService();
     switch(action.type){
         case ModalStateAction.show:
             return {...state, data: action.data, type: action.modalType, isVisible: true};
@@ -30,7 +32,7 @@ var _reducer = (state, action) => {
         case ModalStateAction.update:
             return {...state, data: action.data};
         default: 
-            console.error(`[ModalStatus] Action: "${action.type}" was not defined.`);
+            logger.debug(`[ModalStatus] Action: "${action.type}" was not defined.`);
             return state;
     }
 }

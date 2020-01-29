@@ -1,3 +1,5 @@
+import useLoggerService from './Diagnostics/LoggerService'
+
 const DbActions = {
     add: 'create',
     delete: 'delete',
@@ -6,6 +8,8 @@ const DbActions = {
 }
 
 const useDbPresistentLocationService = () => {
+    const logger = useLoggerService();
+
     var add = async (location) => {
         await dispatchDbAction(DbActions.add, location);
     }
@@ -19,7 +23,7 @@ const useDbPresistentLocationService = () => {
     }
 
     var removeAll = async () => {
-        console.warning("Remove all is not implemented yet");
+        logger.warning("Remove all is not implemented yet");
     }
 
     return {
@@ -32,6 +36,7 @@ const useDbPresistentLocationService = () => {
 
 const dispatchDbAction = async (dbAction, data) => {
     let url = 'http://localhost:5000/locations/' + dbAction;
+    var logger = useLoggerService();
 
     const rawResponse = await fetch(url, {
         method: 'POST',
@@ -42,10 +47,8 @@ const dispatchDbAction = async (dbAction, data) => {
         body: JSON.stringify(data)
     });
 
-    console.log(rawResponse);
-
     if(rawResponse.status !== 200 && rawResponse.status !== 201){
-        console.error(rawResponse);
+        logger.error(`[DbPresistentLocationService] Message: ${rawResponse.statusText} Code: ${rawResponse.status}`);
         throw new Error(rawResponse);
     }
     

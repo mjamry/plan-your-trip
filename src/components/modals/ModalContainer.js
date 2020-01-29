@@ -8,12 +8,14 @@ import AddNewLocationSelect from './AddNewLocationSelect'
 import Confirmation from './Confirmation'
 import LoadingIndicator from './LoadingIndicator'
 import useLocationService from '../../Services/LocationService'
+import useLoggerService from '../../Services/Diagnostics/LoggerService'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
     const locationService = useLocationService();
+    var logger = useLoggerService();
 
     var create = (modalType) => {
         var locationFormBuilder = useLocationFormBuilder();
@@ -79,7 +81,7 @@ var useModalContentFactory = () => {
                 }
 
         default: 
-            console.log(`[ModalFactory] Incorrect modal type: "${modalType}"`);
+            logger.debug(`[ModalFactory] Incorrect modal type: "${modalType}"`);
             return _emptyModalContent;
     }}
     

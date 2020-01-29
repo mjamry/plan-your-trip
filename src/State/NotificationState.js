@@ -1,5 +1,7 @@
 import React, {createContext, useContext, useReducer} from 'react'
 import {Notification, DefaultNotificationTimeout} from '../Services/Notification'
+import useLoggerServise from '../Services/Diagnostics/LoggerService'
+import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const NotificationTypes = {
     error: 'error',
@@ -29,6 +31,7 @@ const NotificationStateProvider = ({children}) => {
 var useNotificationState = () => useContext(NotificationStateContext);
 
 const _reducer = (state, action) => {
+    var logger = useLoggerService();
     switch(action.type){
         case NotificationsActions.show:
             state = {...state, notifications: [...state.notifications, new Notification(action.notificationType, action.data, DefaultNotificationTimeout)]}
@@ -38,7 +41,7 @@ const _reducer = (state, action) => {
             state = {...state, notifications: updatedNotifications}
             break;
         default:
-            console.info(`[NotificationsState] Action: "${action.type}" not correct.`);
+            logger.debug(`[NotificationsState] Action: "${action.type}" not correct.`);
     }
 
     return state;
