@@ -46,6 +46,7 @@ namespace trip_planner
             string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
             services.AddDbContext<DiagnosticsContext> (options => options.UseMySql(diagnosticsConnectionString));
             services.AddScoped<ILocationsRepository, LocationsRepository>();
+            services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

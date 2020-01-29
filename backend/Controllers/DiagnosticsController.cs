@@ -18,13 +18,15 @@ namespace trip_planner.Controllers
         }
 
         [HttpGet]
+        [Route("logs")]
         public IEnumerable<Log> GetLogs()
         {
             return _repo.GetLogs("level");
         }
 
         [HttpPut]
-        public Log Create(Log log)
+        [Route("logs/create")]
+        public Log Create([FromBody] Log log)
         {
             return _repo.CreateLog(log);
         }
