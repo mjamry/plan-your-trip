@@ -26,8 +26,8 @@ var useModalContentFactory = () => {
                     {
                         title: "Add location",
                         location: modalModel.data,
-                        onSubmit: ()=>{
-                            locationService.add(modalModel.data)
+                        onSubmit: (data)=>{
+                            locationService.add(data)
                             dispatchModal({
                                 type: ModalStateAction.hide})}
                     }
