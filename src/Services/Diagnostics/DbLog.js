@@ -39,7 +39,4 @@ const storelog = async (log) => {
         },
         body: JSON.stringify(log)
     });
-
-    console.log(rawResponse)
-    console.log(log)
 }
