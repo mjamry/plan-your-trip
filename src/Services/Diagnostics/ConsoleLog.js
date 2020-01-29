@@ -7,37 +7,37 @@ const styles = {
 }
 
 const useConsoleLog = () => {
-    var _log = (message, style) => {
-        console.log(`%c${message}`, style);
+    var _logContent = (logEntry) => {
+        return `%c[${logEntry.timestamp}][${logEntry.level}] ${logEntry.message}`
     }
 
-    var error = (message, ex) => {
-        console.groupCollapsed(`%c${message}`, styles.error);
-        if(ex){
-            console.log(ex)
+    var error = (logEntry) => {
+        console.groupCollapsed(_logContent(logEntry), styles.error);
+        if(logEntry.data){
+            console.log(logEntry.data)
         }
         console.trace();
         console.groupEnd();
     }
 
-    var warning = (message) => {
-        console.groupCollapsed(`%c${message}`, styles.warning);
+    var warning = (logEntry) => {
+        console.groupCollapsed(_logContent(logEntry), styles.warning);
         console.trace();
         console.groupEnd();
     }
 
-    var info = (message) => {
-        _log(message, styles.info);
+    var info = (logEntry) => {
+        console.log(_logContent(logEntry), styles.info);
     }
 
-    var debug = (message, data) => {  
-        if(data){
-            console.groupCollapsed(`%c${message}`, styles.debug);
-            console.log(data);
+    var debug = (logEntry) => {  
+        if(logEntry.data){
+            console.groupCollapsed(_logContent(logEntry), styles.debug);
+            console.log(logEntry.data);
             console.groupEnd();
         }
         else{
-            _log(message, styles.debug);
+            console.log(_logContent(logEntry), styles.debug);
         }
     }
 
