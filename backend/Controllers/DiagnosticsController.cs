@@ -24,7 +24,7 @@ namespace trip_planner.Controllers
             return _repo.GetLogs("level");
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("logs/create")]
         public Log Create([FromBody] Log log)
         {
