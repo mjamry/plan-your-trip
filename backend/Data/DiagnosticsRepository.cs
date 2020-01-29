@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using trip_planner.Data.Contexts;
@@ -7,8 +8,8 @@ namespace trip_planner.Data
 {
     public interface IDiagnosticsRepository
     {
-        IEnumerable<Log> GetLogs(string level);
-        IEnumerable<Log> GetLogs(DateTime startTime, DateTime endTime);
+        IEnumerable<Log> GetLogs(int userId, string level);
+        IEnumerable<Log> GetLogs(int userId, DateTime startTime, DateTime endTime);
         IEnumerable<Log> GetLogs(int userId);
         Log CreateLog(Log log);
     }
@@ -19,8 +20,8 @@ namespace trip_planner.Data
         public DiagnosticsRepository(DiagnosticsContext context)
         {
             _context = context;
-
         }
+
         public Log CreateLog(Log log)
         {
             _context.Logs.Add(log);
@@ -28,19 +29,19 @@ namespace trip_planner.Data
             return log;
         }
 
-        public IEnumerable<Log> GetLogs(string level)
+        public IEnumerable<Log> GetLogs(int userId, string level)
         {
-            return _context.Logs;
+            return GetLogs(userId).Where(l => l.Level == level);
         }
 
-        public IEnumerable<Log> GetLogs(DateTime startTime, DateTime endTime)
+        public IEnumerable<Log> GetLogs(int userId, DateTime startTime, DateTime endTime)
         {
-            return _context.Logs;
+            return _context.Logs.Where(l => l.TimeStamp >= startTime && l.TimeStamp <= endTime);
         }
 
         public IEnumerable<Log> GetLogs(int userId)
         {
-            return _context.Logs;
+            return _context.Logs.Where(l => l.UserId == userId);
         }
     }
 }

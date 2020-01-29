@@ -21,7 +21,29 @@ namespace trip_planner.Controllers
         [Route("logs")]
         public IEnumerable<Log> GetLogs()
         {
-            return _repo.GetLogs("level");
+            return _repo.GetLogs(0);
+        }
+
+        [HttpGet]
+        [Route("logs/{userId}")]
+        public IEnumerable<Log> GetLogs(int userId)
+        {
+            return _repo.GetLogs(userId);
+        }
+
+        [HttpGet]
+        [Route("logs/{userId}/{level}")]
+        public IEnumerable<Log> GetLogs(int userId, string level)
+        {
+            return _repo.GetLogs(userId, level);
+        }
+
+        [HttpGet]
+        [Route("logs/{userId}/{start}/{end}")]
+        public IEnumerable<Log> GetLogs(int userId, DateTime start, DateTime end)
+        {
+            Console.WriteLine($"start: {start} end: {end}");
+            return _repo.GetLogs(userId, start, end);
         }
 
         [HttpPost]
