@@ -24,7 +24,8 @@ namespace trip_planner.Data
 
         public IEnumerable<Location> GetLocations(int listId)
         {
-            return _context.ListLocations.Where(l => l.ListId == listId).Include(l => l.Location).Select(l => l.Location);
+            var ids = _context.ListLocations.Where(l => l.ListId == listId).Include(l => l.Location).Select(l => l.LocationId);
+            return _context.Locations.Where(l => ids.Contains(l.Id)).Include(l => l.Coordinates);
         }
 
         public Location GetLocation(int id)
