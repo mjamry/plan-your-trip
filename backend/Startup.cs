@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 
 using trip_planner.Data;
 using trip_planner.Data.Contexts;
+using trip_planner.Data.Models;
 
 namespace trip_planner
 {
@@ -45,8 +46,11 @@ namespace trip_planner
             services.AddDbContext<TripPlannerContext> (options => options.UseMySql (dataConnectionString));
             string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
             services.AddDbContext<DiagnosticsContext> (options => options.UseMySql(diagnosticsConnectionString));
+            
+            //register types
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
+            services.AddScoped<IListsRepository, ListsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

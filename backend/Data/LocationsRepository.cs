@@ -7,9 +7,9 @@ namespace trip_planner.Data
 {
     public interface ILocationsRepository
     {
-        IEnumerable<Location> GetLocations();
+        IEnumerable<Location> GetLocations(int listId);
         Location GetLocation(int id);
-        Location CreateLocation(Location location);
+        Location CreateLocation(Location location, int listId);
         Location UpdateLocation(Location location);
         Location DeleteLocation(Location location);
     }
@@ -22,9 +22,9 @@ namespace trip_planner.Data
             _context = context;
         }
 
-        public IEnumerable<Location> GetLocations()
+        public IEnumerable<Location> GetLocations(int listId)
         {
-            return _context.Locations.Include(l => l.Coordinates);
+            return _context.ListLocations.Where(l => l.ListId == listId).Include(l => l.Location).Select(l => l.Location);
         }
 
         public Location GetLocation(int id)
@@ -32,11 +32,17 @@ namespace trip_planner.Data
             return _context.Locations.Where(l => l.Id == id).Include(l => l.Coordinates).FirstOrDefault();
         }
 
-        public Location CreateLocation(Location location)
+        public Location CreateLocation(Location location, int listId)
         {
             _context.Coordinates.Add(location.Coordinates);
 
             _context.Locations.Add(location);
+            var list = _context.Lists.Where(l => l.Id == listId).FirstOrDefault();
+
+            _context.ListLocations.Add(new ListLocations(){
+                List = list,
+                Location = location
+            });
 
             _context.SaveChanges();
             return location;

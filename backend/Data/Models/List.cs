@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace trip_planner.Data.Models
 {
@@ -27,6 +28,7 @@ namespace trip_planner.Data.Models
         public bool Private { get; set; }
 
         public IEnumerable<ListLocations> Locations { get; set; }
+        [JsonIgnore]
         public IEnumerable<UserLists> Users { get; set; }
     }
 

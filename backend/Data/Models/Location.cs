@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace trip_planner.Data.Models
 {
@@ -32,6 +33,7 @@ namespace trip_planner.Data.Models
         public int CoordinatesId { get; set; }
         public string Image { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<ListLocations> Lists { get; set; }
     }
 }
