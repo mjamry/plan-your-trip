@@ -1,0 +1,16 @@
+.list-view-container 
+{
+    position: absolute;
+    left: 0;
+     bottom: 10px;
+       width: 200px;
+        border: solid 1px black
+}
+
+.list-view-item {
+    background: red;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    margin-top:5px;
+}

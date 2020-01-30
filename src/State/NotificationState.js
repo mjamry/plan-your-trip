@@ -1,6 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react'
 import {Notification, DefaultNotificationTimeout} from '../Services/Notification'
-import useLoggerServise from '../Services/Diagnostics/LoggerService'
 import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const NotificationTypes = {

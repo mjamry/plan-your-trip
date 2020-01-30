@@ -15,8 +15,9 @@ import './Styles/Search.css'
 import './Styles/Confirmation.css'
 import './Styles/LoadingIndicator.css'
 import './Styles/ToasterNotifications.css'
-
 import './Styles/LocationActionLoadingIndicator.css'
+
+import './Styles/ListView.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
@@ -28,6 +29,8 @@ import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
+import ListView from './components/ListView'
+import LocationsListsState from './State/LocationsListsState'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -42,9 +45,11 @@ var App = () => {
       <NotificationStateProvider>
         <ToasterNotifications/>
         <LocationsStateProvider>
+        <LocationsListsState>
           <LocationActionLoadingIndicator/>
           <LocationsDataDownloader />
           <ModalStateProvider>
+            <ListView></ListView>
             <ModalContainer />
             <Header />
             <div className="app-content-container">
@@ -56,6 +61,7 @@ var App = () => {
               </div>
             </div>
           </ModalStateProvider>
+        </LocationsListsState>
         </LocationsStateProvider>
       </NotificationStateProvider>
     </div>

@@ -2,12 +2,14 @@ import { useLocationsState, LocationsStateActions } from '../State/LocationsStat
 import useNotificationService from '../Services/NotificationService'
 import useDbPersistenceService from './DbPersistentLocationService'
 import useLoggerService from './Diagnostics/LoggerService'
+import { useLocationsListsState } from '../State/LocationsListsState'
 
 const useLocationService = () => {
-    const [{}, dispatchLocations] = useLocationsState();
+    const [{selectLocationsList}, dispatchLocations] = useLocationsState();
     const notificationService = useNotificationService();
     const dbPersistentLocationService = useDbPersistenceService();
     const logger = useLoggerService();
+    const [{selectedListId}, dispatchLists] = useLocationsListsState();
 
     var setLoading = () => {
         dispatchLocations({
@@ -24,13 +26,13 @@ const useLocationService = () => {
     var add = async (location) => {
         setLoading();
         try{
-            var locationData = await dbPersistentLocationService.add(location)
+            var locationData = await dbPersistentLocationService.add(location, selectedListId)
             dispatchLocations({
                 type: LocationsStateActions.addLocation, 
                 data: locationData});
             
             notificationService.success(`New location added: ${locationData.name}`);
-            logger.info(`[LocationService] Successfully added location -> Id: ${locationData.id} Name: ${locationData.name}`)
+            logger.info(`[LocationService] Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to list -> Id: ${selectedListId}`)
         }
         catch(e)
         {

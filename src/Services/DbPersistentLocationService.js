@@ -10,8 +10,9 @@ const DbActions = {
 const useDbPresistentLocationService = () => {
     const logger = useLoggerService();
 
-    var add = async (location) => {
-        return await dispatchDbAction(DbActions.add, location);
+    var add = async (location, listId) => {
+        var action = `${DbActions.add}/list/${listId}`
+        return await dispatchDbAction(action, location);
     }
 
     var remove = async (location) => {
