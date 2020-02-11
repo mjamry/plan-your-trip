@@ -29,8 +29,9 @@ import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
-import ListView from './components/ListView'
+import ListView from './components/Lists/ListView'
 import LocationsListsState from './State/LocationsListsState'
+import ListViewMenu from './components/Lists/ListViewMenu'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -49,11 +50,12 @@ var App = () => {
           <LocationActionLoadingIndicator/>
           <LocationsDataDownloader />
           <ModalStateProvider>
-            <ListView></ListView>
             <ModalContainer />
             <Header />
             <div className="app-content-container">
               <div className="app-locations-view">
+                <ListView />
+                <ListViewMenu />
                 <LocationsView />
               </div>
               <div className="app-map-view">

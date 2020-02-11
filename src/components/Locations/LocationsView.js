@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LocationsViewMenu from './LocationsViewMenu';
 import LocationGridItem from './LocationGridItem';
 import LocationListItem from './LocationListItem';
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 
+import { useLocationsListsState, LocationListViewType } from '../../State/LocationsListsState'
+
 var LocationsView = () => {
   const [{locations}, dispatchlocations] = useLocationsState();
   const [{}, dispatchModal] = useModalState();
+  const [{view}, dispatchList] = useLocationsListsState();
 
   var renderList = () => {
     var output = locations.map((location) => (
@@ -34,17 +37,10 @@ var LocationsView = () => {
 
     return <div className="locations-view-grid-container">{output}</div>
   }
-  
-  const [locationsView, setLocationsView] = useState('grid');
 
   return (
     <div className="locations-view-container">
-      <div className="locations-view-menu">
-        <LocationsViewMenu 
-          onListSelected={()=>setLocationsView('list')} 
-          onGridSelected={()=>setLocationsView('grid')} />      
-      </div>
-      {locationsView === 'grid' ? renderGrid() : renderList()}
+      {view === LocationListViewType.grid ? renderGrid() : renderList()}
     </div>
   )
 }

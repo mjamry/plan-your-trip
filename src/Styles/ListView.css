@@ -1,16 +1,66 @@
-.list-view-container 
+.list-view-container, .list-view-menu-container
 {
-    position: absolute;
-    left: 0;
-     bottom: 10px;
-       width: 200px;
-        border: solid 1px black
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-.list-view-item {
-    background: red;
-    color: white;
+.list-view-details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+}
+
+.list-view-description{
+    font-size: 10pt;
+    color: lightgray;
+}
+
+.list-view-details-item{
+    display:flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.list-view-details-name{
+    font-size: 10pt;
+    color: lightgray;
+}
+
+.list-view-details-data{
+
+}
+
+.list-view-menu-section{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+    background-color: lightseagreen;
+    border-radius: 5px;
+    height: 48px;
+    margin-right: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.list-view-menu-item{
+    height: 32px;
+    width: 32px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
     cursor: pointer;
-    padding: 10px;
-    margin-top:5px;
+}
+
+.list-view-details{
+    background-color: lightcoral;
+    height: 60px;
+    width:100%;
+    margin: 10px;
 }

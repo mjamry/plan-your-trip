@@ -11,12 +11,7 @@ var LocationsViewMenu = (props) => {
   return (
     <div className="locations-view-menu-container">
         <ul className="locations-view-menu">
-          <li className="locations-view-menu-item" onClick={props.onListSelected}>
-            <FontAwesomeIcon icon='th-list' className='fa-2x' title='show as list'/>
-          </li>
-          <li className="locations-view-menu-item" onClick={props.onGridSelected}>
-            <FontAwesomeIcon icon='th-large' className='fa-2x' title='show as grid'/>
-          </li>
+        
           <li className="locations-view-menu-item">
             <FontAwesomeIcon 
               icon="trash-alt" 

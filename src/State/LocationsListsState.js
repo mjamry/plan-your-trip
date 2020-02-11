@@ -1,14 +1,21 @@
 import React, {createContext, useContext, useReducer} from 'react'
+import { LocationFormStateActions } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
 
+const LocationListViewType = {
+    grid: 'grid',
+    list: 'list'
+}
 
 const LocationsListsStateActions = {
     selectList: 'selectList',
-    loadLists: 'loadLists'
+    loadLists: 'loadLists',
+    setView: 'setView'
 }
 
 const LocationsListsState = {
     lists: [],
-    selectedListId: 2
+    selectedListId: 2,
+    view: LocationListViewType.grid
 }
 
 const LocationsListStateContext = createContext();
@@ -31,6 +38,9 @@ const _reducer = (state, action) => {
         case LocationsListsStateActions.loadLists:
             var newState = {...state, lists: action.data}
             break;
+        case LocationsListsStateActions.setView:
+            var newState = {...state, view: action.data}
+            break;
         default: 
             var newState = state;
             break;
@@ -40,4 +50,4 @@ const _reducer = (state, action) => {
 }
 
 export default LocationsListsStateProvider;
-export {LocationsListStateContext, LocationsListsStateProvider, LocationsListsStateActions, useLocationsListsState}
+export {LocationsListStateContext, LocationsListsStateProvider, LocationsListsStateActions, useLocationsListsState, LocationListViewType}
