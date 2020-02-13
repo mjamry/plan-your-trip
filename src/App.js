@@ -34,11 +34,12 @@ import LocationsListsState from './State/LocationsListsState'
 import ListViewMenu from './components/Lists/ListViewMenu'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 import { LocationsStateProvider } from './State/LocationsState';
 
-library.add(fas, faWikipediaW)
+library.add(far, fas, faWikipediaW)
 
 var App = () => {
   return (

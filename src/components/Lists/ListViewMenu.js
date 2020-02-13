@@ -6,10 +6,12 @@ import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalSt
 import { useLocationsListsState, LocationsListsStateActions, LocationListViewType } from '../../State/LocationsListsState'
 
 const ListViewMenuItem = ({icon, action, title}) => {
+    console.log(icon)
     return (
         <div className="list-view-menu-item" title={title} onClick={()=>{action()}}>
             <FontAwesomeIcon 
-                icon={icon}  />
+                icon={icon}  
+                className="list-view-menu-item-icon"/>
         </div>)
 }
 
@@ -20,14 +22,17 @@ const ListViewMenu = () => {
 
     return (<div className="list-view-menu-container">
         <div className="list-view-menu-section">
-            <ListViewMenuItem icon="file-download" title="download locations" action={()=>GpxFileDownloader.download(locations)} />
-            <ListViewMenuItem icon="search-plus" title="add new location" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})} />
-            <ListViewMenuItem icon="edit" title="edit list" action={()=>{alert("TODO")}} />
-            <ListViewMenuItem icon="trash-alt" title="remove list" action={()=>dispatchLocations({type: LocationsStateActions.removeAllLocations})} />
+            sort filter
         </div>
         <div className="list-view-menu-section">
-            <ListViewMenuItem icon='th-list' title="show as list" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.list})} />
-            <ListViewMenuItem icon='th-large' title="show as grid" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.grid})} />
+            <ListViewMenuItem icon={['far', 'file-alt']} title="download locations" action={()=>GpxFileDownloader.download(locations)} />
+            <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})} />
+            <ListViewMenuItem icon={['far', 'edit']} title="edit list" action={()=>{alert("TODO")}} />
+            <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>dispatchLocations({type: LocationsStateActions.removeAllLocations})} />
+        </div>
+        <div className="list-view-menu-section">
+            <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.list})} />
+            <ListViewMenuItem icon={['fas', 'border-all']} title="show as grid" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.grid})} />
         </div>
     </div>)
 }

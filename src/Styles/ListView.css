@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.list-view-menu-container{
+    margin-right: 10px;
+}
+
 .list-view-details{
     display: flex;
     flex-direction: row;
@@ -40,7 +44,7 @@
     justify-content: flex-end;
     flex-direction: row;
     align-items: center;
-    background-color: lightseagreen;
+    background-color: #ffffff;
     border-radius: 5px;
     height: 48px;
     margin-right: 10px;
@@ -52,14 +56,22 @@
     height: 32px;
     width: 32px;
     padding: 3px;
-    background-color: white;
+    background-color: #E8EDED;
     border-radius: 5px;
     margin: 5px;
     cursor: pointer;
 }
 
+.list-view-menu-item:hover {
+    background-color: #D4DADC;
+}
+
+.list-view-menu-item-icon{
+    color: darkslategray;
+}
+
 .list-view-details{
-    background-color: lightcoral;
+    background-color: #ffffff;
     height: 60px;
     width:100%;
     margin: 10px;

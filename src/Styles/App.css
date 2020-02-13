@@ -1,4 +1,7 @@
 /*---------------------app-content----*/
+body{
+  background-color: #E8EDED;
+}
 .app-content-container{
   display: flex;
   overflow: hidden;
