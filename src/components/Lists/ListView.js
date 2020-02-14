@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
 import { useLocationsListsState, LocationsListsStateActions } from '../../State/LocationsListsState'
+import DropDown from './ListViewDropDown'
 
 const ListView = () => {
     const [listState, dispatchList] = useLocationsListsState();
-    const [lists, setLists] = useState();
+    const [lists, setLists] = useState([]);
     const logger = useLoggerService();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/lists`)
+        fetch(`http://localhost:50000/lists`)
             .then(response => {
                 if (response.status !== 200) {
                     logger.error(`[ListView] Cannot fetch lists. Error: ${response.statusText}. Code: ${response.status}`)
@@ -28,6 +29,7 @@ const ListView = () => {
 
     var storeLocation = (data) => {
         setLists(data);
+        dispatchList({type: LocationsListsStateActions.loadLists, data: data});
     }
 
     var selectList = (listId) => {
@@ -35,25 +37,17 @@ const ListView = () => {
         dispatchList({type: LocationsListsStateActions.selectList, data: listId});
     }
 
-    var renderLists = () => {
-        if (lists)
-            return lists.map((list) => (
-                <option className="list-view-item" onClick={()=>selectList(list.id)}>{list.name}</option>
-            ))
-
-        return ''
-    }
-
     return (
     <div className="list-view-container">
         <div className="list-view-details">
             <div className="list-view-details-item">
             <div className="list-view-dropdown">
-                <select>
-                    {renderLists()}
-                </select>
+                <DropDown 
+                    selected={listState.lists.filter(l => l.id == listState.selectedListId)[0]} 
+                    options={listState.lists} 
+                    onSelect={(id)=>{dispatchList({type: LocationsListsStateActions.selectList, data: id})}}/>
+                <div className="list-view-description">this is a list description</div>
             </div>
-            <div className="list-view-description">this is a list description</div>
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">created on:</div>

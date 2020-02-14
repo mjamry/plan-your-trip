@@ -11,7 +11,7 @@ const LocationsDataDownloader = () => {
     var logger = useLoggerService();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/Locations/list/${selectedListId}`)
+        fetch(`http://localhost:50000/Locations/list/${selectedListId}`)
             .then(response => {
                 if (response.status !== 200) {
                     logger.error(`[LocationsDataDownloader] Cannot fetch locations. Error: ${response.statusText}. Code: ${response.status}`)
