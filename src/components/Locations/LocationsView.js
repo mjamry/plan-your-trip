@@ -5,12 +5,12 @@ import LocationListItem from './LocationListItem';
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 
-import { useLocationsListsState, LocationListViewType } from '../../State/LocationsListsState'
+import {useListsState, ListViewType } from '../../State/LocationsListsState'
 
 var LocationsView = () => {
   const [{locations}, dispatchlocations] = useLocationsState();
   const [{}, dispatchModal] = useModalState();
-  const [{view}, dispatchList] = useLocationsListsState();
+  const [{view}, dispatchList] = useListsState();
 
   var renderList = () => {
     var output = locations.map((location) => (
@@ -40,7 +40,7 @@ var LocationsView = () => {
 
   return (
     <div className="locations-view-container">
-      {view === LocationListViewType.grid ? renderGrid() : renderList()}
+      {view === ListViewType.grid ? renderGrid() : renderList()}
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
-import { useLocationsListsState, LocationsListsStateActions } from '../../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../../State/LocationsListsState'
 import DropDown from './ListViewDropDown'
 import {ListViewMenuItem} from './ListViewMenu'
 
 const ListView = () => {
-    const [listState, dispatchList] = useLocationsListsState();
+    const [listState, dispatchList] = useListsState();
     const [lists, setLists] = useState([]);
     const logger = useLoggerService();
 
@@ -30,12 +30,12 @@ const ListView = () => {
 
     var storeLocation = (data) => {
         setLists(data);
-        dispatchList({type: LocationsListsStateActions.loadLists, data: data});
+        dispatchList({type: ListsStateActions.loadLists, data: data});
     }
 
     var selectList = (listId) => {
         logger.debug(`Selected list -> Id: ${listId}`)
-        dispatchList({type: LocationsListsStateActions.selectList, data: listId});
+        dispatchList({type: ListsStateActions.selectList, data: listId});
     }
 
     return (
@@ -45,7 +45,7 @@ const ListView = () => {
                     <DropDown 
                         selected={listState.lists.filter(l => l.id == listState.selectedListId)[0]} 
                         options={listState.lists} 
-                        onSelect={(id)=>{dispatchList({type: LocationsListsStateActions.selectList, data: id})}}/>
+                        onSelect={(id)=>{dispatchList({type: ListsStateActions.selectList, data: id})}}/>
                     <div className="list-view-description">this is a list description</div>
                 </div>
               

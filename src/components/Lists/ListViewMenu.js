@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GpxFileDownloader from '../../Common/GpxFileDownloader'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
-import { useLocationsListsState, LocationsListsStateActions, LocationListViewType } from '../../State/LocationsListsState'
+import { useListsState, ListsStateActions, ListViewType } from '../../State/LocationsListsState'
 
 export const ListViewMenuItem = ({icon, action, title}) => {
     return (
@@ -15,7 +15,7 @@ export const ListViewMenuItem = ({icon, action, title}) => {
 }
 
 const ListViewMenu = () => {
-    const [{}, dispatchList] = useLocationsListsState();
+    const [{}, dispatchList] = useListsState();
     const [{locations}, dispatchLocations] = useLocationsState();
     const [{}, dispatchModal] = useModalState();
 
@@ -30,8 +30,8 @@ const ListViewMenu = () => {
             <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>dispatchLocations({type: LocationsStateActions.removeAllLocations})} />
         </div>
         <div className="list-view-menu-section">
-            <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.list})} />
-            <ListViewMenuItem icon={['fas', 'border-all']} title="show as grid" action={()=>dispatchList({type: LocationsListsStateActions.setView, data: LocationListViewType.grid})} />
+            <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.list})} />
+            <ListViewMenuItem icon={['fas', 'border-all']} title="show as grid" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.grid})} />
         </div>
     </div>)
 }

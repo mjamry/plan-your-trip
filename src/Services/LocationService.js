@@ -2,14 +2,14 @@ import { useLocationsState, LocationsStateActions } from '../State/LocationsStat
 import useNotificationService from '../Services/NotificationService'
 import useDbPersistenceService from './DbPersistentLocationService'
 import useLoggerService from './Diagnostics/LoggerService'
-import { useLocationsListsState } from '../State/LocationsListsState'
+import { useListsState } from '../State/LocationsListsState'
 
 const useLocationService = () => {
     const [{selectLocationsList}, dispatchLocations] = useLocationsState();
     const notificationService = useNotificationService();
     const dbPersistentLocationService = useDbPersistenceService();
     const logger = useLoggerService();
-    const [{selectedListId}, dispatchLists] = useLocationsListsState();
+    const [{selectedListId}, dispatchLists] = useListsState();
 
     var setLoading = () => {
         dispatchLocations({

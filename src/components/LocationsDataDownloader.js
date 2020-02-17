@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
 
-import { useLocationsListsState, LocationsListsStateActions } from '../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../State/LocationsListsState'
 import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const LocationsDataDownloader = () => {
     const [{}, dispatchLocations] = useLocationsState();
-    const [{selectedListId}, dispatchLists] = useLocationsListsState();
+    const [{selectedListId}, dispatchLists] = useListsState();
 
     var logger = useLoggerService();
 

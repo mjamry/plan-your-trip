@@ -1,45 +1,65 @@
 import React, {createContext, useContext, useReducer} from 'react'
 import { LocationFormStateActions } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
 
-const LocationListViewType = {
+const ListViewType = {
     grid: 'grid',
     list: 'list'
 }
 
-const LocationsListsStateActions = {
+const ListsStateActions = {
     selectList: 'selectList',
     loadLists: 'loadLists',
-    setView: 'setView'
+    setView: 'setView',
+    addList: 'addList',
+    editList: 'editList',
+    removeList: 'removeList',
+    isLoading: 'isLoading'
 }
 
-const LocationsListsState = {
+const ListsState = {
     lists: [],
     selectedListId: 2,
-    view: LocationListViewType.grid
+    view: ListViewType.grid,
+    isLoading: false
 }
 
-const LocationsListStateContext = createContext();
+const ListStateContext = createContext();
 
-const LocationsListsStateProvider = ({children}) => {
+const ListsStateProvider = ({children}) => {
     return (
-        <LocationsListStateContext.Provider value={useReducer(_reducer, LocationsListsState)}>
+        <ListStateContext.Provider value={useReducer(_reducer, ListsState)}>
             {children}
-        </LocationsListStateContext.Provider>
+        </ListStateContext.Provider>
     )
 }
 
-var useLocationsListsState = () => useContext(LocationsListStateContext);
+var useListsState = () => useContext(ListStateContext);
 
 const _reducer = (state, action) => {
     switch(action.type){
-        case LocationsListsStateActions.selectList:
+        case ListsStateActions.selectList:
             var newState = {...state, selectedListId: action.data}
             break;
-        case LocationsListsStateActions.loadLists:
+        case ListsStateActions.loadLists:
             var newState = {...state, lists: action.data}
             break;
-        case LocationsListsStateActions.setView:
+        case ListsStateActions.removeList:
+            var updatedList = state.lists.filter(l => l.id !== action.data.id) || [];
+            newState = { ...state, lists: updatedList };
+            break;
+        case ListsStateActions.editList: 
+            var editedItemIndex = state.lists.findIndex(l => l.id === action.data.id);
+            state.lists[editedItemIndex] = action.data;
+            newState = { ...state, lists: [...state.lists] };
+            break;
+        case ListsStateActions.addList:
+            newState = { ...state, lists: [...state.lists, action.data] };
+            break;
+        case ListsStateActions.setView:
             var newState = {...state, view: action.data}
+            break;
+        case ListsStateActions.isLoading:
+            newState = { ...state, isLoading: action.data };
             break;
         default: 
             var newState = state;
@@ -49,5 +69,5 @@ const _reducer = (state, action) => {
     return newState;
 }
 
-export default LocationsListsStateProvider;
-export {LocationsListStateContext, LocationsListsStateProvider, LocationsListsStateActions, useLocationsListsState, LocationListViewType}
+export default ListsStateProvider;
+export {ListStateContext, ListsStateProvider, ListsStateActions, useListsState, ListViewType}
