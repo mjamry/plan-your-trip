@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: 1px solid darkslategray;
+    border: 1px solid #D4DADC;
     border-radius: 2px;
     padding-left: 5px;
     padding-right: 5px;
@@ -22,27 +22,31 @@
 }
 
 .drop-down-options-list{
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     list-style-type: none;
     position: absolute;
     
-    width: 190px;
-    margin-left: -40px;
+    width: 150px;
+    border-radius: 5px;
+    margin-left: 0;
+    padding-left: 0;
+    
+    background-color: #fff;
+    border: 1px solid #D4DADC;
 }
 
 .drop-down-option{
     text-align: left;
-    background-color: #E8EDED;
-    border-bottom: 1px solid darkslategray;
-    border-left: 1px solid darkslategray;
-    border-right: 1px solid darkslategray;
-    padding: 5px;
-    font-size: 8pt;
-    height: 25px;
+    padding: 10px;
+    font-size: 10pt;
+    height: 40px;
+    border-bottom: 1px solid #D4DADC;
 }
 
 .drop-down-option:hover{
     background-color: #D4DADC;
     cursor: pointer;
+    border-left: 10px solid #D4DADC;
 }
