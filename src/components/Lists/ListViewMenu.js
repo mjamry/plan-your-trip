@@ -5,7 +5,7 @@ import { useLocationsState, LocationsStateActions } from '../../State/LocationsS
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import { useLocationsListsState, LocationsListsStateActions, LocationListViewType } from '../../State/LocationsListsState'
 
-const ListViewMenuItem = ({icon, action, title}) => {
+export const ListViewMenuItem = ({icon, action, title}) => {
     return (
         <div className="list-view-menu-item" title={title} onClick={()=>{action()}}>
             <FontAwesomeIcon 

@@ -4,10 +4,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    
+    background-color: #ffffff;
+    height: 60px;
+    margin: 10px;
+    border-radius: 5px;
+    
 }
 
 .list-view-menu-container{
     margin-right: 10px;
+    
 }
 
 .list-view-details{
@@ -15,7 +22,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    border-radius: 5px;
 }
 
 .list-view-description{
@@ -33,10 +39,6 @@
 .list-view-details-name{
     font-size: 10pt;
     color: lightgray;
-}
-
-.list-view-details-data{
-
 }
 
 .list-view-menu-section{
@@ -70,9 +72,8 @@
     color: darkslategray;
 }
 
-.list-view-details{
-    background-color: #ffffff;
-    height: 60px;
-    width:100%;
-    margin: 10px;
+@media screen and (max-width: 750px) {
+    .list-view-details{
+        display: none;
+    }
 }

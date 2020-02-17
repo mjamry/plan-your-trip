@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
 import { useLocationsListsState, LocationsListsStateActions } from '../../State/LocationsListsState'
 import DropDown from './ListViewDropDown'
+import {ListViewMenuItem} from './ListViewMenu'
 
 const ListView = () => {
     const [listState, dispatchList] = useLocationsListsState();
@@ -39,16 +40,26 @@ const ListView = () => {
 
     return (
     <div className="list-view-container">
-        <div className="list-view-details">
             <div className="list-view-details-item">
-            <div className="list-view-dropdown">
-                <DropDown 
-                    selected={listState.lists.filter(l => l.id == listState.selectedListId)[0]} 
-                    options={listState.lists} 
-                    onSelect={(id)=>{dispatchList({type: LocationsListsStateActions.selectList, data: id})}}/>
-                <div className="list-view-description">this is a list description</div>
+                <div className="list-view-dropdown">
+                    <DropDown 
+                        selected={listState.lists.filter(l => l.id == listState.selectedListId)[0]} 
+                        options={listState.lists} 
+                        onSelect={(id)=>{dispatchList({type: LocationsListsStateActions.selectList, data: id})}}/>
+                    <div className="list-view-description">this is a list description</div>
+                </div>
+              
             </div>
-            </div>
+
+            <div className="list-view-details-item">
+            <div className="list-view-menu-section">
+                    <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>{alert("TODO")}} />
+                    <ListViewMenuItem icon={['far', 'edit']} title="edit list" action={()=>{alert("TODO")}} />
+                    <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>{alert("TODO")}} />
+                </div>
+                </div>
+
+                <div className="list-view-details">
             <div className="list-view-details-item">
                 <div className="list-view-details-name">created on:</div>
                 <div className="list-view-details-data">01/01/2000</div>
