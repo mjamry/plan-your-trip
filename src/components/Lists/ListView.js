@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
 import { useListsState, ListsStateActions } from '../../State/LocationsListsState'
 import DropDown from './ListViewDropDown'
+import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import {ListViewMenuItem} from './ListViewMenu'
 
 const ListView = () => {
     const [listState, dispatchList] = useListsState();
     const [lists, setLists] = useState([]);
     const logger = useLoggerService();
+    const [{}, dispatchModal] = useModalState();
 
     useEffect(() => {
         fetch(`http://localhost:50000/lists`)
@@ -28,13 +30,16 @@ const ListView = () => {
             })
     }, [])
 
+    var getSelectedList = () => {
+        return listState.lists.filter(l => l.id == listState.selectedListId)[0];
+    }
+
     var storeLocation = (data) => {
         setLists(data);
         dispatchList({type: ListsStateActions.loadLists, data: data});
     }
 
     var selectList = (listId) => {
-        logger.debug(`Selected list -> Id: ${listId}`)
         dispatchList({type: ListsStateActions.selectList, data: listId});
     }
 
@@ -43,7 +48,7 @@ const ListView = () => {
             <div className="list-view-details-item">
                 <div className="list-view-dropdown">
                     <DropDown 
-                        selected={listState.lists.filter(l => l.id == listState.selectedListId)[0]} 
+                        selected={getSelectedList()} 
                         options={listState.lists} 
                         onSelect={(id)=>{dispatchList({type: ListsStateActions.selectList, data: id})}}/>
                     <div className="list-view-description">this is a list description</div>
@@ -53,9 +58,9 @@ const ListView = () => {
 
             <div className="list-view-details-item">
             <div className="list-view-menu-section">
-                    <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>{alert("TODO")}} />
-                    <ListViewMenuItem icon={['far', 'edit']} title="edit list" action={()=>{alert("TODO")}} />
-                    <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>{alert("TODO")}} />
+                    <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addList, data: {}})} />
+                    <ListViewMenuItem icon={['far', 'edit']} title="edit list" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: getSelectedList()})} />
+                    <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: getSelectedList()})} />
                 </div>
                 </div>
 

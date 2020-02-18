@@ -7,7 +7,10 @@ export const ModalTypes = {
     search: 'search',
     loading: 'loading',
     removeLocation: 'removeLocation',
-    addNewLocationSelect: 'addNewLocationSelect'
+    addNewLocationSelect: 'addNewLocationSelect',
+    addList: 'addList',
+    editList: 'editList',
+    removeList: 'removeList'
 }
 
 export const ModalStateAction = {

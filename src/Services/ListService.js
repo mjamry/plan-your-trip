@@ -1,7 +1,7 @@
 
 import useNotificationService from '../Services/NotificationService'
 import useLoggerService from './Diagnostics/LoggerService'
-import { useLocationsListsState, ListsStateActions } from '../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../State/LocationsListsState'
 
 const DbActions = {
     add: 'create',
@@ -57,7 +57,7 @@ const useListService = () => {
     const notificationService = useNotificationService();
     const persistentListService = usePersistentListService();
     const logger = useLoggerService();
-    const [{selectedListId}, dispatchLists] = useLocationsListsState();
+    const [{selectedListId}, dispatchLists] = useListsState();
 
     var setLoading = () => {
         dispatchLists({
@@ -74,7 +74,7 @@ const useListService = () => {
     var add = async (list) => {
         setLoading();
         try{
-            var listData = await persistentListService.add(location, selectedListId)
+            var listData = await persistentListService.add(list)
             dispatchLists({
                 type: ListsStateActions.addList, 
                 data: listData});

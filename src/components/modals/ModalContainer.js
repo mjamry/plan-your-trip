@@ -9,16 +9,20 @@ import Confirmation from './Confirmation'
 import LoadingIndicator from './LoadingIndicator'
 import useLocationService from '../../Services/LocationService'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
+import useListService from '../../Services/ListService'
+import useListFormBuilder from '../../components/modals/ListDetailsForm'
 
 const _emptyModalContent = {header: "", body: "", footer: "", state: ""};
 
 var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
     const locationService = useLocationService();
+    const listService = useListService();
     var logger = useLoggerService();
 
     var create = (modalType) => {
         var locationFormBuilder = useLocationFormBuilder();
+        var listFormBuilder = useListFormBuilder();
 
         switch(modalType){
             case ModalTypes.addLocation:
@@ -77,6 +81,43 @@ var useModalContentFactory = () => {
                 return {
                     header: <ModalHeader title="Loading..." />,
                     body: <LoadingIndicator />,
+                    footer: null
+                }
+
+            case ModalTypes.addList: 
+                return listFormBuilder(
+                    {
+                        title: "Add list",
+                        list: modalModel.data,
+                        onSubmit: (data)=>{
+                                listService.add(data)
+                                dispatchModal({
+                                    type: ModalStateAction.hide})
+                            }
+                    }
+                )
+            case ModalTypes.editList:
+                return listFormBuilder(
+                    {
+                        title: "Edit list",
+                        list: modalModel.data,
+                        onSubmit: (data)=>{
+                                listService.edit(data)
+                                dispatchModal({
+                                    type: ModalStateAction.hide})
+                            }
+                    }
+                )
+            case ModalTypes.removeList:
+                var submitAction = ()=>{
+                    listService.remove(modalModel.data)
+                    dispatchModal({type: ModalStateAction.hide})};
+
+                return {
+                    header: <ModalHeader title={`Do you want to remove\n\r "${modalModel.data.name}"`}/>,
+                    body: <Confirmation 
+                        onSubmit={()=>submitAction(modalModel.data)}
+                        onCancel={()=>dispatchModal({type: ModalStateAction.hide})}/>,
                     footer: null
                 }
 
