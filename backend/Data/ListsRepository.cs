@@ -29,11 +29,10 @@ namespace trip_planner.Data.Models
 
             var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
 
-            Console.WriteLine(user);
             _context.UserLists.Add(new UserLists()
             {
                 User = user,
-                    List = list
+                List = list
             });
 
             _context.SaveChanges();

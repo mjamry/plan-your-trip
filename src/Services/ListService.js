@@ -44,12 +44,12 @@ const dispatchDbAction = async (dbAction, data) => {
     });
 
     if(rawResponse.status !== 200 && rawResponse.status !== 201){
-        logger.error(`[DbPresistentLocationService] Error - Action: ${dbAction}`, rawResponse);
+        logger.error(`[PresistentListnService] Error - Action: ${dbAction}`, rawResponse);
         throw new Error(rawResponse);
     }
     
     const content = await rawResponse.json();
-    logger.debug(`[DbPresistentLocationService] Success -> Action: ${dbAction}`, content)
+    logger.debug(`[PresistentListService] Success -> Action: ${dbAction}`, content)
     return content;
 }
 
@@ -78,7 +78,11 @@ const useListService = () => {
             dispatchLists({
                 type: ListsStateActions.addList, 
                 data: listData});
-            
+
+            dispatchLists({
+                type: ListsStateActions.selectList, 
+                data: listData.id});
+                
             notificationService.success(`New list added: ${listData.name}`);
             logger.info(`[ListService] Successfully added list -> Id: ${listData.id} Name: ${listData.name}`)
         }
@@ -98,7 +102,7 @@ const useListService = () => {
         try{
             await persistentListService.edit(list)
             dispatchLists({
-                type: ListsStateActions.editlist, 
+                type: ListsStateActions.editList, 
                 data: list})
     
             notificationService.success(`list modified: ${list.name}`);
@@ -119,7 +123,7 @@ const useListService = () => {
         try{
             await persistentListService.remove(list)
             dispatchLists({
-                type: ListsStateActions.removelist, 
+                type: ListsStateActions.removeList, 
                 data: list})
                 
             notificationService.success(`list removed: ${list.name}`);

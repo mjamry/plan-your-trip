@@ -44,8 +44,8 @@ const _reducer = (state, action) => {
             var newState = {...state, lists: action.data}
             break;
         case ListsStateActions.removeList:
-            var updatedList = state.lists.filter(l => l.id !== action.data.id) || [];
-            newState = { ...state, lists: updatedList };
+            var updatedLists = state.lists.filter(l => l.id !== action.data.id) || [];
+            newState = { ...state, lists: updatedLists, selectedListId: updatedLists[0].id };
             break;
         case ListsStateActions.editList: 
             var editedItemIndex = state.lists.findIndex(l => l.id === action.data.id);

@@ -12,7 +12,7 @@ const DropDown = ({selected, options, onSelect}) => {
     var toggleOptions = () => {
         setOptionsVisible(!optionsVisible);
     }
-console.log(selected)
+    
     return (
         <div className="drop-down-container">
             <div className="drop-down-title-container" onClick={()=>toggleOptions()}>
