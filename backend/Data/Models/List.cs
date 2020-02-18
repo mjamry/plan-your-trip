@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,12 @@ namespace trip_planner.Data.Models
         public string Link { get; set; }
         public bool Private { get; set; }
 
+
+        public string Description {get; set;}
+
+        public DateTime Created {get; set;}
+
+        public DateTime Updated {get; set;}
         public IEnumerable<ListLocations> Locations { get; set; }
         [JsonIgnore]
         public IEnumerable<UserLists> Users { get; set; }

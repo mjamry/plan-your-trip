@@ -42,7 +42,13 @@ namespace trip_planner.Data.Models
 
         public List DeleteList(List list)
         {
-            throw new System.NotImplementedException();
+            var dbList = GetList(list.Id);
+            if(dbList != null){
+                _context.Lists.Remove(dbList);
+                _context.SaveChanges();
+            }
+
+            return dbList;
         }
 
         public List GetList(int id)
@@ -57,7 +63,16 @@ namespace trip_planner.Data.Models
 
         public List UpdateList(List list)
         {
-            throw new System.NotImplementedException();
+            var dbList = GetList(list.Id);
+            if(dbList != null){
+                dbList.Name = list.Name;
+                dbList.Description = list.Description;
+                
+
+                _context.SaveChanges();
+            }
+
+            return dbList;
         }
     }
 }

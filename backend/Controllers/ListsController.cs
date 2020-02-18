@@ -34,5 +34,33 @@ namespace trip_planner.Controllers
         {
             return _repo.CreateList(list, 0);
         }
+
+        [HttpPost]
+        [Route("update")]
+        public IActionResult UpdateList([FromBody] List list)
+        {
+            var result = _repo.UpdateList(list);
+
+            if (result == null)
+            {
+                return NotFound($"There is no list with specified ID: {list.Id}");
+            }
+
+            return Ok(list);
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        public IActionResult DeleteList([FromBody] List list)
+        {
+            var result = _repo.DeleteList(list);
+
+            if (result == null)
+            {
+                return NotFound($"There is no list with specified ID: {list.Id}");
+            }
+
+            return Ok(result);
+        }
     }
 }
