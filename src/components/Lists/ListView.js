@@ -4,12 +4,15 @@ import { useListsState, ListsStateActions } from '../../State/LocationsListsStat
 import DropDown from './ListViewDropDown'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import {ListViewMenuItem} from './ListViewMenu'
+import DateTimeFormatter from '../../Common/DateTimeFormatter'
 
 const ListView = () => {
     const [listState, dispatchList] = useListsState();
     const [lists, setLists] = useState([]);
     const logger = useLoggerService();
     const [{}, dispatchModal] = useModalState();
+
+    const dateTimeFormatter = DateTimeFormatter();
 
     useEffect(() => {
         fetch(`http://localhost:50000/lists`)
@@ -31,7 +34,7 @@ const ListView = () => {
     }, [])
 
     var getSelectedList = () => {
-        return listState.lists.filter(l => l.id == listState.selectedListId)[0];
+        return listState.lists.filter(l => l.id == listState.selectedListId)[0] || {name: "", created: "", updated: "", locations: []};
     }
 
     var storeLocation = (data) => {
@@ -42,7 +45,7 @@ const ListView = () => {
     var selectList = (listId) => {
         dispatchList({type: ListsStateActions.selectList, data: listId});
     }
-
+    console.log(getSelectedList())
     return (
     <div className="list-view-container">
             <div className="list-view-details-item">
@@ -51,7 +54,7 @@ const ListView = () => {
                         selected={getSelectedList()} 
                         options={listState.lists} 
                         onSelect={(id)=>{dispatchList({type: ListsStateActions.selectList, data: id})}}/>
-                    <div className="list-view-description">this is a list description</div>
+                    <div className="list-view-description">{getSelectedList().description || ""}</div>
                 </div>
               
             </div>
@@ -67,19 +70,19 @@ const ListView = () => {
                 <div className="list-view-details">
             <div className="list-view-details-item">
                 <div className="list-view-details-name">created on:</div>
-                <div className="list-view-details-data">01/01/2000</div>
+                <div className="list-view-details-data">{dateTimeFormatter.format(getSelectedList().created)}</div>    
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">last updated on:</div>
-                <div className="list-view-details-data">01/01/2000</div>
+                <div className="list-view-details-data">{dateTimeFormatter.format(getSelectedList().updated)}</div>
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">number of items:</div>
-                <div className="list-view-details-data">11</div>
+                <div className="list-view-details-data">0</div>
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">private:</div>
-                <div className="list-view-details-data">yes</div>
+                <div className="list-view-details-data">{getSelectedList().private ? "yes" : "no"}</div>
             </div>
         </div>
     </div>)

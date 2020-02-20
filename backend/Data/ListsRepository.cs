@@ -26,6 +26,8 @@ namespace trip_planner.Data.Models
         public List CreateList(List list, int userId)
         {
             _context.Lists.Add(list);
+            list.Created = DateTime.Now;
+            list.Updated = DateTime.Now;
 
             var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
 
@@ -66,7 +68,8 @@ namespace trip_planner.Data.Models
             if(dbList != null){
                 dbList.Name = list.Name;
                 dbList.Description = list.Description;
-                
+                dbList.Private = list.Private;
+                dbList.Updated = DateTime.Now;
 
                 _context.SaveChanges();
             }
