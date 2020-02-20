@@ -24,3 +24,13 @@ body{
     display: none;
   }
 }
+
+.text-length-limit{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-no-select{
+  user-select: none;
+}

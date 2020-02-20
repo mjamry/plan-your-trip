@@ -26,8 +26,6 @@ const ListViewMenu = () => {
         <div className="list-view-menu-section">
             <ListViewMenuItem icon={['far', 'file-alt']} title="download locations" action={()=>GpxFileDownloader.download(locations)} />
             <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})} />
-            <ListViewMenuItem icon={['far', 'edit']} title="edit list" action={()=>{alert("TODO")}} />
-            <ListViewMenuItem icon={['far', 'trash-alt']} title="remove list" action={()=>dispatchLocations({type: LocationsStateActions.removeAllLocations})} />
         </div>
         <div className="list-view-menu-section">
             <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.list})} />

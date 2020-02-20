@@ -27,6 +27,7 @@
 .list-view-description{
     font-size: 10pt;
     color: lightgray;
+    max-width: 150px;
 }
 
 .list-view-details-item{

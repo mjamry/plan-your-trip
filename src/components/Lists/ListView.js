@@ -54,7 +54,7 @@ const ListView = () => {
                         selected={getSelectedList()} 
                         options={listState.lists} 
                         onSelect={(id)=>{dispatchList({type: ListsStateActions.selectList, data: id})}}/>
-                    <div className="list-view-description">{getSelectedList().description || ""}</div>
+                    <div className="list-view-description text-length-limit text-no-select" title={getSelectedList().description || ""}>{getSelectedList().description || ""}</div>
                 </div>
               
             </div>
