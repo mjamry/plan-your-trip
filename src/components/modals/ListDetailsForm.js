@@ -13,9 +13,6 @@ const useListFormBuilder = () => {
     return build;
 }
 
-
-
-
 const ListDetailsFormBody = ({list, onSubmit}) => {
     const [state, setState] = useState(list);
 
@@ -54,8 +51,9 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                         type="checkbox" 
                         id="list-private" 
                         value="false"
-                        name="private"
-                        onClick={handleCheckboxChanged}/> 
+                        name="isPrivate"
+                        onClick={handleCheckboxChanged}
+                        defaultChecked={state.isPrivate}/> 
             </div>
             <hr/>
             <div className="list-form-item-submit">

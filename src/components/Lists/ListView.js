@@ -45,7 +45,7 @@ const ListView = () => {
     var selectList = (listId) => {
         dispatchList({type: ListsStateActions.selectList, data: listId});
     }
-    console.log(getSelectedList())
+
     return (
     <div className="list-view-container">
             <div className="list-view-details-item">
@@ -82,7 +82,7 @@ const ListView = () => {
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">private:</div>
-                <div className="list-view-details-data">{getSelectedList().private ? "yes" : "no"}</div>
+                <div className="list-view-details-data">{getSelectedList().isPrivate ? "yes" : "no"}</div>
             </div>
         </div>
     </div>)

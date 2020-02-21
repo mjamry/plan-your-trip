@@ -68,7 +68,7 @@ namespace trip_planner.Data.Models
             if(dbList != null){
                 dbList.Name = list.Name;
                 dbList.Description = list.Description;
-                dbList.Private = list.Private;
+                dbList.IsPrivate = list.IsPrivate;
                 dbList.Updated = DateTime.Now;
 
                 _context.SaveChanges();

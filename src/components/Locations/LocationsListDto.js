@@ -1,16 +1,16 @@
 export default class locationsList {
-    constructor(id, name, description, private, created, updated){
+    constructor(id, name, description, isPrivate, created, updated){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.private = private;
+        this.isPrivate = isPrivate;
         this.created = created;
         this.updated = updated;
     }
     id;
     name;
     description;
-    private;
+    isPrivate;
     created;
     updated;
     numberOfItems;

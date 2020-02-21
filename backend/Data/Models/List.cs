@@ -14,7 +14,7 @@ namespace trip_planner.Data.Models
             Id = id;
             Name = name;
             Link = link;
-            Private = priv;
+            IsPrivate = priv;
         }
 
         [Key]
@@ -26,7 +26,7 @@ namespace trip_planner.Data.Models
 
         [MaxLength (100)]
         public string Link { get; set; }
-        public bool Private { get; set; }
+        public bool IsPrivate { get; set; }
 
 
         public string Description {get; set;}
