@@ -1,4 +1,4 @@
-export default class locationDetails {
+export default class locationDto {
   constructor(id, name, description, attractivness, coordinates, image, link, listId){
     this.name = name;
     this.description = description;

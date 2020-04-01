@@ -1,5 +1,5 @@
 import wiki from 'wikijs';
-import locationDetails from '../components/Locations/LocationdDetailsDto';
+import locationDto from '../components/Locations/LocationDto';
 import LanguageProvider from '../Common/LanguageProvider';
 
 const NumberOfResults = 5;
@@ -18,6 +18,6 @@ export default class WikipediaAPIWrapper{
         return wiki({apiUrl: API_URL})
         .page(input)
         .then(page => {return Promise.all([page.raw.title, page.summary(), page.coordinates(), page.mainImage()])})
-        .then(([name, details, geo, img] )=> new locationDetails(0, name, details, 0, geo, img, ""))
+        .then(([name, details, geo, img] )=> new locationDto(0, name, details, 0, geo, img, ""))
     }
 }

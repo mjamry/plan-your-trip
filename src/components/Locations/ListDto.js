@@ -1,4 +1,4 @@
-export default class locationsList {
+export default class listDto {
     constructor(id, name, description, isPrivate, created, updated){
         this.id = id;
         this.name = name;
