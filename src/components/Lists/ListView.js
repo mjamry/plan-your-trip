@@ -5,9 +5,11 @@ import DropDown from './ListViewDropDown'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import {ListViewMenuItem} from './ListViewMenu'
 import DateTimeFormatter from '../../Common/DateTimeFormatter'
+import { useLocationsState } from '../../State/LocationsState'
 
 const ListView = () => {
     const [listState, dispatchList] = useListsState();
+    const [{locations}, dispatchLocations] = useLocationsState();
     const [lists, setLists] = useState([]);
     const logger = useLoggerService();
     const [{}, dispatchModal] = useModalState();
@@ -35,6 +37,10 @@ const ListView = () => {
 
     var getSelectedList = () => {
         return listState.lists.filter(l => l.id == listState.selectedListId)[0] || {name: "", created: "", updated: "", locations: []};
+    }
+
+    var getNumberOfLocations = () => {
+        return locations.length;
     }
 
     var storeLocation = (data) => {
@@ -77,8 +83,8 @@ const ListView = () => {
                 <div className="list-view-details-data">{dateTimeFormatter.format(getSelectedList().updated)}</div>
             </div>
             <div className="list-view-details-item">
-                <div className="list-view-details-name">number of items:</div>
-                <div className="list-view-details-data">0</div>
+                <div className="list-view-details-name">number of locations:</div>
+                <div className="list-view-details-data">{getNumberOfLocations()}</div>
             </div>
             <div className="list-view-details-item">
                 <div className="list-view-details-name">private:</div>
