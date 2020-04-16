@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GpxFileDownloader from '../../Common/GpxFileDownloader'
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
-import { useListsState, ListsStateActions, ListViewType } from '../../State/LocationsListsState'
+import { useListsState, ListsStateActions, ListViewType } from '../../State/ListsState'
 
 export const ListViewMenuItem = ({icon, action, title}) => {
     return (

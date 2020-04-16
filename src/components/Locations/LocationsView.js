@@ -5,7 +5,7 @@ import LocationListItem from './LocationListItem';
 import { useLocationsState, LocationsStateActions } from '../../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 
-import {useListsState, ListViewType } from '../../State/LocationsListsState'
+import {useListsState, ListViewType } from '../../State/ListsState'
 
 var LocationsView = () => {
   const [{locations}, dispatchlocations] = useLocationsState();

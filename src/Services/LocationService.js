@@ -2,7 +2,7 @@ import { useLocationsState, LocationsStateActions } from '../State/LocationsStat
 import useNotificationService from '../Services/NotificationService'
 import useDbPersistenceService from './DbPersistentLocationService'
 import useLoggerService from './Diagnostics/LoggerService'
-import { useListsState } from '../State/LocationsListsState'
+import { useListsState } from '../State/ListsState'
 
 const useLocationService = () => {
     const [{selectLocationsList}, dispatchLocations] = useLocationsState();

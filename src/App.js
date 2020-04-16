@@ -30,7 +30,7 @@ import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
 import ListView from './components/Lists/ListView'
-import LocationsListsState from './State/LocationsListsState'
+import ListsStateProvider from './State/ListsState'
 import ListViewMenu from './components/Lists/ListViewMenu'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -47,7 +47,7 @@ var App = () => {
       <NotificationStateProvider>
         <ToasterNotifications/>
         <LocationsStateProvider>
-        <LocationsListsState>
+        <ListsStateProvider>
           <LocationActionLoadingIndicator/>
           <LocationsDataDownloader />
           <ModalStateProvider>
@@ -64,7 +64,7 @@ var App = () => {
               </div>
             </div>
           </ModalStateProvider>
-        </LocationsListsState>
+        </ListsStateProvider>
         </LocationsStateProvider>
       </NotificationStateProvider>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
-import { useListsState, ListsStateActions } from '../../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../../State/ListsState'
 import DropDown from './ListViewDropDown'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import {ListViewMenuItem} from './ListViewMenu'

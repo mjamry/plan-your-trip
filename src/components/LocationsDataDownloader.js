@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
 
-import { useListsState, ListsStateActions } from '../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../State/ListsState'
 import useLoggerService from '../Services/Diagnostics/LoggerService'
 
 const LocationsDataDownloader = () => {

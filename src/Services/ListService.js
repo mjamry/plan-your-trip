@@ -1,7 +1,7 @@
 
 import useNotificationService from '../Services/NotificationService'
 import useLoggerService from './Diagnostics/LoggerService'
-import { useListsState, ListsStateActions } from '../State/LocationsListsState'
+import { useListsState, ListsStateActions } from '../State/ListsState'
 
 const DbActions = {
     add: 'create',
