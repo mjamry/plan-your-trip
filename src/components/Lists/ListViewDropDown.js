@@ -14,7 +14,7 @@ const DropDown = ({selected, options, onSelect}) => {
     }
     
     return (
-        <div className="drop-down-container">
+        <div className="drop-down-container" onClick={()=>toggleOptions()}>
             <div className="drop-down-title-container" onClick={()=>toggleOptions()}>
                 <div className="drop-down-title-name text-length-limit text-no-select" title={selected ? selected.name : ''}>{selected ? selected.name : ''}</div>
                 <div className="drop-down-title-arrow">
@@ -23,6 +23,7 @@ const DropDown = ({selected, options, onSelect}) => {
                         : <FontAwesomeIcon icon={['far', 'caret-square-down']}/>}
                 </div>
             </div>
+            {optionsVisible && <div className="drop-down-background" onClick={()=>setOptionsVisible(false)}></div>}
             {optionsVisible && <ul className="drop-down-options-list">
                 {options.map((option)=>(
                     <li 
