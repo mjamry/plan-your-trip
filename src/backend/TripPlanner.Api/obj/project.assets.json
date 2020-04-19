@@ -903,9 +903,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\priv\\github\\plan-your-trip\\src\\backend\\TripPlanner.Api\\trip-planner.csproj",
-      "projectName": "trip-planner",
-      "projectPath": "E:\\priv\\github\\plan-your-trip\\src\\backend\\TripPlanner.Api\\trip-planner.csproj",
+      "projectUniqueName": "E:\\priv\\github\\plan-your-trip\\src\\backend\\TripPlanner.Api\\TripPlanner.Api.csproj",
+      "projectName": "TripPlanner.Api",
+      "projectPath": "E:\\priv\\github\\plan-your-trip\\src\\backend\\TripPlanner.Api\\TripPlanner.Api.csproj",
       "packagesPath": "C:\\Users\\mjamry\\.nuget\\packages\\",
       "outputPath": "E:\\priv\\github\\plan-your-trip\\src\\backend\\TripPlanner.Api\\obj\\",
       "projectStyle": "PackageReference",
