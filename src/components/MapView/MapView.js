@@ -89,11 +89,7 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
     }, [selLoc])
 
     return ( 
-        <div className="map-container" title={options.title}>
-            <div className="row">
-                <div id="mapid" className={options.style}></div> 
-            </div> 
-        </div>
+        <div id="mapid" className={options.style}></div> 
     );
 }
 

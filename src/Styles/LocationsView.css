@@ -2,6 +2,8 @@
     padding:10px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: calc(75vh);
 }
 
 .locations-view-list-container{
