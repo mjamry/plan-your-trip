@@ -1,0 +1,25 @@
+.location-attractivness-container{
+    display: flex;
+    justify-content: center;
+    flex-flow: row-reverse;
+    width: 100%;
+}
+
+.location-attractivness-star, 
+.location-attractivness-star-selected{
+    font-size: 20pt;
+    cursor: pointer;
+}
+  
+.location-attractivness-star:hover, 
+.location-attractivness-star:hover ~ .location-attractivness-star, 
+.location-attractivness-star-selected, 
+.location-attractivness-star-selected-inactive {
+    color: #f58a07;
+}
+
+.location-attractivness-star-inactive, 
+.location-attractivness-star-selected-inactive{
+    font-size: 20pt;
+    cursor: default;
+}

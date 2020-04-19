@@ -1,0 +1,39 @@
+/*---------------------app-content----*/
+body{
+  background-color: #E8EDED;
+  overflow: hidden;
+}
+.app-content-container{
+  display: flex;
+  overflow: hidden;
+  height: 92vh;
+}
+
+.app-locations-view{
+  flex: 0 1 calc(66% - 1em);
+}
+
+.app-map-view{
+  flex: 0 1 calc(33% - 1em);
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  .app-locations-view{
+    flex: 0 1 calc(100% - 1em);
+  }
+  .app-map-view{
+    display: none;
+  }
+}
+
+.text-length-limit{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-no-select{
+  user-select: none;
+}

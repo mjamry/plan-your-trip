@@ -1,36 +1,34 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-class SearchResult extends Component {
+var SearchResult = (props) => {
 
-  renderResults(){  
+  var renderResults = () => { 
     let output = [];
-    for(let index in this.props.results){
+
+    for(let index in props.results){
       output.push(
-      <div 
-        className="dropdown-item search-result" 
-        onClick={()=>this.handleSelection(this.props.results[index])}>
-        {this.props.results[index]}
-      </div>)
+        <div className="search-result-item" key={index}>
+          <FontAwesomeIcon icon={['fab', 'wikipedia-w']} className="fab search-result-icon"/>
+          <div 
+            onClick={()=>props.onSelected(props.results[index])}>
+            {props.results[index]}
+          </div>
+        </div>)
     }
 
     return output;
   }
 
-  handleSelection(selection){
-    this.props.onSelected(selection)
+  var renderError = () => {
+    return <div className="search-result-error">No resutls</div>
   }
 
-  render(){
-    return (
-      <div className="SearchResult">
-        <div className={this.props.isOpened + " dropdown"}>
-          <div className={this.props.isOpened + " dropdown-menu"} aria-labelledby="dropdownMenuButton">
-            {this.renderResults()}
-          </div>
-        </div>
-      </div>
-    )
-  }
+  return (
+    <div className="search-result-container">
+        {props.results && props.results.length === 0 ? renderError() : renderResults()}
+    </div>
+  )
 }
 
 export default SearchResult;

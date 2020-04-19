@@ -1,70 +1,74 @@
-import React, { Component } from 'react';
-import './App.css';
-import ItemsList from './components/Items/ItemsList'
-import MapView from './components/MapView'
+
+import './Styles/App.css';
+import './Styles/LocationsView.css'
+import './Styles/LocationsViewMenu.css'
+import './Styles/LocationViewRow.css'
+import './Styles/LocationViewCard.css'
+import './Styles/LocationAttractivness.css'
+import './Styles/Modal.css'
+import './Styles/LocationEditForm.css'
+import './Styles/SearchResult.css'
+import './Styles/Header.css'
+import './Styles/MapView.css'
+import './Styles/AddNewLocationSelect.css'
+import './Styles/Search.css'
+import './Styles/Confirmation.css'
+import './Styles/LoadingIndicator.css'
+import './Styles/ToasterNotifications.css'
+import './Styles/LocationActionLoadingIndicator.css'
+import './Styles/DropDown.css'
+import './Styles/ListView.css'
+
+import React from 'react';
+import LocationsView from './components/Locations/LocationsView'
+import LocationsMapView from './components/MapView/LocationsMapView'
 import Header from './components/Header'
-import store from 'store'
+import ModalContainer from './components/modals/ModalContainer'
+import NotificationStateProvider from './State/NotificationState'
+import { ModalStateProvider } from './State/ModalStateProvider'
+import LocationsDataDownloader from './components/LocationsDataDownloader'
+import ToasterNotifications from './components/ToasterNotifications'
+import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
+import ListView from './components/Lists/ListView'
+import ListsStateProvider from './State/ListsState'
+import ListViewMenu from './components/Lists/ListViewMenu'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
+import { LocationsStateProvider } from './State/LocationsState';
 
-library.add(fas)
+library.add(far, fas, faWikipediaW)
 
-class App extends Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      itemsList: [],
-      selectedItem: undefined
-    }
-  }
-
-  handleSearchFinished = (newItem) => {
-    this.setState(prevState => ({
-      itemsList: [...prevState.itemsList, newItem],
-      selectedItem: undefined
-    }));
-  }
-
-  handleItemRemoved = (itemIndex) => {
-    var arr = [...this.state.itemsList];
-    arr.splice(parseInt(itemIndex),1);
-    this.setState({itemsList: arr})
-  }
-  
-  handleItemSelected = (itemIndex) => {
-    this.setState({selectedItem: this.state.itemsList[parseInt(itemIndex)]})
-  }
-
-  handleRemoveAllItems = () => {
-    this.setState({itemsList: []})
-  }
- 
-  componentDidMount(){
-    this.setState({itemsList: store.get('items', [])})
-  }
-
-  componentDidUpdate(){
-    store.set('items', this.state.itemsList);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        {/* */}
-        <Header onSearchFinished={this.handleSearchFinished}/>
-        <div className="row container-fluid no-gutters">
-          <div className="col-7">
-            <ItemsList list={this.state.itemsList} onRemoved={this.handleItemRemoved} onSelected={this.handleItemSelected} onAllItemsRemoved={this.handleRemoveAllItems}/>
-          </div>
-          <div className="col-5">
-            <MapView points={this.state.itemsList} selected={this.state.selectedItem}/>
-          </div>
-        </div>
-      </div>
-    );
-  }
+var App = () => {
+  return (
+    <div className="App">
+      <NotificationStateProvider>
+        <ToasterNotifications/>
+        <LocationsStateProvider>
+        <ListsStateProvider>
+          <LocationActionLoadingIndicator/>
+          <LocationsDataDownloader />
+          <ModalStateProvider>
+            <ModalContainer />
+            <Header />
+            <div className="app-content-container">
+              <div className="app-locations-view">
+                <ListView />
+                <ListViewMenu />
+                <LocationsView />
+              </div>
+              <div className="app-map-view">
+                <LocationsMapView />
+              </div>
+            </div>
+          </ModalStateProvider>
+        </ListsStateProvider>
+        </LocationsStateProvider>
+      </NotificationStateProvider>
+    </div>
+  );
 }
 
 export default App;

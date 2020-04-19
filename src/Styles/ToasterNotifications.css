@@ -1,0 +1,61 @@
+.toaster-notifications-container{
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 999;
+}
+
+.toaster-notifications-box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.toaster-notification-item-content{
+    font-size: 10pt;
+}
+
+.toaster-notification-item-title{
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.toaster-notification-item{
+    min-width: 150px;
+    min-height: 50px;
+    margin-bottom: 10px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    text-align: left;
+    padding: 5px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.toaster-notification-item-icon{
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.toaster-notification-item-body{
+    display: flex;
+    flex-direction: column;
+    margin: 7px;
+}
+
+.toaster-notification-item-error{
+    background-color: red;
+}
+
+.toaster-notification-item-info{
+    background-color: green;
+}
