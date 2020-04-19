@@ -20,7 +20,7 @@ const usePersistentListService = () => {
     }
 
     var edit = async (location) => {
-        await dispatchDbAction(DbActions.update, location);
+        return await dispatchDbAction(DbActions.update, location);
     }
 
     return {
@@ -100,10 +100,10 @@ const useListService = () => {
     var edit = async (list) => {
         setLoading();
         try{
-            await persistentListService.edit(list)
+            var listData = await persistentListService.edit(list)
             dispatchLists({
                 type: ListsStateActions.editList, 
-                data: list})
+                data: listData})
     
             notificationService.success(`list modified: ${list.name}`);
             logger.info(`[ListService] Successfully edited list -> Id: ${list.id} Name: ${list.name}`)

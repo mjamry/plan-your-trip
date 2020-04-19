@@ -46,7 +46,7 @@ namespace trip_planner.Controllers
                 return NotFound($"There is no list with specified ID: {list.Id}");
             }
 
-            return Ok(list);
+            return Ok(result);
         }
 
         [HttpPost]
