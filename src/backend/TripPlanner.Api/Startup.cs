@@ -32,20 +32,29 @@ namespace trip_planner
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddControllers ();
-            services.AddCors (options =>
+            services.AddControllers();
+            services.AddCors(options =>
             {
-                options.AddPolicy (MyOriginsPolicy,
+                options.AddPolicy(MyOriginsPolicy,
                     builder =>
                     {
-                        builder.AllowAnyOrigin ().AllowAnyHeader ();
+                        builder.AllowAnyOrigin().AllowAnyHeader();
                     });
             });
 
+            services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "http://localhost:50000";
+                options.RequireHttpsMetadata = false;
+
+                options.Audience = "api1";
+            });
+
             string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
-            services.AddDbContext<TripPlannerContext> (options => options.UseMySql (dataConnectionString));
+            services.AddDbContext<TripPlannerContext>(options => options.UseMySql (dataConnectionString));
             string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
-            services.AddDbContext<DiagnosticsContext> (options => options.UseMySql(diagnosticsConnectionString));
+            services.AddDbContext<DiagnosticsContext>(options => options.UseMySql(diagnosticsConnectionString));
             
             //register types
             services.AddScoped<ILocationsRepository, LocationsRepository>();
@@ -56,21 +65,22 @@ namespace trip_planner
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment ())
+            if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage ();
+                app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors (MyOriginsPolicy);
-            app.UseHttpsRedirection ();
+            app.UseCors(MyOriginsPolicy);
+            app.UseHttpsRedirection();
 
-            app.UseRouting ();
+            app.UseRouting();
 
-            app.UseAuthorization ();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseEndpoints (endpoints =>
+            app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers ();
+                endpoints.MapControllers();
             });
         }
     }

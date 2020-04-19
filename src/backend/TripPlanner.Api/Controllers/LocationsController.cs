@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using trip_planner.Data;
 using trip_planner.Data.Models;
@@ -8,6 +9,7 @@ namespace trip_planner.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class LocationsController : ControllerBase
     {
         private ILocationsRepository _repo;
