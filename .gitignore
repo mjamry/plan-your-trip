@@ -10,8 +10,6 @@
 
 # production
 /build
-/backend/obj
-/backend/bin
 
 # misc
 .DS_Store
@@ -25,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 src/backend/.vs/*
 .vscode/*
+**/bin
+**/obj
