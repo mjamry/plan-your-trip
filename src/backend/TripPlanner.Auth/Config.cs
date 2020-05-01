@@ -9,7 +9,8 @@ namespace IdentityServer
 {
     public static class Config
     {
-        private const string API_NAME = "api";
+        
+        private const string API_CODE_NAME = "trip_planner";
 
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
@@ -17,10 +18,12 @@ namespace IdentityServer
                 new IdentityResources.OpenId()
             };
 
+        public static IEnumerable<User> Users => 
+
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource(API_NAME, "API")
+                new ApiResource(API_CODE_NAME, "API")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -34,7 +37,22 @@ namespace IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { API_NAME }
+                    AllowedScopes = { API_CODE_NAME }
+                },
+                new Client
+                {
+                    ClientId = "swagger_ui",
+                    ClientName = "Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { "http://localhost:50001/swagger/o2c.html" },
+                    PostLogoutRedirectUris = { "http://localhost:50001/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        API_CODE_NAME
+                    }
                 }
             };
         

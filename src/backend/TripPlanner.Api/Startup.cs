@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using Swashbuckle.AspNetCore.SwaggerGen;
 using trip_planner.Data;
 using trip_planner.Data.Contexts;
 using trip_planner.Data.Models;
@@ -23,6 +23,7 @@ namespace trip_planner
     public class Startup
     {
         private const string API_NAME = "Trip Planner API";
+        private const string API_CODE_NAME = "trip_planner";
         private const string API_VERSION = "0.1";
         public Startup (IConfiguration configuration)
         {
@@ -46,17 +47,32 @@ namespace trip_planner
             });
 
             services.AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = "http://localhost:50000";
-                options.RequireHttpsMetadata = false;
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:50000";
+                    options.RequireHttpsMetadata = false;
 
-                options.Audience = "api1";
-            });
+                    options.Audience = API_CODE_NAME;
+                });
 
             //Swagger
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = API_NAME, Version = API_VERSION});
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = API_NAME, Version = API_VERSION});
+
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows{
+                        Implicit = new OpenApiOAuthFlow{
+                            AuthorizationUrl = new Uri("http://localhost:50000/connect/authorize"),
+                            Scopes = new Dictionary<string, string>(){
+                                { API_CODE_NAME, API_NAME }
+                            }
+                        }
+                    }
+                });
+
+                options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
             });
 
             string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
@@ -82,9 +98,13 @@ namespace trip_planner
             app.UseHttpsRedirection();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", API_NAME + " " + API_VERSION);
-                c.RoutePrefix = string.Empty;
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", API_NAME + " " + API_VERSION);
+
+                options.OAuthClientId("swagger_ui");
+                options.OAuthAppName("Swagger API");
+
+                options.RoutePrefix = string.Empty;
             });
 
             app.UseRouting();
