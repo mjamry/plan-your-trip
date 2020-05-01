@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 using trip_planner.Data;
 using trip_planner.Data.Contexts;
@@ -21,6 +22,8 @@ namespace trip_planner
 {
     public class Startup
     {
+        private const string API_NAME = "Trip Planner API";
+        private const string API_VERSION = "0.1";
         public Startup (IConfiguration configuration)
         {
             Configuration = configuration;
@@ -51,6 +54,11 @@ namespace trip_planner
                 options.Audience = "api1";
             });
 
+            //Swagger
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = API_NAME, Version = API_VERSION});
+            });
+
             string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
             services.AddDbContext<TripPlannerContext>(options => options.UseMySql (dataConnectionString));
             string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
@@ -72,6 +80,12 @@ namespace trip_planner
 
             app.UseCors(MyOriginsPolicy);
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", API_NAME + " " + API_VERSION);
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 
