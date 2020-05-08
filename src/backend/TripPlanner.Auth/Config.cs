@@ -3,6 +3,7 @@
 
 
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 using System.Collections.Generic;
 
 namespace IdentityServer
@@ -18,7 +19,15 @@ namespace IdentityServer
                 new IdentityResources.OpenId()
             };
 
-        public static IEnumerable<User> Users => 
+        public static IEnumerable<TestUser> Users => 
+            new List<TestUser>
+            {
+                new TestUser{
+                    SubjectId = "123",
+                    Username = "test",
+                    Password = "test_pass"
+                }
+            };
 
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
