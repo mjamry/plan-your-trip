@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using trip_planner.Data.Models;
 
 namespace trip_planner.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ListsController : ControllerBase
     {
         private IListsRepository _repo;
