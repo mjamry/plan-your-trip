@@ -11,7 +11,6 @@ namespace IdentityServer
 {
     public static class Config
     {
-        
         private const string API_CODE_NAME = "trip_planner";
 
         public static IEnumerable<IdentityResource> Ids =>
@@ -49,21 +48,6 @@ namespace IdentityServer
                     },
                     AllowedScopes = { API_CODE_NAME },
                     AllowedCorsOrigins = {"http://localhost:3000"}
-                },
-                new Client
-                {
-                    ClientId = "swagger_ui",
-                    ClientName = "Swagger UI",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-
-                    RedirectUris = { "http://localhost:50001/swagger/o2c.html" },
-                    PostLogoutRedirectUris = { "http://localhost:50001/swagger/" },
-
-                    AllowedScopes =
-                    {
-                        API_CODE_NAME
-                    }
                 },
                 new Client
                     {
