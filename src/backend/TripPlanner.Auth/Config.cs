@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace IdentityServer
             new List<TestUser>
             {
                 new TestUser{
-                    SubjectId = "123",
+                    SubjectId = "anonymous",
                     Username = "test",
                     Password = "test_pass"
                 }
@@ -46,7 +47,8 @@ namespace IdentityServer
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { API_CODE_NAME }
+                    AllowedScopes = { API_CODE_NAME },
+                    AllowedCorsOrigins = {"http://localhost:3000"}
                 },
                 new Client
                 {
@@ -62,7 +64,25 @@ namespace IdentityServer
                     {
                         API_CODE_NAME
                     }
-                }
+                },
+                new Client
+                    {
+                        ClientId = "js",
+                        ClientName = "JavaScript Client",
+                        AllowedGrantTypes = GrantTypes.Implicit,
+                        AllowAccessTokensViaBrowser = true,
+
+                        RedirectUris =           { "http://localhost:3000" },
+                        PostLogoutRedirectUris = { "http://localhost:3000/index.html" },
+                        AllowedCorsOrigins =     { "http://localhost:3000" },
+
+                        AllowedScopes =
+                        {
+                            IdentityServerConstants.StandardScopes.OpenId,
+                            IdentityServerConstants.StandardScopes.Profile,
+                            API_CODE_NAME
+                        }
+                    }
             };
         
     }
