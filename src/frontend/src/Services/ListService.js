@@ -1,57 +1,35 @@
-
 import useNotificationService from '../Services/NotificationService'
 import useLoggerService from './Diagnostics/LoggerService'
 import { useListsState, ListsStateActions } from '../State/ListsState'
 import useRestClient from './../Common/RestClient'
 
-const DbActions = {
-    add: 'create',
-    delete: 'delete',
-    update: 'update'
-}
+const API_URL = 'http://localhost:50001/lists'
+
 const usePersistentListService = () => {
-    const logger = useLoggerService();
+    const api = useRestClient();
 
-    var add = async (location, listId) => {
-        return await dispatchDbAction(DbActions.add, location);
+    var add = (list) => {
+        return api.post(`${API_URL}/create`, list)
     }
 
-    var remove = async (location) => {
-        await dispatchDbAction(DbActions.delete, location);
+    var remove = (list) => {
+        return api.post(`${API_URL}/delete`, list)
     }
 
-    var edit = async (location) => {
-        return await dispatchDbAction(DbActions.update, location);
+    var edit = (list) => {
+        return api.post(`${API_URL}/update`, list)
     }
+
+    var getAll = () => {
+        return api.get(`${API_URL}`)
+    } 
 
     return {
         add: add,
         remove: remove,
-        edit: edit
+        edit: edit,
+        getAll: getAll
     }
-}
-
-const dispatchDbAction = async (dbAction, data) => {
-    let url = 'http://localhost:50001/lists/' + dbAction;
-    var logger = useLoggerService();
-
-    const rawResponse = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    if(rawResponse.status !== 200 && rawResponse.status !== 201){
-        logger.error(`[PresistentListnService] Error - Action: ${dbAction}`, rawResponse);
-        throw new Error(rawResponse);
-    }
-    
-    const content = await rawResponse.json();
-    logger.debug(`[PresistentListService] Success -> Action: ${dbAction}`, content)
-    return content;
 }
 
 const useListService = () => {
@@ -74,76 +52,103 @@ const useListService = () => {
 
     var add = async (list) => {
         setLoading();
-        try{
-            var listData = await persistentListService.add(list)
-            dispatchLists({
-                type: ListsStateActions.addList, 
-                data: listData});
 
-            dispatchLists({
-                type: ListsStateActions.selectList, 
-                data: listData.id});
-                
-            notificationService.success(`New list added: ${listData.name}`);
-            logger.info(`[ListService] Successfully added list -> Id: ${listData.id} Name: ${listData.name}`)
-        }
-        catch(e)
-        {
-            notificationService.error(`Error while adding list: ${list.name}`);
-            logger.error(`Error while adding new list: Name: ${list.name}`, e);
-        }
-        finally{
-            clearLoading();
-        }
-  
+        persistentListService.add(list)
+            .then((listData)=>
+            {
+                dispatchLists({
+                    type: ListsStateActions.addList, 
+                    data: listData});
+    
+                dispatchLists({
+                    type: ListsStateActions.selectList, 
+                    data: listData.id});
+                    
+                notificationService.success(`New list added: ${listData.name}`);
+                logger.info(`[ListService] Successfully added list -> Id: ${listData.id} Name: ${listData.name}`)
+            })
+            .catch(()=>
+            {
+                notificationService.error(`Error while adding list: ${list.name}`);
+                logger.error(`Error while adding new list: Name: ${list.name}`);
+            })
+            .finally(()=>
+            {
+                clearLoading();
+            }) 
     }
 
     var edit = async (list) => {
         setLoading();
-        try{
-            var listData = await persistentListService.edit(list)
-            dispatchLists({
-                type: ListsStateActions.editList, 
-                data: listData})
-    
-            notificationService.success(`list modified: ${list.name}`);
-            logger.info(`[ListService] Successfully edited list -> Id: ${list.id} Name: ${list.name}`)
-        }
-        catch(e)
-        {
-            notificationService.error(`Error while editing list: ${list.name}`);
-            logger.error(`Error while editing list: Id: ${list.id} Name: ${list.name}`, e);
-        }
-        finally{
-            clearLoading();
-        }
+
+        persistentListService.edit(list)
+            .then((listData)=>
+            {
+                dispatchLists({
+                    type: ListsStateActions.editList, 
+                    data: listData})
+        
+                notificationService.success(`list modified: ${list.name}`);
+                logger.info(`[ListService] Successfully edited list -> Id: ${list.id} Name: ${list.name}`)
+            })
+            .catch(()=>
+            {
+                notificationService.error(`Error while editing list: ${list.name}`);
+                logger.error(`Error while editing list: Id: ${list.id} Name: ${list.name}`);
+            })
+            .finally(()=>
+            {
+                clearLoading();
+            })
     }
 
     var remove = async (list) => {
         setLoading();
-        try{
-            await persistentListService.remove(list)
-            dispatchLists({
-                type: ListsStateActions.removeList, 
-                data: list})
-                
-            notificationService.success(`list removed: ${list.name}`);
-            logger.info(`[ListService] Successfully removed list -> Id: ${list.id} Name: ${list.name}`)
-        }
-        catch(e)
-        {
-            notificationService.error(`Error while removing list: ${list.name}`);
-            logger.error(`Error while removing list: Id: ${list.id} Name: ${list.name}`, e);
-        }
-        finally{
-            clearLoading();
-        }
+
+        persistentListService.remove(list)
+            .then(()=>
+            {
+                dispatchLists({
+                    type: ListsStateActions.removeList, 
+                    data: list})
+                    
+                notificationService.success(`list removed: ${list.name}`);
+                logger.info(`[ListService] Successfully removed list -> Id: ${list.id} Name: ${list.name}`)
+            })
+            .catch(()=>
+            {
+                notificationService.error(`Error while removing list: ${list.name}`);
+                logger.error(`Error while removing list: Id: ${list.id} Name: ${list.name}`);
+            })
+            .finally(()=>
+            {
+                clearLoading();
+            })
+    }
+
+    var getAll = () => {
+        persistentListService.getAll()
+            .then((data)=>
+            {
+                dispatchLists({
+                    type: ListsStateActions.loadLists, 
+                    data: data});
+
+                logger.info(`[ListService] Successfully loaded ${data.length} lists`);
+            })
+            .catch(()=>
+            {
+                logger.error(`[ListService] Error while getting all lists data.`)
+            })
+            
     }
 
     return {
         add: add, 
         edit: edit, 
-        remove: remove}
+        remove: remove,
+        getAll: getAll
+    }
 }
 
 export default useListService;

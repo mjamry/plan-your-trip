@@ -27,7 +27,7 @@ const useRestClient = () => {
         const user = await userManager.getUser();
         if (user) {
             logger.debug(`User logged in: ${user.access_token}`)
-            return {
+            headers = {
                 ...headers,
                 'Authorization': `Bearer ${user.access_token}`
             };
@@ -52,8 +52,8 @@ const useRestClient = () => {
         const request = {
             url: url,
             method: method,
-            headers: allHeaders
-            //body: body
+            headers: allHeaders,
+            body: body ? JSON.stringify(body) : body
         };
 
         return new Promise((resolve, reject) => {

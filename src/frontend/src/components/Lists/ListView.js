@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import useLoggerService from '../../Services/Diagnostics/LoggerService'
+import React, { useEffect } from 'react'
 import { useListsState, ListsStateActions } from '../../State/ListsState'
 import DropDown from './ListViewDropDown'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
 import {ListViewMenuItem} from './ListViewMenu'
 import DateTimeFormatter from '../../Common/DateTimeFormatter'
 import { useLocationsState } from '../../State/LocationsState'
-
-import useRestClient from './../../Common/RestClient'
+import useListService from './../../Services/ListService'
 
 const ListView = () => {
     const [listState, dispatchList] = useListsState();
     const [{locations}, dispatchLocations] = useLocationsState();
-    const [lists, setLists] = useState([]);
-    const logger = useLoggerService();
-    const api = useRestClient();
+    const listService = useListService();
     const [{}, dispatchModal] = useModalState();
 
     const dateTimeFormatter = DateTimeFormatter();
 
     useEffect(() => {
-        api.get("http://localhost:50001/lists")
-        .then(data => {
-            logger.info(`[ListView] Successfully loaded ${data.length} lists`);
-            storeLocation(data);
-        })
-        .catch(() => {
-            logger.error(`[ListView] Cannot get lists data.`)
-        });
+        listService.getAll();
     }, [])
 
     var getSelectedList = () => {
@@ -36,15 +25,6 @@ const ListView = () => {
 
     var getNumberOfLocations = () => {
         return locations.length;
-    }
-
-    var storeLocation = (data) => {
-        setLists(data);
-        dispatchList({type: ListsStateActions.loadLists, data: data});
-    }
-
-    var selectList = (listId) => {
-        dispatchList({type: ListsStateActions.selectList, data: listId});
     }
 
     return (
