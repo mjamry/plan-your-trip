@@ -29,7 +29,7 @@ const useDbLog = () => {
 export default useDbLog;
 
 const storelog = async (log) => {
-    let url = 'http://localhost:50000/diagnostics/logs/create';
+    let url = 'http://localhost:50001/diagnostics/logs/create';
 
     const rawResponse = await fetch(url, {
         method: 'POST',

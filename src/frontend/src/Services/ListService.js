@@ -2,6 +2,7 @@
 import useNotificationService from '../Services/NotificationService'
 import useLoggerService from './Diagnostics/LoggerService'
 import { useListsState, ListsStateActions } from '../State/ListsState'
+import useRestClient from './../Common/RestClient'
 
 const DbActions = {
     add: 'create',
@@ -31,7 +32,7 @@ const usePersistentListService = () => {
 }
 
 const dispatchDbAction = async (dbAction, data) => {
-    let url = 'http://localhost:50000/lists/' + dbAction;
+    let url = 'http://localhost:50001/lists/' + dbAction;
     var logger = useLoggerService();
 
     const rawResponse = await fetch(url, {

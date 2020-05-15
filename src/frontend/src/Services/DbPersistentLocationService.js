@@ -36,7 +36,7 @@ const useDbPresistentLocationService = () => {
 }
 
 const dispatchDbAction = async (dbAction, data) => {
-    let url = 'http://localhost:50000/locations/' + dbAction;
+    let url = 'http://localhost:50001/locations/' + dbAction;
     var logger = useLoggerService();
 
     const rawResponse = await fetch(url, {

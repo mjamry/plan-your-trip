@@ -7,32 +7,27 @@ import {ListViewMenuItem} from './ListViewMenu'
 import DateTimeFormatter from '../../Common/DateTimeFormatter'
 import { useLocationsState } from '../../State/LocationsState'
 
+import useRestClient from './../../Common/RestClient'
+
 const ListView = () => {
     const [listState, dispatchList] = useListsState();
     const [{locations}, dispatchLocations] = useLocationsState();
     const [lists, setLists] = useState([]);
     const logger = useLoggerService();
+    const api = useRestClient();
     const [{}, dispatchModal] = useModalState();
 
     const dateTimeFormatter = DateTimeFormatter();
 
     useEffect(() => {
-        fetch(`http://localhost:50000/lists`)
-            .then(response => {
-                if (response.status !== 200) {
-                    logger.error(`[ListView] Cannot fetch lists. Error: ${response.statusText}. Code: ${response.status}`)
-                }
-                else {
-                    response.json()
-                        .then(data => {
-                            if (data) {
-                                logger.info(`[ListView] Successfully loaded ${data.length} lists`)
-                                storeLocation(data);
-                            }
-
-                        })
-                }
-            })
+        api.get("http://localhost:50001/lists")
+        .then(data => {
+            logger.info(`[ListView] Successfully loaded ${data.length} lists`);
+            storeLocation(data);
+        })
+        .catch(() => {
+            logger.error(`[ListView] Cannot get lists data.`)
+        });
     }, [])
 
     var getSelectedList = () => {
