@@ -32,7 +32,9 @@ namespace trip_planner
                 options.AddPolicy(MyOriginsPolicy,
                     builder =>
                     {
-                        builder.AllowAnyOrigin().AllowAnyHeader();
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
 

@@ -16,7 +16,9 @@ namespace IdentityServer
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
             { 
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
         public static IEnumerable<TestUser> Users => 
@@ -56,7 +58,7 @@ namespace IdentityServer
                         AllowedGrantTypes = GrantTypes.Implicit,
                         AllowAccessTokensViaBrowser = true,
 
-                        RedirectUris =           { "http://localhost:3000" },
+                        RedirectUris =           { "http://localhost:3000/callback.html" },
                         PostLogoutRedirectUris = { "http://localhost:3000/index.html" },
                         AllowedCorsOrigins =     { "http://localhost:3000" },
 
@@ -64,6 +66,7 @@ namespace IdentityServer
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
+                            IdentityServerConstants.StandardScopes.Email,
                             API_CODE_NAME
                         }
                     }
