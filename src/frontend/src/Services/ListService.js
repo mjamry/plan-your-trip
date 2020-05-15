@@ -9,19 +9,19 @@ const usePersistentListService = () => {
     const api = useRestClient();
 
     var add = (list) => {
-        return api.post(`${API_URL}/create`, list)
+        return api.post(API_URL, list)
     }
 
     var remove = (list) => {
-        return api.post(`${API_URL}/delete`, list)
+        return api.delete(API_URL, list)
     }
 
     var edit = (list) => {
-        return api.post(`${API_URL}/update`, list)
+        return api.put(API_URL, list)
     }
 
     var getAll = () => {
-        return api.get(`${API_URL}`)
+        return api.get(API_URL)
     } 
 
     return {

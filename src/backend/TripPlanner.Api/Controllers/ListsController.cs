@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using trip_planner.Data.Models;
 
 namespace trip_planner.Controllers
@@ -19,28 +17,20 @@ namespace trip_planner.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public List GetList(int id)
+        public IActionResult Get()
         {
-            return _repo.GetList(id);
-        }
-
-        [HttpGet]
-        public IEnumerable<List> GetLists()
-        {
-            return _repo.GetLists();
+            return Ok(_repo.GetLists());
         }
 
         [HttpPost]
-        [Route("create")]
-        public List CreateList([FromBody] List list)
+        public IActionResult Create([FromBody] List list)
         {
-            return _repo.CreateList(list, 0);
+            var createdList = _repo.CreateList(list, 0);
+            return Created(string.Empty, createdList);
         }
 
-        [HttpPost]
-        [Route("update")]
-        public IActionResult UpdateList([FromBody] List list)
+        [HttpPut]
+        public IActionResult Update([FromBody] List list)
         {
             var result = _repo.UpdateList(list);
 
@@ -52,9 +42,8 @@ namespace trip_planner.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        [Route("delete")]
-        public IActionResult DeleteList([FromBody] List list)
+        [HttpDelete]
+        public IActionResult Delete([FromBody] List list)
         {
             var result = _repo.DeleteList(list);
 
