@@ -1,35 +1,17 @@
 import React, { useEffect } from 'react';
-import { useLocationsState, LocationsStateActions } from '../State/LocationsState'
+import { useLocationsState } from '../State/LocationsState'
 
-import { useListsState, ListsStateActions } from '../State/ListsState'
-import useLoggerService from '../Services/Diagnostics/LoggerService'
-
-import useRestClient from './../Common/RestClient'
+import { useListsState } from '../State/ListsState'
+import useLocationsService from './../Services/LocationService'
 
 const LocationsDataDownloader = () => {
     const [{}, dispatchLocations] = useLocationsState();
     const [{selectedListId}, dispatchLists] = useListsState();
-
-    var logger = useLoggerService();
-    var api = useRestClient();
+    const locationService = useLocationsService();
 
     useEffect(() => {
-        api.get(`http://localhost:50001/Locations/list/${selectedListId}`)
-            .then(data => {
-                logger.info(`[LocationsDataDownloader] Successfully loaded ${data.length} locations`)
-                storeLocation(data);
-            })
-            .catch(()=>{
-                logger.error(`[LocationsDataDownloader] Cannot get locations data.`)
-            });
+        locationService.getAll(selectedListId);
     }, [selectedListId])
-
-    var storeLocation = (locations) => {
-        dispatchLocations({
-            type: LocationsStateActions.loadLocations,
-            data: locations
-        })
-    }
 
     return (<div></div>);
 }
