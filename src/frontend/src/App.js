@@ -29,6 +29,7 @@ import { ModalStateProvider } from './State/ModalStateProvider'
 import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
+import SessionStateProvider from './State/SessionState'
 import ListView from './components/Lists/ListView'
 import ListsStateProvider from './State/ListsState'
 import ListViewMenu from './components/Lists/ListViewMenu'
@@ -37,7 +38,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
-import { LocationsStateProvider } from './State/LocationsState';
+import { LocationsStateProvider } from './State/LocationsState'
 
 library.add(far, fas, faWikipediaW)
 
@@ -46,6 +47,7 @@ var App = () => {
     <div className="App">
       <NotificationStateProvider>
         <ToasterNotifications/>
+        <SessionStateProvider>
         <LocationsStateProvider>
         <ListsStateProvider>
           <LocationActionLoadingIndicator/>
@@ -66,6 +68,7 @@ var App = () => {
           </ModalStateProvider>
         </ListsStateProvider>
         </LocationsStateProvider>
+        </SessionStateProvider>
       </NotificationStateProvider>
     </div>
   );
