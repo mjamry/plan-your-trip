@@ -1,20 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {useSessionState, SessionActions} from './../State/SessionState'
+import {useUserState, UserActions} from '../State/UserState'
 
 
 var Header = (props) => {
-  const [session, dispatchState] = useSessionState();
+  const [session, dispatchState] = useUserState();
 
   return (
     <div className="header">
         {session.signedIn ? "signedIn" : "signedOut"}
         <button onClick={()=>dispatchState({
-          type: SessionActions.signIn
+          type: UserActions.signIn
         })}>Sign In</button>
 
         <button onClick={()=>dispatchState({
-          type: SessionActions.signOut
+          type: UserActions.signOut
         })}>Sign Out</button>
         <div><FontAwesomeIcon icon='globe-americas'/> Plan the Trip</div>
     </div>

@@ -1,10 +1,10 @@
 
 import useLoggerService from './../Services/Diagnostics/LoggerService'
-import { useSessionState } from './../State/SessionState'
+import { useUserState } from '../State/UserState'
 import { Log, User, UserManager } from 'oidc-client'
 
 const useRestClient = () => {
-    const [{user, userManager, token}, dispatchSession] = useSessionState();
+    const [{user, userManager, token}, dispatchSession] = useUserState();
     const logger = useLoggerService();
 
     const get = async (url, headers) => {

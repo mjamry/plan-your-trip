@@ -13,44 +13,44 @@ const config = {
 const manager = new UserManager(config);
 Log.logger = console;
 
-const SessionActions = {
+const UserActions = {
     signIn: 'signin',
     signOut: 'signOut',
     setUser: 'setuser',
     removeUser: 'removeuser'
 }
 
-const SessionState = {
+const UserState = {
     user: null,
     userManager: manager,
     signedIn: false,
     token: null
 }
 
-const SessiontateContext = createContext();
+const UserContext = createContext();
 
-const SessionStateProvider = ({children}) => {
+const UserStateProvider = ({children}) => {
     return (
-        <SessiontateContext.Provider value={useReducer(_reducer, SessionState)}>
+        <UserContext.Provider value={useReducer(_reducer, UserState)}>
             {children}
-        </SessiontateContext.Provider>
+        </UserContext.Provider>
     )
 }
 
-var useSessionState = () => useContext(SessiontateContext);
+var useUserState = () => useContext(UserContext);
 
 const _reducer = (state, action) => {
     switch(action.type){
-        case SessionActions.signIn:
+        case UserActions.signIn:
             manager.signinRedirect();
             break;
-        case SessionActions.signOut:
+        case UserActions.signOut:
             manager.signoutRedirect();
             break;
-        case SessionActions.setUser:
+        case UserActions.setUser:
             state = {...state, user: action.data, signedIn: true, token: action.data.access_token}
             break;
-        case SessionActions.removeUser: 
+        case UserActions.removeUser: 
             state = {...state, user: null, signedIn: false, token: null};
             break;
     }
@@ -58,5 +58,5 @@ const _reducer = (state, action) => {
     return state;
 }
 
-export default SessionStateProvider;
-export {SessiontateContext, SessionStateProvider, SessionActions, useSessionState}
+export default UserStateProvider;
+export {UserContext, UserStateProvider, UserActions, useUserState}

@@ -29,7 +29,7 @@ import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
-import SessionStateProvider from './State/SessionState'
+import UserStateProvider from './State/UserState'
 import ListView from './components/Lists/ListView'
 import ListsStateProvider from './State/ListsState'
 import ListViewMenu from './components/Lists/ListViewMenu'
@@ -49,7 +49,7 @@ var App = () => {
     <div className="App">
       <NotificationStateProvider>
         <ToasterNotifications/>
-        <SessionStateProvider>
+        <UserStateProvider>
         <LocationsStateProvider>
         <ListsStateProvider>
          
@@ -71,7 +71,7 @@ var App = () => {
           </ModalStateProvider>
         </ListsStateProvider>
         </LocationsStateProvider>
-        </SessionStateProvider>
+        </UserStateProvider>
       </NotificationStateProvider>
     </div>
   );
