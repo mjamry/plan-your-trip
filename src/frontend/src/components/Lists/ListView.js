@@ -15,10 +15,6 @@ const ListView = () => {
 
     const dateTimeFormatter = DateTimeFormatter();
 
-    useEffect(() => {
-        listService.getAll();
-    }, [])
-
     var getSelectedList = () => {
         return listState.lists.filter(l => l.id == listState.selectedListId)[0] || {name: "", created: "", updated: "", locations: []};
     }

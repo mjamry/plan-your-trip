@@ -125,7 +125,8 @@ const useLocationService = () => {
     }
 
     var getAll = (listId) => {
-        persistentLocationService.getAll(listId)
+        return new Promise((resolve, reject) => {
+            persistentLocationService.getAll(listId)
             .then((data)=>
             {
                 dispatchLocations({
@@ -133,12 +134,15 @@ const useLocationService = () => {
                     data: data
                 })
 
-                logger.info(`[LocationService] Successfully loaded ${data.length} locations`)
+                logger.info(`[LocationService] Successfully loaded ${data.length} locations`);
+                resolve(data);
             })
             .catch(()=>
             {
-                logger.error(`[LocationService] Error while getting all lists data.`)
+                logger.error(`[LocationService] Error while getting all lists data.`);
+                reject();
             })
+        })
     }
 
     return {

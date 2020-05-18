@@ -18,6 +18,7 @@ import './Styles/ToasterNotifications.css'
 import './Styles/LocationActionLoadingIndicator.css'
 import './Styles/DropDown.css'
 import './Styles/ListView.css'
+import './Styles/AppLoader.css'
 
 import React from 'react';
 import LocationsView from './components/Locations/LocationsView'
@@ -26,7 +27,6 @@ import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
 import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
-import LocationsDataDownloader from './components/LocationsDataDownloader'
 import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
 import SessionStateProvider from './State/SessionState'
@@ -40,6 +40,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 import { LocationsStateProvider } from './State/LocationsState'
 
+import AppLoader from './AppLoader'
+
 library.add(far, fas, faWikipediaW)
 
 var App = () => {
@@ -50,9 +52,10 @@ var App = () => {
         <SessionStateProvider>
         <LocationsStateProvider>
         <ListsStateProvider>
+         
           <LocationActionLoadingIndicator/>
-          <LocationsDataDownloader />
           <ModalStateProvider>
+          <AppLoader/>
             <ModalContainer />
             <Header />
             <div className="app-content-container">

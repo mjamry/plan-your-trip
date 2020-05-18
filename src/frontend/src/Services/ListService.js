@@ -127,7 +127,8 @@ const useListService = () => {
     }
 
     var getAll = () => {
-        persistentListService.getAll()
+        return new Promise((resolve, reject) => {
+            persistentListService.getAll()
             .then((data)=>
             {
                 dispatchLists({
@@ -135,12 +136,15 @@ const useListService = () => {
                     data: data});
 
                 logger.info(`[ListService] Successfully loaded ${data.length} lists`);
+
+                resolve(data);
             })
             .catch(()=>
             {
-                logger.error(`[ListService] Error while getting all lists data.`)
+                logger.error(`[ListService] Error while getting all lists data.`);
+                reject();
             })
-            
+        })
     }
 
     return {
