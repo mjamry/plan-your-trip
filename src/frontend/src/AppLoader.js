@@ -4,6 +4,7 @@ import useLocationsService from './Services/LocationService'
 import useListService from './Services/ListService'
 import useLoggerService from './Services/Diagnostics/LoggerService'
 import {useListsState} from './State/ListsState'
+import useUserService from './Services/UserService'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -16,6 +17,7 @@ const AppLoader = () => {
     const locationService = useLocationsService();
     const listService = useListService();
     const log = useLoggerService();
+    const user = useUserService();
 
     useEffect(() => {
         const loadData = async () => {
@@ -30,21 +32,28 @@ const AppLoader = () => {
     useEffect(()=>{
         const loadData = async () => {
             //do steps
+            const isSignedIn = await user.isSignedIn();
+            if(!isSignedIn)
+            {
+                user.signIn();
+            }
+            else
+            {
+                setIsLoading(true);
+                setProgress(1/NUMBER_OF_STEPS);
+                log.debug(`Data Loading Progress: ${progress}`)
+                let lists = await listService.getAll();
+                await sleep(1000);
+                setProgress(2/NUMBER_OF_STEPS);
+                log.debug(`Data Loading Progress: ${progress}`)
+                let locations = await locationService.getAll(lists[0].id);
+                await sleep(1000);
+                setProgress(3/NUMBER_OF_STEPS);
             
-        setIsLoading(true);
-            setProgress(1/NUMBER_OF_STEPS);
-            log.debug(`Data Loading Progress: ${progress}`)
-            let lists = await listService.getAll();
-            await sleep(1000);
-            setProgress(2/NUMBER_OF_STEPS);
-            log.debug(`Data Loading Progress: ${progress}`)
-            let locations = await locationService.getAll(lists[0].id);
-            await sleep(1000);
-            setProgress(3/NUMBER_OF_STEPS);
-          
-            log.debug(`Data Loading Progress: ${progress}`)
-            
-        setIsLoading(false);
+                log.debug(`Data Loading Progress: ${progress}`)
+                
+                setIsLoading(false);
+            }
         };
 
         loadData();

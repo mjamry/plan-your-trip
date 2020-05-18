@@ -10,24 +10,32 @@ const config = {
     post_logout_redirect_uri : "http://localhost:3000/index.html",
 }
 
-const manager = new UserManager(config);
-Log.logger = console;
+const useUserService = () => {
+    const [userManager, setUserManager] = useState(new UserManager(config));
 
-const useUserSession = () => {
-    const {user, setUser} = useState();
-    
-    useEffect(() => {
-        
+    useEffect(()=>{
+        //TODO debug only
+        Log.logger = console;
     }, [])
 
-    var isSignedIn = () => {
+    var signIn = () => {
+        userManager.signinRedirect();
+    }
 
+    var signOut = () => {
+        userManager.signoutRedirect();
+    }
+
+    var isSignedIn = async () => {
+        const user = await userManager.getUser();
+        return !!user;
     }
 
     return {
-        isSignedIn: isSignedIn,
-        userManager: manager
+        signIn: signIn,
+        signOut: signOut,
+        isSignedIn: isSignedIn
     }
 }
 
-export default useUserSession;
+export default useUserService;

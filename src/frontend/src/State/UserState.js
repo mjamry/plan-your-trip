@@ -14,8 +14,6 @@ const manager = new UserManager(config);
 Log.logger = console;
 
 const UserActions = {
-    signIn: 'signin',
-    signOut: 'signOut',
     setUser: 'setuser',
     removeUser: 'removeuser'
 }
@@ -41,12 +39,6 @@ var useUserState = () => useContext(UserContext);
 
 const _reducer = (state, action) => {
     switch(action.type){
-        case UserActions.signIn:
-            manager.signinRedirect();
-            break;
-        case UserActions.signOut:
-            manager.signoutRedirect();
-            break;
         case UserActions.setUser:
             state = {...state, user: action.data, signedIn: true, token: action.data.access_token}
             break;
