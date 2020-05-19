@@ -1,11 +1,12 @@
 
 import useLoggerService from './../Services/Diagnostics/LoggerService'
 import { useUserState } from '../State/UserState'
-import { Log, User, UserManager } from 'oidc-client'
+import useUserService from './../Services/UserService'
 
 const useRestClient = () => {
     const [{user, userManager, token}, dispatchSession] = useUserState();
     const logger = useLoggerService();
+    const userService = useUserService();
 
     const get = async (url, headers) => {
         return makeRequest(url, 'GET', null, headers);
@@ -24,16 +25,12 @@ const useRestClient = () => {
     }
 
     const makeAuthorization = async (headers) => {
-        const user = await userManager.getUser();
-        if (user) {
-            logger.debug(`User logged in: ${user.access_token}`)
+        const token = await userService.getToken();
+        if (token) {
             headers = {
                 ...headers,
-                'Authorization': `Bearer ${user.access_token}`
+                'Authorization': `Bearer ${token}`
             };
-        }
-        else {
-            logger.info("User not logged in");
         }
 
         return headers;

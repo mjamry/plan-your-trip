@@ -8,7 +8,7 @@ import useUserService from './Services/UserService'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const NUMBER_OF_STEPS = 3;
+const NUMBER_OF_STEPS = 4;
 
 const AppLoader = () => {
     const [progress, setProgress] = useState(0);
@@ -16,14 +16,12 @@ const AppLoader = () => {
     const [{selectedListId}, dispatchLists] = useListsState();
     const locationService = useLocationsService();
     const listService = useListService();
-    const log = useLoggerService();
-    const user = useUserService();
+    const log = useLoggerService('AppLoader');
+    const userService = useUserService();
 
     useEffect(() => {
         const loadData = async () => {
-            setIsLoading(true);
             await locationService.getAll(selectedListId);
-            setIsLoading(false);
         }
 
         loadData();
@@ -31,39 +29,28 @@ const AppLoader = () => {
 
     useEffect(()=>{
         const loadData = async () => {
-            //do steps
-            const isSignedIn = await user.isSignedIn();
-            if(!isSignedIn)
-            {
-                user.signIn();
-            }
-            else
-            {
-                setIsLoading(true);
-                setProgress(1/NUMBER_OF_STEPS);
-                log.debug(`Data Loading Progress: ${progress}`)
-                let lists = await listService.getAll();
-                await sleep(1000);
-                setProgress(2/NUMBER_OF_STEPS);
-                log.debug(`Data Loading Progress: ${progress}`)
-                let locations = await locationService.getAll(lists[0].id);
-                await sleep(1000);
-                setProgress(3/NUMBER_OF_STEPS);
-            
-                log.debug(`Data Loading Progress: ${progress}`)
-                
-                setIsLoading(false);
-            }
+            setIsLoading(true);
+            //get USER
+            setProgress(1/NUMBER_OF_STEPS);
+            log.debug("Get User");
+            const user = await userService.getUser();
+            log.debug(user);
+
+            setProgress(2/NUMBER_OF_STEPS);
+            log.debug("Get Lists");
+            let lists = await listService.getAll();
+
+            setProgress(3/NUMBER_OF_STEPS);
+            log.debug("Get locations");
+            await locationService.getAll(lists[0].id);
+
+            setProgress(4/NUMBER_OF_STEPS);
+            setIsLoading(false);
         };
 
         loadData();
 
     }, [])
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
 
     return (
     <>
