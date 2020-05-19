@@ -9,11 +9,12 @@ const logLevel = {
 }
 
 class Log{
-    constructor(userId, timestamp, level, message, data = null){
+    constructor(userId, timestamp, level, prefix = '', message, data = null){
         this.userId = userId;
         this.timestamp = timestamp;
         this.level = level;
         this.message = message;
+        this.prefix = prefix;
         this.data = data ? JSON.stringify(data) : null
     }
 
@@ -21,15 +22,16 @@ class Log{
     timestamp;
     level;
     message;
+    prefix;
     data;
 }
 
-const useLoggerService = () => {
+const useLoggerService = (prefix) => {
     const loggers = [useConsoleLog(), useDbLog()]
     const userID = 0;
 
     var _generateLog = (level, message, data = null) => {
-        return new Log(userID, new Date().toISOString(), level, message, data)
+        return new Log(userID, new Date().toISOString(), level, prefix, message, data)
     }
 
     var error = (message, exception) => {

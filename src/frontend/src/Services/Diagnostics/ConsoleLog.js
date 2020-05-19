@@ -8,7 +8,8 @@ const styles = {
 
 const useConsoleLog = () => {
     var _logContent = (logEntry) => {
-        return `%c[${logEntry.timestamp}][${logEntry.level}] ${logEntry.message}`
+        const prefix = logEntry.prefix ? `[${logEntry.prefix}]` : '';
+        return `%c[${logEntry.timestamp}][${logEntry.level}]${prefix} ${logEntry.message}`
     }
 
     var error = (logEntry) => {
