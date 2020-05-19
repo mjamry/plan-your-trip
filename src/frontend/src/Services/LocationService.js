@@ -37,7 +37,7 @@ const useLocationService = () => {
     const [{selectLocationsList}, dispatchLocations] = useLocationsState();
     const notificationService = useNotificationService();
     const persistentLocationService = usePersistentService();
-    const logger = useLoggerService();
+    const logger = useLoggerService('LocationService');
     const [{selectedListId}, dispatchLists] = useListsState();
 
     var setLoading = () => {
@@ -63,12 +63,12 @@ const useLocationService = () => {
                     data: locationData});
                 
                 notificationService.success(`New location added: ${locationData.name}`);
-                logger.info(`[LocationService] Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to list -> Id: ${selectedListId}`)
+                logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to list -> Id: ${selectedListId}`)
             })
             .catch(()=>
             {
                 notificationService.error(`Error while adding location: ${location.name}`);
-                logger.error(`[LocationService] Error while adding new location: Name: ${location.name}`);
+                logger.error(`Error while adding new location: Name: ${location.name}`);
             })
             .finally(()=>
             {
@@ -87,12 +87,12 @@ const useLocationService = () => {
                     data: location})
         
                 notificationService.success(`Location modified: ${location.name}`);
-                logger.info(`[LocationService] Successfully edited location -> Id: ${location.id} Name: ${location.name}`)
+                logger.info(`Successfully edited location -> Id: ${location.id} Name: ${location.name}`)
             })
             .catch(()=>
             {
                 notificationService.error(`Error while editing location: ${location.name}`);
-                logger.error(`[LocationService] Error while editing location: Id: ${location.id} Name: ${location.name}`);
+                logger.error(`Error while editing location: Id: ${location.id} Name: ${location.name}`);
             })
             .finally(()=>
             {
@@ -111,12 +111,12 @@ const useLocationService = () => {
                     data: location})
                     
                 notificationService.success(`Location removed: ${location.name}`);
-                logger.info(`[LocationService] Successfully removed location -> Id: ${location.id} Name: ${location.name}`)
+                logger.info(`Successfully removed location -> Id: ${location.id} Name: ${location.name}`)
             })
             .catch(()=>
             {
                 notificationService.error(`Error while removing location: ${location.name}`);
-                logger.error(`[LocationService] Error while removing location: Id: ${location.id} Name: ${location.name}`);
+                logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`);
             })
             .finally(()=>
             {
@@ -134,12 +134,12 @@ const useLocationService = () => {
                     data: data
                 })
 
-                logger.info(`[LocationService] Successfully loaded ${data.length} locations`);
+                logger.info(`Successfully loaded ${data.length} locations`);
                 resolve(data);
             })
             .catch(()=>
             {
-                logger.error(`[LocationService] Error while getting all lists data.`);
+                logger.error(`Error while getting all lists data.`);
                 reject();
             })
         })

@@ -5,7 +5,7 @@ import useUserService from './../Services/UserService'
 
 const useRestClient = () => {
     const [{user, userManager, token}, dispatchSession] = useUserState();
-    const logger = useLoggerService();
+    const logger = useLoggerService('RestClient');
     const userService = useUserService();
 
     const get = async (url, headers) => {
@@ -60,7 +60,7 @@ const useRestClient = () => {
 
     const send = async (request, resolve, reject) => {
         logger.debug(
-            `[RestClient] Request
+            `Request
              URL: ${request.url}
              Method: ${request.method}
              Headers: ${JSON.stringify(request.headers)}
@@ -73,7 +73,7 @@ const useRestClient = () => {
         });
 
         logger.debug(
-            `[RestClient] Response
+            `Response
             URL: ${request.url}
             Is OK: ${rawResponse.ok}
             Status: ${rawResponse.status} -> ${rawResponse.statusText}`

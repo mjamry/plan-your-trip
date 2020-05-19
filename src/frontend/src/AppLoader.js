@@ -34,7 +34,6 @@ const AppLoader = () => {
             setProgress(1/NUMBER_OF_STEPS);
             log.debug("Get User");
             const user = await userService.getUser();
-            log.debug(user);
 
             setProgress(2/NUMBER_OF_STEPS);
             log.debug("Get Lists");

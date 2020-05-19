@@ -35,7 +35,7 @@ const usePersistentListService = () => {
 const useListService = () => {
     const notificationService = useNotificationService();
     const persistentListService = usePersistentListService();
-    const logger = useLoggerService();
+    const logger = useLoggerService('ListService');
     const [{selectedListId}, dispatchLists] = useListsState();
 
     var setLoading = () => {
@@ -65,7 +65,7 @@ const useListService = () => {
                     data: listData.id});
                     
                 notificationService.success(`New list added: ${listData.name}`);
-                logger.info(`[ListService] Successfully added list -> Id: ${listData.id} Name: ${listData.name}`)
+                logger.info(`Successfully added list -> Id: ${listData.id} Name: ${listData.name}`)
             })
             .catch(()=>
             {
@@ -89,7 +89,7 @@ const useListService = () => {
                     data: listData})
         
                 notificationService.success(`list modified: ${list.name}`);
-                logger.info(`[ListService] Successfully edited list -> Id: ${list.id} Name: ${list.name}`)
+                logger.info(`Successfully edited list -> Id: ${list.id} Name: ${list.name}`)
             })
             .catch(()=>
             {
@@ -113,7 +113,7 @@ const useListService = () => {
                     data: list})
                     
                 notificationService.success(`list removed: ${list.name}`);
-                logger.info(`[ListService] Successfully removed list -> Id: ${list.id} Name: ${list.name}`)
+                logger.info(`Successfully removed list -> Id: ${list.id} Name: ${list.name}`)
             })
             .catch(()=>
             {
@@ -135,13 +135,13 @@ const useListService = () => {
                     type: ListsStateActions.loadLists, 
                     data: data});
 
-                logger.info(`[ListService] Successfully loaded ${data.length} lists`);
+                logger.info(`Successfully loaded ${data.length} lists`);
 
                 resolve(data);
             })
             .catch(()=>
             {
-                logger.error(`[ListService] Error while getting all lists data.`);
+                logger.error(`Error while getting all lists data.`);
                 reject();
             })
         })
