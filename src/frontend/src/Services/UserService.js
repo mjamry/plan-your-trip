@@ -11,6 +11,8 @@ const config = {
     post_logout_redirect_uri : "http://localhost:3000/index.html",
 }
 
+const GET_USER_TIMEOUT = 5000;
+
 const useUserService = () => {
     const [userManager, setUserManager] = useState(new UserManager(config));
     const log = useLoggerService('UserService');
@@ -32,9 +34,11 @@ const useUserService = () => {
         return new Promise((resolve, reject) => 
         {
             log.debug("Getting user...");
+            const getUserTimeout = setTimeout(signIn, GET_USER_TIMEOUT);
             userManager.getUser()
                 .then((user) => 
                 {
+                    clearTimeout(getUserTimeout);
                     if(user){
                         if(user.expired){
                             log.debug("Token expired")

@@ -57,11 +57,12 @@ namespace IdentityServer
                         ClientName = "JavaScript Client",
                         AllowedGrantTypes = GrantTypes.Implicit,
                         AllowAccessTokensViaBrowser = true,
-
+                        RequireConsent = false,
+                        
                         RedirectUris =           { "http://localhost:3000/callback.html" },
                         PostLogoutRedirectUris = { "http://localhost:3000/index.html" },
                         AllowedCorsOrigins =     { "http://localhost:3000" },
-
+                        
                         AllowedScopes =
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
