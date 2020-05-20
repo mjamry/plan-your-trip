@@ -25,54 +25,38 @@ import LocationsView from './components/Locations/LocationsView'
 import LocationsMapView from './components/MapView/LocationsMapView'
 import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
-import NotificationStateProvider from './State/NotificationState'
-import { ModalStateProvider } from './State/ModalStateProvider'
-import ToasterNotifications from './components/ToasterNotifications'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
-import UserStateProvider from './State/UserState'
 import ListView from './components/Lists/ListView'
-import ListsStateProvider from './State/ListsState'
 import ListViewMenu from './components/Lists/ListViewMenu'
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
-import { LocationsStateProvider } from './State/LocationsState'
 
 import AppLoader from './AppLoader'
+import AppContext from './AppContext'
 
 library.add(far, fas, faWikipediaW)
 
 var App = () => {
   return (
     <div className="App">
-      <NotificationStateProvider>
-        <ToasterNotifications/>
-        <UserStateProvider>
-        <LocationsStateProvider>
-        <ListsStateProvider>
-         
-          <LocationActionLoadingIndicator/>
-          <ModalStateProvider>
-          <AppLoader/>
-            <ModalContainer />
-            <Header />
-            <div className="app-content-container">
-              <div className="app-locations-view">
-                <ListView />
-                <ListViewMenu />
-                <LocationsView />
-              </div>
-              <div className="app-map-view">
-                <LocationsMapView />
-              </div>
-            </div>
-          </ModalStateProvider>
-        </ListsStateProvider>
-        </LocationsStateProvider>
-        </UserStateProvider>
-      </NotificationStateProvider>
+      <AppContext>
+        <LocationActionLoadingIndicator/>
+        <AppLoader/>
+        <ModalContainer />
+        <Header />
+        <div className="app-content-container">
+          <div className="app-locations-view">
+            <ListView />
+            <ListViewMenu />
+            <LocationsView />
+          </div>
+          <div className="app-map-view">
+            <LocationsMapView />
+          </div>
+        </div>
+      </AppContext>
     </div>
   );
 }
