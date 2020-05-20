@@ -22,14 +22,7 @@ namespace IdentityServer
             };
 
         public static IEnumerable<TestUser> Users => 
-            new List<TestUser>
-            {
-                new TestUser{
-                    SubjectId = "anonymous",
-                    Username = "test",
-                    Password = "test_pass"
-                }
-            };
+            new List<TestUser>{};
 
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
@@ -40,17 +33,6 @@ namespace IdentityServer
         public static IEnumerable<Client> Clients =>
             new List<Client>
             {
-                new Client
-                {
-                    ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { API_CODE_NAME },
-                    AllowedCorsOrigins = {"http://localhost:3000"}
-                },
                 new Client
                     {
                         ClientId = "js",
