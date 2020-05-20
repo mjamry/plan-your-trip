@@ -126,6 +126,7 @@ const useLocationService = () => {
 
     var getAll = (listId) => {
         return new Promise((resolve, reject) => {
+            setLoading();
             persistentLocationService.getAll(listId)
             .then((data)=>
             {
@@ -141,6 +142,10 @@ const useLocationService = () => {
             {
                 logger.error(`Error while getting all lists data.`);
                 reject();
+            })
+            .finally(()=>
+            {
+                clearLoading();
             })
         })
     }

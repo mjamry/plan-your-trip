@@ -7,7 +7,9 @@ const LocationActionLoadingIndicator = () => {
 
     return (
         <div className="location-action-loading-indicator" style={{display: isLoading ? "block" : "none"}}>
-            <FontAwesomeIcon icon="spinner" spin className="fa-2x" />
+            <div className="location-action-loading-indicator-content">
+                <div className="location-action-loading-indicator-content-title">Processing data</div><FontAwesomeIcon icon="spinner" spin className="fa-2x" />
+            </div>
         </div>
     )
 }

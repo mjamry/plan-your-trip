@@ -1,5 +1,30 @@
 .location-action-loading-indicator{
     position: fixed;
-    bottom: 15px;
-    right: 15px;
+    bottom: 50px;
+    right: 30px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 999;
+}
+
+.location-action-loading-indicator-content{
+    min-width: 150px;
+    min-height: 50px;
+    margin-bottom: 10px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    text-align: left;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    cursor: pointer;
+    margin: 7px;
+    background-color: white;
+}
+
+.location-action-loading-indicator-content-title{
+    margin-right: 10px;
 }
