@@ -1,8 +1,22 @@
 .header{
     background-color: #363538;
     color: #f7fff6;
-    height: 40px;
-    text-align: left;
+    height: 60px;
+  }
+
+  .header-content{
     padding: 10px;
+    display: flex;
+    flex-flow: row;
   }
   
+  .header-title{
+    flex: 0 1 calc(90% - 1em);
+    padding: 10px;
+    text-align: left;
+  }
+
+  .header-user{
+    flex: 0 1 calc(10% - 1em);
+    float: right;
+  }

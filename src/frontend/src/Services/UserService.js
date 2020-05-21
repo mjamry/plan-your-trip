@@ -69,8 +69,15 @@ const useUserService = () => {
             getUser()
             .then((user)=>
             {
-                log.debug("Token obtained")
-                resolve(user.access_token);
+                if(user.access_token)
+                {
+                    log.debug("Token obtained")
+                    resolve(user.access_token);
+                }else
+                {
+                    log.debug("Silent signin")
+                    userManager.signinSilent();
+                }
             })
             .catch(()=>
             {

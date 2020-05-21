@@ -9,6 +9,8 @@
     height: 100%;
     z-index: 9999;
     background: #fff;
+    margin-top: 60px;
+    padding-bottom: 60px;
 }
 
 .app-loader-title{
