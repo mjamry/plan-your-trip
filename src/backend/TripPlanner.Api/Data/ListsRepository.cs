@@ -8,9 +8,9 @@ namespace trip_planner.Data.Models
 {
     public interface IListsRepository
     {
-        IEnumerable<List> GetLists();
+        IEnumerable<List> GetLists(Guid userId);
         List GetList(int id);
-        List CreateList(List list, int userId);
+        List CreateList(List list, Guid userId);
         List UpdateList(List list);
         List DeleteList(List list);
     }
@@ -23,13 +23,13 @@ namespace trip_planner.Data.Models
             _context = context;
         }
 
-        public List CreateList(List list, int userId)
+        public List CreateList(List list, Guid userId)
         {
             _context.Lists.Add(list);
             list.Created = DateTime.Now;
             list.Updated = DateTime.Now;
 
-            var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+            var user = _context.Users.Where(u => u.Id == 0).FirstOrDefault();
 
             _context.UserLists.Add(new UserLists()
             {
@@ -57,7 +57,7 @@ namespace trip_planner.Data.Models
             return _context.Lists.Where(l => l.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<List> GetLists()
+        public IEnumerable<List> GetLists(Guid userId)
         {
             return _context.Lists;
         }

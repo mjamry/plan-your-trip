@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using trip_planner.Data.Models;
+using TripPlanner.Api.Common;
 
 namespace trip_planner.Controllers
 {
@@ -10,22 +12,30 @@ namespace trip_planner.Controllers
     public class ListsController : ControllerBase
     {
         private IListsRepository _repo;
+        private readonly ICurrentUser _user;
+        private readonly ILogger<ListsController> _logger;
 
-        public ListsController(IListsRepository repo)
+        public ListsController(IListsRepository repo, ICurrentUser user, ILogger<ListsController> logger)
         {
+            _user = user;
+            _logger = logger;
             _repo = repo;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repo.GetLists());
+            _logger.LogError("#-> USER");
+            _logger.LogError(_user.Name);
+            _logger.LogError(_user.Email);
+            _logger.LogError(_user.Id.ToString());
+            return Ok(_repo.GetLists(_user.Id));
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] List list)
         {
-            var createdList = _repo.CreateList(list, 0);
+            var createdList = _repo.CreateList(list, _user.Id);
             return Created(string.Empty, createdList);
         }
 

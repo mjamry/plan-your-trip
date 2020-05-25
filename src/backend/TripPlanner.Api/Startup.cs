@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using trip_planner.Data;
 using trip_planner.Data.Contexts;
 using trip_planner.Data.Models;
+using TripPlanner.Api.Common;
 
 namespace trip_planner
 {
@@ -27,6 +28,7 @@ namespace trip_planner
         public void ConfigureServices (IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyOriginsPolicy,
@@ -56,6 +58,7 @@ namespace trip_planner
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
             services.AddScoped<IListsRepository, ListsRepository>();
+            services.AddScoped<ICurrentUser, CurrentUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
