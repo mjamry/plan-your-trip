@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.Design;
+﻿
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-
-using IdentityServer.Data;
+using System.ComponentModel.Design;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServer
 {
@@ -31,11 +29,6 @@ namespace IdentityServer
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
 
-            var builder = services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Config.Ids)
-                .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients);
-
             string dataConnectionString = Configuration["ConnectionStrings:UserDbConnectionString"];
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dataConnectionString));
 
@@ -49,9 +42,19 @@ namespace IdentityServer
 
                 options.User.RequireUniqueEmail = true;
             })
+                
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            var builder = services.AddIdentityServer(options => 
+            {
+                options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
+            })
+                .AddInMemoryIdentityResources(Config.Ids)
+                .AddInMemoryApiResources(Config.Apis)
+                .AddInMemoryClients(Config.Clients)
+                .AddAspNetIdentity<IdentityUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
