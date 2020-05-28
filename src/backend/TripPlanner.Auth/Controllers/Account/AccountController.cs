@@ -272,9 +272,6 @@ namespace TripPlanner.Auth
 
                 foreach(var error in result.Errors)
                 {
-                    _logger.LogError(error.ToString());
-                    _logger.LogError(error.Code);
-                    _logger.LogError(error.Description);
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
                 
