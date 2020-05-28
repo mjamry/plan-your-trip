@@ -6,7 +6,6 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 }
 
 .page-content{
@@ -17,6 +16,10 @@
 
 .page-title{
   font: 12pt;
+}
+
+.page-header .panel-title .panel-footer{
+  text-align: center;
 }
 
 .header{
@@ -30,4 +33,8 @@
 
   display: flex;
   flex-flow: row;
+}
+
+.btn-form{
+  width: 100%;
 }

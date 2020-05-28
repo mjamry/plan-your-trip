@@ -243,7 +243,7 @@ namespace TripPlanner.Auth
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -259,7 +259,7 @@ namespace TripPlanner.Auth
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                    // _logger.LogInformation(3, "User created a new account with password.");
-                    return Redirect("Login");
+                    return Redirect(returnUrl);
                 }
 
                 foreach(var error in result.Errors)
