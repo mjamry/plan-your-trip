@@ -24,11 +24,11 @@
                             <fieldset>
                                 <div class="input-group form-group">
                                     <div class="input-group-addon"><img src="/lib/icons/envelope.svg" alt="" width="16" height="16" title="Email"></div>
-                                    <input type="text" class="form-control" placeholder="Email" asp-for="Username" autofocus>
+                                    <input type="text" class="form-control" placeholder="Email" asp-for="Email" autofocus>
                                 </div>
                                 <div class="input-group form-group">
                                     <div class="input-group-addon"><img src="/lib/icons/lock.svg" alt="" width="16" height="16" title="Email"></div>
-                                    <input type="text" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                                    <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
                                 </div>
                                 @if (Model.AllowRememberLogin)
                                 {

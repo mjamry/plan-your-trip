@@ -18,7 +18,7 @@
   font: 12pt;
 }
 
-.page-header .panel-title .panel-footer{
+.page-header, .panel-title, .panel-footer{
   text-align: center;
 }
 

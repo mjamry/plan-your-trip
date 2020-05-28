@@ -109,62 +109,65 @@ namespace TripPlanner.Auth
 
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: false);
-                if(signInResult.Succeeded)
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if(user != null && model.ReturnUrl != null)
                 {
-                    var user = await _userManager.FindByNameAsync(model.Username);
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.ClientId));
-
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
+                     var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberLogin, lockoutOnFailure: false);
+                    if(signInResult.Succeeded)
                     {
-                        props = new AuthenticationProperties
+                        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.ClientId));
+
+                        // only set explicit expiration here if user chooses "remember me". 
+                        // otherwise we rely upon expiration configured in cookie middleware.
+                        AuthenticationProperties props = null;
+                        if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                         {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                            props = new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
+                            };
                         };
-                    };
 
-                    // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(user.Id)
-                    {
-                        DisplayName = user.UserName
-                    };
-
-                    await HttpContext.SignInAsync(isuser, props);
-
-                    if (context != null)
-                    {
-                        if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                        // issue authentication cookie with subject ID and username
+                        var isuser = new IdentityServerUser(user.Id)
                         {
-                            // if the client is PKCE then we assume it's native, so this change in how to
-                            // return the response is for better UX for the end user.
-                            return this.LoadingPage("Redirect", model.ReturnUrl);
+                            DisplayName = user.UserName
+                        };
+
+                        await HttpContext.SignInAsync(isuser, props);
+
+                        if (context != null)
+                        {
+                            if (await _clientStore.IsPkceClientAsync(context.ClientId))
+                            {
+                                // if the client is PKCE then we assume it's native, so this change in how to
+                                // return the response is for better UX for the end user.
+                                return this.LoadingPage("Redirect", model.ReturnUrl);
+                            }
+
+                            // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                            return Redirect(model.ReturnUrl);
                         }
 
-                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
-                    }
-
-                    // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
-                    {
-                        return Redirect("~/");
-                    }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
+                        // request for a local page
+                        if (Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+                        else if (string.IsNullOrEmpty(model.ReturnUrl))
+                        {
+                            return Redirect("~/");
+                        }
+                        else
+                        {
+                            // user might have clicked on a malicious link - should be logged
+                            throw new Exception("invalid return URL");
+                        }
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Email, "invalid credentials", clientId:context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -295,7 +298,7 @@ namespace TripPlanner.Auth
                 {
                     EnableLocalLogin = local,
                     ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
+                    Email = context?.LoginHint,
                 };
 
                 if (!local)
@@ -338,7 +341,7 @@ namespace TripPlanner.Auth
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
-                Username = context?.LoginHint,
+                Email = context?.LoginHint,
                 ExternalProviders = providers.ToArray()
             };
         }
@@ -346,7 +349,7 @@ namespace TripPlanner.Auth
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
-            vm.Username = model.Username;
+            vm.Email = model.Email;
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }
