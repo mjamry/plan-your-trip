@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +37,7 @@ namespace TripPlanner.Auth
         private readonly IEventService _events;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -42,10 +45,12 @@ namespace TripPlanner.Auth
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
@@ -250,7 +255,7 @@ namespace TripPlanner.Auth
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new IdentityUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -261,12 +266,15 @@ namespace TripPlanner.Auth
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                   // _logger.LogInformation(3, "User created a new account with password.");
+                    _logger.LogInformation(3, "User created a new account with password.");
                     return Redirect(returnUrl);
                 }
 
                 foreach(var error in result.Errors)
                 {
+                    _logger.LogError(error.ToString());
+                    _logger.LogError(error.Code);
+                    _logger.LogError(error.Description);
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
                 
