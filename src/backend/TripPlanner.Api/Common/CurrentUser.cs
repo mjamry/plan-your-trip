@@ -11,7 +11,6 @@ namespace TripPlanner.Api.Common
     {
         public CurrentUser(IHttpContextAccessor contextAccessor, ILogger<CurrentUser> logger)
         {
-            logger.LogError("USER");
             var userSubject = contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             Id = new Guid(userSubject);
             Name = contextAccessor.HttpContext?.User.Identity.Name;

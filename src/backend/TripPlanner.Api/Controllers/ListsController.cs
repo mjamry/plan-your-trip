@@ -25,10 +25,6 @@ namespace trip_planner.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            _logger.LogError("#-> USER");
-            _logger.LogError(_user.Name);
-            _logger.LogError(_user.Email);
-            _logger.LogError(_user.Id.ToString());
             return Ok(_repo.GetLists(_user.Id));
         }
 
