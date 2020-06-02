@@ -18,7 +18,7 @@ const ListsStateActions = {
 
 const ListsState = {
     lists: [],
-    selectedListId: 2,
+    selectedListId: 0,
     view: ListViewType.grid,
     isLoading: false
 }

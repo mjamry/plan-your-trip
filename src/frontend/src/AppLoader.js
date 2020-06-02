@@ -39,9 +39,12 @@ const AppLoader = () => {
             log.debug("Get Lists");
             let lists = await listService.getAll();
 
-            setProgress(3/NUMBER_OF_STEPS);
-            log.debug("Get locations");
-            await locationService.getAll(lists[0].id);
+            if(lists.length > 0)
+            {
+                setProgress(3/NUMBER_OF_STEPS);
+                log.debug("Get locations");
+                await locationService.getAll(lists[0].id);
+            }
 
             setProgress(4/NUMBER_OF_STEPS);
             setIsLoading(false);
