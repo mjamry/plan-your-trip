@@ -19,8 +19,6 @@ namespace trip_planner.Data.Contexts
 
         public DbSet<Location> Locations { get; set; }
 
-        public DbSet<User> Users { get; set; }
-
         public DbSet<List> Lists { get; set; }
 
         public DbSet<Coordinate> Coordinates { get; set; }

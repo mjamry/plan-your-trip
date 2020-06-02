@@ -29,11 +29,9 @@ namespace trip_planner.Data.Models
             list.Created = DateTime.Now;
             list.Updated = DateTime.Now;
 
-            var user = _context.Users.Where(u => u.Id == 0).FirstOrDefault();
-
             _context.UserLists.Add(new UserLists()
             {
-                User = user,
+                UserId = userId,
                 List = list
             });
 
@@ -59,7 +57,7 @@ namespace trip_planner.Data.Models
 
         public IEnumerable<List> GetLists(Guid userId)
         {
-            return _context.Lists;
+            return _context.UserLists.Where(u => u.UserId == userId).Include(l => l.List).Select(l => l.List);
         }
 
         public List UpdateList(List list)
