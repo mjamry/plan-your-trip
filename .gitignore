@@ -27,3 +27,4 @@ yarn-error.log*
 **/obj
 /launch.json
 package-lock.json
+**/appsettings.Development.json
