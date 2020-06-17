@@ -21,42 +21,33 @@ import './Styles/ListView.css'
 import './Styles/AppLoader.css'
 
 import React from 'react';
-import LocationsView from './components/Locations/LocationsView'
-import LocationsMapView from './components/MapView/LocationsMapView'
+import {BrowserRouter, Route} from 'react-router-dom'
 import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
-import ListView from './components/Lists/ListView'
-import ListViewMenu from './components/Lists/ListViewMenu'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
-import AppLoader from './AppLoader'
 import AppContext from './AppContext'
+import HomePage from './pages/HomePage'
+import CallbackPage from './pages/CallbackPage'
 
 library.add(far, fas, faWikipediaW)
 
 var App = () => {
   return (
     <div className="App">
-      <AppContext>
-        <LocationActionLoadingIndicator/>
-        <AppLoader/>
-        <ModalContainer />
-        <Header />
-        <div className="app-content-container">
-          <div className="app-locations-view">
-            <ListView />
-            <ListViewMenu />
-            <LocationsView />
-          </div>
-          <div className="app-map-view">
-            <LocationsMapView />
-          </div>
-        </div>
-      </AppContext>
+      <BrowserRouter>
+        <AppContext>
+          <LocationActionLoadingIndicator/>
+          <ModalContainer />
+          <Header />
+          <Route path='/' exact component={HomePage} />
+          <Route path='/callback' component={CallbackPage} />
+        </AppContext>
+      </BrowserRouter>
     </div>
   );
 }

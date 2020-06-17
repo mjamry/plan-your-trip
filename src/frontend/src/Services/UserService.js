@@ -5,10 +5,10 @@ import useLoggerService from './Diagnostics/LoggerService'
 const config = {
     authority: "http://localhost:50000",
     client_id: "js",
-    redirect_uri: "http://localhost:3000/callback.html",
+    redirect_uri: "http://localhost:3000/callback",
     response_type: "id_token token",
     scope:"openid profile email trip_planner",
-    post_logout_redirect_uri : "http://localhost:3000/index.html",
+    post_logout_redirect_uri : "http://localhost:3000/",
 }
 
 const GET_USER_TIMEOUT = 5000;
@@ -28,6 +28,10 @@ const useUserService = () => {
 
     var signOut = () => {
         userManager.signoutRedirect();
+    }
+
+    var signInRedirectCallback = () => {
+        return userManager.signinRedirectCallback();
     }
 
     var getUser = () => {
@@ -91,7 +95,8 @@ const useUserService = () => {
         signIn: signIn,
         signOut: signOut,
         getUser: getUser,
-        getToken: getToken
+        getToken: getToken,
+        signInRedirectCallback: signInRedirectCallback
     }
 }
 
