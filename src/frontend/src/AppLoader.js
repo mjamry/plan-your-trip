@@ -7,6 +7,7 @@ import {useListsState} from './State/ListsState'
 import useUserService from './Services/UserService'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useAppState, AppStateActions } from './State/AppState';
 
 const NUMBER_OF_STEPS = 4;
 
@@ -19,6 +20,7 @@ const AppLoader = ({history}) => {
     const listService = useListService();
     const log = useLoggerService('AppLoader');
     const userService = useUserService();
+    const [appState, dispatchAppState] = useAppState();
 
     useEffect(() => {
         const loadData = async () => {
@@ -57,6 +59,8 @@ const AppLoader = ({history}) => {
             setProgress(4/NUMBER_OF_STEPS);
             setProgressDetails("Finalize");
             setIsLoading(false);
+
+            dispatchAppState({type: AppStateActions.setAppInitialized});
         };
 
         loadData();

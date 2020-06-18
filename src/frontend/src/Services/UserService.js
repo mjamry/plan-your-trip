@@ -52,7 +52,7 @@ const useUserService = () => {
                         }
         
                         log.debug("User signed in")
-                        dispatchAppState({type: AppStateActions.setUser});
+                        dispatchAppState({type: AppStateActions.setUserSignedIn});
                     }
                     else
                     {

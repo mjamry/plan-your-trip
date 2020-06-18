@@ -1,12 +1,13 @@
 import React, {createContext, useContext, useReducer} from 'react'
 
 const AppStateActions = {
-    setUser: 'setuser',
-    removeUser: 'removeuser'
+    setUserSignedIn: 'setuser',
+    setAppInitialized: 'setAppInitialized'
 }
 
 const AppState = {
     userSignedIn: false,
+    appInitialized: false
 }
 
 const AppContext = createContext();
@@ -23,11 +24,11 @@ var useAppState = () => useContext(AppContext);
 
 const _reducer = (state, action) => {
     switch(action.type){
-        case AppStateActions.setUser:
+        case AppStateActions.setUserSignedIn:
             state = {...state, userSignedIn: true}
             break;
-        case AppStateActions.removeUser: 
-            state = {...state, userSignedIn: false};
+        case AppStateActions.setAppInitialized:
+            state = {...state, appInitialized: true}
             break;
     }
 

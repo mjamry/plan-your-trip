@@ -25,7 +25,7 @@ var Header = (props) => {
         <div className="header-content">
           <div className="header-title">Trip Planner</div>
 
-          {appState.userSignedIn && <div className="header-user">
+          {appState.userSignedIn && appState.appInitialized && <div className="header-user">
             {userName} 
             <button className="btn" onClick={()=>userService.signOut()}>Sign Out</button>
           </div>}
