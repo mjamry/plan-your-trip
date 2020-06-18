@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import {withRouter} from 'react-router-dom'
 import useLocationsService from './Services/LocationService'
 import useListService from './Services/ListService'
 import useLoggerService from './Services/Diagnostics/LoggerService'
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NUMBER_OF_STEPS = 4;
 
-const AppLoader = () => {
+const AppLoader = ({history}) => {
     const [progress, setProgress] = useState(0);
     const [progressDetails, setProgressDetails] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,11 @@ const AppLoader = () => {
             setProgress(1/NUMBER_OF_STEPS);
             setProgressDetails("Loading user data");
             log.debug("Get User");
-            const user = await userService.getUser();
+            await userService.getUser().then((user) => {
+                if(!user){
+                    history.push('/welcome');
+                }
+            });
 
             setProgress(2/NUMBER_OF_STEPS);
             setProgressDetails("Loading user lists");
@@ -78,4 +82,4 @@ const AppLoader = () => {
     </>);
 }
 
-export default AppLoader;
+export default withRouter(AppLoader);

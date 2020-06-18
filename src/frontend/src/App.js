@@ -19,6 +19,7 @@ import './Styles/LocationActionLoadingIndicator.css'
 import './Styles/DropDown.css'
 import './Styles/ListView.css'
 import './Styles/AppLoader.css'
+import './Styles/WelcomePage.css'
 
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom'
@@ -33,6 +34,7 @@ import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 import AppContext from './AppContext'
 import HomePage from './pages/HomePage'
 import CallbackPage from './pages/CallbackPage'
+import WelcomePage from './pages/WelcomePage'
 
 library.add(far, fas, faWikipediaW)
 
@@ -46,6 +48,7 @@ var App = () => {
           <Header />
           <Route path='/' exact component={HomePage} />
           <Route path='/callback' component={CallbackPage} />
+          <Route path='/welcome' component={WelcomePage} />
         </AppContext>
       </BrowserRouter>
     </div>

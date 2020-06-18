@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Log, User, UserManager } from 'oidc-client'
 import useLoggerService from './Diagnostics/LoggerService'
+import {useUserState, UserActions} from './../State/UserState'
 
 const config = {
     authority: "http://localhost:50000",
@@ -16,6 +17,7 @@ const GET_USER_TIMEOUT = 5000;
 const useUserService = () => {
     const [userManager, setUserManager] = useState(new UserManager(config));
     const log = useLoggerService('UserService');
+    const [userState, dispatchUser] = useUserState();
 
     useEffect(()=>{
         //TODO debug only
@@ -50,13 +52,14 @@ const useUserService = () => {
                         }
         
                         log.debug("User signed in")
-                        resolve(user);
+                        dispatchUser({type: UserActions.setUser});
                     }
                     else
                     {
-                        log.debug("No user -> redirect to sign in")
-                        signIn();
+                        log.debug("No user")
                     }
+
+                    resolve(user);
                 })
                 .catch(()=>
                 {

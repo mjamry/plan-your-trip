@@ -6,9 +6,7 @@ const UserActions = {
 }
 
 const UserState = {
-    user: null,
     signedIn: false,
-    token: null
 }
 
 const UserContext = createContext();
@@ -26,10 +24,10 @@ var useUserState = () => useContext(UserContext);
 const _reducer = (state, action) => {
     switch(action.type){
         case UserActions.setUser:
-            state = {...state, user: action.data, signedIn: true, token: action.data.access_token}
+            state = {...state, signedIn: true}
             break;
         case UserActions.removeUser: 
-            state = {...state, user: null, signedIn: false, token: null};
+            state = {...state, signedIn: false};
             break;
     }
 

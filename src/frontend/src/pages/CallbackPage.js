@@ -10,8 +10,6 @@ const CallbackPage = ({history}) => {
     useEffect(()=>
     {
         userService.signInRedirectCallback().then((data) => {
-            console.log(data);
-            debugger;
             history.push("/")
         }).catch(e => {
             log.error("Error while signing in an user: ", e);
