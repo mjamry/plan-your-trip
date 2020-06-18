@@ -15,7 +15,7 @@ export const ListViewMenuItem = ({icon, action, title}) => {
 }
 
 const ListViewMenu = () => {
-    const [{}, dispatchList] = useListsState();
+    const [listState, dispatchList] = useListsState();
     const [{locations}, dispatchLocations] = useLocationsState();
     const [{}, dispatchModal] = useModalState();
 
@@ -28,8 +28,11 @@ const ListViewMenu = () => {
             <ListViewMenuItem icon={['far', 'plus-square']} title="add new location" action={()=>dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})} />
         </div>
         <div className="list-view-menu-section">
-            <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.list})} />
-            <ListViewMenuItem icon={['fas', 'border-all']} title="show as grid" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.grid})} />
+            {
+                listState.view === ListViewType.grid 
+                ? <ListViewMenuItem icon={['far', 'list-alt']} title="show as list" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.list})} />
+                : <ListViewMenuItem icon={['fas', 'border-all']} title="show as grid" action={()=>dispatchList({type: ListsStateActions.setView, data: ListViewType.grid})} />
+            }
         </div>
     </div>)
 }
