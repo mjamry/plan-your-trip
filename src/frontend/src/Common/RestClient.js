@@ -1,10 +1,8 @@
 
 import useLoggerService from './../Services/Diagnostics/LoggerService'
-import { useUserState } from '../State/UserState'
 import useUserService from './../Services/UserService'
 
 const useRestClient = () => {
-    const [{user, userManager, token}, dispatchSession] = useUserState();
     const logger = useLoggerService('RestClient');
     const userService = useUserService();
 

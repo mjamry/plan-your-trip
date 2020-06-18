@@ -3,7 +3,7 @@ import React from 'react'
 import NotificationStateProvider from './State/NotificationState'
 import { ModalStateProvider } from './State/ModalStateProvider'
 import ToasterNotifications from './components/ToasterNotifications'
-import UserStateProvider from './State/UserState'
+import AppStateProvider from './State/AppState'
 import { LocationsStateProvider } from './State/LocationsState'
 import ListsStateProvider from './State/ListsState'
 
@@ -11,7 +11,7 @@ const AppContext = ({ children }) => {
     return (
         <NotificationStateProvider>
         <ToasterNotifications/>
-        <UserStateProvider>
+        <AppStateProvider>
         <LocationsStateProvider>
         <ListsStateProvider>
         <ModalStateProvider>
@@ -19,7 +19,7 @@ const AppContext = ({ children }) => {
         </ModalStateProvider>
         </ListsStateProvider>
         </LocationsStateProvider>
-        </UserStateProvider>
+        </AppStateProvider>
         </NotificationStateProvider>
     )
 }

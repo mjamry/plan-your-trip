@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {useUserState, UserActions} from '../State/UserState'
+import {useAppState} from '../State/AppState'
 import useUserService from './../Services/UserService'
 
 var Header = (props) => {
   const [userName, setUserName] = useState(null);
-  const [user, dispatchUser] = useUserState(null);
+  const [appState, dispatchUser] = useAppState(null);
   const userService = useUserService();
 
 
@@ -15,17 +15,17 @@ var Header = (props) => {
       setUserName(user.profile.name);
     }
 
-    if(user.signedIn){
+    if(appState.userSignedIn){
       getUserName();
     }
-  }, [user.signedIn])
+  }, [appState.userSignedIn])
 
   return (
     <div className="header">
         <div className="header-content">
           <div className="header-title">Trip Planner</div>
 
-          {user.signedIn && <div className="header-user">
+          {appState.userSignedIn && <div className="header-user">
             {userName} 
             <button className="btn" onClick={()=>userService.signOut()}>Sign Out</button>
           </div>}
