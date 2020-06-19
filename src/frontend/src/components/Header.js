@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from '../State/AppState'
 import useUserService from './../Services/UserService'
+import Button from '@material-ui/core/Button';
 
 var Header = (props) => {
   const [userName, setUserName] = useState(null);
@@ -27,7 +28,7 @@ var Header = (props) => {
 
           {appState.userSignedIn && appState.appInitialized && <div className="header-user">
             {userName} 
-            <button className="btn" onClick={()=>userService.signOut()}>Sign Out</button>
+            <Button variant="contained" size="small" onClick={()=>userService.signOut()}>Sign Out</Button>
           </div>}
         </div>
     </div>

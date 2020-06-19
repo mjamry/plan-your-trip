@@ -1,5 +1,6 @@
 import React from 'react'
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalStateProvider'
+import Button from '@material-ui/core/Button';
 
 const DefaultCoordinates = {
     lat: 0,
@@ -11,19 +12,22 @@ var AddNewLocationSelect = () => {
     
     return (
         <div className="add-new-location">
-            <button type="button" onClick={()=>dispatchModal(
+            <Button variant="contained" onClick={()=>dispatchModal(
                 {
                     type: ModalStateAction.show, 
                     modalType: ModalTypes.search
-                })} className="btn">Search location</button>
-            <button type="button" onClick={()=>dispatchModal(
+                })}
+            >Search location</Button>
+            <Button variant="contained" onClick={()=>dispatchModal(
                 {
                     type: ModalStateAction.show, 
                     data: 
                         {
                             coordinates: DefaultCoordinates
                         }, 
-                    modalType: ModalTypes.addLocation})} className="btn">Add location manually</button>
+                    modalType: ModalTypes.addLocation
+                })}
+            >Add location manually</Button>
         </div>
     )
 }

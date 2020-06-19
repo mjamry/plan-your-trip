@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import { useLocationFormState, LocationFormStateActions, LocationFormStateProvider } from './LocationDetailsFormState'
 import ModalHeader from '../ModalHeader'
 import StepsCoordinator, {FirstStep, LastStep} from './Steps/StepsCoordinator'
+import Button from '@material-ui/core/Button'
 
 export const useLocationFormBuilder = () => {
     
@@ -26,12 +27,11 @@ const LocationDetailsFooter = ({onSubmit}) => {
     var renderPrevious = () => {
         if(formState.step > FirstStep){
             return (
-                <button 
-                    type="button" 
-                    className="btn"     
-                    onClick={() => coordinator.previous()}>
-                Previous
-                </button>
+                <Button
+                    size="small" 
+                    variant="contained"    
+                    onClick={() => coordinator.previous()}
+                >Previous</Button>
             )
         }
     }
@@ -39,12 +39,12 @@ const LocationDetailsFooter = ({onSubmit}) => {
     var renderNext = () => {
         if(formState.step < LastStep){
             return (
-                <button 
-                    type="button" 
-                    className="btn" 
+                <Button
+                    size="small"
+                    variant="contained" 
                     onClick={() => coordinator.next()}
-                    disabled={!coordinator.canNext()}>
-                Next</button>
+                    disabled={!coordinator.canNext()}
+                >Next</Button>
             )
         }
     }
@@ -52,13 +52,12 @@ const LocationDetailsFooter = ({onSubmit}) => {
     var renderSubmit = () => {
         if(formState.step === LastStep){
             return (
-                <button 
-                    type="button" 
-                    className="btn btn-primary" 
-                    onClick={() => 
-                        onSubmit(formState.location)}
-                    disabled={!coordinator.canNext()}>
-                Save</button>
+                <Button 
+                    size="small"
+                    variant="contained" color="primary"
+                    onClick={() => onSubmit(formState.location)}
+                    disabled={!coordinator.canNext()}
+                >Save</Button>
             )
         }
     }

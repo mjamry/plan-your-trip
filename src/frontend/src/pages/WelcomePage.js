@@ -1,5 +1,6 @@
 import React from 'react';
 import useUserService from './../Services/UserService'
+import Button from '@material-ui/core/Button'
 
 const WelcomePage = () => {
     const userService = useUserService();
@@ -19,7 +20,10 @@ const WelcomePage = () => {
                     Enjoy!
                 </span>
                 <span className="welcome-page-buttons">
-                    <button className="btn btn-primary" onClick={()=>userService.signIn()}>Sign In</button>
+                    <Button 
+                        variant="contained" color="primary" 
+                        onClick={()=>userService.signIn()}
+                    >Sign In</Button>
                 </span>
             </div>
         </div>

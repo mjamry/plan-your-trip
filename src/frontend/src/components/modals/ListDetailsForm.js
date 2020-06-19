@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import ModalHeader from './ModalHeader'
+import Button from '@material-ui/core/Button'
 
 const useListFormBuilder = () => {
      var build = ({title, list, onSubmit, onCancel}) => {
@@ -57,13 +58,12 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
             </div>
             <hr/>
             <div className="list-form-item-submit">
-                <button 
-                        type="button" 
-                        className="btn btn-primary" 
+                <Button 
+                        variant="contained" color="primary" 
                         onClick={() => 
                             onSubmit(state)}
-                        disabled={!state.name}>
-                    Save</button>
+                        disabled={!state.name}
+                >Save</Button>
             </div>
         </div>
     )

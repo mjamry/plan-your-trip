@@ -1,14 +1,17 @@
 import React from 'react'
+import Button from '@material-ui/core/Button'
 
 const Confirmation = ({onSubmit, onCancel}) => {
     return (
         <div className="confirmation-container">
-            <button type="button" 
-                    className="btn btn-primary" 
-                    onClick={onSubmit} >Yes</button>
-            <button type="button" 
-                    className="btn" 
-                    onClick={onCancel}>No</button>
+            <Button
+                    variant="contained" color="primary"
+                    onClick={onSubmit} 
+            >Yes</Button>
+            <Button
+                    variant="contained"
+                    onClick={onCancel}
+            >No</Button>
         </div>
     )
 }
