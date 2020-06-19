@@ -5,9 +5,9 @@ import useListService from './Services/ListService'
 import useLoggerService from './Services/Diagnostics/LoggerService'
 import {useListsState} from './State/ListsState'
 import useUserService from './Services/UserService'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppState, AppStateActions } from './State/AppState';
+
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const NUMBER_OF_STEPS = 4;
 
@@ -76,7 +76,7 @@ const AppLoader = ({history}) => {
                     <div className="app-loader-logo">Trip Planner Logo</div>
                     <div className="app-loader-progress">
                         <span>loading progress: {Math.round(progress*100)}%</span>
-                        <span><FontAwesomeIcon icon="spinner" spin className="fa-2x" /></span>
+                        <span><CircularProgress variant="static" value={Math.round(progress*100)}/></span>
                         <span className="app-loader-details">{progressDetails}</span>
                     </div>
                     <div className="app-container-footer"></div>

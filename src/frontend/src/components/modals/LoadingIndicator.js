@@ -1,11 +1,11 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const LoadingIndicator = () => {
     return (
     <div className="loading-indicator-container">
         <div>Please wait</div>
-        <FontAwesomeIcon icon="spinner" spin className="fa-2x"/> 
+        <CircularProgress />
     </div>);
 }
 

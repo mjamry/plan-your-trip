@@ -68,7 +68,6 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                     label="Is Private"
                 />
             </div>
-            <hr/>
             <div className="list-form-item-submit">
                 <Button 
                         variant="contained" color="primary" 

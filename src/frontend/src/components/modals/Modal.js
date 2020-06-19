@@ -1,8 +1,8 @@
 import React  from 'react';
 
 var Modal = (props) => {
-    return(
-        <div className="modal-background" style={{display: props.isVisible ? "block" : "none"}}>
+    return(<>
+        {props.isVisible && <div className="modal-background">
             <div className="modal">
                 <div className="modal-header">
                     {props.header}                        
@@ -10,12 +10,12 @@ var Modal = (props) => {
                 <div className="modal-content">
                     {props.body}
                 </div>
-                <div className="modal-footer" style={{display: props.footer ? "block" : "none"}}>
+                {props.footer && <div className="modal-footer">
                     {props.footer}
-                </div>
+                </div>}
             </div>
-        </div>
-    )
+        </div>}
+    </>)
 }
 
 export default Modal;

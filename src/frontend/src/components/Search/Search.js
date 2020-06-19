@@ -67,6 +67,7 @@ var Search = () => {
             variant="outlined"
             size="medium"
             margin="dense"
+            label="Search"
             onChange={e => setSearchValue(e.target.value)} 
             value={searchValue} 
             autoFocus
