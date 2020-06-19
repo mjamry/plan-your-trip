@@ -20,6 +20,7 @@ import './Styles/DropDown.css'
 import './Styles/ListView.css'
 import './Styles/AppLoader.css'
 import './Styles/WelcomePage.css'
+import './Styles/ListDetailsForm.css'
 
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom'

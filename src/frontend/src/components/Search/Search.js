@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SearchResult from './SearchResult';
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalStateProvider'
 import useLoggerService from '../../Services/Diagnostics/LoggerService'
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import SearchIcon from '@material-ui/icons/Search'
+import CircularProgress from '@material-ui/core/CircularProgress';
  
 const SearchTimeout = 700;
 
@@ -57,17 +61,26 @@ var Search = () => {
 
   return (
     <div className="Search container">
-      <div className="input-group mb-3">
-        <div className="input-group-prepend">
-          <span className="input-group-text"><FontAwesomeIcon icon="search-location" className="fa-2x"/></span>
-        </div>
-      <input type="text" className="form-control" placeholder="enter name" onChange={e => setSearchValue(e.target.value)} value={searchValue} autoFocus/>
-        <div className="search-loading-indicator" style={{display: isLoading ? "block" : "none"}}>
-          <div className="search-loading-indicator-icon">
-            <FontAwesomeIcon icon="spinner" spin className="fa-2x"/> 
-          </div>
-        </div>
+      <div className="search-input">
+        <TextField 
+            placeholder="enter name" 
+            variant="outlined"
+            size="medium"
+            margin="dense"
+            onChange={e => setSearchValue(e.target.value)} 
+            value={searchValue} 
+            autoFocus
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          {isLoading && <CircularProgress/>}
       </div>
+       
     <SearchResult results={searchResults} onSelected={handleSelection}/>
     </div>
   )

@@ -1,5 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 var SearchResult = (props) => {
 
@@ -8,13 +12,16 @@ var SearchResult = (props) => {
 
     for(let index in props.results){
       output.push(
-        <div className="search-result-item" key={index}>
-          <FontAwesomeIcon icon={['fab', 'wikipedia-w']} className="fab search-result-icon"/>
-          <div 
-            onClick={()=>props.onSelected(props.results[index])}>
-            {props.results[index]}
-          </div>
-        </div>)
+        <ListItem 
+          button
+          key={index}
+          onClick={()=>props.onSelected(props.results[index])}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon={['fab', 'wikipedia-w']} className="fab search-result-icon"/>
+          </ListItemIcon>
+          <ListItemText primary={props.results[index]} />
+        </ListItem>
+      )
     }
 
     return output;
@@ -25,9 +32,9 @@ var SearchResult = (props) => {
   }
 
   return (
-    <div className="search-result-container">
+    <List component="nav">
         {props.results && props.results.length === 0 ? renderError() : renderResults()}
-    </div>
+    </List>
   )
 }
 

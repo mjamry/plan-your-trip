@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ModalHeader from './ModalHeader'
 import Button from '@material-ui/core/Button'
+import {TextField, FormControlLabel, Checkbox} from '@material-ui/core';
 
 const useListFormBuilder = () => {
      var build = ({title, list, onSubmit, onCancel}) => {
@@ -28,33 +29,44 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
     return(
         <div className="list-form-container">
             <div className="list-form-item">
-                <label htmlFor="list-name" className="col-form-label">Name (required)</label>
-                <input 
-                    name="name" 
-                    className="form-control" 
-                    id="list-name" 
+                <TextField
+                    label="Name" 
+                    required
+                    variant="outlined"
+                    size="medium"
+                    margin="dense"
+                    name="name"
                     onChange={handleInputChanged}
                     value={state.name || ''}
-                    autoFocus/>
+                    autoFocus
+                />
             </div>
             <div className="list-form-item">
-                <label htmlFor="list-description">Description</label>
-                <textarea 
+                <TextField 
+                    variant="outlined"
+                    size="medium"
+                    margin="dense"
+                    label="Description"
                     name="description" 
-                    className="form-control" 
                     onChange={handleInputChanged}
-                    rows="5" id="list-description" 
-                    value={state.description || ''}></textarea>
+                    value={state.description || ''}
+                    multiline
+                    rowsMax={5}
+                />
             </div>
             <div className="list-form-item">
-                <label htmlFor="list-private">Is Private? </label>
-                    <input 
-                        type="checkbox" 
-                        id="list-private" 
-                        value="false"
-                        name="isPrivate"
-                        onClick={handleCheckboxChanged}
-                        defaultChecked={state.isPrivate}/> 
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={state.isPrivate}
+                            onChange={handleCheckboxChanged}
+                            name="isPrivate"
+                            color="primary"
+                            value="false"
+                        />
+                    }
+                    label="Is Private"
+                />
             </div>
             <hr/>
             <div className="list-form-item-submit">
