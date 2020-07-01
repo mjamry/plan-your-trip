@@ -21,6 +21,7 @@ import './Styles/ListView.css'
 import './Styles/AppLoader.css'
 import './Styles/WelcomePage.css'
 import './Styles/ListDetailsForm.css'
+import './Styles/ListsPage.css'
 
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom'
@@ -36,6 +37,7 @@ import AppContext from './AppContext'
 import HomePage from './pages/HomePage'
 import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
+import ListsPage from './pages/ListsPage'
 
 library.add(far, fas, faWikipediaW)
 
@@ -48,6 +50,7 @@ var App = () => {
           <ModalContainer />
           <Header />
           <Route path='/' exact component={HomePage} />
+          <Route path='/lists' component={ListsPage} />
           <Route path='/callback' component={CallbackPage} />
           <Route path='/welcome' component={WelcomePage} />
         </AppContext>

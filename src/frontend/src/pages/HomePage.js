@@ -6,6 +6,7 @@ import ListView from './../components/Lists/ListView'
 import ListViewMenu from './../components/Lists/ListViewMenu'
 import AppLoader from './../AppLoader'
 import {useAppState} from './../State/AppState'
+import {Link} from 'react-router-dom'
 
 const HomePage = () => {
   const [appState, dispatchAppState] = useAppState();
@@ -13,6 +14,7 @@ const HomePage = () => {
     return (
       <div>
           <AppLoader/>
+          <Link to="/Lists">Lists</Link>
           {appState.appInitialized && 
             <div className="app-content-container">
               <div className="app-locations-view">
