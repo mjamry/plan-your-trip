@@ -38,6 +38,7 @@ import HomePage from './pages/HomePage'
 import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
+import LocationsPage from './pages/LocationsPage'
 
 library.add(far, fas, faWikipediaW)
 
@@ -51,6 +52,7 @@ var App = () => {
           <Header />
           <Route path='/' exact component={HomePage} />
           <Route path='/lists' component={ListsPage} />
+          <Route path='/list/:id' component={LocationsPage} />
           <Route path='/callback' component={CallbackPage} />
           <Route path='/welcome' component={WelcomePage} />
         </AppContext>

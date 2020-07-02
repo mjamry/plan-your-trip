@@ -18,7 +18,7 @@ const styles = {
     }
 }
 
-const ListsPage = (props) => {
+const ListsPage = ({history}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [listState, dispatchList] = useListsState();
     const listService = useListService();
@@ -37,7 +37,7 @@ const ListsPage = (props) => {
     }, [])
 
     return (
-        <div className={props.classes.container}>
+        <div className="">
             {isLoading 
             ? <CircularProgress />
             : <Table
@@ -51,18 +51,22 @@ const ListsPage = (props) => {
                     {title: "Private", field: "isPrivate", render: list => list.isPrivate ? "Yes" : "No"},
                     //TODO => {title: "Shared", field: "isShared", render: isShared => isShared ? "Yes" : "No"},
                 ]}
-                onRowClick={((evt, selectedRow) => console.log(selectedRow.id))}
+                onRowClick={((evt, selectedList) => 
+                    {
+                        dispatchList({type: ListsStateActions.selectList, data: selectedList.id})
+                        history.push(`/list/${selectedList.id}`)
+                    })}
                 data={listState.lists}
                 actions={[
                     {
                         icon: 'edit',
                         tooltip: 'Edit',
-                        onClick: (event, rowData) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: rowData})
+                        onClick: (event, list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: list})
                     },
                     {
                         icon: 'delete',
                         tooltip: 'Delete',
-                        onClick: (event, rowData) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: rowData})
+                        onClick: (event, list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: list})
                     },
                     {
                         icon: 'add',
