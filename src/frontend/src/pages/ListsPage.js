@@ -61,10 +61,10 @@ const ListsPage = (props) => {
                 columns={[
                     {title: "Name", field: "name"},
                     {title: "Description", field: "description"},
-                    {title: "Created", field: "created", type: "datetime", redner: created => dateTimeFormatter.format(created)},
-                    {title: "Updated", field: "updated", type: "datetime", redner: updated => dateTimeFormatter.format(updated)},
+                    {title: "Updated", field: "updated", type: "datetime", render: list => dateTimeFormatter.format(list.updated)},
+                    {title: "Created", field: "created", type: "datetime", render: list => dateTimeFormatter.format(list.created)},
                     //TODO => {title: "Number of locations", field: "numberOfItems", type: "numeric",},
-                    {title: "Private", field: "isPrivate", render: isPrivate => isPrivate ? "Yes" : "No"},
+                    {title: "Private", field: "isPrivate", render: list => list.isPrivate ? "Yes" : "No"},
                     //TODO => {title: "Shared", field: "isShared", render: isShared => isShared ? "Yes" : "No"},
                 ]}
                 onRowClick={((evt, selectedRow) => console.log(selectedRow.id))}
