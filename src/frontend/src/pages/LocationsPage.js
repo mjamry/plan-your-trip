@@ -4,6 +4,20 @@ import Table from './../components/Table'
 import { useLocationsState, LocationsStateActions } from './../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from './../State/ModalStateProvider'
 import useLocationService from './../Services/LocationService'
+import LocationsMapView from './../components/MapView/LocationsMapView'
+import { withStyles } from '@material-ui/core/styles';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '90vw',
+        height: '90vh',
+        alignItems: 'center'
+    }
+}
 
 const LocationsPage = ({match}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -24,48 +38,34 @@ const LocationsPage = ({match}) => {
         setIsLoading(false);
     }, [])
 
-    //id;
-    // name;
-    // description;
-    // attractivness;
-    // coordinates;
-    // image;
-    // link;
-    // listId;
-
-    return (<div className="">
-        <Table
-            title={`You have ${locations.length} locations`}
-            columns={[
-                {title: "Name", field: "name"},
-                {title: "Description", field: "description", cellStyle: {
-                    maxLength: 100
-                  },},
-                {title: "Attractivness", field: "attractivness", type: "number", render: location => location.attractivness},
-                {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
-            ]}
-            onRowClick={((evt, location) => console.log(location.id))}
-            data={locations}
-            actions={[
-                {
-                    icon: 'edit',
-                    tooltip: 'Edit',
-                    onClick: (event, location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editLocation, data: location})
-                },
-                {
-                    icon: 'delete',
-                    tooltip: 'Delete',
-                    onClick: (event, location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeLocation, data: location})
-                },
-                {
-                    icon: 'add',
-                    tooltip: 'Add',
-                    isFreeAction: true,
-                    onClick: (event) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})
-                }
+    return (<>
+    {isLoading 
+    ? <CircularProgress />
+    : <div className="app-content-container">
+        <div className="app-locations-view">
+            <Table
+                title={`You have ${locations.length} locations`}
+                columns={[
+                    {title: "Name", field: "name"},
+                    {title: "Description", field: "description", cellStyle: {
+                        maxLength: 100
+                    },},
+                    {title: "Attractivness", field: "attractivness", type: "numeric", render: location => location.attractivness},
+                    {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
                 ]}
-        />
-    </div>)
+                onRowClick={((evt, location) => console.log(location.id))}
+                data={locations}
+                add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})}
+                edit={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editLocation, data: location})}
+                delete={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeLocation, data: location})}
+            />
+        </div>
+        <div className="app-map-view">
+            <LocationsMapView />
+        </div>
+    </div>
+    }
+    </>)
 }
 
 export default withRouter(LocationsPage);

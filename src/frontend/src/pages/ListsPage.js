@@ -57,24 +57,9 @@ const ListsPage = ({history}) => {
                         history.push(`/list/${selectedList.id}`)
                     })}
                 data={listState.lists}
-                actions={[
-                    {
-                        icon: 'edit',
-                        tooltip: 'Edit',
-                        onClick: (event, list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: list})
-                    },
-                    {
-                        icon: 'delete',
-                        tooltip: 'Delete',
-                        onClick: (event, list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: list})
-                    },
-                    {
-                        icon: 'add',
-                        tooltip: 'Add',
-                        isFreeAction: true,
-                        onClick: (event) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addList, data: {}})
-                    }
-                  ]}
+                add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addList, data: {}})}
+                edit={(list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: list})}
+                delete={(list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: list})}
             />}
         </div>
       );
