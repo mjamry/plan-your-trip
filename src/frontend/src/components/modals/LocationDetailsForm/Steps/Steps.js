@@ -53,6 +53,9 @@ export const LocationDetailsForm = () => {
                         value={formState.location.description || ''}
                         multiline
                         rowsMax={5}
+                        inputProps={{
+                            maxlength: '200',
+                        }}
                     />
                 </div>
                 

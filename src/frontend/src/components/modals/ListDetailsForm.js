@@ -52,6 +52,9 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                     value={state.description || ''}
                     multiline
                     rowsMax={5}
+                    inputProps={{
+                        maxlength: '200',
+                    }}
                 />
             </div>
             <div className="list-form-item">
