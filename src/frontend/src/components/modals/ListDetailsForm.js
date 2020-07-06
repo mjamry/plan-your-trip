@@ -39,6 +39,9 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                     onChange={handleInputChanged}
                     value={state.name || ''}
                     autoFocus
+                    inputProps={{
+                            maxlength: '50',
+                        }}
                 />
             </div>
             <div className="list-form-item">

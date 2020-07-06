@@ -32,6 +32,9 @@ export const LocationDetailsForm = () => {
                         value={formState.location.name || ''}
                         autoFocus
                         required
+                        inputProps={{
+                            maxlength: '50',
+                        }}
                     />
                 </div>
                 
