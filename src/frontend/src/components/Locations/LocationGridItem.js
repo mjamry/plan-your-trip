@@ -1,6 +1,6 @@
 import React from 'react';
 import LocationButtons from './LocationButtons'
-import RatingButton from './RatingButton'
+import RatingButton from '../RatingButton'
 
 var LocationGridItem = (props) => {
   return (

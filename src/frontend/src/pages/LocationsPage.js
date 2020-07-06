@@ -8,6 +8,7 @@ import useLocationService from './../Services/LocationService'
 import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
 
+import RatingButton from './../components/RatingButton'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
@@ -71,7 +72,7 @@ const LocationsPage = ({match, classes}) => {
                     },
                     {title: "Name", field: "name"},
                     {title: "Description", field: "description"},
-                    {title: "Rating", field: "rating", type: "numeric", render: location => location.rating},
+                    {title: "Rating", field: "rating", type: "numeric", render: location => <RatingButton value={location.rating} readOnly />},
                     {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
                 ]}
                 onRowClick={((evt, location) => console.log(location.id))}

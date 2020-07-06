@@ -1,9 +1,10 @@
 import React from 'react'
-import RatingButton from '../../../Locations/RatingButton'
+import RatingButton from '../../../RatingButton'
 import LocationFormMapView from '../../../MapView/LocationFormMapView'
 import CoordinatesValidator from '../../../../Common/CoordinatesValidator'
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 
 const ERROR_MESSAGE = "Incorrect value";
 
@@ -39,11 +40,11 @@ export const LocationDetailsForm = () => {
                 </div>
                 
                 <div className="location-edit-form-item">
-                    Atractivness:
+                    <Typography component="legend">Atractivness</Typography>
                     <RatingButton 
-                            value={formState.location.rating || ''} 
-                            onSelect={(value)=>{handleRatingChanged(value)}} 
-                            isActive={true}/>
+                        value={formState.location.rating || ''} 
+                        onSelect={(value)=>{handleRatingChanged(value)}}
+                    />
                 </div>
                 <div className="location-edit-form-item">
                     <TextField 
