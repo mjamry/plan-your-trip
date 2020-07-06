@@ -3,22 +3,6 @@ body{
   background-color: #E8EDED;
   overflow: hidden;
 }
-.app-content-container{
-  display: flex;
-  overflow: hidden;
-  height: 92vh;
-}
-
-.app-locations-view{
-  margin: 10px;
-  margin-right: 0;
-  flex: 0 1 calc(66% - 1em);
-}
-
-.app-map-view{
-  flex: 0 1 calc(34% - 1em);
-  margin: 10px;
-}
 
 @media screen and (max-width: 1200px) {
   .app-locations-view{

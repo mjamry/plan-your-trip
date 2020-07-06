@@ -4,21 +4,15 @@ import DateTimeFormatter from './../Common/DateTimeFormatter'
 import useListService from './../Services/ListService'
 import { useModalState, ModalStateAction, ModalTypes } from './../State/ModalStateProvider'
 import Table from './../components/Table'
-
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
     container: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '90vw',
-        height: '90vh',
-        alignItems: 'center'
+        margin: '10px'
     }
 }
 
-const ListsPage = ({history}) => {
+const ListsPage = ({history, classes}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [listState, dispatchList] = useListsState();
     const listService = useListService();
@@ -28,19 +22,18 @@ const ListsPage = ({history}) => {
     useEffect(()=>
     {
         const fetchListData = async () => {
+            setIsLoading(true);
             await listService.getAll();
+            setIsLoading(false);
         }
 
-        setIsLoading(true);
         fetchListData();
-        setIsLoading(false);
     }, [])
 
     return (
         <div className="">
-            {isLoading 
-            ? <CircularProgress />
-            : <Table
+            <div className={classes.container}>
+                <Table
                 title={`You have ${listState.lists.length} lists`}
                 columns={[
                     {title: "Name", field: "name"},
@@ -60,7 +53,9 @@ const ListsPage = ({history}) => {
                 add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addList, data: {}})}
                 edit={(list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editList, data: list})}
                 delete={(list) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeList, data: list})}
-            />}
+                isLoading={isLoading}
+            />
+            </div>
         </div>
       );
 }

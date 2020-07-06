@@ -49,6 +49,7 @@ const Table = (props) => {
                 pageSizeOptions: [],
                 actionsColumnIndex: -1
             }}
+            isLoading={props.isLoading}
             icons={tableIcons}
             actions={[
                 {

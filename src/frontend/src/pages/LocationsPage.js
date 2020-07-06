@@ -3,52 +3,71 @@ import {withRouter} from 'react-router-dom'
 import Table from './../components/Table'
 import { useLocationsState, LocationsStateActions } from './../State/LocationsState'
 import { useModalState, ModalStateAction, ModalTypes } from './../State/ModalStateProvider'
+import { useListsState, ListsStateActions } from './../State/ListsState'
 import useLocationService from './../Services/LocationService'
 import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 const styles = {
     container: {
         display: 'flex',
-        flexDirection: 'column',
-        width: '90vw',
-        height: '90vh',
-        alignItems: 'center'
+        overflow: 'hidden',
+        height: '92vh',
+    },
+    locationsContainer: {
+        margin: '10px',
+        marginRight: '0',
+        flex: '0 1 calc(66% - 1em)',
+    },
+    mapContainer: {
+        flex: '0 1 calc(34% - 1em)',
+        margin: '10px',
+    },
+    locationImage: {
+        maxWidth: '100px',
+        maxHeight: '100px',
     }
 }
 
-const LocationsPage = ({match}) => {
+const LocationsPage = ({match, classes}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [{locations}, dispatchlocations] = useLocationsState(); 
     const [{}, dispatchModal] = useModalState();
     const locationsService = useLocationService();
+    const [listState, dispatchLists] = useListsState();
 
     useEffect(()=>
     {
-        //validate
-        const id = match.params.id;
-        const fetchListData = async () => {
-            await locationsService.getAll(id);
-        }
+        const listId = validateListId(match.params.id);
 
-        setIsLoading(true);
+        dispatchLists({
+            type: ListsStateActions.selectList, 
+            data: listId});
+
+        const fetchListData = async () => {
+            setIsLoading(true);
+            await locationsService.getAll(listId);
+            setIsLoading(false);
+        }
+        
         fetchListData();
-        setIsLoading(false);
     }, [])
 
+    const validateListId = (id) => {
+        return id; //null if incorrect
+    }
+
     return (<>
-    {isLoading 
-    ? <CircularProgress />
-    : <div className="app-content-container">
-        <div className="app-locations-view">
+    <div className={classes.container}>
+        <div className={classes.locationsContainer}>
             <Table
                 title={`You have ${locations.length} locations`}
                 columns={[
+                    {title: "", field: "image", 
+                        render: location => <img src={location.image} className={classes.locationImage}/>}, 
                     {title: "Name", field: "name"},
                     {title: "Description", field: "description", cellStyle: {
-                        maxLength: 100
+                        maxLength: 200
                     },},
                     {title: "Attractivness", field: "attractivness", type: "numeric", render: location => location.attractivness},
                     {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
@@ -58,14 +77,14 @@ const LocationsPage = ({match}) => {
                 add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})}
                 edit={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editLocation, data: location})}
                 delete={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeLocation, data: location})}
+                isLoading={isLoading}
             />
         </div>
-        <div className="app-map-view">
+        <div className={classes.mapContainer}>
             <LocationsMapView />
         </div>
     </div>
-    }
     </>)
 }
 
-export default withRouter(LocationsPage);
+export default withRouter(withStyles(styles)(LocationsPage));
