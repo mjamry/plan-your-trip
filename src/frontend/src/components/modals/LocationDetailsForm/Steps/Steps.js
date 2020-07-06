@@ -1,5 +1,5 @@
 import React from 'react'
-import LocationAttractivnessButton from '../../../Locations/LocationAttractivnessButton'
+import RatingButton from '../../../Locations/RatingButton'
 import LocationFormMapView from '../../../MapView/LocationFormMapView'
 import CoordinatesValidator from '../../../../Common/CoordinatesValidator'
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState'
@@ -14,8 +14,8 @@ export const LocationDetailsForm = () => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, [e.target.name]: e.target.value }})
     }
 
-    var handleAttractivnessChanged = (value) => {
-        dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, attractivness: value}})
+    var handleRatingChanged = (value) => {
+        dispatchFormState({type: LocationFormStateActions.updateLocation, data: {...formState.location, rating: value}})
     }
 
     return (
@@ -40,9 +40,9 @@ export const LocationDetailsForm = () => {
                 
                 <div className="location-edit-form-item">
                     Atractivness:
-                    <LocationAttractivnessButton 
-                            value={formState.location.attractivness || ''} 
-                            onSelect={(value)=>{handleAttractivnessChanged(value)}} 
+                    <RatingButton 
+                            value={formState.location.rating || ''} 
+                            onSelect={(value)=>{handleRatingChanged(value)}} 
                             isActive={true}/>
                 </div>
                 <div className="location-edit-form-item">

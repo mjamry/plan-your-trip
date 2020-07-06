@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 const NUMER_OF_STARS = 5;
 
-var LocationAttractivnessButton = ({value, onSelect = ()=>{}, isActive = false}) => {
+var RatingButton = ({value, onSelect = ()=>{}, isActive = false}) => {
     const [stars, setStars] = useState();
 
     useEffect(()=>{
@@ -15,12 +15,12 @@ var LocationAttractivnessButton = ({value, onSelect = ()=>{}, isActive = false})
         output.map((item, index) => {
             if(index>value){
                 output[index] = <span 
-                                    className={isActive ? "location-attractivness-star" : "location-attractivness-star-inactive"} 
+                                    className={isActive ? "location-rating-star" : "location-rating-star-inactive"} 
                                     onClick={()=>onSelect(index)} 
                                     key={index}>☆</span>
             }
             else output[index] = <span 
-                                    className={isActive ? "location-attractivness-star-selected" : "location-attractivness-star-selected-inactive"} 
+                                    className={isActive ? "location-rating-star-selected" : "location-rating-star-selected-inactive"} 
                                     onClick={()=>onSelect(index)} 
                                     key={index}>☆</span>
         })
@@ -29,17 +29,17 @@ var LocationAttractivnessButton = ({value, onSelect = ()=>{}, isActive = false})
     
     if(isActive){
         return (
-            <div className="location-attractivness-container" onMouseOver={()=>setStars(getStars(0))} onMouseOut={()=>setStars(getStars(value))}>
+            <div className="location-rating-container" onMouseOver={()=>setStars(getStars(0))} onMouseOut={()=>setStars(getStars(value))}>
                 {stars}
             </div>
         )
     }
 
     return (
-        <div className="location-attractivness-container">
+        <div className="location-rating-container">
             {stars}
         </div>
     )
 }
 
-export default LocationAttractivnessButton;
+export default RatingButton;

@@ -55,7 +55,7 @@ namespace trip_planner.Data
             if(dbLocation != null){
                 dbLocation.Name = location.Name;
                 dbLocation.Description = location.Description;
-                dbLocation.Attractivness = location.Attractivness;
+                dbLocation.Rating = location.Rating;
                 dbLocation.Image = location.Image;
                 dbLocation.Coordinates.Lat = location.Coordinates.Lat;
                 dbLocation.Coordinates.Lon = location.Coordinates.Lon;

@@ -71,7 +71,7 @@ const LocationsPage = ({match, classes}) => {
                     },
                     {title: "Name", field: "name"},
                     {title: "Description", field: "description"},
-                    {title: "Attractivness", field: "attractivness", type: "numeric", render: location => location.attractivness},
+                    {title: "Rating", field: "rating", type: "numeric", render: location => location.rating},
                     {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
                 ]}
                 onRowClick={((evt, location) => console.log(location.id))}

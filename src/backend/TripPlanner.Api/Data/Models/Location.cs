@@ -8,11 +8,11 @@ namespace trip_planner.Data.Models
     public class Location
     {
         public Location () {}
-        public Location (string name, string description, int attractivness, Coordinate coordinates, string image)
+        public Location (string name, string description, int Rating, Coordinate coordinates, string image)
         {
             Name = name;
             Description = description;
-            Attractivness = attractivness;
+            Rating = Rating;
             Coordinates = coordinates;
             Image = image;
         }
@@ -26,7 +26,7 @@ namespace trip_planner.Data.Models
 
         public string Description { get; set; }
 
-        public int Attractivness { get; set; }
+        public int Rating { get; set; }
 
         [ForeignKey ("CoordinatesId")]
         public Coordinate Coordinates { get; set; }

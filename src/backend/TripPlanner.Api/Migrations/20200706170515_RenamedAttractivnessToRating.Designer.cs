@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using trip_planner.Data.Contexts;
 
 namespace trip_planner.Migrations
 {
     [DbContext(typeof(TripPlannerContext))]
-    partial class TripPlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20200706170515_RenamedAttractivnessToRating")]
+    partial class RenamedAttractivnessToRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

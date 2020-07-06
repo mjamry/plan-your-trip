@@ -28,7 +28,7 @@ class GpxHelper {
     static getWaypoint(location){
         return `
 <wpt lat="${location.coordinates.lat}" lon="${location.coordinates.lon}">
-    <name>${location.name} [${location.attractivness}]</name>
+    <name>${location.name} [${location.rating}]</name>
     <desc>${location.description}</desc>
 </wpt>`
     }

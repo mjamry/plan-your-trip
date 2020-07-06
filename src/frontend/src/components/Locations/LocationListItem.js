@@ -12,7 +12,7 @@ var LocationListItem = (props) => {
         title={props.location.link} 
         onClick={props.onSelect}>{props.location.name}</div>
       <div className="location-row-description" title={props.location.description}>{props.location.description}</div>
-      <div className="location-row-attractivness">{props.location.attractivness}</div>
+      <div className="location-row-rating">{props.location.rating}</div>
       <div className="location-row-buttons">
         <IconButton aria-label="delete" onClick={props.onRemove}>
           <DeleteIcon/>

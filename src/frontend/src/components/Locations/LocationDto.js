@@ -1,8 +1,8 @@
 export default class locationDto {
-  constructor(id, name, description, attractivness, coordinates, image, link, listId){
+  constructor(id, name, description, rating, coordinates, image, link, listId){
     this.name = name;
     this.description = description;
-    this.attractivness = attractivness || 1;
+    this.rating = rating || 1;
     this.coordinates = coordinates;
     this.image = image;
     this.link = link;
@@ -12,7 +12,7 @@ export default class locationDto {
     id;
     name;
     description;
-    attractivness;
+    rating;
     coordinates;
     image;
     link;
