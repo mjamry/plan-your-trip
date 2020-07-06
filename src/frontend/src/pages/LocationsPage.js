@@ -8,6 +8,8 @@ import useLocationService from './../Services/LocationService'
 import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const styles = {
     container: {
         display: 'flex',
@@ -63,12 +65,12 @@ const LocationsPage = ({match, classes}) => {
             <Table
                 title={`You have ${locations.length} locations`}
                 columns={[
-                    {title: "", field: "image", 
-                        render: location => <img src={location.image} className={classes.locationImage}/>}, 
+                    {title: "", field: "image", render: location => <img src={location.image} className={classes.locationImage}/>, 
+                        //this is a hack to undo autocalculation of columns width
+                        width: null 
+                    },
                     {title: "Name", field: "name"},
-                    {title: "Description", field: "description", cellStyle: {
-                        maxLength: 200
-                    },},
+                    {title: "Description", field: "description"},
                     {title: "Attractivness", field: "attractivness", type: "numeric", render: location => location.attractivness},
                     {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
                 ]}
@@ -84,6 +86,7 @@ const LocationsPage = ({match, classes}) => {
             <LocationsMapView />
         </div>
     </div>
+    }
     </>)
 }
 

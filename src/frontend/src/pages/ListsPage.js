@@ -36,7 +36,10 @@ const ListsPage = ({history, classes}) => {
                 <Table
                 title={`You have ${listState.lists.length} lists`}
                 columns={[
-                    {title: "Name", field: "name"},
+                    {title: "Name", field: "name",
+                        //this is a hack to undo autocalculation of columns width
+                        width: null 
+                    },
                     {title: "Description", field: "description"},
                     {title: "Updated", field: "updated", type: "datetime", render: list => dateTimeFormatter.format(list.updated)},
                     {title: "Created", field: "created", type: "datetime", render: list => dateTimeFormatter.format(list.created)},
