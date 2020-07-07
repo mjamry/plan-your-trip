@@ -131,7 +131,7 @@ var useModalContentFactory = () => {
 
 var ModalContainer = () => {
     const [modalContent, setModalContent] = useState(_emptyModalContent);
-    const [modalModel] = useModalState();
+    const [modalModel, dispatchModal] = useModalState();
     const factory = useModalContentFactory();
 
     var renderModal = () => {
@@ -142,14 +142,18 @@ var ModalContainer = () => {
                                 isVisible={modalModel.isVisible} 
                                 header={modalContent.header}
                                 body={modalContent.body}
-                                footer={modalContent.footer}/>
+                                footer={modalContent.footer}
+                                onClickAway={()=>dispatchModal({type: ModalStateAction.hide})}
+                            />
                         </ModalState>}
             else {
                 return <Modal 
-                    isVisible={modalModel.isVisible} 
-                    header={modalContent.header}
-                    body={modalContent.body}
-                    footer={modalContent.footer}/>
+                        isVisible={modalModel.isVisible} 
+                        header={modalContent.header}
+                        body={modalContent.body}
+                        footer={modalContent.footer}
+                        onClickAway={()=>dispatchModal({type: ModalStateAction.hide})}
+                    />
             }
         }
 
