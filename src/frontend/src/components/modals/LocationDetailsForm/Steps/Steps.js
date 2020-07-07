@@ -38,14 +38,7 @@ export const LocationDetailsForm = () => {
                         }}
                     />
                 </div>
-                
-                <div className="location-edit-form-item">
-                    <Typography component="legend">Atractivness</Typography>
-                    <RatingButton 
-                        value={formState.location.rating || ''} 
-                        onSelect={(value)=>{handleRatingChanged(value)}}
-                    />
-                </div>
+              
                 <div className="location-edit-form-item">
                     <TextField 
                         name="description" 
@@ -62,7 +55,14 @@ export const LocationDetailsForm = () => {
                         }}
                     />
                 </div>
-                
+
+                <div className="location-edit-form-item-rating">
+                    <Typography component="legend">Rating</Typography>
+                    <RatingButton 
+                        value={formState.location.rating || ''} 
+                        onSelect={(value)=>{handleRatingChanged(value)}}
+                    />
+                </div>
             </div>
         </form>
     );

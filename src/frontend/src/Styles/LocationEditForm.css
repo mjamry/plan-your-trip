@@ -22,6 +22,15 @@
     margin: 0 5px 0 5px;
 }
 
+.location-edit-form-item-rating
+{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 10px 5px 0 5px;
+    align-items: center;
+}
+
 .location-edit-form-buttons{
     display: flex;
     flex-direction: row;
