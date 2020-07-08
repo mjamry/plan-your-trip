@@ -40,8 +40,8 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                     value={state.name || ''}
                     autoFocus
                     inputProps={{
-                            maxlength: '50',
-                        }}
+                        maxLength: '50',
+                    }}
                 />
             </div>
             <div className="list-form-item">
@@ -56,7 +56,7 @@ const ListDetailsFormBody = ({list, onSubmit}) => {
                     multiline
                     rowsMax={5}
                     inputProps={{
-                        maxlength: '200',
+                        maxLength: '200',
                     }}
                 />
             </div>

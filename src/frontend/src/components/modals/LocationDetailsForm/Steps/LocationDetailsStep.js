@@ -32,7 +32,7 @@ export const LocationDetailsStep = () => {
                         autoFocus
                         required
                         inputProps={{
-                            maxlength: '50',
+                            maxLength: '50',
                         }}
                     />
                 </div>
@@ -49,7 +49,7 @@ export const LocationDetailsStep = () => {
                         multiline
                         rowsMax={5}
                         inputProps={{
-                            maxlength: '200',
+                            maxLength: '200',
                         }}
                     />
                 </div>
