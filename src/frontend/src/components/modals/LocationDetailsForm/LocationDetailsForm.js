@@ -7,6 +7,10 @@ import {LocationDetailsStep, LocationDetailsStepValidator} from './Steps/Locatio
 import {LocationCoordinatesStep, LocationCoordinatesStepValidator} from './Steps/LocationCoordinatesStep'
 import {LocationImageStep, LocationImageStepValidator} from './Steps/LocationImageStep'
 
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepButton from '@material-ui/core/StepButton';
+
 export const useLocationFormBuilder = () => {
     
     var build = ({title, location, onSubmit, onCancel}) => {
@@ -91,7 +95,7 @@ const LocationDetailsFooter = ({onSubmit}) => {
 }
 
 const LocationDetailsFormBody = (props) => {
-   const [{}, dispatchFormState] = useLocationFormState();
+   const [{step}, dispatchFormState] = useLocationFormState();
    const coordinator = useStepsCoordinator(steps);
 
     //setup state values
@@ -99,16 +103,33 @@ const LocationDetailsFormBody = (props) => {
         dispatchFormState({type: LocationFormStateActions.updateLocation, data: props.location});
     }, [])
 
-    var renderStep = () => {
+    const renderStep = () => {
         return renderStepView(coordinator.getCurrentView());
     }
 
-    var renderStepView = (View, props) => {
+    const selectStep = (stepIndex) => {
+        dispatchFormState({type: LocationFormStateActions.setStep, data: stepIndex});
+    }
+
+    const renderStepper = () => {
+        return (
+            <Stepper activeStep={step} nonLinear alternativeLabel>
+                {steps.map((step, index) => (
+                    <Step key={step.title}>
+                        <StepButton onClick={()=>selectStep(index)}>{step.title}</StepButton>
+                    </Step>
+                ))}
+            </Stepper>
+        )
+    }
+
+    const renderStepView = (View, props) => {
         return <View {...props}/>
     }
 
     return(
         <div className="location-edit-form-container">
+            {renderStepper()}
             {renderStep()}
         </div>
     )
