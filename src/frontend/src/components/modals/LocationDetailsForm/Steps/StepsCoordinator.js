@@ -1,53 +1,55 @@
-import {LocationCoordinatesForm, LocationCoordinatesFormValidator, LocationDetailsForm, LocationDetailsFormValidator} from './Steps'
-
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState'
 
-export const FirstStep = 0;
-export const LastStep = 1;
+const useStepsCoordinator = (steps) => {
+    const [{step}, dispatchFormState] = useLocationFormState();
 
-const steps = [
-    {
-        view: LocationDetailsForm, 
-        validator: LocationDetailsFormValidator()
-    }, 
-    {
-        view: LocationCoordinatesForm, 
-        validator: LocationCoordinatesFormValidator()
-    }]
+    const firstStepIndex = 0;
+    const lastStepIndex = steps.length - 1;
 
-const StepsCoordinator = () => {
-    const [formState, dispatchFormState] = useLocationFormState();
-
-    var next = () => {
-        if(canNext()){
-            var nextStep = formState.step + 1 === LastStep ? LastStep : formState.step + 1;
-            setStep(nextStep);
-        }
+    const next = () => {
+        var nextStep = step + 1 === lastStepIndex ? lastStepIndex : step + 1;
+        setStep(nextStep);
     }
 
-    var previous = () => {
-        var previousStep = formState.step - 1 === FirstStep ? FirstStep : formState.step - 1;
+    const previous = () => {
+        var previousStep = step - 1 === firstStepIndex ? firstStepIndex : step - 1;
         setStep(previousStep);
     }
 
-    var getCurrentView = () => {
-        return steps[formState.step].view
+    const getCurrentView = () => {
+        return steps[step].view
+    }
+
+    const canNext = (state) => {
+        const stepValidator = steps[step].validator;
+        if(stepValidator) {
+            return stepValidator.isValid(state);
+        }
+        else {
+            return true;
+        }
+    }
+
+    const isLastStep = () => {
+        return step === lastStepIndex;
+    }
+
+    const isFirstStep = () => {
+        return step === firstStepIndex;
     }
 
     var setStep = (step) => {
         dispatchFormState({type: LocationFormStateActions.setStep, data: step});
     }
 
-    var canNext = () => {
-        return steps[formState.step].validator.isValid(formState.location);
-    }
-
     return {
         next: next, 
         canNext: canNext,
         previous: previous,
+        isLastStep: isLastStep,
+        isFirstStep: isFirstStep,
         getCurrentView: getCurrentView
     }
 }
 
-export default StepsCoordinator;
+export default useStepsCoordinator;

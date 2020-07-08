@@ -1,10 +1,8 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import {FirstStep} from './Steps/StepsCoordinator'
 
 export const LocationFormStateActions = {
     setStep: "setStep",
     updateLocation: "updateLocation",
-    updateCoordinates: "updateCoordinates",
     setError: "setError",
     clearError: "clearError"
 }
@@ -22,7 +20,7 @@ export const LocationFormStateProvider = ({children}) => {
 export const useLocationFormState = () => useContext(LocationFormContext);
 
 const LocationFormState = {
-    step: FirstStep,
+    step: 0,
     location: {},
     errors: {}
 }

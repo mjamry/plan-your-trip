@@ -1,8 +1,11 @@
 import React, {useEffect} from 'react';
 import { useLocationFormState, LocationFormStateActions, LocationFormStateProvider } from './LocationDetailsFormState'
 import ModalHeader from '../ModalHeader'
-import StepsCoordinator, {FirstStep, LastStep} from './Steps/StepsCoordinator'
+import useStepsCoordinator from './Steps/StepsCoordinator'
 import Button from '@material-ui/core/Button'
+import {LocationDetailsStep, LocationDetailsStepValidator} from './Steps/LocationDetailsStep'
+import {LocationCoordinatesStep, LocationCoordinatesStepValidator} from './Steps/LocationCoordinatesStep'
+import {LocationImageStep, LocationImageStepValidator} from './Steps/LocationImageStep'
 
 export const useLocationFormBuilder = () => {
     
@@ -20,12 +23,30 @@ export const useLocationFormBuilder = () => {
     return build;
 }
 
+const steps = [
+    {
+        title: "Fill location details",
+        view: LocationDetailsStep, 
+        validator: LocationDetailsStepValidator()
+    }, 
+    {
+        title: "Find GPS coordinates",
+        view: LocationCoordinatesStep, 
+        validator: LocationCoordinatesStepValidator()
+    },
+    {
+        title: "Setup image URL",
+        view: LocationImageStep,
+        validator: LocationImageStepValidator()
+    }
+]
+
 const LocationDetailsFooter = ({onSubmit}) => {
     const [formState] = useLocationFormState();
-    const coordinator = StepsCoordinator();
+    const coordinator = useStepsCoordinator(steps);
 
     var renderPrevious = () => {
-        if(formState.step > FirstStep){
+        if(!coordinator.isFirstStep()){
             return (
                 <Button
                     size="small" 
@@ -37,26 +58,26 @@ const LocationDetailsFooter = ({onSubmit}) => {
     }
 
     var renderNext = () => {
-        if(formState.step < LastStep){
+        if(!coordinator.isLastStep()){
             return (
                 <Button
                     size="small"
                     variant="contained" 
                     onClick={() => coordinator.next()}
-                    disabled={!coordinator.canNext()}
+                    disabled={!coordinator.canNext(formState.location)}
                 >Next</Button>
             )
         }
     }
 
     var renderSubmit = () => {
-        if(formState.step === LastStep){
+        if(coordinator.isLastStep()){
             return (
                 <Button 
                     size="small"
                     variant="contained" color="primary"
                     onClick={() => onSubmit(formState.location)}
-                    disabled={!coordinator.canNext()}
+                    disabled={!coordinator.canNext(formState.location)}
                 >Save</Button>
             )
         }
@@ -69,9 +90,9 @@ const LocationDetailsFooter = ({onSubmit}) => {
     )
 }
 
-
 const LocationDetailsFormBody = (props) => {
-    const [{}, dispatchFormState] = useLocationFormState();
+   const [{}, dispatchFormState] = useLocationFormState();
+   const coordinator = useStepsCoordinator(steps);
 
     //setup state values
     useEffect(()=>{
@@ -79,7 +100,7 @@ const LocationDetailsFormBody = (props) => {
     }, [])
 
     var renderStep = () => {
-        return renderStepView(StepsCoordinator().getCurrentView());
+        return renderStepView(coordinator.getCurrentView());
     }
 
     var renderStepView = (View, props) => {
