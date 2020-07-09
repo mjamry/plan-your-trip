@@ -9,7 +9,7 @@ const defaultOptions = {
     title:""
 }
 
-var MapView = ({locations, selLoc, options = defaultOptions}) => {
+var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
     const [visibleMarkers, setVisibleMarkers] = useState([]);
     const [mapObject, setMapObject] = useState(null);
     
@@ -17,7 +17,7 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
         var marker = L.marker(coordinates, {...options, title: location.name})
                             .addTo(mapObject)
                             .bindPopup(location.name)
-                            .openPopup()
+                            //.openPopup()
 
         if(options.draggable){
             marker.on('dragend', (e) => {
@@ -26,6 +26,17 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
         }
 
         return marker;
+    }
+
+    const showSelectedLocation = (selectedLocation) => {
+        if(selectedLocation && mapObject)
+        {
+            var locationMarker = visibleMarkers.find(el => el.id === selectedLocation.id);
+            if(locationMarker){
+                mapObject.setView([selectedLocation.coordinates.lat, selectedLocation.coordinates.lon]);
+                locationMarker.marker.bindPopup(selectedLocation.name).openPopup();
+            }
+        }
     }
 
     useEffect(()=>{
@@ -78,15 +89,8 @@ var MapView = ({locations, selLoc, options = defaultOptions}) => {
     }, [mapObject, locations])
 
     useEffect(()=>{
-        if(selLoc && mapObject)
-        {
-            var selectedLocation = visibleMarkers.find(el => el.id === selectedLocation.id);
-            if(selectedLocation){
-                mapObject.setView([selectedLocation.coordinates.lat, selectedLocation.coordinates.lon]);
-                selectedLocation.marker.bindPopup(selectedLocation.name).openPopup();
-            }
-        }
-    }, [selLoc])
+        showSelectedLocation(selectedLocation)
+    }, [selectedLocation])
 
     return ( 
         <div id="mapid" className={options.style}></div> 

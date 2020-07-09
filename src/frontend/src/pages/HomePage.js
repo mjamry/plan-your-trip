@@ -22,9 +22,9 @@ const HomePage = () => {
                 <ListViewMenu />
                 <LocationsView />
               </div>
-              <div className="app-map-view">
+              {/* <div className="app-map-view">
                 <LocationsMapView />
-              </div>
+              </div> */}
             </div>
           }
       </div>

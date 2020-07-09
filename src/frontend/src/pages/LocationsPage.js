@@ -9,7 +9,6 @@ import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
 
 import RatingButton from './../components/RatingButton'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
     container: {
@@ -33,6 +32,7 @@ const styles = {
 }
 
 const LocationsPage = ({match, classes}) => {
+    const [selectedLocation, setSelectedLocation] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{locations}, dispatchlocations] = useLocationsState(); 
     const [{}, dispatchModal] = useModalState();
@@ -75,7 +75,7 @@ const LocationsPage = ({match, classes}) => {
                     {title: "Rating", field: "rating", type: "numeric", render: location => <RatingButton value={location.rating} readOnly />},
                     {title: "Coordinates", field: "coordinates", render: location => `${location.coordinates.lat}, ${location.coordinates.lon}`},
                 ]}
-                onRowClick={((evt, location) => console.log(location.id))}
+                onRowClick={((evt, location) => setSelectedLocation(location))}
                 data={locations}
                 add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addNewLocationSelect})}
                 edit={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editLocation, data: location})}
@@ -84,10 +84,9 @@ const LocationsPage = ({match, classes}) => {
             />
         </div>
         <div className={classes.mapContainer}>
-            <LocationsMapView />
+            <LocationsMapView locations={locations} selectedLocation={selectedLocation}/>
         </div>
     </div>
-    }
     </>)
 }
 

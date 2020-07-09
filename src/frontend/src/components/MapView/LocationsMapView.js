@@ -1,12 +1,10 @@
 import React from 'react';
-import {useLocationsState} from '../../State/LocationsState'
 import MapView from './MapView'
 
-const LocationsMapView = () => {
-    const [{locations, locationSelectedOnMap}] = useLocationsState();
+const LocationsMapView = ({locations, selectedLocation}) => {
 
     return (
-        <MapView locations={locations} selectedLocation={locationSelectedOnMap} />
+        <MapView locations={locations} selectedLocation={selectedLocation} />
     )
 }
 
