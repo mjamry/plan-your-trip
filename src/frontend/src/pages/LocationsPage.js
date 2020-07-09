@@ -7,6 +7,8 @@ import { useListsState, ListsStateActions } from './../State/ListsState'
 import useLocationService from './../Services/LocationService'
 import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import GpxFileDownloader from './../Common/GpxFileDownloader'
 
 import RatingButton from './../components/RatingButton'
 
@@ -81,6 +83,14 @@ const LocationsPage = ({match, classes}) => {
                 edit={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.editLocation, data: location})}
                 delete={(location) => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.removeLocation, data: location})}
                 isLoading={isLoading}
+                customActions={[
+                    {
+                        icon: () => <GetAppIcon />,
+                        tooltip: 'Download',
+                        isFreeAction: true,
+                        onClick: () => GpxFileDownloader.download(locations)
+                    }
+                ]}
             />
         </div>
         <div className={classes.mapContainer}>

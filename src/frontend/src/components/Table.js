@@ -67,7 +67,8 @@ const Table = (props) => {
                     tooltip: 'Add',
                     isFreeAction: true,
                     onClick: (event) => props.add()
-                }
+                },
+                ...props.customActions || []
               ]} 
         />
     </>)
