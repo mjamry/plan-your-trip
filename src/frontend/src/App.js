@@ -39,6 +39,7 @@ import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
 import LocationsPage from './pages/LocationsPage'
+import Toolbar from '@material-ui/core/Toolbar';
 
 library.add(far, fas, faWikipediaW)
 
@@ -50,6 +51,7 @@ var App = () => {
           <LocationActionLoadingIndicator/>
           <ModalContainer />
           <Header />
+          <Toolbar />
           <Route path='/' exact component={HomePage} />
           <Route path='/lists' component={ListsPage} />
           <Route path='/list/:id' component={LocationsPage} />

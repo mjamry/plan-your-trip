@@ -1,13 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from '../State/AppState'
 import useUserService from './../Services/UserService'
-import Button from '@material-ui/core/Button';
+
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
+const styles = {
+  toolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  title: {
+    flexGrow: '1',
+    textAlign: 'left'
+  },
+}
 
 var Header = (props) => {
   const [userName, setUserName] = useState(null);
   const [appState, dispatchUser] = useAppState(null);
   const userService = useUserService();
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(()=>
   {
@@ -21,18 +41,54 @@ var Header = (props) => {
     }
   }, [appState.userSignedIn])
 
-  return (
-    <div className="header">
-        <div className="header-content">
-          <div className="header-title">Trip Planner</div>
+  const renderUserInfo = () => {
+      return (
+      <>
+      <IconButton
+        aria-label="account of current user"
+        aria-controls="menu-appbar"
+        aria-haspopup="true"
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+        color="inherit"
+      >
+        <Typography variant="h6">
+          {userName}
+        </Typography>
+        <AccountCircle />
+      </IconButton>
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem onClick={() => setAnchorEl(null)}>Profile</MenuItem>
+        <MenuItem onClick={() => setAnchorEl(null)}>My account</MenuItem>
+        <MenuItem onClick={() =>  userService.signOut()}>Logout</MenuItem>
+      </Menu>
+      </>
+    )
+  }
 
-          {appState.userSignedIn && appState.appInitialized && <div className="header-user">
-            {userName} 
-            <Button variant="contained" size="small" onClick={()=>userService.signOut()}>Sign Out</Button>
-          </div>}
-        </div>
-    </div>
+  return (
+      <AppBar position="fixed">
+        <Toolbar className={props.classes.toolbar}>
+          <Typography variant="h6" className={props.classes.title}>
+            Trip Planner
+          </Typography>
+          {userName && renderUserInfo()}
+        </Toolbar>
+      </AppBar>
   )
 }
 
-export default Header;
+export default withStyles(styles)(Header);
