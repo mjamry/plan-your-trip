@@ -33,7 +33,7 @@ var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
         {
             var locationMarker = visibleMarkers.find(el => el.id === selectedLocation.id);
             if(locationMarker){
-                mapObject.setView([selectedLocation.coordinates.lat, selectedLocation.coordinates.lon]);
+                mapObject.flyTo([selectedLocation.coordinates.lat, selectedLocation.coordinates.lon], 10);
                 locationMarker.marker.bindPopup(selectedLocation.name).openPopup();
             }
         }
