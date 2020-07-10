@@ -10,6 +10,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ExploreIcon from '@material-ui/icons/Explore';
 import SettingsIcon from '@material-ui/icons/Settings';
 import InfoIcon from '@material-ui/icons/Info';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 import {withRouter} from 'react-router-dom'
 const drawerWidth = 180;
@@ -32,7 +33,7 @@ const styles = {
     topMenuItems: {
         flexGrow: 1
     },
-    bottomManuItems: {
+    bottomMenuItems: {
 
     }
 }
@@ -46,6 +47,12 @@ const MainMenu = ({classes, history}) => {
 
     const getMenuItems = () => {
         return [
+            {
+                title: 'Dashboard',
+                icon: <DashboardIcon />,
+                position: menuItemPosition.top,
+                action: () => history.push('/')
+            },
             {
                 title: 'Locations',
                 icon: <LocationOnIcon />,
@@ -93,7 +100,7 @@ const MainMenu = ({classes, history}) => {
                     )
                 }
                 </List>
-                <List className={classes.bottomManuItems}>
+                <List className={classes.bottomMenuItems}>
                 {
                     getMenuItems().filter(item => item.position === menuItemPosition.bottom).map((menuItem, index) => (
                         <ListItem button key={menuItem.title} onClick={menuItem.action}>
