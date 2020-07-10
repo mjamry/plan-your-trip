@@ -25,7 +25,6 @@ import './Styles/ListsPage.css'
 
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom'
-import Header from './components/Header'
 import ModalContainer from './components/modals/ModalContainer'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -39,9 +38,8 @@ import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
 import LocationsPage from './pages/LocationsPage'
-import Toolbar from '@material-ui/core/Toolbar';
-import MainMenu from './components/MainMenu'
-import AppContent from './components/AppContent'
+
+import PageLayout from './pages/PageLayout'
 
 library.add(far, fas, faWikipediaW)
 
@@ -52,17 +50,13 @@ var App = () => {
         <AppContext>
           <LocationActionLoadingIndicator/>
           <ModalContainer />
-          
-          <Toolbar />
-          <MainMenu />
-          <Header />
-          <AppContent>
+          <PageLayout>
             <Route path='/' exact component={HomePage} />
             <Route path='/locations' exact component={ListsPage} />
             <Route path='/locations/:id' component={LocationsPage} />
             <Route path='/callback' component={CallbackPage} />
             <Route path='/welcome' component={WelcomePage} />
-          </AppContent>
+          </PageLayout>
         </AppContext>
       </BrowserRouter>
     </div>

@@ -13,7 +13,7 @@ import Menu from '@material-ui/core/Menu';
 
 const styles = {
   header: {
-    zIndex: 1200,
+    zIndex: 1201,
     backgroundColor: '#363538'
   },
   toolbar: {
