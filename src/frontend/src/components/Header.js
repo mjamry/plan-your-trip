@@ -12,6 +12,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 const styles = {
+  header: {
+    zIndex: 1200,
+    backgroundColor: '#363538'
+  },
   toolbar: {
     display: 'flex',
     flexDirection: 'row',
@@ -20,6 +24,8 @@ const styles = {
     flexGrow: '1',
     textAlign: 'left'
   },
+  userMenu: {
+  }
 }
 
 var Header = (props) => {
@@ -43,7 +49,7 @@ var Header = (props) => {
 
   const renderUserInfo = () => {
       return (
-      <>
+      <div className={props.classes.userMenu}>
       <IconButton
         aria-label="account of current user"
         aria-controls="menu-appbar"
@@ -75,12 +81,12 @@ var Header = (props) => {
         <MenuItem onClick={() => setAnchorEl(null)}>My account</MenuItem>
         <MenuItem onClick={() =>  userService.signOut()}>Logout</MenuItem>
       </Menu>
-      </>
+      </div>
     )
   }
 
   return (
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={props.classes.header}>
         <Toolbar className={props.classes.toolbar}>
           <Typography variant="h6" className={props.classes.title}>
             Trip Planner
