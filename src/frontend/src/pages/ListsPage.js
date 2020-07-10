@@ -50,7 +50,7 @@ const ListsPage = ({history, classes}) => {
                 onRowClick={((evt, selectedList) => 
                     {
                         dispatchList({type: ListsStateActions.selectList, data: selectedList.id})
-                        history.push(`/list/${selectedList.id}`)
+                        history.push(`/locations/${selectedList.id}`)
                     })}
                 data={listState.lists}
                 add={() => dispatchModal({type: ModalStateAction.show, modalType: ModalTypes.addList, data: {}})}
