@@ -1,5 +1,5 @@
 import wiki from 'wikijs';
-import locationDto from '../components/Locations/LocationDto';
+import locationDto from '../Models/LocationDto';
 import LanguageProvider from '../Common/LanguageProvider';
 
 const NumberOfResults = 5;
