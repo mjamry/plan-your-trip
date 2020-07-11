@@ -49,22 +49,22 @@ const DashboardPage = ({classes}) => {
             <Grid item xs={12}>
               <Paper className={classes.gridCard}>
                 <Typography variant="h6">
-                  Search
+                  Welcome
                 </Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Paper className={classes.gridCard}>
-                <Typography variant="h6">
-                  You have <Typography variant="h3">{userData.listsCount}</Typography> lists
-                </Typography>
+                <Typography variant="h6">You have</Typography>
+                <Typography variant="h3">{userData.listsCount}</Typography>
+                <Typography variant="h6">lists</Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Paper className={classes.gridCard}>
-              <Typography variant="h6">
-                  You have <Typography variant="h3">{userData.locationsCount}</Typography> locations
-                </Typography>
+                <Typography variant="h6">You have</Typography>
+                <Typography variant="h3">{userData.locationsCount}</Typography>
+                <Typography variant="h6">locations</Typography>
               </Paper>
             </Grid>
           </Grid>}
