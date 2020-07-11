@@ -40,6 +40,7 @@ import ListsPage from './pages/ListsPage'
 import LocationsPage from './pages/LocationsPage'
 
 import PageLayout from './pages/PageLayout'
+import PrivateRoute from './components/PrivateRoute.js'
 
 library.add(far, fas, faWikipediaW)
 
@@ -51,11 +52,11 @@ var App = () => {
           <LocationActionLoadingIndicator/>
           <ModalContainer />
           <PageLayout>
-            <Route path='/' exact component={HomePage} />
-            <Route path='/locations' exact component={ListsPage} />
-            <Route path='/locations/:id' component={LocationsPage} />
-            <Route path='/callback' component={CallbackPage} />
-            <Route path='/welcome' component={WelcomePage} />
+            <PrivateRoute path='/' exact component={HomePage} />
+            <PrivateRoute path='/locations' exact component={ListsPage} />
+            <PrivateRoute path='/locations/:id' component={LocationsPage} />
+            <PrivateRoute path='/callback' component={CallbackPage} />
+            <PrivateRoute path='/welcome' component={WelcomePage} />
           </PageLayout>
         </AppContext>
       </BrowserRouter>
