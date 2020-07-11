@@ -58,6 +58,7 @@ namespace trip_planner
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
             services.AddScoped<IListsRepository, ListsRepository>();
+            services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<ICurrentUser, CurrentUser>();
         }
 

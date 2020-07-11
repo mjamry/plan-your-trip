@@ -8,11 +8,11 @@ namespace trip_planner.Data.Models
     public class Location
     {
         public Location () {}
-        public Location (string name, string description, int Rating, Coordinate coordinates, string image)
+        public Location (string name, string description, int rating, Coordinate coordinates, string image)
         {
             Name = name;
             Description = description;
-            Rating = Rating;
+            Rating = rating;
             Coordinates = coordinates;
             Image = image;
         }

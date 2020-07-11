@@ -1,34 +1,68 @@
 
-import React from 'react'
-import LocationsView from './../components/Locations/LocationsView'
-import LocationsMapView from './../components/MapView/LocationsMapView'
-import ListView from './../components/Lists/ListView'
-import ListViewMenu from './../components/Lists/ListViewMenu'
+import React, {useState, useEffect} from 'react'
 import AppLoader from './../AppLoader'
-import {useAppState} from './../State/AppState'
-import {Link} from 'react-router-dom'
+import useUserDataService from './../Services/UserDataService'
+import { withStyles } from '@material-ui/core/styles';
 
-const HomePage = () => {
-  const [appState, dispatchAppState] = useAppState();
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-    return (
-      <div>
-          <AppLoader/>
-          <Link to="/Lists">Lists</Link>
-          {appState.appInitialized && 
-            <div className="app-content-container">
-              <div className="app-locations-view">
-                <ListView />
-                <ListViewMenu />
-                <LocationsView />
-              </div>
-              {/* <div className="app-map-view">
-                <LocationsMapView />
-              </div> */}
-            </div>
-          }
-      </div>
-    )
+const styles = {
+  container: {
+    margin: '10px',
+  },
+  gridCard: {
+    padding: '10px',
+  }
 }
 
-export default HomePage;
+const HomePage = ({classes}) => {
+  const userService = useUserDataService();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(()=>{
+    const getUserData = async () => {
+      const obtainedUserData = await userService.getDashboard();
+      setUserData(obtainedUserData);
+      console.log(userData)
+    }
+
+    getUserData();
+  }, [])
+
+  return (
+    <>
+      <AppLoader/>
+      <div className={classes.container}>
+        
+        {userData && 
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.gridCard}>
+              <Typography variant="h6">
+                Search
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.gridCard}>
+              <Typography variant="h6">
+                You have <Typography variant="h3">{userData.listsCount}</Typography> lists
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.gridCard}>
+            <Typography variant="h6">
+                You have <Typography variant="h3">{userData.locationsCount}</Typography> locations
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>}
+      </div>
+    </>
+  )
+}
+
+export default withStyles(styles)(HomePage);
