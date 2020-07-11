@@ -1,12 +1,12 @@
 
 import React, {useState, useEffect} from 'react'
-import AppLoader from './../AppLoader'
 import useUserDataService from './../Services/UserDataService'
 import { withStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = {
   container: {
@@ -14,18 +14,26 @@ const styles = {
   },
   gridCard: {
     padding: '10px',
+  },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '80vh'
   }
 }
 
 const HomePage = ({classes}) => {
   const userService = useUserDataService();
   const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     const getUserData = async () => {
+      setIsLoading(true);
       const obtainedUserData = await userService.getDashboard();
       setUserData(obtainedUserData);
-      console.log(userData)
+      setIsLoading(false);
     }
 
     getUserData();
@@ -33,34 +41,36 @@ const HomePage = ({classes}) => {
 
   return (
     <>
-      <AppLoader/>
-      <div className={classes.container}>
-        
-        {userData && 
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper className={classes.gridCard}>
+      {isLoading 
+      ? <div className={classes.loader}>
+          <CircularProgress />
+        </div>
+      : <div className={classes.container}>
+          {userData && 
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper className={classes.gridCard}>
+                <Typography variant="h6">
+                  Search
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Paper className={classes.gridCard}>
+                <Typography variant="h6">
+                  You have <Typography variant="h3">{userData.listsCount}</Typography> lists
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Paper className={classes.gridCard}>
               <Typography variant="h6">
-                Search
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.gridCard}>
-              <Typography variant="h6">
-                You have <Typography variant="h3">{userData.listsCount}</Typography> lists
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.gridCard}>
-            <Typography variant="h6">
-                You have <Typography variant="h3">{userData.locationsCount}</Typography> locations
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>}
-      </div>
+                  You have <Typography variant="h3">{userData.locationsCount}</Typography> locations
+                </Typography>
+              </Paper>
+            </Grid>
+          </Grid>}
+        </div>}
     </>
   )
 }
