@@ -1,12 +1,12 @@
 
 import React, {useState, useEffect} from 'react'
-import useUserDataService from './../Services/UserDataService'
+import useUserDataService from '../Services/UserDataService'
 import { withStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Loader from './../components/Loader';
 
 const styles = {
   container: {
@@ -23,7 +23,7 @@ const styles = {
   }
 }
 
-const HomePage = ({classes}) => {
+const DashboardPage = ({classes}) => {
   const userService = useUserDataService();
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +42,7 @@ const HomePage = ({classes}) => {
   return (
     <>
       {isLoading 
-      ? <div className={classes.loader}>
-          <CircularProgress />
-        </div>
+      ? <Loader />
       : <div className={classes.container}>
           {userData && 
           <Grid container spacing={3}>
@@ -75,4 +73,4 @@ const HomePage = ({classes}) => {
   )
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(DashboardPage);

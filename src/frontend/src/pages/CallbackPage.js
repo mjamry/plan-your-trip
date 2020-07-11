@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import useUserService from './../Services/UserService'
 import useLoggerService from './../Services/Diagnostics/LoggerService'
+import Loader from './../components/Loader'
 
 const CallbackPage = ({history}) => {
     const userService = useUserService();
@@ -17,7 +18,7 @@ const CallbackPage = ({history}) => {
     }, [])
 
     return (
-        <div>Redirecting...</div>
+        <Loader />
     )
 }
 
