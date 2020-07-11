@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { Log, User, UserManager } from 'oidc-client'
 import useLoggerService from './Diagnostics/LoggerService'
 import {useAppState, AppStateActions} from '../State/AppState'
+import {useHistory} from 'react-router-dom'
 
 const config = {
     authority: "http://localhost:50000",
@@ -18,25 +19,26 @@ const useUserService = () => {
     const [userManager, setUserManager] = useState(new UserManager(config));
     const log = useLoggerService('UserService');
     const [appState, dispatchAppState] = useAppState();
+    const history = useHistory();
 
     useEffect(()=>{
         //TODO debug only
         Log.logger = console;
     }, [])
 
-    var signIn = () => {
+    const signIn = () => {
         userManager.signinRedirect();
     }
 
-    var signOut = () => {
+    const signOut = () => {
         userManager.signoutRedirect();
     }
 
-    var signInRedirectCallback = () => {
+    const signInRedirectCallback = () => {
         return userManager.signinRedirectCallback();
     }
 
-    var getUser = () => {
+    const getUser = () => {
         return new Promise((resolve, reject) => 
         {
             log.debug("Getting user...");
@@ -57,6 +59,7 @@ const useUserService = () => {
                     else
                     {
                         log.debug("No user")
+                        history.push("/welcome");
                     }
 
                     resolve(user);
@@ -69,7 +72,7 @@ const useUserService = () => {
         })
     }
 
-    var getToken = () => {
+    const getToken = () => {
         return new Promise((resolve, reject) => 
         {
             log.debug("Getting token...")
@@ -94,11 +97,22 @@ const useUserService = () => {
         })
     } 
 
+    const isAuthenticated = async () => {
+        const user = await getUser();
+        if(user){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     return {
         signIn: signIn,
         signOut: signOut,
         getUser: getUser,
         getToken: getToken,
+        isAuthenticated: isAuthenticated,
         signInRedirectCallback: signInRedirectCallback
     }
 }
