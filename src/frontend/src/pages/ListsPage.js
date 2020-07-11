@@ -8,7 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
     container: {
-        margin: '10px'
+        height: '90vh',
+        margin: '10px',
+        overflow: 'auto',
     }
 }
 

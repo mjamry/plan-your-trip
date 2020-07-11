@@ -15,13 +15,14 @@ import RatingButton from './../components/RatingButton'
 const styles = {
     container: {
         display: 'flex',
-        overflow: 'hidden',
-        height: '92vh',
+        margin: '10px',
     },
     locationsContainer: {
         margin: '10px',
         marginRight: '0',
         flex: '0 1 calc(66% - 1em)',
+        overflow: 'auto',
+        height: '90vh',
     },
     mapContainer: {
         flex: '0 1 calc(34% - 1em)',
