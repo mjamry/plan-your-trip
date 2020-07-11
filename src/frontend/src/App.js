@@ -33,7 +33,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
 import AppContext from './AppContext'
-import HomePage from './pages/HomePage'
+import DashboardPage from './pages/DashboardPage'
 import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
@@ -52,7 +52,7 @@ var App = () => {
           <LocationActionLoadingIndicator/>
           <ModalContainer />
           <PageLayout>
-            <PrivateRoute path='/' exact component={HomePage} />
+            <PrivateRoute path='/' exact component={DashboardPage} />
             <PrivateRoute path='/locations' exact component={ListsPage} />
             <PrivateRoute path='/locations/:id' component={LocationsPage} />
             <PrivateRoute path='/callback' component={CallbackPage} />

@@ -40,7 +40,6 @@ const Table = (props) => {
         <MaterialTable
             title={props.title}
             columns={props.columns}
-            actions={props.actions}
             data={props.data} 
             onRowClick={props.onRowClick}
             options={{
