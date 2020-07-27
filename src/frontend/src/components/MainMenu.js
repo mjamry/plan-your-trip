@@ -60,10 +60,10 @@ const MainMenu = ({classes, history}) => {
                 action: () => history.push('/locations')
             },
             {
-                title: 'Trips',
+                title: 'Plans',
                 icon: <ExploreIcon />,
                 position: menuItemPosition.top,
-                action: () => history.push('/trips')
+                action: () => history.push('/plans')
             },
             {
                 title: 'Settings',

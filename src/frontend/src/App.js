@@ -38,6 +38,8 @@ import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
 import LocationsPage from './pages/LocationsPage'
+import PlansPage from './pages/PlansPage'
+import PlanDetailsPage from './pages/PlanDetailsPage' 
 
 import PageLayout from './pages/PageLayout'
 import PrivateRoute from './components/PrivateRoute.js'
@@ -56,7 +58,9 @@ var App = () => {
             <PrivateRoute path='/locations' exact component={ListsPage} />
             <PrivateRoute path='/locations/:id' component={LocationsPage} />
             <PrivateRoute path='/callback' component={CallbackPage} />
-            <PrivateRoute path='/welcome' component={WelcomePage} />
+            <Route path='/welcome' component={WelcomePage} />
+            <PrivateRoute path='/plans' exact component={PlansPage} />
+            <PrivateRoute path='/plans/:id' component={PlanDetailsPage} />
           </PageLayout>
         </AppContext>
       </BrowserRouter>
