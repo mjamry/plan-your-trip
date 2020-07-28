@@ -4,35 +4,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import useLocationService from './../Services/LocationService'
 import Loader from './../components/Loader'
 import Timeline from '@material-ui/lab/Timeline';
-import TimelineItem from '@material-ui/lab/TimelineItem';
-import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import TimelineConnector from '@material-ui/lab/TimelineConnector';
-import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-
-import TransportTypeSelector from '../components/planDetails/TransportTypeSelector'
-
+import TimelineElement from './../components/planDetails/TimelineElement'
+import TimelineElementPositionTypes from './../components/planDetails/TimelineElementPositionTypes'
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-      padding: '6px 16px',
-      display: 'flex'
-    },
-    secondaryTail: {
-      backgroundColor: theme.palette.secondary.main,
-    },   
-    locationImage: {
-        maxWidth: '100px',
-        maxHeight: '100px',
-        margin: '0 5px',
-    },
-    description: {
-        textAlign: 'justify',
-    },
     container: {
-        width: '50vw',
+        maxWidth: '50vw',
+        minWidth: '45vw',
         overflow: 'auto',
         height: '95vh',
     },
@@ -57,35 +35,17 @@ const PlansDetailsPage = ({match}) => {
     }, [])
 
     const renderLocations = () => {
-        return locations.map((location, index) => 
-            (<TimelineItem>
-                <TimelineOppositeContent>
-                    <Typography variant="body2" color="textSecondary">
-                        25 km
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        1h 35min
-                    </Typography>
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                    
-                        <TransportTypeSelector />
-                    <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                    <Paper elevation={1} className={classes.paper}>
-                        {location.image && <img src={location.image} className={classes.locationImage}/>}
-                        <div>
-                            <Typography variant="h6" component="h1">
-                                {location.name}
-                            </Typography>
-                            <Typography variant="body2" className={classes.description}>{location.description}</Typography>
-                        </div>
-                    </Paper>
-                </TimelineContent>
-            </TimelineItem>)
-        )
-    }
+        return locations.map((location, index) => (
+            <TimelineElement 
+                position={index % 2 == 0 ? TimelineElementPositionTypes.Left : TimelineElementPositionTypes.Right} 
+                location={location} 
+                routeDetails={{
+                    distance: `${Math.round(Math.random()*10*index)}km`, 
+                    time: `${Math.round(Math.random()*index)}h ${Math.round(Math.random()*60)}min`
+                }}
+                key={location.name} 
+            />
+    ))}
 
     return (
     <>
@@ -93,7 +53,7 @@ const PlansDetailsPage = ({match}) => {
         ? <Loader /> 
         : <div className={classes.container}>
             <Timeline align="alternate">
-            {renderLocations()}
+                {renderLocations()}
             </Timeline>
         </div>}
     </>);

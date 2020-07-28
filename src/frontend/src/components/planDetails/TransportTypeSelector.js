@@ -2,6 +2,8 @@
 import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TransportTypes from './../../Models/TransportTypes'
+import TimelineElementPositionTypes from './TimelineElementPositionTypes'
+
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
@@ -13,10 +15,16 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 const useStyles = makeStyles((theme) => ({
-    speedDial: {
+    speedDialRight: {
         position: 'absolute',
-        top: '-10px',
+        top: '-25px',
         left: '-15px',
+        margin: '5px',
+    },
+    speedDialLeft: {
+        position: 'absolute',
+        top: '-25px',
+        right: '-15px',
         margin: '5px',
     },
     container: {
@@ -43,7 +51,7 @@ const TransportTypeSelector = ({position, onSelect}) => {
     const [open, setOpen] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [selectedTransportType, setSelectedTransportType] = useState(TransportTypes.Walk)
-    position = position || 'right';
+    position = position || TimelineElementPositionTypes.Right;
   
     const handleOpen = () => {
       setOpen(true);
@@ -63,7 +71,7 @@ const TransportTypeSelector = ({position, onSelect}) => {
         <div className={classes.container}>
             <SpeedDial
                 ariaLabel="SpeedDial openIcon example"
-                className={classes.speedDial}
+                className={position === TimelineElementPositionTypes.Right ? classes.speedDialRight : classes.speedDialLeft}
                 hidden={hidden}
                 icon={transportOptions.filter(option => option.type === selectedTransportType)[0].icon}
                 onClose={handleClose}
