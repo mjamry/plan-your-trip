@@ -12,16 +12,8 @@ import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
-import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
-import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
-import DirectionsBoatIcon from '@material-ui/icons/DirectionsBoat';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
-import FlightIcon from '@material-ui/icons/Flight';
+import TransportTypeSelector from '../components/planDetails/TransportTypeSelector'
 
-//transport selector and
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,86 +36,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         height: '95vh',
     },
-    //transport
-    root: {
-        height: 380,
-        transform: 'translateZ(0px)',
-        flexGrow: 1,
-      },
-    speedDial: {
-        position: 'absolute',
-        
-        top: '-10px',
-        left: '-15px',
-        margin: '5px',
-    },
-    separatorContainer: {
-        position: 'relative',
-        height: '20px',
-        width: '20px',
-        margin: '5px',
-    },
-    speedDialAction: {
-        border: '1px solid red',
-    },
 }));
-
-const actions = [
-    { icon: <DirectionsWalkIcon />, name: 'Walk' },
-    { icon: <DirectionsBikeIcon />, name: 'Bike' },
-    { icon: <DirectionsCarIcon />, name: 'Car' },
-    { icon: <DirectionsBusIcon />, name: 'Bus' },
-    { icon: <DirectionsBoatIcon />, name: 'Boat' },
-    { icon: <FlightIcon />, name: 'Plane' },
-  ];
-
-const TransportSelector = () => {
-    
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [hidden, setHidden] = React.useState(false);
-    const [transportTypeIcon, setTransportTypeIcon] = useState(<DirectionsWalkIcon />)
-  
-    const handleVisibility = () => {
-      setHidden((prevHidden) => !prevHidden);
-    };
-  
-    const handleOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-
-    const selectTransportType = (icon) => {
-        setTransportTypeIcon(icon);
-        handleClose();
-    }
-
-    return (<SpeedDial
-        ariaLabel="SpeedDial openIcon example"
-        className={classes.speedDial}
-        hidden={hidden}
-        icon={transportTypeIcon}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        open={open}
-        direction="right"
-        FabProps={{size: "small"}}
-      >
-        {actions.filter((action) => action.icon !== transportTypeIcon)
-                .map((action) => (
-                    <SpeedDialAction
-                        className="speedDialAction"
-                        key={action.name}
-                        icon={action.icon}
-                        tooltipTitle={action.name}
-                        onClick={() => selectTransportType(action.icon)}
-                    />
-                    ))}
-      </SpeedDial>)
-}
 
 const PlansDetailsPage = ({match}) => {
     const classes = useStyles();
@@ -143,10 +56,6 @@ const PlansDetailsPage = ({match}) => {
         fetchListData();
     }, [])
 
-    const renderTransportSelection = () => {
-        
-    }
-
     const renderLocations = () => {
         return locations.map((location, index) => 
             (<TimelineItem>
@@ -159,9 +68,8 @@ const PlansDetailsPage = ({match}) => {
                     </Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                    <div className={classes.separatorContainer}>
-                        <TransportSelector />
-                    </div>
+                    
+                        <TransportTypeSelector />
                     <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent>
