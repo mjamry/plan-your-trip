@@ -17,61 +17,67 @@ import Tooltip from '@material-ui/core/Tooltip';
 const DESCRIPTION_LENGTH = 100;
 
 const styles = {
+    root: {
+        userSelect: 'none',
+    },
     paper: {
         display: 'flex',
-      },
-      locationImage: {
-          maxWidth: '100px',
-      },
-      description: {
-          textAlign: 'justify',
-          maxHeight: '80px',
-          maxWidth: '200px',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-      },
-      dataContainer: {
-          margin: '5px',
-          maxHeight: '100px'
-      },
-      routeDetailsContainer: {
-          display: 'flex',
-          justifyContent: 'center',
-          flexFlow: 'column',
-      }
-}
-
-const useStylesRight = makeStyles((theme) => ({
-    ...styles,
-    paper: {
-      ...styles.paper,
-      flexFlow: 'row-reverse',
-    }, 
-    locationImage: {
-        ...styles.locationImage,
-        borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
+        cursor: 'move',
     },
-}));
-
-const useStylesLeft = makeStyles((theme) => ({
-    ...styles,
     locationImage: {
-        ...styles.locationImage,
-        borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
+        maxWidth: '100px',
+    },
+    description: {
+        textAlign: 'justify',
+        maxHeight: '80px',
+        maxWidth: '200px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
     },
     dataContainer: {
-        ...styles.dataContainer,
-        textAlign: 'left',
+        margin: '5px',
+        maxHeight: '100px'
     },
-}));
+    routeDetailsContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexFlow: 'column',
+    }
+}
 
-const TimelineElement = ({location, routeDetails, position}) => {
+const useStyles = (position) => makeStyles((theme) => (
+    position === TimelineElementPositionTypes.Left 
+    ? {
+        ...styles,
+        locationImage: {
+            ...styles.locationImage,
+            borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
+        },
+        dataContainer: {
+            ...styles.dataContainer,
+            textAlign: 'left',
+        },
+    }
+    : {
+        ...styles,
+        paper: {
+          ...styles.paper,
+          flexFlow: 'row-reverse',
+        }, 
+        locationImage: {
+            ...styles.locationImage,
+            borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
+        },
+    }
+))();
+
+const TimelineElement = ({location, routeDetails, position, ref}) => {
     const [transportType, setTransportType] = useState(TransportTypes.Walk)
-    const classes = position === TimelineElementPositionTypes.Right ? useStylesRight() : useStylesLeft();
+    const classes = useStyles(position)
 
     return (
-    <TimelineItem>
+    <TimelineItem ref={ref} className={classes.root}>
         <TimelineOppositeContent className={classes.routeDetailsContainer}>
             <Typography variant="body2" color="textSecondary">
                 Travel by {Object.keys(TransportTypes)[transportType]}

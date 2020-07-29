@@ -20,10 +20,9 @@ const LocationsStateActions = {
 
 const LocationsStateContext = createContext();
 
-const LocationsStateProvider = ({ children, reducerHook }) => {
-    const value = reducerHook || useReducer(_defaultReducer, EmptyState);
+const LocationsStateProvider = ({ children }) => {
     return (
-        <LocationsStateContext.Provider value={value}>
+        <LocationsStateContext.Provider value={useReducer(_defaultReducer, EmptyState)}>
             {children}
         </LocationsStateContext.Provider>
     )

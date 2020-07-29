@@ -18,11 +18,12 @@ var useModalContentFactory = () => {
     const [modalModel, dispatchModal] = useModalState();
     const locationService = useLocationService();
     const listService = useListService();
-    var logger = useLoggerService();
+    const logger = useLoggerService();
+
+    const locationFormBuilder = useLocationFormBuilder();
+    const listFormBuilder = useListFormBuilder();
 
     var create = (modalType) => {
-        var locationFormBuilder = useLocationFormBuilder();
-        var listFormBuilder = useListFormBuilder();
 
         switch(modalType){
             case ModalTypes.addLocation:
