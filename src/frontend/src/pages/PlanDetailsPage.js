@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import useLocationService from './../Services/LocationService'
 import Loader from './../components/Loader'
-import Timeline from '@material-ui/lab/Timeline';
-import TimelineElement from './../components/planDetails/TimelineElement'
+import DraggableTimeline from './../components/planDetails/DraggableTimeline'
 import TimelineElementPositionTypes from './../components/planDetails/TimelineElementPositionTypes'
 
 const useStyles = makeStyles((theme) => ({
@@ -34,27 +33,12 @@ const PlansDetailsPage = ({match}) => {
         fetchListData();
     }, [])
 
-    const renderLocations = () => {
-        return locations.map((location, index) => (
-            <TimelineElement 
-                position={index % 2 == 0 ? TimelineElementPositionTypes.Left : TimelineElementPositionTypes.Right} 
-                location={location} 
-                routeDetails={{
-                    distance: `${Math.round(Math.random()*10*index)}km`, 
-                    time: `${Math.round(Math.random()*index)}h ${Math.round(Math.random()*60)}min`
-                }}
-                key={location.name} 
-            />
-    ))}
-
     return (
     <>
         {isLoading 
         ? <Loader /> 
         : <div className={classes.container}>
-            <Timeline align="alternate">
-                {renderLocations()}
-            </Timeline>
+            <DraggableTimeline data={locations} position={TimelineElementPositionTypes.Right}/>
         </div>}
     </>);
 }

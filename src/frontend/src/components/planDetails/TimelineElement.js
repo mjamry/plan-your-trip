@@ -17,9 +17,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 const DESCRIPTION_LENGTH = 100;
 
 const styles = {
-    root: {
-        userSelect: 'none',
-    },
     paper: {
         display: 'flex',
         cursor: 'move',
@@ -72,41 +69,41 @@ const useStyles = (position) => makeStyles((theme) => (
     }
 ))();
 
-const TimelineElement = ({location, routeDetails, position, ref}) => {
+const TimelineElement = ({location, routeDetails, position}) => {
     const [transportType, setTransportType] = useState(TransportTypes.Walk)
     const classes = useStyles(position)
 
     return (
-    <TimelineItem ref={ref} className={classes.root}>
-        <TimelineOppositeContent className={classes.routeDetailsContainer}>
-            <Typography variant="body2" color="textSecondary">
-                Travel by {Object.keys(TransportTypes)[transportType]}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-                for {routeDetails.distance} in {routeDetails.time}
-            </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-            <TimelineConnector />
-            <TransportTypeSelector position={position} onSelect={(type) => setTransportType(type)}/>
-            <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-            <Paper elevation={1} className={classes.paper}>
-                {location.image && <img src={location.image} className={classes.locationImage}/>}
-                <div className={classes.dataContainer}>
-                    <Typography variant="h6" component="h6">
-                        {location.name}
-                    </Typography>
-                    <Tooltip title={location.description}>
-                        <Typography variant="body2" className={classes.description}>
-                            {location.description.substring(0, DESCRIPTION_LENGTH)}
+        <TimelineItem className={classes.root}>
+            <TimelineOppositeContent className={classes.routeDetailsContainer}>
+                <Typography variant="body2" color="textSecondary">
+                    Travel by {Object.keys(TransportTypes)[transportType]}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                    for {routeDetails.distance} in {routeDetails.time}
+                </Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+                <TimelineConnector />
+                <TransportTypeSelector position={position} onSelect={(type) => setTransportType(type)}/>
+                <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+                <Paper elevation={1} className={classes.paper}>
+                    {location.image && <img src={location.image} className={classes.locationImage}/>}
+                    <div className={classes.dataContainer}>
+                        <Typography variant="h6" component="h6">
+                            {location.name}
                         </Typography>
-                    </Tooltip>
-                </div>
-            </Paper>
-        </TimelineContent>
-    </TimelineItem>)
+                        <Tooltip title={location.description}>
+                            <Typography variant="body2" className={classes.description}>
+                                {location.description.substring(0, DESCRIPTION_LENGTH)}
+                            </Typography>
+                        </Tooltip>
+                    </div>
+                </Paper>
+            </TimelineContent>
+        </TimelineItem>)
 }
 
 export default TimelineElement;

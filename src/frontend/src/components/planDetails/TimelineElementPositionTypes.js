@@ -1,6 +1,7 @@
 const TimelineElementPositionTypes = {
     Right: 'right',
-    Left: 'left'
+    Left: 'left',
+    Alternate: 'alternate'
 }
 
 export default TimelineElementPositionTypes
