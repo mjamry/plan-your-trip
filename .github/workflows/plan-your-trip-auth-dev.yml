@@ -67,6 +67,6 @@ jobs:
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
-        app-name: plan-your-trip-api-dev
+        app-name: plan-your-trip-auth-dev
         publish-profile: ${{ secrets.plan_your_trip_auth_dev_azure_profile }}
         package: ${{env.DOTNET_ROOT}}/plan-your-trip-auth-dev
