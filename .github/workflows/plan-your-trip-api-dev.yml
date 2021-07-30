@@ -9,6 +9,7 @@ on:
       - development
     paths: 
       - 'src/backend/TripPlanner.Api'
+  workflow_dispatch:
 
 jobs:
   build:
