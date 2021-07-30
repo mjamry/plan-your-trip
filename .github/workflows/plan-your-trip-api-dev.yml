@@ -30,9 +30,6 @@ jobs:
     - name: Build
       run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release --no-restore
 
-    - name: Publish
-      run: dotnet publish 'src/backend/TripPlanner.Api' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
-
   test:
   
     runs-on: windows-latest
@@ -56,11 +53,20 @@ jobs:
     needs: [build, test]
 
     steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.301'
+        
+    - name: Publish
+      run: dotnet publish 'src/backend/TripPlanner.Api' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
+
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
         app-name: plan-your-trip-api-dev
         publish-profile: ${{ secrets.plan_your_trip_api_dev_azure_profile }}
         package: ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
-
-
