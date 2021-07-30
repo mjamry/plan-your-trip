@@ -33,6 +33,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: plan-your-trip-api
+        app_location: 'src/backend/TripPlanner.Api'
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0226405A353D410ABC183D14E8417FA4 }}
         package: ${{env.DOTNET_ROOT}}/myapp
