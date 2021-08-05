@@ -29,8 +29,8 @@ namespace IdentityServer
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
 
-            string dataConnectionString = Configuration["ConnectionStrings:UserDbConnectionString"];
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dataConnectionString));
+            string dataConnectionString = Configuration["ConnectionStrings:Users"];
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dataConnectionString));
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
