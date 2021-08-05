@@ -50,10 +50,10 @@ namespace trip_planner
                 });
 
             string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
-            services.AddDbContext<TripPlannerContext>(options => options.UseMySql (dataConnectionString));
+            services.AddDbContext<TripPlannerContext>(options => options.UseSqlServer(dataConnectionString));
             string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
-            services.AddDbContext<DiagnosticsContext>(options => options.UseMySql(diagnosticsConnectionString));
-            
+            services.AddDbContext<DiagnosticsContext>(options => options.UseSqlServer(diagnosticsConnectionString));
+
             //register types
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
