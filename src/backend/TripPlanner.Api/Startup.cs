@@ -49,9 +49,9 @@ namespace trip_planner
                     options.Audience = API_CODE_NAME;
                 });
 
-            string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
+            string dataConnectionString = Configuration["ConnectionStrings:Data"];
             services.AddDbContext<TripPlannerContext>(options => options.UseSqlServer(dataConnectionString));
-            string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
+            string diagnosticsConnectionString = Configuration["ConnectionStrings:Diagnostics"];
             services.AddDbContext<DiagnosticsContext>(options => options.UseSqlServer(diagnosticsConnectionString));
 
             //register types
