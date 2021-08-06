@@ -8,6 +8,8 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer
 {
@@ -26,8 +28,19 @@ namespace IdentityServer
 
             try
             {
-                Log.Information("Starting IDSVR...");
-                CreateHostBuilder(args).Build().Run();
+                Log.Information("Starting Identity");
+                var host = CreateHostBuilder(args).Build();
+
+                using(var scope = host.Services.CreateScope())
+                {
+                    Log.Information("Migrating identity server database");
+                    var idsrvContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                    idsrvContext.Database.Migrate();
+
+                    Log.Information("Migrations applied");
+                }
+
+                host.Run();
                 return 0;
             }
             catch (Exception ex)
