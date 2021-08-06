@@ -49,11 +49,11 @@ namespace trip_planner
                     options.Audience = API_CODE_NAME;
                 });
 
-            string dataConnectionString = Configuration["ConnectionStrings:DataConnection"];
-            services.AddDbContext<TripPlannerContext>(options => options.UseMySql (dataConnectionString));
-            string diagnosticsConnectionString = Configuration["ConnectionStrings:DiagnosticsConnection"];
-            services.AddDbContext<DiagnosticsContext>(options => options.UseMySql(diagnosticsConnectionString));
-            
+            string dataConnectionString = Configuration["ConnectionStrings:Data"];
+            services.AddDbContext<TripPlannerContext>(options => options.UseSqlServer(dataConnectionString));
+            string diagnosticsConnectionString = Configuration["ConnectionStrings:Diagnostics"];
+            services.AddDbContext<DiagnosticsContext>(options => options.UseSqlServer(diagnosticsConnectionString));
+
             //register types
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();

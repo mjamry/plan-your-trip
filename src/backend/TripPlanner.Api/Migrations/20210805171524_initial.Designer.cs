@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using trip_planner.Data.Contexts;
@@ -9,27 +10,29 @@ using trip_planner.Data.Contexts;
 namespace trip_planner.Migrations
 {
     [DbContext(typeof(TripPlannerContext))]
-    [Migration("20200706170515_RenamedAttractivnessToRating")]
-    partial class RenamedAttractivnessToRating
+    [Migration("20210805171524_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("trip_planner.Data.Models.Coordinate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double>("Lat")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double>("Lon")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -40,28 +43,29 @@ namespace trip_planner.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPrivate")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Link")
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime>("Updated")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -77,7 +81,7 @@ namespace trip_planner.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Owner")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("LocationId", "ListId");
 
@@ -90,21 +94,22 @@ namespace trip_planner.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CoordinatesId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -119,13 +124,13 @@ namespace trip_planner.Migrations
             modelBuilder.Entity("trip_planner.Data.Models.UserLists", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ListId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Owner")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "ListId");
 
@@ -147,6 +152,10 @@ namespace trip_planner.Migrations
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("List");
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("trip_planner.Data.Models.Location", b =>
@@ -156,6 +165,8 @@ namespace trip_planner.Migrations
                         .HasForeignKey("CoordinatesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Coordinates");
                 });
 
             modelBuilder.Entity("trip_planner.Data.Models.UserLists", b =>
@@ -165,6 +176,20 @@ namespace trip_planner.Migrations
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("List");
+                });
+
+            modelBuilder.Entity("trip_planner.Data.Models.List", b =>
+                {
+                    b.Navigation("Locations");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("trip_planner.Data.Models.Location", b =>
+                {
+                    b.Navigation("Lists");
                 });
 #pragma warning restore 612, 618
         }

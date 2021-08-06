@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using Microsoft.Extensions.DependencyInjection;
+using trip_planner.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace trip_planner
 {
@@ -16,23 +14,33 @@ namespace trip_planner
     {
         public static int Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            //Initialize Logger
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
-                .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\home\LogFiles\Application\identityserver.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
+                .ReadFrom.Configuration(config)
                 .CreateLogger();
 
             try
             {
-                Log.Information("Starting API...");
-                CreateHostBuilder(args).Build().Run();
+                Log.Information("Starting API");
+                var host = CreateHostBuilder(args).Build();
+
+                using(var scope = host.Services.CreateScope())
+                {
+                    Log.Information("Migrating data database");
+                    var dataContext = scope.ServiceProvider.GetService<TripPlannerContext>();
+                    dataContext.Database.Migrate();
+
+                    Log.Information("Migarting diagnostics database");
+                    var diagnosticsContext = scope.ServiceProvider.GetService<DiagnosticsContext>();
+                    diagnosticsContext.Database.Migrate();
+
+                    Log.Information("All migartions applied");
+                }
+
+                host.Run();
                 return 0;
             }
             catch (Exception ex)
