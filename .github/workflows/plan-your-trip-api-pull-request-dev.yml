@@ -19,16 +19,13 @@ jobs:
       with:
         dotnet-version: '3.1.301'
 
-    - name: Install dependencies
-      run: dotnet restore 'src/backend/TripPlanner.Api'
-      run: dotnet restore 'src/backend/TripPlanner.Api'
-      run: npm install 'src/frontend'
-      run: npm list --depth=1
+    - name: Install npm
+      run: npm list --depth=1 | npm install 'src/frontend'
 
     - name: Build Api
-      run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release --no-restore
+      run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release
     - name: Build Auth
-      run: dotnet build 'src/backend/TripPlanner.Auth' --configuration Release --no-restore
+      run: dotnet build 'src/backend/TripPlanner.Auth' --configuration Release
     - name: Build frontend
       run: npm run build --prefix 'src/frontend'
 
