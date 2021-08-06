@@ -1,20 +1,16 @@
-# Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
-# More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
-
-name: plan-your-trip-api dev
+name: plan-your-trip-api push-dev
 
 on:
   push:
     branches:
       - development
-    paths: 
+    paths:
       - 'src/backend/TripPlanner.Api'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
@@ -31,10 +27,9 @@ jobs:
       run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release --no-restore
 
   test:
-  
     runs-on: windows-latest
     needs: [build]
-    steps: 
+    steps:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
 
@@ -51,7 +46,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: [build, test]
-
     steps:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
@@ -60,7 +54,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.301'
-        
+
     - name: Publish
       run: dotnet publish 'src/backend/TripPlanner.Api' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
 
