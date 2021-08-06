@@ -1,0 +1,31 @@
+name: plan-your-trip-api pull-request-dev
+
+on:
+  pull_request:
+    branches:
+      - development
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.301'
+
+    - name: Build Api
+      run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release
+    - name: Build Auth
+      run: dotnet build 'src/backend/TripPlanner.Auth' --configuration Release
+
+    - name: Test Api
+      run: dotnet test 'src/backend/TripPlanner.Api' --no-restore --verbosity normal
+    - name: Test Auth
+      run: dotnet test 'src/backend/TripPlanner.Auth' --no-restore --verbosity normal
+
