@@ -6,6 +6,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 using Microsoft.Extensions.DependencyInjection;
 using trip_planner.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace trip_planner
 {
@@ -13,10 +14,12 @@ namespace trip_planner
     {
         public static int Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            //Initialize Logger
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
-                .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
+                .ReadFrom.Configuration(config)
                 .CreateLogger();
 
             try
