@@ -34,7 +34,7 @@ namespace IdentityServer
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                //passwd settings    
+                //passwd settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = true;
@@ -42,11 +42,11 @@ namespace IdentityServer
 
                 options.User.RequireUniqueEmail = true;
             })
-                
+
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            var builder = services.AddIdentityServer(options => 
+            var builder = services.AddIdentityServer(options =>
             {
                 options.UserInteraction.LoginUrl = "/Account/Login";
                 options.UserInteraction.LogoutUrl = "/Account/Logout";
