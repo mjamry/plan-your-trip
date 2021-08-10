@@ -2,7 +2,6 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using System.ComponentModel.Design;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
+using TripPlanner.Auth;
 
 namespace IdentityServer
 {
@@ -56,6 +56,16 @@ namespace IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<IdentityUser>();
 
+            //configure cookies policy
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = CookiePolicyHelper.MinimumSameSitePolicy;
+                options.OnAppendCookie = cookieContext =>
+                    CookiePolicyHelper.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.OnDeleteCookie = cookieContext =>
+                    CookiePolicyHelper.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+            });
+
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
         }
@@ -67,6 +77,7 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCookiePolicy();
             // uncomment if you want to add MVC
             app.UseStaticFiles();
             app.UseRouting();
