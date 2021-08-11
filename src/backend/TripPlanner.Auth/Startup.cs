@@ -56,15 +56,7 @@ namespace IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<IdentityUser>();
 
-            //configure cookies policy
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = CookiePolicyHelper.MinimumSameSitePolicy;
-                options.OnAppendCookie = cookieContext =>
-                    CookiePolicyHelper.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-                options.OnDeleteCookie = cookieContext =>
-                    CookiePolicyHelper.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            });
+            services.ConfigureCookiePolicy();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
