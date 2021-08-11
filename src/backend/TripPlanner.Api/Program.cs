@@ -26,22 +26,11 @@ namespace trip_planner
             try
             {
                 Log.Information("Starting API");
-                var host = CreateHostBuilder(args).Build();
+                CreateHostBuilder(args)
+                    .Build()
+                    .MigrateDatabase(Log.Logger)
+                    .Run();
 
-                using(var scope = host.Services.CreateScope())
-                {
-                    Log.Information("Migrating data database");
-                    var dataContext = scope.ServiceProvider.GetService<TripPlannerContext>();
-                    dataContext.Database.Migrate();
-
-                    Log.Information("Migarting diagnostics database");
-                    var diagnosticsContext = scope.ServiceProvider.GetService<DiagnosticsContext>();
-                    diagnosticsContext.Database.Migrate();
-
-                    Log.Information("All migartions applied");
-                }
-
-                host.Run();
                 return 0;
             }
             catch (Exception ex)

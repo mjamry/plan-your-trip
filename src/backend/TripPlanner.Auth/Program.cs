@@ -27,11 +27,11 @@ namespace IdentityServer
             try
             {
                 Log.Information("Starting Identity");
-                var host = CreateHostBuilder(args).Build();
-                
-                host.MigrateDatabase(Log.Logger);
+                CreateHostBuilder(args)
+                    .Build()
+                    .MigrateDatabase(Log.Logger)
+                    .Run();
 
-                host.Run();
                 return 0;
             }
             catch (Exception ex)
