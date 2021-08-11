@@ -3,15 +3,12 @@
 
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using System;
+using TripPlanner.Auth;
 
 namespace IdentityServer
 {
@@ -31,15 +28,8 @@ namespace IdentityServer
             {
                 Log.Information("Starting Identity");
                 var host = CreateHostBuilder(args).Build();
-
-                using(var scope = host.Services.CreateScope())
-                {
-                    Log.Information("Migrating identity server database");
-                    var idsrvContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    idsrvContext.Database.Migrate();
-
-                    Log.Information("Migrations applied");
-                }
+                
+                host.MigrateDatabase(Log.Logger);
 
                 host.Run();
                 return 0;
