@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using trip_planner.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace trip_planner
 {
@@ -56,10 +57,15 @@ namespace trip_planner
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                    builder.AddAzureWebAppDiagnostics();
                 });
     }
 }
