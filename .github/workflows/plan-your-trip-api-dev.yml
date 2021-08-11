@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - 'src/backend/TripPlanner.Api'
+      - 'src/backend/TripPlanner.Api/**'
   workflow_dispatch:
 
 jobs:

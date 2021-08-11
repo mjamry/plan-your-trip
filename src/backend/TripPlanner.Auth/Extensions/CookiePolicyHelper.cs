@@ -1,15 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Text.RegularExpressions;
 
 namespace TripPlanner.Auth
 {
     /// <summary>
     /// For more details see https://devblogs.microsoft.com/aspnet/upcoming-samesite-cookie-changes-in-asp-net-and-asp-net-core/
     /// </summary>
-    public static class CookiePolicyHelper
+    public static class CookiePolicyExtension
     {
-        public static SameSiteMode MinimumSameSitePolicy => SameSiteMode.Unspecified;
+        public static IServiceCollection ConfigureCookiePolicy(this IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+                options.OnAppendCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.OnDeleteCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+            });
 
-        public static void CheckSameSite(HttpContext httpContext, CookieOptions options)
+            return services;
+        }
+
+        private static void CheckSameSite(HttpContext httpContext, CookieOptions options)
         {
             if (options.SameSite == SameSiteMode.None)
             {
@@ -23,11 +39,6 @@ namespace TripPlanner.Auth
 
         private static bool DisallowsSameSiteNone(string userAgent)
         {
-            if (string.IsNullOrEmpty(userAgent))
-            {
-                return false;
-            }
-
             // Cover all iOS based browsers here. This includes:
             // - Safari on iOS 12 for iPhone, iPod Touch, iPad
             // - WkWebview on iOS 12 for iPhone, iPod Touch, iPad
@@ -49,16 +60,23 @@ namespace TripPlanner.Auth
                 return true;
             }
 
-            // Cover Chrome 50-69, because some versions are broken by SameSite=None, 
-            // and none in this range require it.
-            // Note: this covers some pre-Chromium Edge versions, 
-            // but pre-Chromium Edge does not require SameSite=None.
-            if (userAgent.Contains("Chrome/5") || userAgent.Contains("Chrome/6"))
+            // Cover Chrome
+            if (userAgent.Contains("Chrome"))
             {
-                return true;
+                if(GetChromeVersion(userAgent) >= 80)
+                {
+                    return true;
+                }
             }
 
             return false;
+        }
+
+        private static int GetChromeVersion(string userAgent)
+        {
+            var pattern = "(Chrome)/[0-9].";
+            var chromeInfo = Regex.Match(userAgent, pattern);
+            return Convert.ToInt16(chromeInfo.Value.Split('/')[1]);
         }
     }
 }
