@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - 'src/backend/TripPlanner.Auth/**'
+      - 'src/TripPlanner.Auth/**'
   workflow_dispatch:
 
 jobs:
@@ -21,10 +21,10 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Install dependencies
-      run: dotnet restore 'src/backend/TripPlanner.Auth'
+      run: dotnet restore 'src/TripPlanner.Auth'
 
     - name: Build
-      run: dotnet build 'src/backend/TripPlanner.Auth' --configuration Release --no-restore
+      run: dotnet build 'src/TripPlanner.Auth' --configuration Release --no-restore
 
   test:
     runs-on: windows-latest
@@ -39,9 +39,9 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Install dependencies
-      run: dotnet restore 'src/backend/TripPlanner.Auth'
+      run: dotnet restore 'src/TripPlanner.Auth'
     - name: Test
-      run: dotnet test 'src/backend/TripPlanner.Auth' --no-restore --verbosity normal
+      run: dotnet test 'src/TripPlanner.Auth' --no-restore --verbosity normal
 
   deploy:
     runs-on: windows-latest
@@ -56,7 +56,7 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Publish
-      run: dotnet publish 'src/backend/TripPlanner.Auth' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-auth-dev
+      run: dotnet publish 'src/TripPlanner.Auth' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-auth-dev
 
     - name: Deploy
       uses: azure/webapps-deploy@v2

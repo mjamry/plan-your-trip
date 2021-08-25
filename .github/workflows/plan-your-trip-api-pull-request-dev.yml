@@ -20,12 +20,12 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Build Api
-      run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release
+      run: dotnet build 'src/TripPlanner.Api' --configuration Release
     - name: Build Auth
-      run: dotnet build 'src/backend/TripPlanner.Auth' --configuration Release
+      run: dotnet build 'src/TripPlanner.Auth' --configuration Release
 
     - name: Test Api
-      run: dotnet test 'src/backend/TripPlanner.Api' --no-restore --verbosity normal
+      run: dotnet test 'src/TripPlanner.Api' --no-restore --verbosity normal
     - name: Test Auth
-      run: dotnet test 'src/backend/TripPlanner.Auth' --no-restore --verbosity normal
+      run: dotnet test 'src/TripPlanner.Auth' --no-restore --verbosity normal
 
