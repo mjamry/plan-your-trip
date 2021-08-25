@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripPlanner.Api", "TripPlan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripPlanner.Auth", "TripPlanner.Auth\TripPlanner.Auth.csproj", "{EFFCF62D-5624-42F1-B936-3B7272CABB82}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripPlanner.App", "TripPlanner.App\TripPlanner.App.csproj", "{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{EFFCF62D-5624-42F1-B936-3B7272CABB82}.Release|x64.Build.0 = Release|Any CPU
 		{EFFCF62D-5624-42F1-B936-3B7272CABB82}.Release|x86.ActiveCfg = Release|Any CPU
 		{EFFCF62D-5624-42F1-B936-3B7272CABB82}.Release|x86.Build.0 = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|x64.Build.0 = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD74C7C7-ADF3-436B-B25F-5A901E4D19AA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
