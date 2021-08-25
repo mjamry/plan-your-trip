@@ -1,7 +1,0 @@
-.list-page-container{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 90vw;
-}
