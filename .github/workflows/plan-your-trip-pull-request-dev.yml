@@ -23,13 +23,9 @@ jobs:
       run: dotnet build 'src/TripPlanner.Api' --configuration Release
     - name: Build Auth
       run: dotnet build 'src/TripPlanner.Auth' --configuration Release
-    - name: Build App
-      run: dotnet build 'src/TripPlanner.App' --configuration Release
 
     - name: Test Api
       run: dotnet test 'src/TripPlanner.Api' --no-restore --verbosity normal
     - name: Test Auth
       run: dotnet test 'src/TripPlanner.Auth' --no-restore --verbosity normal
-    - name: Test App
-      run: dotnet test 'src/TripPlanner.App' --no-restore --verbosity normal
 
