@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using trip_planner.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace trip_planner
 {
@@ -25,22 +26,11 @@ namespace trip_planner
             try
             {
                 Log.Information("Starting API");
-                var host = CreateHostBuilder(args).Build();
+                CreateHostBuilder(args)
+                    .Build()
+                    .MigrateDatabase(Log.Logger)
+                    .Run();
 
-                using(var scope = host.Services.CreateScope())
-                {
-                    Log.Information("Migrating data database");
-                    var dataContext = scope.ServiceProvider.GetService<TripPlannerContext>();
-                    dataContext.Database.Migrate();
-
-                    Log.Information("Migarting diagnostics database");
-                    var diagnosticsContext = scope.ServiceProvider.GetService<DiagnosticsContext>();
-                    diagnosticsContext.Database.Migrate();
-
-                    Log.Information("All migartions applied");
-                }
-
-                host.Run();
                 return 0;
             }
             catch (Exception ex)
@@ -56,10 +46,15 @@ namespace trip_planner
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                    builder.AddAzureWebAppDiagnostics();
                 });
     }
 }

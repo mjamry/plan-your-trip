@@ -3,14 +3,12 @@
 
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using System;
+using TripPlanner.Auth;
 
 namespace IdentityServer
 {
@@ -29,18 +27,11 @@ namespace IdentityServer
             try
             {
                 Log.Information("Starting Identity");
-                var host = CreateHostBuilder(args).Build();
+                CreateHostBuilder(args)
+                    .Build()
+                    .MigrateDatabase(Log.Logger)
+                    .Run();
 
-                using(var scope = host.Services.CreateScope())
-                {
-                    Log.Information("Migrating identity server database");
-                    var idsrvContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    idsrvContext.Database.Migrate();
-
-                    Log.Information("Migrations applied");
-                }
-
-                host.Run();
                 return 0;
             }
             catch (Exception ex)
@@ -59,7 +50,12 @@ namespace IdentityServer
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseSerilog();
+                })
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                    builder.AddAzureWebAppDiagnostics();
                 });
     }
 }
