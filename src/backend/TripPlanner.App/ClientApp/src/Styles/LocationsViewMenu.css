@@ -1,0 +1,14 @@
+.locations-view-menu{
+    display: flex;
+    align-content: flex-end;
+    flex-direction: row;
+    justify-content: flex-end;
+    list-style-type: none;
+}
+  
+.locations-view-menu-item{
+    color: #363538;
+    cursor: pointer;
+    padding:5px 2px 5px 2px;
+    margin:0 5px 0 5px;
+}
