@@ -2,9 +2,11 @@
 import useLoggerService from './../Services/Diagnostics/LoggerService'
 import useUserService from './../Services/UserService'
 
-const useRestClient = () => {
+const useRestClient = (url, options) => {
     const logger = useLoggerService('RestClient');
-    const userService = useUserService();
+    const authenticationMiddleware = useAuthenticationMiddleware();
+
+    options = options || { authenticate: true };
 
     const get = async (url, headers) => {
         return makeRequest(url, 'GET', null, headers);
@@ -22,28 +24,21 @@ const useRestClient = () => {
         return makeRequest(url, "DELETE", body, headers);
     }
 
-    const makeAuthorization = async (headers) => {
-        const token = await userService.getToken();
-        if (token) {
-            headers = {
-                ...headers,
-                'Authorization': `Bearer ${token}`
-            };
-        }
-
-        return headers;
-    }
-
-    const makeHeaders = async (headers) => {
-        return await makeAuthorization({
+    const getHeaders = (headers) => {
+        return {
             ...headers,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        });
+        };
     }
 
     const makeRequest = async (url, method, body, headers) => {
-        const allHeaders = await makeHeaders(headers);
+        let allHeaders = getHeaders(headers);
+
+        if (options.authenticate) {
+            allHeaders = await authenticationMiddleware.getAuthenticationHeaders(allHeaders);
+        }
+
         const request = {
             url: url,
             method: method,
@@ -94,3 +89,23 @@ const useRestClient = () => {
 }
 
 export default useRestClient;
+
+const useAuthenticationMiddleware = () => {
+    const userService = useUserService();
+
+    const getAuthenticationHeaders = async (headers) => {
+        const token = await userService.getToken();
+        if (token) {
+            headers = {
+                ...headers,
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        return headers;
+    }
+
+    return {
+        getAuthenticationHeaders: getAuthenticationHeaders
+    }
+}
