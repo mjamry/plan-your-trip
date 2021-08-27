@@ -39,6 +39,9 @@ namespace IdentityServer
                         ClientName = "JavaScript Client",
                         AllowedGrantTypes = GrantTypes.Implicit,
                         AllowAccessTokensViaBrowser = true,
+                        AccessTokenType = AccessTokenType.Jwt,
+                        AlwaysSendClientClaims = true,
+                        AlwaysIncludeUserClaimsInIdToken = true,
                         RequireConsent = false,
                         
                         RedirectUris =           { "http://localhost:3000/callback" },
