@@ -23,8 +23,8 @@ import './Styles/WelcomePage.css'
 import './Styles/ListDetailsForm.css'
 import './Styles/ListsPage.css'
 
-import React from 'react';
-import {BrowserRouter, Route} from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import {Route} from 'react-router-dom'
 import ModalContainer from './components/modals/ModalContainer'
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -32,39 +32,46 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
-import AppContext from './AppContext'
 import DashboardPage from './pages/DashboardPage'
 import CallbackPage from './pages/CallbackPage'
 import WelcomePage from './pages/WelcomePage'
 import ListsPage from './pages/ListsPage'
 import LocationsPage from './pages/LocationsPage'
 import PlansPage from './pages/PlansPage'
-import PlanDetailsPage from './pages/PlanDetailsPage' 
+import PlanDetailsPage from './pages/PlanDetailsPage'
 
 import PageLayout from './pages/PageLayout'
 import PrivateRoute from './components/PrivateRoute.js'
+import useAppSettingsService from './Services/AppSettingsService'
 
 library.add(far, fas, faWikipediaW)
 
 var App = () => {
+   const appSettingsService = useAppSettingsService();
+   const [isAppLoaded, setIsAppLoaded] = useState(false);
+
+  useEffect(() => {
+    console.log("APP_INIT")
+    appSettingsService.init();
+    setIsAppLoaded(true);
+  }, [])
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AppContext>
-          <LocationActionLoadingIndicator/>
-          <ModalContainer />
-          <PageLayout>
-            <PrivateRoute path='/' exact component={DashboardPage} />
-            <PrivateRoute path='/locations' exact component={ListsPage} />
-            <PrivateRoute path='/locations/:id' component={LocationsPage} />
-            <PrivateRoute path='/callback' component={CallbackPage} />
-            <Route path='/welcome' component={WelcomePage} />
-            <PrivateRoute path='/plans' exact component={PlansPage} />
-            <PrivateRoute path='/plans/:id' component={PlanDetailsPage} />
-          </PageLayout>
-        </AppContext>
-      </BrowserRouter>
-    </div>
+    <>
+      {isAppLoaded && <div className="App">
+        <LocationActionLoadingIndicator/>
+        <ModalContainer />
+        <PageLayout>
+          <PrivateRoute path='/' exact component={DashboardPage} />
+          <PrivateRoute path='/locations' exact component={ListsPage} />
+          <PrivateRoute path='/locations/:id' component={LocationsPage} />
+          <PrivateRoute path='/callback' component={CallbackPage} />
+          <Route path='/welcome' component={WelcomePage} />
+          <PrivateRoute path='/plans' exact component={PlansPage} />
+          <PrivateRoute path='/plans/:id' component={PlanDetailsPage} />
+        </PageLayout>
+      </div>}
+    </>
   );
 }
 

@@ -2,12 +2,14 @@ import React, {createContext, useContext, useReducer} from 'react'
 
 const AppStateActions = {
     setUserSignedIn: 'setuser',
-    setAppInitialized: 'setAppInitialized'
+    setAppInitialized: 'setAppInitialized',
+    setAppSettings: 'setappsettings'
 }
 
 const AppState = {
     userSignedIn: false,
-    appInitialized: false
+    appInitialized: false,
+    appSettings: {}
 }
 
 const AppContext = createContext();
@@ -29,6 +31,11 @@ const _reducer = (state, action) => {
             break;
         case AppStateActions.setAppInitialized:
             state = {...state, appInitialized: true}
+            break;
+        case AppStateActions.setAppSettings:
+            state = {...state, appSettings: action.data}
+            break;
+        default:
             break;
     }
 
