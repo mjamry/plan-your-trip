@@ -23,7 +23,7 @@ namespace TripPlanner.App.Controllers
 
     internal class Settings
     {
-        public string ApiAddress { get; set; }
-        public string AuthAddress { get; set; }
+        public string ApiUrl { get; set; }
+        public string AuthUrl { get; set; }
     }
 }
