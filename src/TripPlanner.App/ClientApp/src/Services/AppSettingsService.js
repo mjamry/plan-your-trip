@@ -7,26 +7,31 @@ const SettingsUrl = '/api/settings';
 
 const useAppSettingsService = () => {
     const logger = useLoggerService('AppSettingsService');
+    const [appState, dispatchAppState] = useAppState(null);
 
     const api = useRestClient(
         {
             authenticate: false
         });
 
-    const [appState, dispatchAppState] = useAppState(null);
 
     const init = async() => {
-        await api.get(SettingsUrl)
+        return new Promise((resolve, reject) => {
+            api.get(SettingsUrl)
             .then((settings) => {
                 dispatchAppState(
                     {
                         type: AppStateActions.setAppSettings,
                         data: getSettings(settings),
                     })
+                resolve();
+            })
+            .catch((err) =>{
+                //TODO - do something here to ensure that app will not freez on loading part - show toaster with error ?
+                logger.error("Cannot get app settings", err);
+                reject();
+            });
         })
-        .catch((err) =>{
-            logger.error("Cannot get app settings", err)
-        });
     }
 
     const getSettings = (settings) => {

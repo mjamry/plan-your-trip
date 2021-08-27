@@ -47,18 +47,20 @@ import useAppSettingsService from './Services/AppSettingsService'
 library.add(far, fas, faWikipediaW)
 
 var App = () => {
-   const appSettingsService = useAppSettingsService();
-   const [isAppLoaded, setIsAppLoaded] = useState(false);
+  const appSettingsService = useAppSettingsService();
+  const [isAppLoaded, setIsAppLoaded] = useState(false);
 
   useEffect(() => {
     console.log("APP_INIT")
-    appSettingsService.init();
-    setIsAppLoaded(true);
+    appSettingsService.init().then(() => {
+      setIsAppLoaded(true);
+    });
   }, [])
 
   return (
     <>
-      {isAppLoaded && <div className="App">
+      {isAppLoaded
+      ? <div className="App">
         <LocationActionLoadingIndicator/>
         <ModalContainer />
         <PageLayout>
@@ -70,7 +72,9 @@ var App = () => {
           <PrivateRoute path='/plans' exact component={PlansPage} />
           <PrivateRoute path='/plans/:id' component={PlanDetailsPage} />
         </PageLayout>
-      </div>}
+      </div>
+      //TODO add proper loader here instead of this placeholder
+      : "LOADING"}
     </>
   );
 }
