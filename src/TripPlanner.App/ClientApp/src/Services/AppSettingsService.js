@@ -16,10 +16,8 @@ const useAppSettingsService = () => {
     const [appState, dispatchAppState] = useAppState(null);
 
     const init = async() => {
-        console.log("APP_SETTINGS_INIT", appState.appSettings)
         await api.get(SettingsUrl)
             .then((settings) => {
-                console.log("SETTINGS", settings);
                 dispatchAppState(
                     {
                         type: AppStateActions.setAppSettings,
@@ -29,18 +27,14 @@ const useAppSettingsService = () => {
         .catch((err) =>{
             logger.error("Cannot get app settings", err)
         });
-
-        console.log("APP_SETTINGS_INIT_2", appState.appSettings)
     }
 
     const getSettings = (settings) => {
-        console.log(defaultSettings.apiUrl);
         let setts = {
             apiUrl: settings.apiUrl || defaultSettings.apiUrl,
             authUrl: settings.authUrl || defaultSettings.authUrl
         };
 
-        console.log(setts);
         return setts;
     }
 
