@@ -2,7 +2,7 @@
 import useLoggerService from './../Services/Diagnostics/LoggerService'
 import useUserService from './../Services/UserService'
 
-const useRestClient = (url, options) => {
+const useRestClient = (options) => {
     const logger = useLoggerService('RestClient');
     const authenticationMiddleware = useAuthenticationMiddleware();
 

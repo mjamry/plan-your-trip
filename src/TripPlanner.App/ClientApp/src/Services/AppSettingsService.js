@@ -9,7 +9,6 @@ const useAppSettingsService = () => {
     const logger = useLoggerService('AppSettingsService');
 
     const api = useRestClient(
-        SettingsUrl,
         {
             authenticate: false
         });
