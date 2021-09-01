@@ -4,26 +4,39 @@ import useLoggerService from './Diagnostics/LoggerService'
 import {useAppState, AppStateActions} from '../State/AppState'
 import {useHistory} from 'react-router-dom'
 
-const config = {
-    authority: "http://localhost:50000",
-    client_id: "js",
-    redirect_uri: "http://localhost:3000/callback",
-    response_type: "id_token token",
-    scope:"openid profile email trip_planner",
-    post_logout_redirect_uri : "http://localhost:3000/",
-}
-
 const GET_USER_TIMEOUT = 5000;
 
 const useUserService = () => {
-    const [userManager, setUserManager] = useState(new UserManager(config));
-    const log = useLoggerService('UserService');
     const [appState, dispatchAppState] = useAppState();
     const history = useHistory();
+
+    const config2 = {
+        authority: appState.appSettings.authUrl,
+        client_id: "js",
+        redirect_uri: appState.appSettings.appUrl+"/callback",
+        response_type: "id_token token",
+        scope:"openid profile email trip_planner",
+        post_logout_redirect_uri : appState.appSettings.appUrl,
+    }
+
+    const config = {
+        authority: "http://localhost:50000",
+        client_id: "js",
+        redirect_uri: "http://localhost:3000/callback",
+        response_type: "id_token token",
+        scope:"openid profile email trip_planner",
+        post_logout_redirect_uri : "http://localhost:3000",
+    }
+
+    const [userManager, setUserManager] = useState(new UserManager(config));
+    const log = useLoggerService('UserService');
 
     useEffect(()=>{
         //TODO debug only
         Log.logger = console;
+        console.trace();
+        console.log("USER_CONFIG", config);
+        console.log("USER_CONFIG_2", config2);
     }, [])
 
     const signIn = () => {

@@ -2,26 +2,28 @@ import useNotificationService from '../Services/NotificationService'
 import useLoggerService from './Diagnostics/LoggerService'
 import { useListsState, ListsStateActions } from '../State/ListsState'
 import useRestClient from './../Common/RestClient'
-
-const API_URL = 'http://localhost:50001/lists'
+import { useAppState } from '../State/AppState'
 
 const usePersistentListService = () => {
     const api = useRestClient();
+    const [appState] = useAppState(null);
+
+    const apiUrl = appState.appSettings.apiUrl + '/lists';
 
     var add = (list) => {
-        return api.post(API_URL, list)
+        return api.post(apiUrl, list)
     }
 
     var remove = (list) => {
-        return api.delete(API_URL, list)
+        return api.delete(apiUrl, list)
     }
 
     var edit = (list) => {
-        return api.put(API_URL, list)
+        return api.put(apiUrl, list)
     }
 
     var getAll = () => {
-        return api.get(API_URL)
+        return api.get(apiUrl)
     } 
 
     return {

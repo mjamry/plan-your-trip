@@ -25,5 +25,6 @@ namespace TripPlanner.App.Controllers
     {
         public string ApiUrl { get; set; }
         public string AuthUrl { get; set; }
+        public string AppUrl { get; set; }
     }
 }

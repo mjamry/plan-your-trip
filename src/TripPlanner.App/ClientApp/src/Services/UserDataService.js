@@ -1,15 +1,16 @@
 
 import useRestClient from './../Common/RestClient'
-
-
-const API_URL = 'http://localhost:50001/userData'
+import { useAppState } from '../State/AppState'
 
 const useUserDataService = () => {
     const api = useRestClient();
-    
-    const getDashboard = async () => 
+    const [appState, dispatchAppState] = useAppState(null);
+
+    const url = appState.appSettings.apiUrl + '/userData/dashboard';
+
+    const getDashboard = async () =>
     {
-        return await api.get(API_URL+'/dashboard');
+        return await api.get(url);
     }
 
     return {

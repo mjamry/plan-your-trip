@@ -37,7 +37,8 @@ const useAppSettingsService = () => {
     const getSettings = (settings) => {
         let setts = {
             apiUrl: settings.apiUrl || defaultSettings.apiUrl,
-            authUrl: settings.authUrl || defaultSettings.authUrl
+            authUrl: settings.authUrl || defaultSettings.authUrl,
+            appUrl: settings.appUrl || defaultSettings.appUrl
         };
 
         return setts;
