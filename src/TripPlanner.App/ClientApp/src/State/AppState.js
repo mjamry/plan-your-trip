@@ -43,4 +43,4 @@ const _reducer = (state, action) => {
 }
 
 export default AppStateProvider;
-export {AppContext, AppStateProvider, AppStateActions, useAppState}
+export {AppContext, AppStateActions, useAppState}

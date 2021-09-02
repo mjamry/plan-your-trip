@@ -47,4 +47,4 @@ const _reducer = (state, action) => {
 }
 
 export default NotificationStateProvider;
-export {NotificationStateContext as NotificationContext, NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState}
+export {NotificationStateContext as NotificationContext, NotificationTypes, NotificationsActions, useNotificationState}

@@ -70,4 +70,4 @@ const _reducer = (state, action) => {
 }
 
 export default ListsStateProvider;
-export {ListStateContext, ListsStateProvider, ListsStateActions, useListsState, ListViewType}
+export {ListStateContext, ListsStateActions, useListsState, ListViewType}
