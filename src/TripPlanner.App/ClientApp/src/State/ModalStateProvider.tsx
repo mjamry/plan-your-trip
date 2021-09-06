@@ -63,7 +63,7 @@ const ModalContext = createContext<{ state: State, dispatch: Dispatch }>(
   {
     state: initialState,
     dispatch: () => undefined,
-  }
+  },
 );
 const useModalState = () => useContext(ModalContext);
 
@@ -74,9 +74,13 @@ type Props = {
 const ModalStateProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
-  return <ModalContext.Provider value={{ state, dispatch }}>
-    {children}
-  </ModalContext.Provider>
+  return (
+    <ModalContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ModalContext.Provider>
+  );
 };
 
-export { ModalStateProvider, useModalState, ModalTypes, ModalStateAction };
+export {
+  ModalStateProvider, useModalState, ModalTypes, ModalStateAction,
+};

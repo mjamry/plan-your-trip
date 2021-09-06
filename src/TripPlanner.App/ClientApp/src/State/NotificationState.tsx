@@ -52,8 +52,8 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 const NotificationStateContext = createContext<{ state: State, dispatch: Dispatch }>(
   {
     state: initialState,
-    dispatch: () => undefined
-  }
+    dispatch: () => undefined,
+  },
 );
 const useNotificationState = () => useContext(NotificationStateContext);
 
@@ -64,9 +64,13 @@ type Props = {
 const NotificationStateProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
-  return <NotificationStateContext.Provider value={{ state, dispatch }}>
-    {children}
-  </NotificationStateContext.Provider>
+  return (
+    <NotificationStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </NotificationStateContext.Provider>
+  );
 };
 
-export { NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState };
+export {
+  NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState,
+};

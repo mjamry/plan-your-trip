@@ -79,8 +79,8 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 const ListStateContext = createContext<{state: State, dispatch: Dispatch}>(
   {
     state: initialState,
-    dispatch: ()=> undefined
-  }
+    dispatch: () => undefined,
+  },
 );
 
 const useListsState = () => useContext(ListStateContext);
@@ -90,11 +90,15 @@ type Props = {
 }
 
 const ListsStateProvider = ({ children }: Props) => {
-  const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
+  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
-  return <ListStateContext.Provider value={{ state, dispatch }}>
-    {children}
-  </ListStateContext.Provider>
+  return (
+    <ListStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ListStateContext.Provider>
+  );
 };
 
-export { ListsStateProvider, ListsStateActions, useListsState, ListViewType };
+export {
+  ListsStateProvider, ListsStateActions, useListsState, ListViewType,
+};

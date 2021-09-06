@@ -72,8 +72,8 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 const LocationsStateContext = createContext<{ state: State, dispatch: Dispatch }>(
   {
     state: initialState,
-    dispatch: () => undefined
-  }
+    dispatch: () => undefined,
+  },
 );
 const useLocationsState = () => useContext(LocationsStateContext);
 
@@ -82,10 +82,12 @@ type Props = {
 }
 
 const LocationsStateProvider = ({ children }: Props) => {
-  const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
-  return <LocationsStateContext.Provider value={{ state, dispatch }}>
-    {children}
-  </LocationsStateContext.Provider>
-}
+  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
+  return (
+    <LocationsStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </LocationsStateContext.Provider>
+  );
+};
 
 export { LocationsStateProvider, LocationsStateActions, useLocationsState };

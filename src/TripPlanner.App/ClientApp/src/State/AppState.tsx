@@ -47,8 +47,9 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
 const AppContext = React.createContext<{state: State, dispatch: Dispatch}>(
   {
     state: initialState,
-    dispatch: () => undefined
-  });
+    dispatch: () => undefined,
+  },
+);
 
 const useAppState = () => React.useContext(AppContext);
 
@@ -59,9 +60,11 @@ type Props = {
 const AppStateProvider = ({ children }: Props) => {
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
-  return <AppContext.Provider value={{ state, dispatch }}>
-    {children}
-  </AppContext.Provider>
+  return (
+    <AppContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export { AppStateProvider, AppStateActions, useAppState };
