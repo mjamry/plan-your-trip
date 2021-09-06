@@ -19,20 +19,20 @@ const AppLoader = ({ history }: Props) => {
   const [progress, setProgress] = useState(0);
   const [progressDetails, setProgressDetails] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [{ selectedListId }] = useListsState();
+  const { state: listState } = useListsState();
   const locationService = useLocationsService();
   const listService = useListService();
   const log = useLoggerService('AppLoader');
   const userService = useUserService();
-  const [, dispatchAppState] = useAppState();
+  const { dispatch: dispatchAppState } = useAppState();
 
   useEffect(() => {
     const loadData = async () => {
-      await locationService.getAll(selectedListId);
+      await locationService.getAll(listState.selectedListId);
     };
 
     loadData();
-  }, [selectedListId]);
+  }, [listState.selectedListId]);
 
   useEffect(() => {
     const loadData = async () => {

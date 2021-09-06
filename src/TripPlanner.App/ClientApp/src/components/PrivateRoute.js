@@ -2,7 +2,7 @@ import React from 'react';
 import useUserService from './../Services/UserService'
 import {Route} from 'react-router-dom'
 
-const PrivateRoute = ({children, ...props}) => {
+const PrivateRoute = ({...props}) => {
     const userService = useUserService();
 
     return (

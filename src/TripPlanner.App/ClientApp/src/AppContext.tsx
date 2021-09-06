@@ -1,10 +1,10 @@
 import React from 'react';
-import NotificationStateProvider from './State/NotificationState';
+import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalStateProvider';
 import ToasterNotifications from './components/ToasterNotifications';
-import AppStateProvider from './State/AppState';
+import { AppStateProvider } from './State/AppState';
 import { LocationsStateProvider } from './State/LocationsState';
-import ListsStateProvider from './State/ListsState';
+import { ListsStateProvider } from './State/ListsState';
 
 type Props = {
   children: JSX.Element
