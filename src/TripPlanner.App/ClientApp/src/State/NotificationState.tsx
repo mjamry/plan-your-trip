@@ -1,11 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { Notification, DefaultNotificationTimeout } from '../Services/Notification';
-
-const enum NotificationTypes {
-  error,
-  success,
-  info,
-}
+import { Notification, DefaultNotificationTimeout, NotificationType } from '../Common/Dto/Notification';
 
 const enum NotificationsActions {
   show,
@@ -17,7 +11,7 @@ type State = {
 }
 
 type Action =
-  | { type: NotificationsActions.show, notificationType: NotificationTypes, data: any }
+  | { type: NotificationsActions.show, notificationType: NotificationType, data: any }
   | { type: NotificationsActions.hide, data: any }
 
 type Dispatch = (action: Action) => void;
@@ -72,5 +66,5 @@ const NotificationStateProvider = ({ children }: Props) => {
 };
 
 export {
-  NotificationStateProvider, NotificationTypes, NotificationsActions, useNotificationState,
+  NotificationStateProvider, NotificationsActions, useNotificationState,
 };
