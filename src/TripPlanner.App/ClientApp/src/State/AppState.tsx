@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppSettings } from '../Common/Dto/AppSettings';
 
 const enum AppStateActions {
-  setUserSignedIn = 1,
+  setUserSignedIn,
   setAppInitialized,
   setAppSettings,
 }

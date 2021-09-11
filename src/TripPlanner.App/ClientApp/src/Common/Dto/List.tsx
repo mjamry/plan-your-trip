@@ -2,7 +2,7 @@ export type List = {
     id: number;
     name: string;
     description: string;
-    dateCreated: Date;
-    dateUpdated: Date;
+    created: Date;
+    updated: Date;
     isPrivate: boolean;
 }

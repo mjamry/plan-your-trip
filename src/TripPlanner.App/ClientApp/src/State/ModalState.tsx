@@ -25,7 +25,7 @@ type State = {
 }
 
 type Action =
-  | { type: ModalStateAction.show, data: any, modalType: ModalTypes}
+  | { type: ModalStateAction.show, data: any, modalType: ModalTypes }
   | { type: ModalStateAction.hide }
   | { type: ModalStateAction.update, data: any }
 

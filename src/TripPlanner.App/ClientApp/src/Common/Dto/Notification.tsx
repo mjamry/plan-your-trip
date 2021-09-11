@@ -1,9 +1,9 @@
 const DefaultNotificationTimeout = 2000;
 
 const enum NotificationType {
-    error,
-    success,
-    info,
+    error = 'error',
+    success = 'success',
+    info = 'info',
 }
 
 class Notification {

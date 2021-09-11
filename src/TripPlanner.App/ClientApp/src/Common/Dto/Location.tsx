@@ -5,6 +5,6 @@ export type Location = {
     name: string;
     description: string;
     rating: number;
-    coordinate: Coordinate;
+    coordinates: Coordinate;
     image: string;
 }

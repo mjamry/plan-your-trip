@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import useLoggerService from '../Services/Diagnostics/LoggerService';
@@ -15,21 +15,24 @@ type NotificationItemProps = {
 }
 
 const ToasterNotificationItem = (props: NotificationItemProps) => {
-  let timer: NodeJS.Timeout;
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
   const {
     icon, type, title, content, timeout, onClose,
   } = props;
 
   useEffect(() => {
     startTimer();
+    console.log("#Toster type:", type)
   }, []);
 
   const startTimer = () => {
-    timer = setTimeout(onClose, timeout);
+    setTimer(setTimeout(onClose, timeout));
   };
 
   const stopTimer = () => {
-    clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
   };
 
   return (

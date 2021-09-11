@@ -1,6 +1,6 @@
 import React from 'react';
 import { NotificationStateProvider } from './State/NotificationState';
-import { ModalStateProvider } from './State/ModalStateProvider';
+import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { AppStateProvider } from './State/AppState';
 import { LocationsStateProvider } from './State/LocationsState';
