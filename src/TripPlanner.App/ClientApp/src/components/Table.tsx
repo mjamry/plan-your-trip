@@ -50,7 +50,9 @@ type Props = {
 }
 
 const Table = (props: Props) => {
-  const { title, columns, data, onRowClick, options, isLoading, edit, add, remove, customActions } = props;
+  const {
+    title, columns, data, onRowClick, options, isLoading, edit, add, remove, customActions,
+  } = props;
   return (
     <>
       <MaterialTable
@@ -81,13 +83,13 @@ const Table = (props: Props) => {
             icon: () => <AddBox />,
             tooltip: 'Add',
             isFreeAction: true,
-            onClick: (event) => add(),
+            onClick: () => add(),
           },
           ...customActions || [],
         ]}
       />
     </>
   );
-}
+};
 
 export default Table;
