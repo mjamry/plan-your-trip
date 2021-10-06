@@ -80,7 +80,7 @@ const PlansPage = ({history, classes}) => {
                 data={plans}
                 add={()=>{}}
                 edit={()=>{}}
-                delete={()=>{}}
+                remove={()=>{}}
                 isLoading={isLoading}
             />
         </div>

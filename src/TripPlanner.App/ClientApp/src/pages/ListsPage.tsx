@@ -45,7 +45,8 @@ const ListsPage = ({ history }: Props) => {
             {
               title: 'Name',
               field: 'name',
-              // this is a hack to undo autocalculation of columns width
+              // this is a hack to undo auto-calculation of columns width
+              // @ts-ignore
               width: null,
             },
             { title: 'Description', field: 'description' },
@@ -82,7 +83,7 @@ const ListsPage = ({ history }: Props) => {
             modalType: ModalTypes.editList,
             data: list,
           })}
-          delete={(list: List) => dispatchModal({
+          remove={(list: List) => dispatchModal({
             type: ModalStateAction.show,
             modalType: ModalTypes.removeList,
             data: list,

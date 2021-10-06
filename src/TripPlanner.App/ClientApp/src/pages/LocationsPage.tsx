@@ -79,7 +79,8 @@ const LocationsPage = ({ match }: Props) => {
                 title: '',
                 field: 'image',
                 render: (location: Location) => <img src={location.image} className={classes.locationImage} alt="" />,
-                // this is a hack to undo autocalculation of columns width
+                // this is a hack to undo auto-calculation of columns width
+                // @ts-ignore
                 width: null,
               },
               { title: 'Name', field: 'name' },
@@ -108,7 +109,7 @@ const LocationsPage = ({ match }: Props) => {
               modalType: ModalTypes.editLocation,
               data: location,
             })}
-            delete={(location: Location) => dispatchModal({
+            remove={(location: Location) => dispatchModal({
               type: ModalStateAction.show,
               modalType: ModalTypes.removeLocation,
               data: location,

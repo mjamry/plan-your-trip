@@ -22,7 +22,7 @@ const ToasterNotificationItem = (props: NotificationItemProps) => {
 
   useEffect(() => {
     startTimer();
-    console.log("#Toster type:", type)
+    console.log('#Toster type:', type);
   }, []);
 
   const startTimer = () => {
