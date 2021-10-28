@@ -1,4 +1,4 @@
-export type Dashboard = {
+export type DashboardDto = {
     listsCount: number;
     locationsCount: number;
 }

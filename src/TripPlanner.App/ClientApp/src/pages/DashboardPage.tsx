@@ -1,14 +1,14 @@
-
-import React, {useState, useEffect} from 'react'
-import useUserDataService from '../Services/UserDataService'
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Loader from './../components/Loader';
+import useUserDataService from '../Services/UserDataService';
+import Loader from '../components/Loader';
+import { DashboardDto } from '../Common/Dto/DashboardDto';
 
-const styles = {
+const useStyles = makeStyles({
   container: {
     margin: '10px',
   },
@@ -19,32 +19,35 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '80vh'
-  }
-}
+    height: '80vh',
+  },
+});
 
-const DashboardPage = ({classes}) => {
+const DashboardPage = () => {
+  const classes = useStyles();
   const userService = useUserDataService();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<DashboardDto>();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const getUserData = async () => {
       setIsLoading(true);
       const obtainedUserData = await userService.getDashboard();
       setUserData(obtainedUserData);
       setIsLoading(false);
-    }
+    };
 
     getUserData();
-  }, [])
+  }, []);
 
   return (
     <>
-      {isLoading 
-      ? <Loader />
-      : <div className={classes.container}>
-          {userData && 
+      {isLoading
+        ? <Loader title="" />
+        : (
+          <div className={classes.container}>
+            {userData
+          && (
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.gridCard}>
@@ -67,10 +70,12 @@ const DashboardPage = ({classes}) => {
                 <Typography variant="h6">locations</Typography>
               </Paper>
             </Grid>
-          </Grid>}
-        </div>}
+          </Grid>
+          )}
+          </div>
+        )}
     </>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(DashboardPage);
+export default DashboardPage;

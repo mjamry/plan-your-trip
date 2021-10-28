@@ -1,9 +1,9 @@
-import { Dashboard } from '../Common/Dto/Dashboard';
+import { DashboardDto } from '../Common/Dto/DashboardDto';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
 
 interface IUserDataService {
-  getDashboard: () => Promise<Dashboard>;
+  getDashboard: () => Promise<DashboardDto>;
 }
 
 const useUserDataService = (): IUserDataService => {
@@ -12,7 +12,7 @@ const useUserDataService = (): IUserDataService => {
 
   const url = `${appState.appSettings.apiUrl}/userData/dashboard`;
 
-  const getDashboard = async (): Promise<Dashboard> => api.get(url);
+  const getDashboard = async (): Promise<DashboardDto> => api.get(url);
 
   return {
     getDashboard,
