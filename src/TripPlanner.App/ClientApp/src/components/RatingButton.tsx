@@ -39,6 +39,10 @@ const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) =
     return output.reverse();
   };
 
+  useEffect(() => {
+    setStars(getStars(value));
+  }, [value]);
+
   if (!readOnly) {
     return (
       <div
@@ -52,10 +56,6 @@ const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) =
       </div>
     );
   }
-
-  useEffect(() => {
-    setStars(getStars(value));
-  }, [value]);
 
   return (
     <div className="location-rating-container">
