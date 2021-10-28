@@ -18,14 +18,6 @@ const Search = () => {
   const { dispatch: dispatchModal } = useModalState();
   const logger = useLoggerService();
 
-  const setupTimer = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    setTimer(setTimeout(handleSearchInputTimeout, SearchTimeout));
-  };
-
   const handleSearchInputTimeout = () => {
     setIsLoading(true);
     WikipediaAPIWrapper.search(searchValue).then((results) => {
@@ -58,6 +50,14 @@ const Search = () => {
       .catch((error) => {
         logger.error(`[Search] Error while fetching data: ${selectedIndex}`, error);
       });
+  };
+
+  const setupTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    setTimer(setTimeout(handleSearchInputTimeout, SearchTimeout));
   };
 
   useEffect(() => {

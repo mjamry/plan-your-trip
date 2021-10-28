@@ -20,11 +20,6 @@ const ToasterNotificationItem = (props: NotificationItemProps) => {
     icon, type, title, content, timeout, onClose,
   } = props;
 
-  useEffect(() => {
-    startTimer();
-    console.log('#Toster type:', type);
-  }, []);
-
   const startTimer = () => {
     setTimer(setTimeout(onClose, timeout));
   };
@@ -34,6 +29,10 @@ const ToasterNotificationItem = (props: NotificationItemProps) => {
       clearTimeout(timer);
     }
   };
+
+  useEffect(() => {
+    startTimer();
+  }, []);
 
   return (
     <div

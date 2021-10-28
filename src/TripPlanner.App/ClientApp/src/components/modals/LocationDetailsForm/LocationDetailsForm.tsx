@@ -20,17 +20,6 @@ type BuilderDto = {
   onCancel?: () => void;
 }
 
-const useLocationFormBuilder = () => {
-  const build = (data: BuilderDto): ModalDto<typeof LocationFormStateProvider> => ({
-    header: <ModalHeader title={data.title} />,
-    body: <LocationDetailsFormBody location={data.location} />,
-    footer: <LocationDetailsFooter onSubmit={data.onSubmit} />,
-    state: LocationFormStateProvider,
-  });
-
-  return build;
-};
-
 const steps: Step[] = [
   {
     title: 'Fill location details',
@@ -133,6 +122,7 @@ const LocationDetailsFormBody = (props: BodyProps) => {
     });
   }, []);
 
+  const renderStepView = (View: React.ComponentType) => <View />;
   const renderStep = () => renderStepView(coordinator.getCurrentView());
 
   const selectStep = (stepIndex: number) => {
@@ -149,14 +139,23 @@ const LocationDetailsFormBody = (props: BodyProps) => {
     </Stepper>
   );
 
-  const renderStepView = (View: React.ComponentType) => <View />;
-
   return (
     <div className="location-edit-form-container">
       {renderStepper()}
       {renderStep()}
     </div>
   );
+};
+
+const useLocationFormBuilder = () => {
+  const build = (data: BuilderDto): ModalDto<typeof LocationFormStateProvider> => ({
+    header: <ModalHeader title={data.title} />,
+    body: <LocationDetailsFormBody location={data.location} />,
+    footer: <LocationDetailsFooter onSubmit={data.onSubmit} />,
+    state: LocationFormStateProvider,
+  });
+
+  return build;
 };
 
 export default useLocationFormBuilder;

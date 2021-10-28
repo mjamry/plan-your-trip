@@ -49,6 +49,8 @@ const LocationsPage = ({ match }: Props) => {
   const locationsService = useLocationService();
   const classes = useStyles();
 
+  const validateListId = (id: number) => id; // null if incorrect
+
   useEffect(() => {
     const listId = validateListId(+match.params.id);
 
@@ -65,8 +67,6 @@ const LocationsPage = ({ match }: Props) => {
 
     fetchListData();
   }, []);
-
-  const validateListId = (id: number) => id; // null if incorrect
 
   return (
     <>

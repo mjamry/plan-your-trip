@@ -12,10 +12,6 @@ type Props = {
 const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) => {
   const [stars, setStars] = useState<JSX.Element[]>();
 
-  useEffect(() => {
-    setStars(getStars(value));
-  }, [value]);
-
   const getStars = (selectedStars: number): JSX.Element[] => {
     const output = [...Array(NUMBER_OF_STARS)];
 
@@ -56,6 +52,10 @@ const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) =
       </div>
     );
   }
+
+  useEffect(() => {
+    setStars(getStars(value));
+  }, [value]);
 
   return (
     <div className="location-rating-container">

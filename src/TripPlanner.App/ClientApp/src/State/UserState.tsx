@@ -22,7 +22,6 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
   switch (action.type) {
     case UserStateActions.setupUserManager:
       if (!state.userManager) {
-        console.log(`USER STATE: ${new Date()} ${action}`);
         state = { ...state, userManager: action.data };
       }
       break;

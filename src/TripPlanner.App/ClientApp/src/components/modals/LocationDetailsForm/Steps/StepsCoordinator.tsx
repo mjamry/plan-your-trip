@@ -18,6 +18,13 @@ const useStepsCoordinator = (steps: Step[]): StepCoordinatorService => {
   const firstStepIndex = 0;
   const lastStepIndex = steps.length - 1;
 
+  const setStep = (stepIndex: number) => {
+    dispatchFormState({
+      type: LocationFormStateActions.setStep,
+      data: stepIndex,
+    });
+  };
+
   const next = () => {
     const nextStepIndex = state.step + 1 === lastStepIndex ? lastStepIndex : state.step + 1;
     setStep(nextStepIndex);
@@ -42,13 +49,6 @@ const useStepsCoordinator = (steps: Step[]): StepCoordinatorService => {
   const isLastStep = () => state.step === lastStepIndex;
 
   const isFirstStep = () => state.step === firstStepIndex;
-
-  const setStep = (stepIndex: number) => {
-    dispatchFormState({
-      type: LocationFormStateActions.setStep,
-      data: stepIndex,
-    });
-  };
 
   return {
     next,

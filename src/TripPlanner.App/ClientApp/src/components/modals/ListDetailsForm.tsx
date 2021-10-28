@@ -12,15 +12,6 @@ type BuilderDto = {
     onCancel?: () => void;
 }
 
-const useListFormBuilder = () => {
-  const build = (data: BuilderDto): ModalDto => ({
-    header: <ModalHeader title={data.title} />,
-    body: <ListDetailsFormBody list={data.list} onSubmit={data.onSubmit} />,
-  });
-
-  return build;
-};
-
 type ListDetailsProps = {
   list: List;
   onSubmit: (list: List) => void;
@@ -97,6 +88,15 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
       </div>
     </div>
   );
+};
+
+const useListFormBuilder = () => {
+  const build = (data: BuilderDto): ModalDto => ({
+    header: <ModalHeader title={data.title} />,
+    body: <ListDetailsFormBody list={data.list} onSubmit={data.onSubmit} />,
+  });
+
+  return build;
 };
 
 export default useListFormBuilder;
