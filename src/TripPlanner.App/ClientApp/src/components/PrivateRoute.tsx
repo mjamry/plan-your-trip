@@ -5,7 +5,7 @@ import useUserService from '../Services/UserService';
 /* eslint-disable react/jsx-props-no-spreading */
 
 const PrivateRoute = ({ ...props }) => {
-  //TODO take look if this component is really needed
+  // TODO take look if this component is really needed
   const userService = useUserService();
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
