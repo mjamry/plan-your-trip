@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Log, User, UserManager } from 'oidc-client';
+import { useEffect } from 'react';
+import { Log, User } from 'oidc-client';
 import { useHistory } from 'react-router-dom';
 import useLoggerService from './Diagnostics/LoggerService';
 import { useAppState, AppStateActions } from '../State/AppState';
+import { useUserState } from '../State/UserState';
 
 const GET_USER_TIMEOUT = 5000;
 
@@ -12,33 +13,14 @@ interface IUserService {
     getUser: () => Promise<User>;
     getToken: () => Promise<string>,
     isAuthenticated: () => Promise<boolean>;
-    signInRedirectCallback: () => Promise<User>;
+    finishAuthentication: () => void;
 }
 
 const useUserService = (): IUserService => {
   const { dispatch: dispatchAppState } = useAppState();
   const history = useHistory();
+  const { state: userState } = useUserState();
 
-  // //TODO - use these configurable values instead of hardcoded ones
-  // const config2 = {
-  //   authority: appState.appSettings.authUrl,
-  //   client_id: 'js',
-  //   redirect_uri: `${appState.appSettings.appUrl}/callback`,
-  //   response_type: 'id_token token',
-  //   scope: 'openid profile email trip_planner',
-  //   post_logout_redirect_uri: appState.appSettings.appUrl,
-  // };
-
-  const config = {
-    authority: 'http://localhost:50000',
-    client_id: 'js',
-    redirect_uri: 'http://localhost:3000/callback',
-    response_type: 'id_token token',
-    scope: 'openid profile email trip_planner',
-    post_logout_redirect_uri: 'http://localhost:3000',
-  };
-
-  const [userManager] = useState(new UserManager(config));
   const log = useLoggerService('UserService');
 
   useEffect(() => {
@@ -46,20 +28,32 @@ const useUserService = (): IUserService => {
     Log.logger = console;
   }, []);
 
+  const noUserManager = (): void => {
+    // TODO remove this and use optional chaining operator -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+    // to be able to use that react-scripts have to be updated to version >= 4.0
+  };
+
   const signIn = (): void => {
-    userManager.signinRedirect();
+    !userState.userManager ? noUserManager() : userState.userManager.signinRedirect();
   };
 
   const signOut = (): void => {
-    userManager.signoutRedirect();
+    !userState.userManager ? noUserManager() : userState.userManager.signoutRedirect();
   };
 
-  const signInRedirectCallback = (): Promise<User> => userManager.signinRedirectCallback();
+  const finishAuthentication = (): void => {
+    !userState.userManager ? noUserManager() : userState.userManager.signinRedirectCallback()
+      .then(() => {
+        history.push('/');
+      }).catch((e) => {
+        log.error('Error while signing in an user: ', e);
+      });
+  };
 
   const getUser = (): Promise<User> => new Promise<User>((resolve, reject) => {
     log.debug('Getting user...');
     const getUserTimeout = setTimeout(signIn, GET_USER_TIMEOUT);
-    userManager.getUser()
+    !userState.userManager ? noUserManager() : userState.userManager.getUser()
       .then((user) => {
         clearTimeout(getUserTimeout);
         if (user) {
@@ -74,6 +68,7 @@ const useUserService = (): IUserService => {
         } else {
           log.debug('No user');
           history.push('/welcome');
+          reject();
         }
       })
       .catch(() => {
@@ -91,7 +86,7 @@ const useUserService = (): IUserService => {
           resolve(user.access_token);
         } else {
           log.debug('Silent signin');
-          userManager.signinSilent();
+          !userState.userManager ? noUserManager() : userState.userManager.signinSilent();
         }
       })
       .catch(() => {
@@ -115,7 +110,7 @@ const useUserService = (): IUserService => {
     getUser,
     getToken,
     isAuthenticated,
-    signInRedirectCallback,
+    finishAuthentication,
   };
 };
 

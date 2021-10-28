@@ -5,6 +5,7 @@ import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { AppStateProvider } from './State/AppState';
 import { LocationsStateProvider } from './State/LocationsState';
 import { ListsStateProvider } from './State/ListsState';
+import { UserStateProvider } from './State/UserState';
 
 type Props = {
   children: JSX.Element
@@ -14,13 +15,15 @@ const AppContext = ({ children }: Props) => (
   <NotificationStateProvider>
     <ToasterNotificationsComponent />
     <AppStateProvider>
-      <LocationsStateProvider>
-        <ListsStateProvider>
-          <ModalStateProvider>
-            {children}
-          </ModalStateProvider>
-        </ListsStateProvider>
-      </LocationsStateProvider>
+      <UserStateProvider>
+        <LocationsStateProvider>
+          <ListsStateProvider>
+            <ModalStateProvider>
+              {children}
+            </ModalStateProvider>
+          </ListsStateProvider>
+        </LocationsStateProvider>
+      </UserStateProvider>
     </AppStateProvider>
   </NotificationStateProvider>
 );

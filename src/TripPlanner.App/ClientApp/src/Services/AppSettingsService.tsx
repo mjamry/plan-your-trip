@@ -8,7 +8,7 @@ import { AppSettings } from '../Common/Dto/AppSettings';
 const SettingsUrl = '/api/settings';
 
 interface IAppSettingsService {
-  init: () => Promise<void>;
+  init: () => Promise<AppSettings>;
 }
 
 const useAppSettingsService = (): IAppSettingsService => {
@@ -31,7 +31,7 @@ const useAppSettingsService = (): IAppSettingsService => {
     return setts;
   };
 
-  const init = async () => new Promise<void>((resolve, reject) => {
+  const init = async () => new Promise<AppSettings>((resolve, reject) => {
     api.get(SettingsUrl)
       .then((settings) => {
         dispatch({
@@ -39,7 +39,7 @@ const useAppSettingsService = (): IAppSettingsService => {
           data: getSettings(settings),
         });
 
-        resolve();
+        resolve(settings);
       })
       .catch((err) => {
         // TODO - ensure that app do not freeze here

@@ -28,6 +28,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import { UserManager } from 'oidc-client';
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator';
 import ModalContainer from './components/modals/ModalContainer';
 
@@ -42,15 +43,22 @@ import PlanDetailsPage from './pages/PlanDetailsPage';
 import PageLayout from './pages/PageLayout';
 import PrivateRoute from './components/PrivateRoute';
 import useAppSettingsService from './Services/AppSettingsService';
+import { UserStateActions, useUserState } from './State/UserState';
+import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 
 library.add(far, fas, faWikipediaW);
 
 const App = () => {
   const appSettingsService = useAppSettingsService();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
+  const { dispatch: dispatchUserState } = useUserState();
+  const configBuilder = useUserManagerConfigBuilder();
 
   useEffect(() => {
-    appSettingsService.init().then(() => {
+    appSettingsService.init().then((settings) => {
+      const mng = new UserManager(configBuilder.build(settings));
+      dispatchUserState({ type: UserStateActions.setupUserManager, data: mng });
+
       setIsAppLoaded(true);
     });
   }, []);
@@ -66,7 +74,7 @@ const App = () => {
               <PrivateRoute path="/" exact component={DashboardPage} />
               <PrivateRoute path="/locations" exact component={ListsPage} />
               <PrivateRoute path="/locations/:id" component={LocationsPage} />
-              <PrivateRoute path="/callback" component={CallbackPage} />
+              <Route path="/callback" component={CallbackPage} />
               <Route path="/welcome" component={WelcomePage} />
               <PrivateRoute path="/plans" exact component={PlansPage} />
               <PrivateRoute path="/plans/:id" component={PlanDetailsPage} />
