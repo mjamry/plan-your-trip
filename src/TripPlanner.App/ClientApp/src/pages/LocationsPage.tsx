@@ -9,8 +9,8 @@ import { useListsState, ListsStateActions } from '../State/ListsState';
 import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
 import GpxFileDownloader from '../Common/GpxFileDownloader';
-import { Location } from '../Common/Dto/Location';
 import RatingButton from '../components/RatingButton';
+import LocationDto from '../Common/Dto/LocationDto';
 
 const useStyles = makeStyles({
   container: {
@@ -41,7 +41,7 @@ type MatchParams = {
 interface Props extends RouteComponentProps<MatchParams> {}
 
 const LocationsPage = ({ match }: Props) => {
-  const [selectedLocation, setSelectedLocation] = useState<Location>();
+  const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
   const { state: locationsState } = useLocationsState();
   const { dispatch: dispatchModal } = useModalState();
@@ -78,7 +78,7 @@ const LocationsPage = ({ match }: Props) => {
               {
                 title: '',
                 field: 'image',
-                render: (location: Location) => <img src={location.image} className={classes.locationImage} alt="" />,
+                render: (location: LocationDto) => <img src={location.image} className={classes.locationImage} alt="" />,
                 // this is a hack to undo auto-calculation of columns width
                 // @ts-ignore
                 width: null,
@@ -89,27 +89,29 @@ const LocationsPage = ({ match }: Props) => {
                 title: 'Rating',
                 field: 'rating',
                 type: 'numeric',
-                render: (location: Location) => <RatingButton value={location.rating} readOnly />,
+                render: (location: LocationDto) => (
+                  <RatingButton value={location.rating!} readOnly />
+                ),
               },
               {
                 title: 'Coordinates',
                 field: 'coordinates',
-                render: (location: Location) => `${location.coordinates.lat}, ${location.coordinates.lon}`,
+                render: (location: LocationDto) => `${location.coordinates.lat}, ${location.coordinates.lon}`,
               },
             ]}
-            onRowClick={((e: any, location: Location) => setSelectedLocation(location))}
+            onRowClick={((e: any, location: LocationDto) => setSelectedLocation(location))}
             data={locationsState.locations}
             add={() => dispatchModal({
               type: ModalStateAction.show,
               modalType: ModalTypes.addNewLocationSelect,
               data: undefined,
             })}
-            edit={(location: Location) => dispatchModal({
+            edit={(location: LocationDto) => dispatchModal({
               type: ModalStateAction.show,
               modalType: ModalTypes.editLocation,
               data: location,
             })}
-            remove={(location: Location) => dispatchModal({
+            remove={(location: LocationDto) => dispatchModal({
               type: ModalStateAction.show,
               modalType: ModalTypes.removeLocation,
               data: location,

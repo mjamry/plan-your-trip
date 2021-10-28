@@ -3,14 +3,14 @@ import { LocationFormStateProvider } from './LocationDetailsFormState';
 import ModalHeader from '../ModalHeader';
 
 import { ModalDto } from '../../../Common/Dto/ModalDto';
-import { Location } from '../../../Common/Dto/Location';
 import LocationDetailsFormBody from './LocationDetailsFormBody';
 import LocationDetailsFooter from './LocationDetailsFormFooter';
+import LocationDto from '../../../Common/Dto/LocationDto';
 
 type BuilderDto = {
   title: string;
-  location: Location;
-  onSubmit: (location: Location) => void;
+  location: LocationDto;
+  onSubmit: (location: LocationDto) => void;
   onCancel?: () => void;
 }
 

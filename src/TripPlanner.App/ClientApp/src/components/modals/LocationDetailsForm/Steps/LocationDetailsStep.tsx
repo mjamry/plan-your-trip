@@ -3,8 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import RatingButton from '../../../RatingButton';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
-import { Location } from '../../../../Common/Dto/Location';
 import { IStepValidator } from './Step';
+import LocationDto from '../../../../Common/Dto/LocationDto';
 
 export const LocationDetailsStep = () => {
   const { state, dispatch } = useLocationFormState();
@@ -63,7 +63,7 @@ export const LocationDetailsStep = () => {
         <div className="location-edit-form-item-rating">
           <Typography component="legend">Rating</Typography>
           <RatingButton
-            value={state.location.rating}
+            value={state.location.rating!}
             onSelect={(value: number) => { handleRatingChanged(value); }}
           />
         </div>
@@ -73,7 +73,7 @@ export const LocationDetailsStep = () => {
 };
 
 export const LocationDetailsStepValidator = (): IStepValidator => {
-  const validate = (location: Location) => !!location.name;
+  const validate = (location: LocationDto) => !!location.name;
 
   return { validate };
 };

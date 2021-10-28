@@ -7,10 +7,10 @@ import { LocationFormStateActions, useLocationFormState } from './LocationDetail
 import useStepsCoordinator from './Steps/StepsCoordinator';
 import { Step } from './Steps/Step';
 import StepsConfiguration from './Steps/StepsConfig';
-import { Location } from '../../../Common/Dto/Location';
+import LocationDto from '../../../Common/Dto/LocationDto';
 
 type BodyProps = {
-    location: Location;
+    location: LocationDto;
   }
 
 const LocationDetailsFormBody = (props: BodyProps) => {

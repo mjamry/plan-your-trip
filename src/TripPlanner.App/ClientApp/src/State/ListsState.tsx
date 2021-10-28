@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { List } from '../Common/Dto/List';
+import ListDto from '../Common/Dto/ListDto';
 
 const enum ListViewType {
   grid,
@@ -17,7 +17,7 @@ const enum ListsStateActions {
 }
 
 type State = {
-  lists: List[],
+  lists: ListDto[],
   selectedListId: number,
   view: ListViewType,
   isLoading: boolean,
@@ -25,10 +25,10 @@ type State = {
 
 type Action =
   | { type: ListsStateActions.selectList, data: number }
-  | { type: ListsStateActions.loadLists, data: List[] }
-  | { type: ListsStateActions.removeList, data: List }
-  | { type: ListsStateActions.editList, data: List }
-  | { type: ListsStateActions.addList, data: List }
+  | { type: ListsStateActions.loadLists, data: ListDto[] }
+  | { type: ListsStateActions.removeList, data: ListDto }
+  | { type: ListsStateActions.editList, data: ListDto }
+  | { type: ListsStateActions.addList, data: ListDto }
   | { type: ListsStateActions.setView, data: ListViewType }
   | { type: ListsStateActions.isLoading, data: boolean }
 

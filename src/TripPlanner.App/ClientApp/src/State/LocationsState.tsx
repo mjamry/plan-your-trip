@@ -1,5 +1,5 @@
 import React, { useReducer, useContext, createContext } from 'react';
-import { Location } from '../Common/Dto/Location';
+import LocationDto from '../Common/Dto/LocationDto';
 
 const enum LocationsStateActions {
   addLocation,
@@ -12,18 +12,18 @@ const enum LocationsStateActions {
 }
 
 type State = {
-  locations: Location[],
-  locationSelectedOnMap?: Location,
+  locations: LocationDto[],
+  locationSelectedOnMap?: LocationDto,
   isLoading: boolean,
 }
 
 type Action =
-  | { type: LocationsStateActions.addLocation, data: Location }
-  | { type: LocationsStateActions.removeLocation, data: Location }
-  | { type: LocationsStateActions.editLocation, data: Location }
-  | { type: LocationsStateActions.selectOnMap, data: Location }
+  | { type: LocationsStateActions.addLocation, data: LocationDto }
+  | { type: LocationsStateActions.removeLocation, data: LocationDto }
+  | { type: LocationsStateActions.editLocation, data: LocationDto }
+  | { type: LocationsStateActions.selectOnMap, data: LocationDto }
   | { type: LocationsStateActions.removeAllLocations }
-  | { type: LocationsStateActions.loadLocations, data: Location[] }
+  | { type: LocationsStateActions.loadLocations, data: LocationDto[] }
   | { type: LocationsStateActions.isLoading, data: boolean }
 
 type Dispatch = (action: Action) => void;

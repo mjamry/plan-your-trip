@@ -1,8 +1,14 @@
 import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
+import { makeStyles } from '@material-ui/core';
 import MainMenu from '../components/MainMenu';
-import AppContent from '../components/AppContent';
 import Header from '../components/Header';
+
+const useStyles = makeStyles({
+  content: {
+    marginLeft: '180px',
+  },
+});
 
 type Props = {
   children: JSX.Element[]
@@ -10,14 +16,16 @@ type Props = {
 
 const PageLayout = (props: Props) => {
   const { children } = props;
+  const classes = useStyles();
+
   return (
     <>
       <Header />
       <Toolbar />
       <MainMenu />
-      <AppContent>
+      <div className={classes.content}>
         {children}
-      </AppContent>
+      </div>
     </>
   );
 };

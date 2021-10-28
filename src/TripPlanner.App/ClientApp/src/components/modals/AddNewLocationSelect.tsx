@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { useModalState, ModalStateAction, ModalTypes } from '../../State/ModalState';
-import { Coordinate } from '../../Common/Dto/Coordinate';
+import { CoordinateDto } from '../../Common/Dto/CoordinateDto';
 
-const DefaultCoordinates: Coordinate = {
+const DefaultCoordinates: CoordinateDto = {
   lat: 0,
   lon: 0,
 };

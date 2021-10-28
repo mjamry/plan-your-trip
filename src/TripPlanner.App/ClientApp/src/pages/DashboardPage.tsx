@@ -43,7 +43,7 @@ const DashboardPage = () => {
   return (
     <>
       {isLoading
-        ? <Loader title="" />
+        ? <Loader />
         : (
           <div className={classes.container}>
             {userData

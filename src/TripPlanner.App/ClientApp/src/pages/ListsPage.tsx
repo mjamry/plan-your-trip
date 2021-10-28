@@ -6,7 +6,7 @@ import DateTimeFormatter from '../Common/DateTimeFormatter';
 import useListService from '../Services/ListService';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
 import Table from '../components/Table';
-import { List } from '../Common/Dto/List';
+import ListDto from '../Common/Dto/ListDto';
 
 const useStyles = makeStyles({
   container: {
@@ -54,21 +54,21 @@ const ListsPage = ({ history }: Props) => {
               title: 'Updated',
               field: 'updated',
               type: 'datetime',
-              render: (list: List) => dateTimeFormatter.format(list.updated),
+              render: (list: ListDto) => dateTimeFormatter.format(list.updated),
             },
             {
               title: 'Created',
               field: 'created',
               type: 'datetime',
-              render: (list: List) => dateTimeFormatter.format(list.created),
+              render: (list: ListDto) => dateTimeFormatter.format(list.created),
             },
             {
               title: 'Private',
               field: 'isPrivate',
-              render: (list: List) => (list.isPrivate ? 'Yes' : 'No'),
+              render: (list: ListDto) => (list.isPrivate ? 'Yes' : 'No'),
             },
           ]}
-          onRowClick={((e: any, selectedList: List) => {
+          onRowClick={((e: any, selectedList: ListDto) => {
             dispatchList({ type: ListsStateActions.selectList, data: selectedList.id });
             history.push(`/locations/${selectedList.id}`);
           })}
@@ -78,12 +78,12 @@ const ListsPage = ({ history }: Props) => {
             modalType: ModalTypes.addList,
             data: undefined,
           })}
-          edit={(list: List) => dispatchModal({
+          edit={(list: ListDto) => dispatchModal({
             type: ModalStateAction.show,
             modalType: ModalTypes.editList,
             data: list,
           })}
-          remove={(list: List) => dispatchModal({
+          remove={(list: ListDto) => dispatchModal({
             type: ModalStateAction.show,
             modalType: ModalTypes.removeList,
             data: list,

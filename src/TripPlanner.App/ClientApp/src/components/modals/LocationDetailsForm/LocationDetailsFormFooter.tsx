@@ -1,13 +1,13 @@
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import LocationDto from '../../../Common/Dto/LocationDto';
 import { useLocationFormState } from './LocationDetailsFormState';
 import { Step } from './Steps/Step';
 import StepsConfiguration from './Steps/StepsConfig';
 import useStepsCoordinator from './Steps/StepsCoordinator';
-import { Location } from '../../../Common/Dto/Location';
 
 type FooterProps = {
-  onSubmit: (location: Location) => void;
+  onSubmit: (location: LocationDto) => void;
 }
 
 const LocationDetailsFooter = ({ onSubmit }: FooterProps): JSX.Element => {

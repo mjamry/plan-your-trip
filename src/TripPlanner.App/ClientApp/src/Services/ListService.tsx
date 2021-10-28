@@ -3,13 +3,13 @@ import useLoggerService from './Diagnostics/LoggerService';
 import { useListsState, ListsStateActions } from '../State/ListsState';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
-import { List } from '../Common/Dto/List';
+import ListDto from '../Common/Dto/ListDto';
 
 interface IListService {
-  add: (list: List) => Promise<void>;
-  edit: (list: List) => Promise<void>;
-  remove: (list: List) => Promise<void>;
-  getAll: () => Promise<List[]>;
+  add: (list: ListDto) => Promise<void>;
+  edit: (list: ListDto) => Promise<void>;
+  remove: (list: ListDto) => Promise<void>;
+  getAll: () => Promise<ListDto[]>;
 }
 
 const usePersistentListService = () => {
@@ -18,13 +18,13 @@ const usePersistentListService = () => {
 
   const apiUrl = `${appState.appSettings.apiUrl}/lists`;
 
-  const add = (list: List): Promise<List> => api.post(apiUrl, list);
+  const add = (list: ListDto): Promise<ListDto> => api.post(apiUrl, list);
 
-  const remove = (list: List): Promise<List> => api.delete(apiUrl, list);
+  const remove = (list: ListDto): Promise<ListDto> => api.delete(apiUrl, list);
 
-  const edit = (list: List): Promise<List> => api.put(apiUrl, list);
+  const edit = (list: ListDto): Promise<ListDto> => api.put(apiUrl, list);
 
-  const getAll = (): Promise<List[]> => api.get(apiUrl);
+  const getAll = (): Promise<ListDto[]> => api.get(apiUrl);
 
   return {
     add,
@@ -54,7 +54,7 @@ const useListService = (): IListService => {
     });
   };
 
-  const add = async (list: List): Promise<void> => {
+  const add = async (list: ListDto): Promise<void> => {
     setLoading();
 
     persistentListService.add(list)
@@ -81,7 +81,7 @@ const useListService = (): IListService => {
       });
   };
 
-  const edit = async (list: List): Promise<void> => {
+  const edit = async (list: ListDto): Promise<void> => {
     setLoading();
 
     persistentListService.edit(list)
@@ -103,7 +103,7 @@ const useListService = (): IListService => {
       });
   };
 
-  const remove = async (list: List): Promise<void> => {
+  const remove = async (list: ListDto): Promise<void> => {
     setLoading();
 
     persistentListService.remove(list)
@@ -125,7 +125,7 @@ const useListService = (): IListService => {
       });
   };
 
-  const getAll = (): Promise<List[]> => new Promise((resolve, reject) => {
+  const getAll = (): Promise<ListDto[]> => new Promise((resolve, reject) => {
     persistentListService.getAll()
       .then((data) => {
         dispatch({

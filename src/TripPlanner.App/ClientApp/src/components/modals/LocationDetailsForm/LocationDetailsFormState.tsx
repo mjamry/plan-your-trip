@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { Location } from '../../../Common/Dto/Location';
+import LocationDto from '../../../Common/Dto/LocationDto';
 
 const enum LocationFormStateActions {
     setStep,
@@ -14,13 +14,13 @@ type Error = {
 
 type State = {
     step: number;
-    location: Location;
+    location: LocationDto;
     errors?: Error;
 }
 
 type Action =
     | { type: LocationFormStateActions.setStep, data: number }
-    | { type: LocationFormStateActions.updateLocation, data: Location }
+    | { type: LocationFormStateActions.updateLocation, data: LocationDto }
     | { type: LocationFormStateActions.clearError, data: Error }
     | { type: LocationFormStateActions.setError, data: Error }
 
@@ -28,7 +28,7 @@ type Dispatch = (action: Action) => void;
 
 const initialState: State = {
   step: 0,
-  location: {} as Location,
+  location: {} as LocationDto,
   errors: undefined,
 };
 

@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import ModalHeader from './ModalHeader';
-import { List } from '../../Common/Dto/List';
 import { ModalDto } from '../../Common/Dto/ModalDto';
+import ListDto from '../../Common/Dto/ListDto';
 
 type BuilderDto = {
     title: string;
-    list: List;
-    onSubmit: (list: List) => void;
+    list: ListDto;
+    onSubmit: (list: ListDto) => void;
     onCancel?: () => void;
 }
 
 type ListDetailsProps = {
-  list: List;
-  onSubmit: (list: List) => void;
+  list: ListDto;
+  onSubmit: (list: ListDto) => void;
 }
 
 const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {

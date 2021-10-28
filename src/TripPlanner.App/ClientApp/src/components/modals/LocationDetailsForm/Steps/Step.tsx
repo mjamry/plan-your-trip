@@ -1,8 +1,8 @@
 import React from 'react';
-import { Location } from '../../../../Common/Dto/Location';
+import LocationDto from '../../../../Common/Dto/LocationDto';
 
 export interface IStepValidator {
-  validate: (location: Location) => boolean;
+  validate: (location: LocationDto) => boolean;
 }
 
 export type Step = {

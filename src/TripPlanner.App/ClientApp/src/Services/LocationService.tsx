@@ -4,13 +4,13 @@ import useLoggerService from './Diagnostics/LoggerService';
 import { useListsState } from '../State/ListsState';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
-import { Location } from '../Common/Dto/Location';
+import LocationDto from '../Common/Dto/LocationDto';
 
 interface ILocationService {
-    add: (location: Location, listId: number) => void;
-    remove: (location: Location) => void;
-    edit: (location: Location) => void;
-    getAll: (listId: number) => Promise<Location[]>;
+    add: (location: LocationDto, listId: number) => void;
+    remove: (location: LocationDto) => void;
+    edit: (location: LocationDto) => void;
+    getAll: (listId: number) => Promise<LocationDto[]>;
 }
 
 const usePersistentService = () => {
@@ -19,11 +19,11 @@ const usePersistentService = () => {
 
   const apiUrl = `${appState.appSettings.apiUrl}/locations`;
 
-  const add = (location: Location, listId: number) => api.post(`${apiUrl}/${listId}`, location);
+  const add = (location: LocationDto, listId: number) => api.post(`${apiUrl}/${listId}`, location);
 
-  const remove = (location: Location) => api.delete(apiUrl, location);
+  const remove = (location: LocationDto) => api.delete(apiUrl, location);
 
-  const edit = (location: Location) => api.put(apiUrl, location);
+  const edit = (location: LocationDto) => api.put(apiUrl, location);
 
   const getAll = (listId: number) => api.get(`${apiUrl}/${listId}`);
 
@@ -56,11 +56,11 @@ const useLocationService = (): ILocationService => {
     });
   };
 
-  const add = (location: Location) => {
+  const add = (location: LocationDto) => {
     setLoading();
 
     persistentLocationService.add(location, listState.selectedListId)
-      .then((locationData: Location) => {
+      .then((locationData: LocationDto) => {
         dispatchLocations({
           type: LocationsStateActions.addLocation,
           data: locationData,
@@ -78,7 +78,7 @@ const useLocationService = (): ILocationService => {
       });
   };
 
-  const edit = (location: Location) => {
+  const edit = (location: LocationDto) => {
     setLoading();
 
     persistentLocationService.edit(location)
@@ -100,7 +100,7 @@ const useLocationService = (): ILocationService => {
       });
   };
 
-  const remove = (location: Location) => {
+  const remove = (location: LocationDto) => {
     setLoading();
 
     persistentLocationService.remove(location)
@@ -122,10 +122,10 @@ const useLocationService = (): ILocationService => {
       });
   };
 
-  const getAll = (listId: number): Promise<Location[]> => new Promise((resolve, reject) => {
+  const getAll = (listId: number): Promise<LocationDto[]> => new Promise((resolve, reject) => {
     setLoading();
     persistentLocationService.getAll(listId)
-      .then((data: Location[]) => {
+      .then((data: LocationDto[]) => {
         dispatchLocations({
           type: LocationsStateActions.loadLocations,
           data,

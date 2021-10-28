@@ -3,9 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
 import CoordinatesValidator from '../../../../Common/CoordinatesValidator';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
-import { Coordinate } from '../../../../Common/Dto/Coordinate';
-import { Location } from '../../../../Common/Dto/Location';
+import { CoordinateDto } from '../../../../Common/Dto/CoordinateDto';
 import { IStepValidator } from './Step';
+import LocationDto from '../../../../Common/Dto/LocationDto';
 
 const ERROR_MESSAGE = 'Incorrect value';
 
@@ -26,7 +26,7 @@ export const LocationCoordinatesStep = () => {
     });
   };
 
-  const handleMapCoordinatesChanged = (coordinates: Coordinate) => {
+  const handleMapCoordinatesChanged = (coordinates: CoordinateDto) => {
     dispatch({
       type: LocationFormStateActions.updateLocation,
       data:
@@ -86,8 +86,10 @@ export const LocationCoordinatesStep = () => {
 };
 
 export const LocationCoordinatesStepValidator = (): IStepValidator => {
-  const validate = (location: Location) => (CoordinatesValidator().isValid(location.coordinates.lat)
-    && CoordinatesValidator().isValid(location.coordinates.lon));
+  const validate = (location: LocationDto) => (
+    CoordinatesValidator().isValid(location.coordinates.lat)
+    && CoordinatesValidator().isValid(location.coordinates.lon)
+  );
 
   return { validate };
 };

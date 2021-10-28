@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
-import { Location } from '../../../../Common/Dto/Location';
+import LocationDto from '../../../../Common/Dto/LocationDto';
 
 const useStyles = makeStyles({
   image: {
@@ -46,7 +46,7 @@ const LocationImageStepComponent = () => {
 };
 
 export const LocationImageStepValidator = (): IStepValidator => {
-  const validate = (location: Location) => (!!location);
+  const validate = (location: LocationDto) => (!!location);
 
   return { validate };
 };

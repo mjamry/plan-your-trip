@@ -1,11 +1,11 @@
 import React from 'react';
+import LocationDto from '../../../../Common/Dto/LocationDto';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { Step } from './Step';
-import { Location } from '../../../../Common/Dto/Location';
 
 type StepCoordinatorService = {
   next: () => void;
-  canNext: (location: Location) => boolean;
+  canNext: (location: LocationDto) => boolean;
   previous: () => void;
   isLastStep: () => boolean;
   isFirstStep: () => boolean,
@@ -37,7 +37,7 @@ const useStepsCoordinator = (steps: Step[]): StepCoordinatorService => {
 
   const getCurrentView = () => steps[state.step].view;
 
-  const canNext = (location: Location) => {
+  const canNext = (location: LocationDto) => {
     const stepValidator = steps[state.step].validator;
     if (stepValidator) {
       return stepValidator.validate(location);
