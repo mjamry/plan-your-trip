@@ -3,7 +3,7 @@ import useConsoleLog from './ConsoleLog';
 import useDbLog from './DbLog';
 
 type ILoggerService = {
-  error: (msg: string, ex: object) => void;
+  error: (msg: string, ex?: object) => void;
   warning: (msg: string) => void;
   info: (msg: string) => void;
   debug: (msg: string, data?: object) => void;
@@ -22,7 +22,7 @@ const useLoggerService = (prefix: string): ILoggerService => {
     data,
   );
 
-  const error = (message: string, exception: object) => {
+  const error = (message: string, exception?: object) => {
     const logEntry = generateLog(LogLevel.error, message, exception);
 
     loggers.forEach((logger) => {

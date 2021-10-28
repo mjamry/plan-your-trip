@@ -8,7 +8,7 @@ import useLocationService from './../Services/LocationService'
 import LocationsMapView from './../components/MapView/LocationsMapView'
 import { withStyles } from '@material-ui/core/styles';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import GpxFileDownloader from './../Common/GpxFileDownloader'
+import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader'
 
 import RatingButton from './../components/RatingButton'
 

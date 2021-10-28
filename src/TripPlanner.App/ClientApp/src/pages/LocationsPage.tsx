@@ -8,7 +8,7 @@ import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState
 import { useListsState, ListsStateActions } from '../State/ListsState';
 import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
-import GpxFileDownloader from '../Common/GpxFileDownloader';
+import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
 import RatingButton from '../components/RatingButton';
 import LocationDto from '../Common/Dto/LocationDto';
 
@@ -48,6 +48,7 @@ const LocationsPage = ({ match }: Props) => {
   const { dispatch: dispatchLists } = useListsState();
   const locationsService = useLocationService();
   const classes = useStyles();
+  const gpxFileDownloader = useGpxFileDownloader();
 
   const validateListId = (id: number) => id; // null if incorrect
 
@@ -122,7 +123,7 @@ const LocationsPage = ({ match }: Props) => {
                 icon: () => <GetAppIcon />,
                 tooltip: 'Download',
                 isFreeAction: true,
-                onClick: () => GpxFileDownloader.download(locationsState.locations),
+                onClick: () => gpxFileDownloader.download(locationsState.locations),
               },
             ]}
           />
