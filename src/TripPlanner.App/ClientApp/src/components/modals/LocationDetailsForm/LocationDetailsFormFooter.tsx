@@ -1,9 +1,9 @@
 import Button from '@material-ui/core/Button';
-import React from "react";
-import { useLocationFormState } from "./LocationDetailsFormState";
-import { Step } from "./Steps/Step";
-import StepsConfiguration from "./Steps/StepsConfig";
-import useStepsCoordinator from "./Steps/StepsCoordinator";
+import React from 'react';
+import { useLocationFormState } from './LocationDetailsFormState';
+import { Step } from './Steps/Step';
+import StepsConfiguration from './Steps/StepsConfig';
+import useStepsCoordinator from './Steps/StepsCoordinator';
 import { Location } from '../../../Common/Dto/Location';
 
 type FooterProps = {

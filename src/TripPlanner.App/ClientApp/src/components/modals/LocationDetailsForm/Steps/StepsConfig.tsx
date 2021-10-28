@@ -1,6 +1,6 @@
-import { LocationDetailsStep, LocationDetailsStepValidator } from './../Steps/LocationDetailsStep';
-import { LocationCoordinatesStep, LocationCoordinatesStepValidator } from './../Steps/LocationCoordinatesStep';
-import { LocationImageStep, LocationImageStepValidator } from './../Steps/LocationImageStep';
+import { LocationDetailsStep, LocationDetailsStepValidator } from './LocationDetailsStep';
+import { LocationCoordinatesStep, LocationCoordinatesStepValidator } from './LocationCoordinatesStep';
+import { LocationImageStep, LocationImageStepValidator } from './LocationImageStep';
 import { Step } from './Step';
 
 const StepsConfiguration: Step[] = [
