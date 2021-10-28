@@ -6,7 +6,7 @@ type ILoggerService = {
   error: (msg: string, ex: object) => void;
   warning: (msg: string) => void;
   info: (msg: string) => void;
-  debug: (msg: string, data: object) => void;
+  debug: (msg: string, data?: object) => void;
 }
 
 const useLoggerService = (prefix: string): ILoggerService => {
@@ -46,7 +46,7 @@ const useLoggerService = (prefix: string): ILoggerService => {
     });
   };
 
-  const debug = (message: string, data: object) => {
+  const debug = (message: string, data?: object) => {
     const logEntry = generateLog(LogLevel.debug, message, data);
 
     loggers.forEach((logger) => {

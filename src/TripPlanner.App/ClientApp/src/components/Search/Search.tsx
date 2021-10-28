@@ -16,7 +16,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch: dispatchModal } = useModalState();
-  const logger = useLoggerService();
+  const logger = useLoggerService('Search');
 
   const handleSearchInputTimeout = () => {
     setIsLoading(true);
@@ -26,7 +26,7 @@ const Search = () => {
     });
   };
 
-  const handleSelection = (selectedIndex: number) => {
+  const handleSelection = (selectedResult: string) => {
     setSearchResults([]);
     setSearchValue('');
 
@@ -37,7 +37,7 @@ const Search = () => {
     });
 
     WikipediaAPIWrapper
-      .getDetails(selectedIndex)
+      .getDetails(selectedResult)
       .then((location) => {
         dispatchModal({
           type: ModalStateAction.show,
@@ -45,10 +45,10 @@ const Search = () => {
           modalType:
           ModalTypes.addLocation,
         });
-        logger.debug(`[Search] Received data for ${selectedIndex}`, location);
+        logger.debug(`[Search] Received data for ${selectedResult}`, location);
       })
       .catch((error) => {
-        logger.error(`[Search] Error while fetching data: ${selectedIndex}`, error);
+        logger.error(`[Search] Error while fetching data: ${selectedResult}`, error);
       });
   };
 

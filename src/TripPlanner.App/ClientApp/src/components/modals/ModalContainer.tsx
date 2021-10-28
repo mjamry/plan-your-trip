@@ -22,7 +22,7 @@ const useModalContentFactory = () => {
   const { state, dispatch } = useModalState();
   const locationService = useLocationService();
   const listService = useListService();
-  const logger = useLoggerService();
+  const logger = useLoggerService('ModalContentFactory');
 
   const locationFormBuilder = useLocationFormBuilder();
   const listFormBuilder = useListFormBuilder();
