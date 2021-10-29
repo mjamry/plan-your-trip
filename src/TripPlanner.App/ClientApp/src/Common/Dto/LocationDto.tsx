@@ -1,7 +1,7 @@
 import { CoordinateDto } from './CoordinateDto';
 
 type LocationDto = {
-    id?: number;
+    id: number;
     name: string;
     description: string;
     rating?: number;

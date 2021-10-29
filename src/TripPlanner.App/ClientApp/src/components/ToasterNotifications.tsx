@@ -84,7 +84,7 @@ const ToasterNotificationSuccess = ({ message, timeout, onClose }: NotificationP
 );
 
 const CreateToasterNotification = (notification: Notification, onClose: () => void) => {
-  const logger = useLoggerService("ToasterNotification");
+  const logger = useLoggerService('ToasterNotification');
 
   switch (notification.type) {
     case NotificationType.info:
