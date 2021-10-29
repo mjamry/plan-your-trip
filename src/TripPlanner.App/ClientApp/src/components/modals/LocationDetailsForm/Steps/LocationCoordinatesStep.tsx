@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
-import CoordinatesValidator from '../../../../Common/CoordinatesValidator';
+import useCoordinatesValidator from '../../../../Common/CoordinatesValidator';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { CoordinateDto } from '../../../../Common/Dto/CoordinateDto';
 import { IStepValidator } from './Step';
@@ -11,6 +11,7 @@ const ERROR_MESSAGE = 'Incorrect value';
 
 export const LocationCoordinatesStep = () => {
   const { state, dispatch } = useLocationFormState();
+  const coordinatesValidator = useCoordinatesValidator();
 
   const handleCoordinatesChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
@@ -54,7 +55,7 @@ export const LocationCoordinatesStep = () => {
             value={state.location.coordinates.lat || ''}
           />
           <div className="location-form-error">
-            {CoordinatesValidator().isValid(state.location.coordinates.lat) ? '' : ERROR_MESSAGE}
+            {coordinatesValidator.isValid(state.location.coordinates.lat) ? '' : ERROR_MESSAGE}
           </div>
         </div>
 
@@ -69,7 +70,7 @@ export const LocationCoordinatesStep = () => {
             value={state.location.coordinates.lon || ''}
           />
           <div className="location-form-error">
-            {CoordinatesValidator().isValid(state.location.coordinates.lon) ? '' : ERROR_MESSAGE}
+            {coordinatesValidator.isValid(state.location.coordinates.lon) ? '' : ERROR_MESSAGE}
           </div>
         </div>
 
@@ -86,9 +87,11 @@ export const LocationCoordinatesStep = () => {
 };
 
 export const LocationCoordinatesStepValidator = (): IStepValidator => {
+  const coordinatesValidator = useCoordinatesValidator();
+
   const validate = (location: LocationDto) => (
-    CoordinatesValidator().isValid(location.coordinates.lat)
-    && CoordinatesValidator().isValid(location.coordinates.lon)
+    coordinatesValidator.isValid(location.coordinates.lat)
+    && coordinatesValidator.isValid(location.coordinates.lon)
   );
 
   return { validate };

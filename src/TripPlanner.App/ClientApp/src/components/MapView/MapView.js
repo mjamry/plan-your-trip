@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import L from 'leaflet'
-import CoordinatesValidator from '../../Common/CoordinatesValidator'
+import useCoordinatesValidator from '../../Common/CoordinatesValidator'
 
 const defaultOptions = {
     draggable: false,
@@ -12,6 +12,7 @@ const defaultOptions = {
 var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
     const [visibleMarkers, setVisibleMarkers] = useState([]);
     const [mapObject, setMapObject] = useState(null);
+    const coordinateValidator = useCoordinatesValidator();
     
     var setupMarker = (location, coordinates) => {
         var marker = L.marker(coordinates, {...options, title: location.name})
@@ -65,8 +66,8 @@ var MapView = ({locations, selectedLocation, options = defaultOptions}) => {
 
             var markers = [];
             locations.forEach(location => {
-                if(CoordinatesValidator().isValid(location.coordinates.lat) 
-                && CoordinatesValidator().isValid(location.coordinates.lon))
+                if(coordinateValidator.isValid(location.coordinates.lat) 
+                && coordinateValidator.isValid(location.coordinates.lon))
                 {
                     let coordinates = [location.coordinates.lat, location.coordinates.lon];
                     markers.push({

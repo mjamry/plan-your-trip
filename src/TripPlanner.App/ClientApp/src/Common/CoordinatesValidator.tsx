@@ -6,7 +6,8 @@ const isNumber = (value: string) => {
 };
 
 const CoordinatesValidator = () => {
-  const isValid = (value: string) => isNumber(value);
+  //TODO add some proper validation
+  const isValid = (value: number) => true;
 
   return { isValid };
 };
