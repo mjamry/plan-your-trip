@@ -32,7 +32,7 @@ const useAppSettingsService = (): IAppSettingsService => {
   };
 
   const init = async () => new Promise<AppSettings>((resolve, reject) => {
-    api.get(SettingsUrl)
+    api.get<AppSettings>(SettingsUrl)
       .then((settings) => {
         dispatch({
           type: AppStateActions.setAppSettings,

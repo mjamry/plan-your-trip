@@ -19,13 +19,13 @@ const usePersistentService = () => {
 
   const apiUrl = `${appState.appSettings.apiUrl}/locations`;
 
-  const add = (location: LocationDto, listId: number) => api.post(`${apiUrl}/${listId}`, location);
+  const add = (location: LocationDto, listId: number) => api.post<LocationDto>(`${apiUrl}/${listId}`, location);
 
-  const remove = (location: LocationDto) => api.delete(apiUrl, location);
+  const remove = (location: LocationDto) => api.del<LocationDto>(apiUrl, location);
 
-  const edit = (location: LocationDto) => api.put(apiUrl, location);
+  const edit = (location: LocationDto) => api.put<LocationDto>(apiUrl, location);
 
-  const getAll = (listId: number) => api.get(`${apiUrl}/${listId}`);
+  const getAll = (listId: number) => api.get<LocationDto[]>(`${apiUrl}/${listId}`);
 
   return {
     add,

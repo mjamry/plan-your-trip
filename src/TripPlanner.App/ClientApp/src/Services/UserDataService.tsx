@@ -12,7 +12,7 @@ const useUserDataService = (): IUserDataService => {
 
   const url = `${appState.appSettings.apiUrl}/userData/dashboard`;
 
-  const getDashboard = async (): Promise<DashboardDto> => api.get(url);
+  const getDashboard = async () => api.get<DashboardDto>(url);
 
   return {
     getDashboard,

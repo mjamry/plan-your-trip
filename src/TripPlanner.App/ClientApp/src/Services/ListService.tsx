@@ -18,13 +18,13 @@ const usePersistentListService = () => {
 
   const apiUrl = `${appState.appSettings.apiUrl}/lists`;
 
-  const add = (list: ListDto): Promise<ListDto> => api.post(apiUrl, list);
+  const add = (list: ListDto) => api.post<ListDto>(apiUrl, list);
 
-  const remove = (list: ListDto): Promise<ListDto> => api.delete(apiUrl, list);
+  const remove = (list: ListDto) => api.del<ListDto>(apiUrl, list);
 
-  const edit = (list: ListDto): Promise<ListDto> => api.put(apiUrl, list);
+  const edit = (list: ListDto) => api.put<ListDto>(apiUrl, list);
 
-  const getAll = (): Promise<ListDto[]> => api.get(apiUrl);
+  const getAll = () => api.get<ListDto[]>(apiUrl);
 
   return {
     add,
