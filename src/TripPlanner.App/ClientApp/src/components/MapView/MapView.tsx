@@ -3,11 +3,12 @@ import L, { LeafletMouseEvent } from 'leaflet';
 import useCoordinatesValidator from '../../Common/CoordinatesValidator';
 import LocationDto from '../../Common/Dto/LocationDto';
 
-type MapViewOptions = {
+export type MapViewOptions = {
   draggable: boolean;
   style: string;
   canAddMarker: boolean;
   title: string;
+  autoPan: boolean,
   onCoordinatesUpdated?: (data: L.LatLng) => void;
 }
 
@@ -18,7 +19,7 @@ type Marker = {
 
 type Props = {
   locations: LocationDto[];
-  selectedLocation: LocationDto;
+  selectedLocation?: LocationDto;
   options?: MapViewOptions;
 }
 
@@ -27,6 +28,7 @@ const defaultOptions: MapViewOptions = {
   style: 'locations-map-view',
   canAddMarker: false,
   title: '',
+  autoPan: true,
 };
 
 const MapView = (props: Props) => {

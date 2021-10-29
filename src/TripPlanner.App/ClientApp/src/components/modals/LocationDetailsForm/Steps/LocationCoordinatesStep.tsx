@@ -1,9 +1,9 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import L from 'leaflet';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
 import useCoordinatesValidator from '../../../../Common/CoordinatesValidator';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
-import { CoordinateDto } from '../../../../Common/Dto/CoordinateDto';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 
@@ -27,7 +27,7 @@ export const LocationCoordinatesStep = () => {
     });
   };
 
-  const handleMapCoordinatesChanged = (coordinates: CoordinateDto) => {
+  const handleMapCoordinatesChanged = (coordinates: L.LatLng) => {
     dispatch({
       type: LocationFormStateActions.updateLocation,
       data:
@@ -35,7 +35,7 @@ export const LocationCoordinatesStep = () => {
           ...state.location,
           coordinates: {
             lat: coordinates.lat,
-            lon: coordinates.lon,
+            lon: coordinates.lng,
           },
         },
     });

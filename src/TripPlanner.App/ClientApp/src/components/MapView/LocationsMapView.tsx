@@ -4,7 +4,7 @@ import MapView from './MapView';
 
 type Props = {
     locations: LocationDto[];
-    selectedLocation: LocationDto;
+    selectedLocation?: LocationDto;
 }
 
 const LocationsMapView = (props: Props) => {

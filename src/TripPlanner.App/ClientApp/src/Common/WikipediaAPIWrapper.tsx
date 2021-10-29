@@ -25,7 +25,7 @@ export default class WikipediaAPIWrapper {
         ]))
         .then(([name, details, geo, img]) => {
           const data: LocationDto = {
-            name, description: details, coordinates: geo, image: img,
+            id: 0, name, description: details, coordinates: geo, image: img,
           };
           return data;
         });

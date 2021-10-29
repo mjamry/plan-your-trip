@@ -1,17 +1,18 @@
 import React from 'react';
+import L from 'leaflet';
 import LocationDto from '../../Common/Dto/LocationDto';
-import MapView from './MapView';
+import MapView, { MapViewOptions } from './MapView';
 
 type Props = {
     location: LocationDto;
-    onCoordinatesUpdated: () => void;
+    onCoordinatesUpdated: (coordinates: L.LatLng) => void;
 }
 
 const LocationFormMapView = (props: Props) => {
   const { location, onCoordinatesUpdated } = props;
 
   const locations = [location];
-  const options = {
+  const options: MapViewOptions = {
     draggable: true,
     autoPan: true,
     onCoordinatesUpdated,
