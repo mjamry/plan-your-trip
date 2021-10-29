@@ -1,5 +1,5 @@
-const DateTimeFormatter = () => {
-  const format = (dt: string) => {
+const useDateTimeFormatter = () => {
+  const format = (dt: Date) => {
     const dateTime = new Date(dt);
     return dateTime.toLocaleDateString() || '';
   };
@@ -9,4 +9,4 @@ const DateTimeFormatter = () => {
   };
 };
 
-export default DateTimeFormatter;
+export default useDateTimeFormatter;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { RouteComponentProps } from 'react-router-dom';
 import { useListsState, ListsStateActions } from '../State/ListsState';
-import DateTimeFormatter from '../Common/DateTimeFormatter';
+import useDateTimeFormatter from '../Common/DateTimeFormatter';
 import useListService from '../Services/ListService';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
 import Table from '../components/Table';
@@ -24,7 +24,7 @@ const ListsPage = ({ history }: Props) => {
   const { dispatch: dispatchModal } = useModalState();
   const classes = useStyles();
   const listService = useListService();
-  const dateTimeFormatter = DateTimeFormatter();
+  const dateTimeFormatter = useDateTimeFormatter();
 
   useEffect(() => {
     const fetchListData = async () => {
