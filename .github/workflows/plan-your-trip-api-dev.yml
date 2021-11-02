@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - 'src/backend/TripPlanner.Api/**'
+      - 'src/TripPlanner.Api/**'
   workflow_dispatch:
 
 jobs:
@@ -21,10 +21,10 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Install dependencies
-      run: dotnet restore 'src/backend/TripPlanner.Api'
+      run: dotnet restore 'src/TripPlanner.Api'
 
     - name: Build
-      run: dotnet build 'src/backend/TripPlanner.Api' --configuration Release --no-restore
+      run: dotnet build 'src/TripPlanner.Api' --configuration Release --no-restore
 
   test:
     runs-on: windows-latest
@@ -39,9 +39,9 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Install dependencies
-      run: dotnet restore 'src/backend/TripPlanner.Api'
+      run: dotnet restore 'src/TripPlanner.Api'
     - name: Test
-      run: dotnet test 'src/backend/TripPlanner.Api' --no-restore --verbosity normal
+      run: dotnet test 'src/TripPlanner.Api' --no-restore --verbosity normal
 
   deploy:
     runs-on: windows-latest
@@ -56,7 +56,7 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Publish
-      run: dotnet publish 'src/backend/TripPlanner.Api' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
+      run: dotnet publish 'src/TripPlanner.Api' -c Release -o ${{env.DOTNET_ROOT}}/plan-your-trip-api-dev
 
     - name: Deploy
       uses: azure/webapps-deploy@v2
