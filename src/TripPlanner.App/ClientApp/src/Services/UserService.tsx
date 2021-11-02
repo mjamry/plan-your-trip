@@ -28,21 +28,16 @@ const useUserService = (): IUserService => {
     Log.logger = console;
   }, []);
 
-  const noUserManager = (): void => {
-    // TODO remove this and use optional chaining operator -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
-    // to be able to use that react-scripts have to be updated to version >= 4.0
-  };
-
   const signIn = (): void => {
-    !userState.userManager ? noUserManager() : userState.userManager.signinRedirect();
+    userState.userManager?.signinRedirect();
   };
 
   const signOut = (): void => {
-    !userState.userManager ? noUserManager() : userState.userManager.signoutRedirect();
+    userState.userManager?.signoutRedirect();
   };
 
   const finishAuthentication = (): void => {
-    !userState.userManager ? noUserManager() : userState.userManager.signinRedirectCallback()
+    userState.userManager?.signinRedirectCallback()
       .then(() => {
         history.push('/');
       }).catch((e) => {
@@ -53,7 +48,7 @@ const useUserService = (): IUserService => {
   const getUser = (): Promise<User> => new Promise<User>((resolve, reject) => {
     log.debug('Getting user...');
     const getUserTimeout = setTimeout(signIn, GET_USER_TIMEOUT);
-    !userState.userManager ? noUserManager() : userState.userManager.getUser()
+    userState.userManager?.getUser()
       .then((user) => {
         clearTimeout(getUserTimeout);
         if (user) {
@@ -86,7 +81,7 @@ const useUserService = (): IUserService => {
           resolve(user.access_token);
         } else {
           log.debug('Silent signin');
-          !userState.userManager ? noUserManager() : userState.userManager.signinSilent();
+          userState.userManager?.signinSilent();
         }
       })
       .catch(() => {
