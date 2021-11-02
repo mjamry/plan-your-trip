@@ -33,6 +33,7 @@
         "indent": 2,
         "no-param-reassign": "off",
         "no-case-declarations": "off",
+        "linebreak-style": ["error", "windows"],
 
         // note you must disable the base rule as it can report incorrect errors
         "no-use-before-define": "off",
