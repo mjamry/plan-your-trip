@@ -4,8 +4,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
 import DraggableTimeline from '../components/planDetails/DraggableTimeline';
-import TimelineElementPositionTypes from '../components/planDetails/TimelineElementPositionTypes';
 import LocationDto from '../Common/Dto/LocationDto';
+import TimelineElementPositionType from '../Common/Dto/TimelineElementPositionTypes';
 
 const useStyles = makeStyles({
   container: {
@@ -25,7 +25,7 @@ interface Props extends RouteComponentProps<MatchParams> {}
 const PlansDetailsPage = ({ match }: Props) => {
   const classes = useStyles();
   const locationsService = useLocationService();
-  const [locations, setLocations] = useState<LocationDto[]>();
+  const [locations, setLocations] = useState<LocationDto[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const PlansDetailsPage = ({ match }: Props) => {
         ? <Loader />
         : (
           <div className={classes.container}>
-            <DraggableTimeline data={locations} position={TimelineElementPositionTypes.Right} />
+            <DraggableTimeline data={locations} position={TimelineElementPositionType.right} />
           </div>
         )}
     </>
