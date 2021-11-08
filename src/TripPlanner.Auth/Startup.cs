@@ -10,13 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using TripPlanner.Auth;
+using IdentityServer4.Models;
 
 namespace IdentityServer
 {
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
+        private IWebHostEnvironment Environment { get; }
+        private IConfiguration Configuration { get; }
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -53,7 +54,7 @@ namespace IdentityServer
             })
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients)
+                .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
                 .AddAspNetIdentity<IdentityUser>();
 
             services.ConfigureCookiePolicy();
