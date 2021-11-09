@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using TripPlanner.Auth;
+using Microsoft.IdentityModel.Logging;
 
 namespace IdentityServer
 {
@@ -28,6 +29,8 @@ namespace IdentityServer
         {
             // uncomment, if you want to add an MVC-based UI
             services.AddControllersWithViews();
+
+            IdentityModelEventSource.ShowPII = true;
 
             string dataConnectionString = Configuration["ConnectionStrings:Users"];
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dataConnectionString));
