@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
+using trip_planner.Configuration;
 using trip_planner.Data;
 using trip_planner.Data.Contexts;
 using trip_planner.Data.Models;
@@ -22,19 +24,21 @@ namespace trip_planner
         }
 
         public IConfiguration Configuration { get; }
-        readonly string MyOriginsPolicy = "_myOriginPolicy";
+        readonly string DefaultOriginsPolicy = "_defaultOriginPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
             services.AddControllers();
             services.AddHttpContextAccessor();
+
+            var corsConfig = Configuration.GetSection("CorsConfig").Get<CorsConfiguration>();
             services.AddCors(options =>
             {
-                options.AddPolicy(MyOriginsPolicy,
+                options.AddPolicy(DefaultOriginsPolicy,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins(corsConfig.Origins.ToArray())
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -43,7 +47,7 @@ namespace trip_planner
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:50000";
+                    options.Authority = Configuration["IdentityConfig:Authority"];
                     options.RequireHttpsMetadata = false;
 
                     options.Audience = API_CODE_NAME;
@@ -70,7 +74,7 @@ namespace trip_planner
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(MyOriginsPolicy);
+            app.UseCors(DefaultOriginsPolicy);
             app.UseHttpsRedirection();
 
             app.UseRouting();
