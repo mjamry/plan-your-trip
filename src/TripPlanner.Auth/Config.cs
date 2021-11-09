@@ -15,13 +15,13 @@ namespace IdentityServer
 
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
-            {
+            { 
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email()
             };
 
-        public static IEnumerable<TestUser> Users =>
+        public static IEnumerable<TestUser> Users => 
             new List<TestUser>{};
 
         public static IEnumerable<ApiResource> Apis =>
@@ -29,5 +29,34 @@ namespace IdentityServer
             {
                 new ApiResource(API_CODE_NAME, "API")
             };
+
+        public static IEnumerable<Client> Clients =>
+            new List<Client>
+            {
+                new Client
+                    {
+                        ClientId = "js",
+                        ClientName = "JavaScript Client",
+                        AllowedGrantTypes = GrantTypes.Implicit,
+                        AllowAccessTokensViaBrowser = true,
+                        AccessTokenType = AccessTokenType.Jwt,
+                        AlwaysSendClientClaims = true,
+                        AlwaysIncludeUserClaimsInIdToken = true,
+                        RequireConsent = false,
+                        
+                        RedirectUris =           { "http://localhost:3000/callback" },
+                        PostLogoutRedirectUris = { "http://localhost:3000/" },
+                        AllowedCorsOrigins =     { "http://localhost:3000" },
+                        
+                        AllowedScopes =
+                        {
+                            IdentityServerConstants.StandardScopes.OpenId,
+                            IdentityServerConstants.StandardScopes.Profile,
+                            IdentityServerConstants.StandardScopes.Email,
+                            API_CODE_NAME
+                        }
+                    }
+            };
+        
     }
 }
