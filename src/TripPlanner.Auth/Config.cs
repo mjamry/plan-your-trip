@@ -6,6 +6,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using TripPlanner.Auth.Configuration;
 
 namespace IdentityServer
 {
@@ -30,24 +31,25 @@ namespace IdentityServer
                 new ApiResource(API_CODE_NAME, "API")
             };
 
-        public static IEnumerable<Client> Clients =>
-            new List<Client>
+        public static IEnumerable<Client> GetClients(IdentityClientsConfiguration config)
+        {
+            return new List<Client>
             {
                 new Client
                     {
-                        ClientId = "js",
-                        ClientName = "JavaScript Client",
+                        ClientId = "SpaClient",
+                        ClientName = "Trip Planner App",
                         AllowedGrantTypes = GrantTypes.Implicit,
                         AllowAccessTokensViaBrowser = true,
                         AccessTokenType = AccessTokenType.Jwt,
                         AlwaysSendClientClaims = true,
                         AlwaysIncludeUserClaimsInIdToken = true,
                         RequireConsent = false,
-                        
-                        RedirectUris =           { "http://localhost:3000/callback" },
-                        PostLogoutRedirectUris = { "http://localhost:3000/" },
-                        AllowedCorsOrigins =     { "http://localhost:3000" },
-                        
+
+                        RedirectUris = config.SpaClient.RedirectUris,
+                        PostLogoutRedirectUris = config.SpaClient.PostLogoutRedirectUris,
+                        AllowedCorsOrigins = config.SpaClient.AllowedCorsOrigins,
+
                         AllowedScopes =
                         {
                             IdentityServerConstants.StandardScopes.OpenId,
@@ -57,6 +59,6 @@ namespace IdentityServer
                         }
                     }
             };
-        
+        }
     }
 }

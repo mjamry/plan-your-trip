@@ -7,7 +7,7 @@ type IUserManagerConfigBuilder = {
 const useUserManagerConfigBuilder = (): IUserManagerConfigBuilder => {
   const build = (settings: AppSettings) => ({
     authority: settings.authUrl,
-    client_id: 'js',
+    client_id: 'SpaClient',
     redirect_uri: `${settings.appUrl}/callback`,
     response_type: 'id_token token',
     scope: 'openid profile email trip_planner',
