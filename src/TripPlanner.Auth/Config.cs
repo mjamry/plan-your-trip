@@ -6,6 +6,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using TripPlanner.Auth.Configuration;
 
 namespace IdentityServer
 {
@@ -15,13 +16,13 @@ namespace IdentityServer
 
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
-            {
+            { 
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email()
             };
 
-        public static IEnumerable<TestUser> Users =>
+        public static IEnumerable<TestUser> Users => 
             new List<TestUser>{};
 
         public static IEnumerable<ApiResource> Apis =>
@@ -29,5 +30,35 @@ namespace IdentityServer
             {
                 new ApiResource(API_CODE_NAME, "API")
             };
+
+        public static IEnumerable<Client> GetClients(IdentityClientsConfiguration config)
+        {
+            return new List<Client>
+            {
+                new Client
+                    {
+                        ClientId = "SpaClient",
+                        ClientName = "Trip Planner App",
+                        AllowedGrantTypes = GrantTypes.Implicit,
+                        AllowAccessTokensViaBrowser = true,
+                        AccessTokenType = AccessTokenType.Jwt,
+                        AlwaysSendClientClaims = true,
+                        AlwaysIncludeUserClaimsInIdToken = true,
+                        RequireConsent = false,
+
+                        RedirectUris = config.SpaClient.RedirectUris,
+                        PostLogoutRedirectUris = config.SpaClient.PostLogoutRedirectUris,
+                        AllowedCorsOrigins = config.SpaClient.AllowedCorsOrigins,
+
+                        AllowedScopes =
+                        {
+                            IdentityServerConstants.StandardScopes.OpenId,
+                            IdentityServerConstants.StandardScopes.Profile,
+                            IdentityServerConstants.StandardScopes.Email,
+                            API_CODE_NAME
+                        }
+                    }
+            };
+        }
     }
 }
