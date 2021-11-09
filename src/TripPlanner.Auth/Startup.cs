@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using TripPlanner.Auth;
+using TripPlanner.Auth.Configuration;
 
 namespace IdentityServer
 {
@@ -46,6 +47,8 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            var clientsConfig = Configuration.GetSection("IdentityConfig:Clients").Get<IdentityClientsConfiguration>();
+
             var builder = services.AddIdentityServer(options =>
             {
                 options.UserInteraction.LoginUrl = "/Account/Login";
@@ -53,7 +56,7 @@ namespace IdentityServer
             })
                 .AddInMemoryIdentityResources(Config.Ids)
                 .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients)
+                .AddInMemoryClients(Config.GetClients(clientsConfig))
                 .AddAspNetIdentity<IdentityUser>();
 
             services.ConfigureCookiePolicy();
