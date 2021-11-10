@@ -3,8 +3,6 @@ import Modal from './ModalComponent';
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalState';
 import useLocationFormBuilder from './LocationDetailsForm/LocationDetailsForm';
 import ModalHeader from './ModalHeader';
-import Search from '../Search/Search';
-import AddNewLocationSelect from './AddNewLocationSelect';
 import Confirmation from './Confirmation';
 import LoadingIndicator from './LoadingIndicator';
 import useLocationService from '../../Services/LocationService';
@@ -69,18 +67,6 @@ const useModalContentFactory = () => {
             onCancel={() => dispatch({ type: ModalStateAction.hide })}
           />,
         }; }
-
-      case ModalTypes.search:
-        return {
-          header: <ModalHeader title="Search location" />,
-          body: <Search />,
-        };
-
-      case ModalTypes.addNewLocationSelect:
-        return {
-          header: <ModalHeader title="Select option" />,
-          body: <AddNewLocationSelect />,
-        };
 
       case ModalTypes.loading:
         return {

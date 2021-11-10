@@ -104,8 +104,8 @@ const LocationsPage = ({ match }: Props) => {
             data={locationsState.locations}
             add={() => dispatchModal({
               type: ModalStateAction.show,
-              modalType: ModalTypes.addNewLocationSelect,
-              data: undefined,
+              modalType: ModalTypes.addLocation,
+              data: {} as LocationDto,
             })}
             edit={(location: LocationDto) => dispatchModal({
               type: ModalStateAction.show,

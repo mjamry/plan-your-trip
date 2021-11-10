@@ -10,8 +10,13 @@ import SearchResult from './SearchResult';
 
 const SearchTimeout = 700;
 
-const Search = () => {
-  const [searchValue, setSearchValue] = useState('');
+type Props = {
+  name?: string;
+}
+
+const Search = (props: Props) => {
+  const { name } = props;
+  const [searchValue, setSearchValue] = useState<string>(name || '');
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
