@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Modal from './ModalComponent';
+import ModalWrapper from './ModalComponent';
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalState';
 import useLocationFormBuilder from './LocationDetailsForm/LocationDetailsForm';
 import ModalHeader from './ModalHeader';
@@ -131,7 +131,7 @@ const ModalContainer = () => {
     if (modalContent.state) {
       return (
         <modalContent.state>
-          <Modal
+          <ModalWrapper
             isVisible={state.isVisible}
             header={modalContent.header}
             body={modalContent.body}
@@ -142,7 +142,7 @@ const ModalContainer = () => {
       );
     }
     return (
-      <Modal
+      <ModalWrapper
         isVisible={state.isVisible}
         header={modalContent.header}
         body={modalContent.body}

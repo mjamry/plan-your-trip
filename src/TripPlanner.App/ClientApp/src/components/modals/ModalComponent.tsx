@@ -1,5 +1,6 @@
 import React from 'react';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Modal from '@material-ui/core/Modal';
+import { Box } from '@material-ui/core';
 
 type Props = {
     isVisible: boolean;
@@ -9,26 +10,22 @@ type Props = {
     footer: JSX.Element | undefined;
 }
 
-const Modal = (props: Props) => {
+const ModalWrapper = (props: Props) => {
   const {
     isVisible, header, body, footer, onClickAway,
   } = props;
 
   return (
     <>
-      { isVisible && (
-      <div className="modal-background">
-        <ClickAwayListener onClickAway={onClickAway}>
-          <div className="modal">
-            <div className="modal-header">{header}</div>
-            <div className="modal-content">{body}</div>
-            {footer && <div className="modal-footer">{footer}</div>}
-          </div>
-        </ClickAwayListener>
-      </div>
-      )}
+      <Modal onClose={onClickAway} open={isVisible}>
+        <Box className="modal">
+          <div className="modal-header">{header}</div>
+          <div className="modal-content">{body}</div>
+          {footer && <div className="modal-footer">{footer}</div>}
+        </Box>
+      </Modal>
     </>
   );
 };
 
-export default Modal;
+export default ModalWrapper;
