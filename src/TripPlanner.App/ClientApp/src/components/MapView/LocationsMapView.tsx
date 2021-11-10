@@ -11,7 +11,7 @@ const LocationsMapView = (props: Props) => {
   const { locations, selectedLocation } = props;
 
   return (
-    <MapView locations={locations} selectedLocation={selectedLocation} />
+    <MapView locations={locations} selectedLocation={selectedLocation} mapId="mainMapId" />
   );
 };
 
