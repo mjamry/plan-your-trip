@@ -14,6 +14,7 @@ type BodyProps = {
   }
 
 const LocationDetailsFormBody = (props: BodyProps) => {
+  const { location } = props;
   const steps: Step[] = StepsConfiguration;
   const { state, dispatch } = useLocationFormState();
   const coordinator = useStepsCoordinator(steps);
@@ -21,7 +22,7 @@ const LocationDetailsFormBody = (props: BodyProps) => {
   useEffect(() => {
     dispatch({
       type: LocationFormStateActions.updateLocation,
-      data: props.location,
+      data: location,
     });
   }, []);
 
