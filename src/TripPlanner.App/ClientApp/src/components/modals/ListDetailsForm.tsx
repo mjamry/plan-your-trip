@@ -18,7 +18,7 @@ type ListDetailsProps = {
 }
 
 const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
-  const [state, setState] = useState(list);
+  const [state, setState] = useState<ListDto>(list);
 
   const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setState({ ...state, [e.target.name]: e.target.value });
