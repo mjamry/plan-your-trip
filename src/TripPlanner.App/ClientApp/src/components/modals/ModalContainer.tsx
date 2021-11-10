@@ -13,6 +13,7 @@ import useListService from '../../Services/ListService';
 import useListFormBuilder from './ListDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
+import ListDto from '../../Common/Dto/ListDto';
 
 const emptyModal = {} as ModalDto;
 
@@ -91,7 +92,7 @@ const useModalContentFactory = () => {
         return listFormBuilder(
           {
             title: 'Add list',
-            list: state.data,
+            list: {} as ListDto,
             onSubmit: (data) => {
               listService.add(data);
               dispatch({ type: ModalStateAction.hide });
