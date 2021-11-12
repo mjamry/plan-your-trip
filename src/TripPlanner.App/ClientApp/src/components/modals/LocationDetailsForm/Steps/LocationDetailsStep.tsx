@@ -28,7 +28,7 @@ export const LocationDetailsStep = () => {
     <form>
       <div>
         <div className="location-edit-form-item">
-          <Search />
+          <Search name={state.location.name || ''} />
         </div>
 
         <div className="location-edit-form-item">
