@@ -12,7 +12,7 @@ type LocationDto = {
 };
 
 export const LocationEmpty: LocationDto = {
-  id: -1,
+  id: 0,
   name: '',
   description: '',
   coordinates: CoordinateEmpty,

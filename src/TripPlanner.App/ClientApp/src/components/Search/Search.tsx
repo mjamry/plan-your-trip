@@ -42,8 +42,6 @@ const Search = (props: Props) => {
       setIsLoading(false);
       setSearchResultAnchor(inputRef.current);
     });
-
-    updateLocationState(searchValue);
   };
 
   const handleSelection = (selectedResult: string) => {
@@ -86,6 +84,7 @@ const Search = (props: Props) => {
     if (searchValue !== '') {
       setupTimer();
       setIsLoading(false);
+      updateLocationState(searchValue);
     }
   }, [searchValue]);
 

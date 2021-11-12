@@ -9,7 +9,7 @@ type ListDto = {
 }
 
 export const ListEmpty: ListDto = {
-  id: -1,
+  id: 0,
   name: '',
   description: '',
   isPrivate: false,
