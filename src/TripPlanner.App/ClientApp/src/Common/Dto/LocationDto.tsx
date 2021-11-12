@@ -1,14 +1,21 @@
-import { CoordinateDto } from './CoordinateDto';
+import { CoordinateDto, CoordinateEmpty } from './CoordinateDto';
 
 type LocationDto = {
-    id: number;
-    name: string;
-    description: string;
-    rating?: number;
-    coordinates: CoordinateDto;
-    image?: string;
-    link?: string;
-    listId?: number;
+  id: number;
+  name: string;
+  description: string;
+  rating?: number;
+  coordinates: CoordinateDto;
+  image?: string;
+  link?: string;
+  listId?: number;
+};
+
+export const LocationEmpty: LocationDto = {
+  id: -1,
+  name: '',
+  description: '',
+  coordinates: CoordinateEmpty,
 };
 
 export default LocationDto;
