@@ -12,7 +12,6 @@ import useListFormBuilder from './ListDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
 import { ListEmpty } from '../../Common/Dto/ListDto';
-import { LocationEmpty } from '../../Common/Dto/LocationDto';
 
 const emptyModal = {} as ModalDto;
 
@@ -33,7 +32,7 @@ const useModalContentFactory = () => {
         return locationFormBuilder(
           {
             title: 'Add location',
-            location: LocationEmpty,
+            location: state.data,
             onSubmit: (data) => {
               // TODO: add correct listID
               locationService.add(data, 0);
