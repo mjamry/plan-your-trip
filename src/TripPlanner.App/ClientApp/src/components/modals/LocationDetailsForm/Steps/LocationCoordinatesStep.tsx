@@ -14,17 +14,19 @@ export const LocationCoordinatesStep = () => {
   const coordinatesValidator = useCoordinatesValidator();
 
   const handleCoordinatesChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: LocationFormStateActions.updateLocation,
-      data:
-        {
-          ...state.location,
-          coordinates: {
-            ...state.location.coordinates,
-            [e.target.name]: e.target.value,
+    if (coordinatesValidator.isValid(e.target.value)) {
+      dispatch({
+        type: LocationFormStateActions.updateLocation,
+        data:
+          {
+            ...state.location,
+            coordinates: {
+              ...state.location.coordinates,
+              [e.target.name]: e.target.value,
+            },
           },
-        },
-    });
+      });
+    }
   };
 
   const handleMapCoordinatesChanged = (coordinates: L.LatLng) => {
@@ -52,7 +54,8 @@ export const LocationCoordinatesStep = () => {
             size="medium"
             margin="dense"
             onChange={handleCoordinatesChanged}
-            value={state.location.coordinates.lat || ''}
+            value={state.location?.coordinates.lat || ''}
+            helperText="test"
           />
           <div className="location-form-error">
             {coordinatesValidator.isValid(state.location.coordinates.lat) ? '' : ERROR_MESSAGE}
@@ -90,8 +93,8 @@ export const LocationCoordinatesStepValidator = (): IStepValidator => {
   const coordinatesValidator = useCoordinatesValidator();
 
   const validate = (location: LocationDto) => (
-    coordinatesValidator.isValid(location.coordinates.lat)
-    && coordinatesValidator.isValid(location.coordinates.lon)
+    coordinatesValidator.isValid(location?.coordinates.lat)
+    && coordinatesValidator.isValid(location?.coordinates.lon)
   );
 
   return { validate };
