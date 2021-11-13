@@ -34,7 +34,7 @@ const SearchResult = (props: Props) => {
     return output;
   };
 
-  const renderError = () => <div className="search-result-error">No resutls</div>;
+  const renderError = () => <div className="search-result-error">No results found.</div>;
 
   return (
     <List component="nav">

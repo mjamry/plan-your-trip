@@ -5,6 +5,7 @@ import RatingButton from '../../../RatingButton';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
+import Search from '../../../Search/Search';
 
 export const LocationDetailsStep = () => {
   const { state, dispatch } = useLocationFormState();
@@ -27,20 +28,7 @@ export const LocationDetailsStep = () => {
     <form>
       <div>
         <div className="location-edit-form-item">
-          <TextField
-            name="name"
-            label="Name"
-            variant="outlined"
-            size="medium"
-            margin="dense"
-            onChange={handleInputChanged}
-            value={state.location.name || ''}
-            autoFocus
-            required
-            inputProps={{
-              maxLength: '50',
-            }}
-          />
+          <Search name={state.location.name || ''} />
         </div>
 
         <div className="location-edit-form-item">

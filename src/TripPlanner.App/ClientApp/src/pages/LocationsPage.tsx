@@ -10,7 +10,7 @@ import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
 import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
 import RatingButton from '../components/RatingButton';
-import LocationDto from '../Common/Dto/LocationDto';
+import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
 
 const useStyles = makeStyles({
   container: {
@@ -104,8 +104,8 @@ const LocationsPage = ({ match }: Props) => {
             data={locationsState.locations}
             add={() => dispatchModal({
               type: ModalStateAction.show,
-              modalType: ModalTypes.addNewLocationSelect,
-              data: undefined,
+              modalType: ModalTypes.addLocation,
+              data: LocationEmpty,
             })}
             edit={(location: LocationDto) => dispatchModal({
               type: ModalStateAction.show,

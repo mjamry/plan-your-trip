@@ -8,8 +8,11 @@ const isNumber = (value: string) => {
 };
 
 const CoordinatesValidator = () => {
-  // TODO add some proper validation
-  const isValid = (value: number) => true;
+  const isValid = (value: number | string) => {
+    if (value === '' || value === null || value === undefined) return false;
+    if (typeof value !== 'string') return true;
+    return typeof +value === 'number' && !Number.isNaN(+value);
+  };
 
   return { isValid };
 };

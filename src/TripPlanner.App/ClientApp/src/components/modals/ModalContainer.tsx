@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Modal from './ModalComponent';
+import ModalWrapper from './ModalComponent';
 import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalState';
 import useLocationFormBuilder from './LocationDetailsForm/LocationDetailsForm';
 import ModalHeader from './ModalHeader';
-import Search from '../Search/Search';
-import AddNewLocationSelect from './AddNewLocationSelect';
 import Confirmation from './Confirmation';
 import LoadingIndicator from './LoadingIndicator';
 import useLocationService from '../../Services/LocationService';
@@ -13,7 +11,7 @@ import useListService from '../../Services/ListService';
 import useListFormBuilder from './ListDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
-import ListDto from '../../Common/Dto/ListDto';
+import { ListEmpty } from '../../Common/Dto/ListDto';
 
 const emptyModal = {} as ModalDto;
 
@@ -70,18 +68,6 @@ const useModalContentFactory = () => {
           />,
         }; }
 
-      case ModalTypes.search:
-        return {
-          header: <ModalHeader title="Search location" />,
-          body: <Search />,
-        };
-
-      case ModalTypes.addNewLocationSelect:
-        return {
-          header: <ModalHeader title="Select option" />,
-          body: <AddNewLocationSelect />,
-        };
-
       case ModalTypes.loading:
         return {
           header: <ModalHeader title="Loading..." />,
@@ -92,7 +78,7 @@ const useModalContentFactory = () => {
         return listFormBuilder(
           {
             title: 'Add list',
-            list: {} as ListDto,
+            list: ListEmpty,
             onSubmit: (data) => {
               listService.add(data);
               dispatch({ type: ModalStateAction.hide });
@@ -145,7 +131,7 @@ const ModalContainer = () => {
     if (modalContent.state) {
       return (
         <modalContent.state>
-          <Modal
+          <ModalWrapper
             isVisible={state.isVisible}
             header={modalContent.header}
             body={modalContent.body}
@@ -156,7 +142,7 @@ const ModalContainer = () => {
       );
     }
     return (
-      <Modal
+      <ModalWrapper
         isVisible={state.isVisible}
         header={modalContent.header}
         body={modalContent.body}

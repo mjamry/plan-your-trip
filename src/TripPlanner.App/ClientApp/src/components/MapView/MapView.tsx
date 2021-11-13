@@ -21,6 +21,7 @@ type Props = {
   locations: LocationDto[];
   selectedLocation?: LocationDto;
   options?: MapViewOptions;
+  mapId: string;
 }
 
 const defaultOptions: MapViewOptions = {
@@ -32,7 +33,9 @@ const defaultOptions: MapViewOptions = {
 };
 
 const MapView = (props: Props) => {
-  const { locations, selectedLocation, options = defaultOptions } = props;
+  const {
+    mapId, locations, selectedLocation, options = defaultOptions,
+  } = props;
   const [visibleMarkers, setVisibleMarkers] = useState<Marker[]>([]);
   const [mapObject, setMapObject] = useState<L.Map>();
   const coordinateValidator = useCoordinatesValidator();
@@ -65,7 +68,7 @@ const MapView = (props: Props) => {
   };
 
   useEffect(() => {
-    const map = L.map('mapid',
+    const map = L.map(mapId,
       {
         zoom: 5,
         center: [51.505, -0.09],
@@ -120,7 +123,7 @@ const MapView = (props: Props) => {
   }, [selectedLocation]);
 
   return (
-    <div id="mapid" className={options.style} />
+    <div id={mapId} className={options.style} />
   );
 };
 

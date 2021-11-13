@@ -7,24 +7,24 @@ import { useLocationFormState, LocationFormStateActions } from '../LocationDetai
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 
-const ERROR_MESSAGE = 'Incorrect value';
-
 export const LocationCoordinatesStep = () => {
   const { state, dispatch } = useLocationFormState();
   const coordinatesValidator = useCoordinatesValidator();
 
   const handleCoordinatesChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: LocationFormStateActions.updateLocation,
-      data:
-        {
-          ...state.location,
-          coordinates: {
-            ...state.location.coordinates,
-            [e.target.name]: e.target.value,
+    if (coordinatesValidator.isValid(e.target.value)) {
+      dispatch({
+        type: LocationFormStateActions.updateLocation,
+        data:
+          {
+            ...state.location,
+            coordinates: {
+              ...state.location.coordinates,
+              [e.target.name]: e.target.value,
+            },
           },
-        },
-    });
+      });
+    }
   };
 
   const handleMapCoordinatesChanged = (coordinates: L.LatLng) => {
@@ -52,11 +52,9 @@ export const LocationCoordinatesStep = () => {
             size="medium"
             margin="dense"
             onChange={handleCoordinatesChanged}
-            value={state.location.coordinates.lat || ''}
+            value={state.location?.coordinates.lat || ''}
+            helperText="test"
           />
-          <div className="location-form-error">
-            {coordinatesValidator.isValid(state.location.coordinates.lat) ? '' : ERROR_MESSAGE}
-          </div>
         </div>
 
         <div className="location-edit-form-item">
@@ -69,11 +67,7 @@ export const LocationCoordinatesStep = () => {
             onChange={handleCoordinatesChanged}
             value={state.location.coordinates.lon || ''}
           />
-          <div className="location-form-error">
-            {coordinatesValidator.isValid(state.location.coordinates.lon) ? '' : ERROR_MESSAGE}
-          </div>
         </div>
-
       </div>
 
       <div className="location-edit-form-row">
@@ -90,8 +84,8 @@ export const LocationCoordinatesStepValidator = (): IStepValidator => {
   const coordinatesValidator = useCoordinatesValidator();
 
   const validate = (location: LocationDto) => (
-    coordinatesValidator.isValid(location.coordinates.lat)
-    && coordinatesValidator.isValid(location.coordinates.lon)
+    coordinatesValidator.isValid(location?.coordinates.lat)
+    && coordinatesValidator.isValid(location?.coordinates.lon)
   );
 
   return { validate };

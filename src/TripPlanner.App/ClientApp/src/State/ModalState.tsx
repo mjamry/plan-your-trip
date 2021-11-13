@@ -3,10 +3,8 @@ import React, { createContext, useContext, useReducer } from 'react';
 const enum ModalTypes {
   addLocation,
   editLocation,
-  search,
   loading,
   removeLocation,
-  addNewLocationSelect,
   addList,
   editList,
   removeList,

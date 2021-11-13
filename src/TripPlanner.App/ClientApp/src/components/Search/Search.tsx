@@ -1,34 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Popover } from '@material-ui/core';
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalState';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper';
 import SearchResult from './SearchResult';
+import { LocationFormStateActions, useLocationFormState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
 
 const SearchTimeout = 700;
 
-const Search = () => {
-  const [searchValue, setSearchValue] = useState('');
+type Props = {
+  name?: string;
+}
+
+const Search = (props: Props) => {
+  const { name } = props;
+  const [searchValue, setSearchValue] = useState<string>('');
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch: dispatchModal } = useModalState();
   const logger = useLoggerService('Search');
+  const [searchResultAnchor, setSearchResultAnchor] = React.useState<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
+  const { state: locationState, dispatch: dispatchLocationState } = useLocationFormState();
+
+  const updateLocationState = (value: string) => {
+    dispatchLocationState({
+      type: LocationFormStateActions.updateLocation,
+      data: { ...locationState.location, name: value },
+    });
+  };
 
   const handleSearchInputTimeout = () => {
     setIsLoading(true);
     WikipediaAPIWrapper.search(searchValue).then((results) => {
       setSearchResults(results);
       setIsLoading(false);
+      setSearchResultAnchor(inputRef.current);
     });
   };
 
   const handleSelection = (selectedResult: string) => {
     setSearchResults([]);
     setSearchValue('');
+
+    updateLocationState(selectedResult);
 
     dispatchModal({
       type: ModalStateAction.show,
@@ -64,12 +84,13 @@ const Search = () => {
     if (searchValue !== '') {
       setupTimer();
       setIsLoading(false);
+      updateLocationState(searchValue);
     }
   }, [searchValue]);
 
   return (
     <div className="Search container">
-      <div className="search-input">
+      <div className="search-input" ref={inputRef}>
         <TextField
           placeholder="enter name"
           variant="outlined"
@@ -77,7 +98,7 @@ const Search = () => {
           margin="dense"
           label="Search"
           onChange={(e) => setSearchValue(e.target.value)}
-          value={searchValue}
+          value={name || searchValue}
           autoFocus
           InputProps={{
             startAdornment: (
@@ -85,12 +106,25 @@ const Search = () => {
                 <SearchIcon />
               </InputAdornment>
             ),
+            endAdornment: (
+              <InputAdornment position="end">
+                { isLoading && <CircularProgress size={20} /> }
+              </InputAdornment>
+            ),
           }}
         />
-        {isLoading && <CircularProgress />}
       </div>
-
-      <SearchResult results={searchResults} onSelected={handleSelection} />
+      <Popover
+        open={!!searchResultAnchor}
+        anchorEl={searchResultAnchor}
+        onClose={() => setSearchResultAnchor(null)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <SearchResult results={searchResults} onSelected={handleSelection} />
+      </Popover>
     </div>
   );
 };

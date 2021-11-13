@@ -22,7 +22,7 @@ const LocationFormMapView = (props: Props) => {
   };
 
   return (
-    <MapView locations={locations} selectedLocation={location} options={options} />
+    <MapView locations={locations} selectedLocation={location} options={options} mapId="locationsFormMapId" />
   );
 };
 
