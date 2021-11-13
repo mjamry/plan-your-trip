@@ -26,7 +26,7 @@ jobs:
     - name: Dotnet Build
       run: dotnet build 'src/TripPlanner.App' --configuration Release --no-restore
     - name: React Build
-      run: npm --prefix .\ClientApp\ run build
+      run: npm --prefix src/TripPlanner.App/ClientApp/ run build
 
   test:
     runs-on: windows-latest
