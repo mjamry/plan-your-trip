@@ -9,6 +9,7 @@ const isNumber = (value: string) => {
 
 const CoordinatesValidator = () => {
   const isValid = (value: number | string) => {
+    if (value === '' || value === null || value === undefined) return false;
     if (typeof value !== 'string') return true;
     return typeof +value === 'number' && !Number.isNaN(+value);
   };

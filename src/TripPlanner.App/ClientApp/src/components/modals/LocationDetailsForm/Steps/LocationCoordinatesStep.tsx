@@ -7,8 +7,6 @@ import { useLocationFormState, LocationFormStateActions } from '../LocationDetai
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 
-const ERROR_MESSAGE = 'Incorrect value';
-
 export const LocationCoordinatesStep = () => {
   const { state, dispatch } = useLocationFormState();
   const coordinatesValidator = useCoordinatesValidator();
@@ -57,9 +55,6 @@ export const LocationCoordinatesStep = () => {
             value={state.location?.coordinates.lat || ''}
             helperText="test"
           />
-          <div className="location-form-error">
-            {coordinatesValidator.isValid(state.location.coordinates.lat) ? '' : ERROR_MESSAGE}
-          </div>
         </div>
 
         <div className="location-edit-form-item">
@@ -72,11 +67,7 @@ export const LocationCoordinatesStep = () => {
             onChange={handleCoordinatesChanged}
             value={state.location.coordinates.lon || ''}
           />
-          <div className="location-form-error">
-            {coordinatesValidator.isValid(state.location.coordinates.lon) ? '' : ERROR_MESSAGE}
-          </div>
         </div>
-
       </div>
 
       <div className="location-edit-form-row">
