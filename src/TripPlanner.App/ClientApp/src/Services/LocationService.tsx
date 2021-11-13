@@ -5,6 +5,16 @@ import { useListsState } from '../State/ListsState';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
 import LocationDto from '../Common/Dto/LocationDto';
+import { CoordinateDto } from '../Common/Dto/CoordinateDto';
+
+const convertCoordinates = (location: LocationDto): LocationDto => {
+  const coordinates: CoordinateDto = {
+    lat: Number(location.coordinates.lat),
+    lon: Number(location.coordinates.lon),
+  };
+
+  return { ...location, coordinates };
+};
 
 interface ILocationService {
     add: (location: LocationDto, listId: number) => void;
@@ -59,7 +69,10 @@ const useLocationService = (): ILocationService => {
   const add = (location: LocationDto) => {
     setLoading();
 
-    persistentLocationService.add(location, listState.selectedListId)
+    persistentLocationService.add(
+      convertCoordinates(location),
+      listState.selectedListId,
+    )
       .then((locationData: LocationDto) => {
         dispatchLocations({
           type: LocationsStateActions.addLocation,
@@ -81,7 +94,7 @@ const useLocationService = (): ILocationService => {
   const edit = (location: LocationDto) => {
     setLoading();
 
-    persistentLocationService.edit(location)
+    persistentLocationService.edit(convertCoordinates(location))
       .then(() => {
         dispatchLocations({
           type: LocationsStateActions.editLocation,
