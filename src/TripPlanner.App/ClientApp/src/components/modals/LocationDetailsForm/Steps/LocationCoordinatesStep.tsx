@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import L from 'leaflet';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
 import useCoordinatesValidator from '../../../../Common/CoordinatesValidator';

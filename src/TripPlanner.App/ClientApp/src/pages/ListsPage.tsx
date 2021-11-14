@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { RouteComponentProps } from 'react-router-dom';
 import { useListsState, ListsStateActions } from '../State/ListsState';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';

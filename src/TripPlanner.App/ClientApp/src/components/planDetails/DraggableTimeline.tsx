@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import Timeline from '@material-ui/lab/Timeline';
+import Timeline from '@mui/lab/Timeline';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableTimelineElement from './DraggableTimelineElement';

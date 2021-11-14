@@ -1,6 +1,6 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import CancelIcon from '@material-ui/icons/Cancel';
+import IconButton from '@mui/material/IconButton';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { useModalState, ModalStateAction } from '../../State/ModalState';
 
 type Props = {

@@ -1,6 +1,6 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import RatingButton from '../../../RatingButton';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
@@ -41,7 +41,7 @@ export const LocationDetailsStep = () => {
             onChange={handleInputChanged}
             value={state.location.description || ''}
             multiline
-            rowsMax={5}
+            maxRows={5}
             inputProps={{
               maxLength: '200',
             }}

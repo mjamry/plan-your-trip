@@ -1,6 +1,6 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@mui/material/TextField';
+import makeStyles from '@mui/styles/makeStyles';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';

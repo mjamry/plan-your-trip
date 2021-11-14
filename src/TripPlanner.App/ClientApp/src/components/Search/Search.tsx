@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchIcon from '@material-ui/icons/Search';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Popover } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Popover } from '@mui/material';
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalState';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper';

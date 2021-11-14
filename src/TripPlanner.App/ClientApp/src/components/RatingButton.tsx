@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import StarIcon from '@material-ui/icons/Star';
+import StarIcon from '@mui/icons-material/Star';
 
 const NUMBER_OF_STARS = 5;
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
-import { Box } from '@material-ui/core';
+import Modal from '@mui/material/Modal';
+import { Box } from '@mui/material';
 
 type Props = {
     isVisible: boolean;
