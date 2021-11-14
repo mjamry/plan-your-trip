@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
@@ -11,6 +12,8 @@ type Props = {
   children: JSX.Element
 }
 
+const theme = createMuiTheme();
+
 const AppContext = ({ children }: Props) => (
   <NotificationStateProvider>
     <ToasterNotificationsComponent />
@@ -19,7 +22,9 @@ const AppContext = ({ children }: Props) => (
         <LocationsStateProvider>
           <ListsStateProvider>
             <ModalStateProvider>
-              {children}
+              <ThemeProvider theme={theme}>
+                {children}
+              </ThemeProvider>
             </ModalStateProvider>
           </ListsStateProvider>
         </LocationsStateProvider>
