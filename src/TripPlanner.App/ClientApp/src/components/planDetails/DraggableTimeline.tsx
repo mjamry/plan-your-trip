@@ -55,7 +55,7 @@ const DraggableTimeline = (props: Props) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Timeline align={position}>
+      <Timeline position={position}>
         {locations.map(
           (location: LocationDto, ind: number) => (renderTimelineElement(location, ind)),
         )}
