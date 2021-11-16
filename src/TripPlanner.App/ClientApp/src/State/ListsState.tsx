@@ -57,8 +57,9 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
       break;
     case ListsStateActions.editList:
       const editedItemIndex = state.lists.findIndex((l) => l.id === action.data.id);
-      state.lists[editedItemIndex] = action.data;
-      newState = { ...state, lists: [...state.lists] };
+      const newArray = [...state.lists];
+      newArray[editedItemIndex] = action.data;
+      newState = { ...state, lists: newArray };
       break;
     case ListsStateActions.addList:
       newState = { ...state, lists: [...state.lists, action.data] };

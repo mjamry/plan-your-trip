@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import GetAppIcon from '@mui/icons-material/GetApp';
-import Table from '../components/Table';
+import { AddBox } from '@mui/icons-material';
+import Table from '../components/Table/Table';
 import { useLocationsState } from '../State/LocationsState';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
 import { useListsState, ListsStateActions } from '../State/ListsState';
@@ -74,39 +75,38 @@ const LocationsPage = ({ match }: Props) => {
       <div className={classes.container}>
         <div className={classes.locationsContainer}>
           <Table
-            title={`You have ${locationsState.locations.length} locations`}
             columns={[
               {
-                title: '',
+                headerName: '',
                 field: 'image',
-                render: (location: LocationDto) => <img src={location.image} className={classes.locationImage} alt="" />,
-                // this is a hack to undo auto-calculation of columns width
-                // @ts-ignore
-                width: null,
+                renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
               },
-              { title: 'Name', field: 'name' },
-              { title: 'Description', field: 'description' },
               {
-                title: 'Rating',
+                headerName: 'Name',
+                field: 'name',
+              },
+              {
+                headerName: 'Description',
+                field: 'description',
+                flex: 3,
+              },
+              {
+                headerName: 'Rating',
                 field: 'rating',
-                type: 'numeric',
-                render: (location: LocationDto) => (
-                  <RatingButton value={location.rating!} readOnly />
-                ),
+                type: 'number',
+                minWidth: 150,
+                renderCell: (params: any) => <RatingButton value={params.row.rating!} readOnly />,
               },
               {
-                title: 'Coordinates',
+                headerName: 'Coordinates',
                 field: 'coordinates',
-                render: (location: LocationDto) => `${location.coordinates.lat}, ${location.coordinates.lon}`,
+                type: 'number',
+                minWidth: 150,
+                valueFormatter: (params: any) => `${params.value.lat}, ${params.value.lon}`,
               },
             ]}
-            onRowClick={((e: any, location: LocationDto) => setSelectedLocation(location))}
+            onRowClick={((location: LocationDto) => setSelectedLocation(location))}
             data={locationsState.locations}
-            add={() => dispatchModal({
-              type: ModalStateAction.show,
-              modalType: ModalTypes.addLocation,
-              data: LocationEmpty,
-            })}
             edit={(location: LocationDto) => dispatchModal({
               type: ModalStateAction.show,
               modalType: ModalTypes.editLocation,
@@ -120,10 +120,18 @@ const LocationsPage = ({ match }: Props) => {
             isLoading={isLoading}
             customActions={[
               {
-                icon: () => <GetAppIcon />,
-                tooltip: 'Download',
-                isFreeAction: true,
-                onClick: () => gpxFileDownloader.download(locationsState.locations),
+                icon: <GetAppIcon />,
+                title: 'Download',
+                action: () => gpxFileDownloader.download(locationsState.locations),
+              },
+              {
+                icon: <AddBox />,
+                title: 'add new item',
+                action: () => dispatchModal({
+                  type: ModalStateAction.show,
+                  modalType: ModalTypes.addLocation,
+                  data: LocationEmpty,
+                }),
               },
             ]}
           />
