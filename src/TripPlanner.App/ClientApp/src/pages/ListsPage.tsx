@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { RouteComponentProps } from 'react-router-dom';
+import { Chip } from '@mui/material';
+import { AddBox } from '@mui/icons-material';
 import { useListsState, ListsStateActions } from '../State/ListsState';
-import useDateTimeFormatter from '../Common/DateTimeFormatter';
 import useListService from '../Services/ListService';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
-import Table from '../components/Table';
-import ListDto from '../Common/Dto/ListDto';
+import Table from '../components/Table/Table';
+import ListDto, { ListEmpty } from '../Common/Dto/ListDto';
+import useDateTimeFormatter from '../Common/DateTimeFormatter';
 
 const useStyles = makeStyles({
   container: {
@@ -40,43 +42,39 @@ const ListsPage = ({ history }: Props) => {
     <div className="">
       <div className={classes.container}>
         <Table
-          title={`You have ${listState.lists.length} lists`}
           columns={[
             {
-              title: 'Name',
+              headerName: 'Name',
               field: 'name',
-              // this is a hack to undo auto-calculation of columns width
-              // @ts-ignore
-              width: null,
             },
-            { title: 'Description', field: 'description' },
             {
-              title: 'Updated',
+              headerName: 'Description',
+              field: 'description',
+              flex: 3,
+            },
+            {
+              headerName: 'Updated',
               field: 'updated',
               type: 'datetime',
-              render: (list: ListDto) => dateTimeFormatter.format(list.updated),
+              valueFormatter: (params: any) => dateTimeFormatter.format(params.value),
             },
             {
-              title: 'Created',
+              headerName: 'Created',
               field: 'created',
               type: 'datetime',
-              render: (list: ListDto) => dateTimeFormatter.format(list.created),
+              valueFormatter: (params: any) => dateTimeFormatter.format(params.value),
             },
             {
-              title: 'Private',
+              headerName: 'Private',
               field: 'isPrivate',
-              render: (list: ListDto) => (list.isPrivate ? 'Yes' : 'No'),
+              type: 'boolean',
+              renderCell: (params: any) => (params.row.isPrivate ? <Chip label="Private" /> : <Chip label="Public" />),
             },
           ]}
-          onRowClick={((e: any, selectedList: ListDto) => {
+          data={listState.lists}
+          onRowClick={((selectedList: ListDto) => {
             dispatchList({ type: ListsStateActions.selectList, data: selectedList.id });
             history.push(`/locations/${selectedList.id}`);
-          })}
-          data={listState.lists}
-          add={() => dispatchModal({
-            type: ModalStateAction.show,
-            modalType: ModalTypes.addList,
-            data: undefined,
           })}
           edit={(list: ListDto) => dispatchModal({
             type: ModalStateAction.show,
@@ -89,6 +87,17 @@ const ListsPage = ({ history }: Props) => {
             data: list,
           })}
           isLoading={isLoading}
+          customActions={[
+            {
+              icon: <AddBox />,
+              title: 'add new item',
+              action: () => dispatchModal({
+                type: ModalStateAction.show,
+                modalType: ModalTypes.addList,
+                data: ListEmpty,
+              }),
+            },
+          ]}
         />
       </div>
     </div>

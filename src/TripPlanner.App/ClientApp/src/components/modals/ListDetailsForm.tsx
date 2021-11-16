@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import { TextField, FormControlLabel, Checkbox } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { TextField, FormControlLabel, Checkbox } from '@mui/material';
 import ModalHeader from './ModalHeader';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import ListDto from '../../Common/Dto/ListDto';
@@ -56,7 +56,7 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
           onChange={handleInputChanged}
           value={state.description || ''}
           multiline
-          rowsMax={5}
+          maxRows={5}
           inputProps={{
             maxLength: '200',
           }}

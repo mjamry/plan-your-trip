@@ -1,6 +1,6 @@
-import Stepper from '@material-ui/core/Stepper';
-import StepComponent from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
+import Stepper from '@mui/material/Stepper';
+import StepComponent from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
 import React, { useEffect } from 'react';
 
 import { LocationFormStateActions, useLocationFormState } from './LocationDetailsFormState';

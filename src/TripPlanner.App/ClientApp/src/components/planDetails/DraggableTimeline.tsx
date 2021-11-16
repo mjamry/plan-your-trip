@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import Timeline from '@material-ui/lab/Timeline';
+import Timeline from '@mui/lab/Timeline';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DraggableTimelineElement from './DraggableTimelineElement';
@@ -55,7 +55,7 @@ const DraggableTimeline = (props: Props) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Timeline align={position}>
+      <Timeline position={position}>
         {locations.map(
           (location: LocationDto, ind: number) => (renderTimelineElement(location, ind)),
         )}

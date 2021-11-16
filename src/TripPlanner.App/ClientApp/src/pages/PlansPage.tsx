@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '../components/Table';
+import makeStyles from '@mui/styles/makeStyles';
+import Table from '../components/Table/Table';
 
 const useStyles = makeStyles({
   container: {
@@ -57,18 +57,18 @@ const PlansPage = () => {
         title="You have X plans"
         columns={[
           {
-            title: 'Name',
+            headerName: 'Name',
             field: 'name',
             // this is a hack to undo autocalculation of columns width
             // @ts-ignore
             width: null,
           },
-          { title: 'Description', field: 'description' },
-          { title: 'Start', field: 'start' },
-          { title: 'End', field: 'end' },
-          { title: 'Duration (days)', field: 'duration', type: 'numeric' },
-          { title: 'Length (km)', field: 'length', type: 'numeric' },
-          { title: 'Stops', field: 'stops', type: 'numeric' },
+          { headerName: 'Description', field: 'description' },
+          { headerName: 'Start', field: 'start' },
+          { headerName: 'End', field: 'end' },
+          { headerName: 'Duration (days)', field: 'duration', type: 'numeric' },
+          { headerName: 'Length (km)', field: 'length', type: 'numeric' },
+          { headerName: 'Stops', field: 'stops', type: 'numeric' },
         ]}
         onRowClick={(() => {
           history.push('/plans/1');

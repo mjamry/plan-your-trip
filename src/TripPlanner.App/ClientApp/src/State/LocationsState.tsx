@@ -47,8 +47,9 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
       break;
     case LocationsStateActions.editLocation:
       const editedItemIndex = state.locations.findIndex((l) => l.id === action.data.id);
-      state.locations[editedItemIndex] = action.data;
-      newState = { ...state, locations: [...state.locations] };
+      const newArray = [...state.locations];
+      newArray[editedItemIndex] = action.data;
+      newState = { ...state, locations: newArray };
       break;
     case LocationsStateActions.selectOnMap:
       newState = { ...state, locationSelectedOnMap: action.data };

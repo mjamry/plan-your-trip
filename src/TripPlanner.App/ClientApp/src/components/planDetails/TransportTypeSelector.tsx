@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
-import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
-import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
-import DirectionsBoatIcon from '@material-ui/icons/DirectionsBoat';
-import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
-import FlightIcon from '@material-ui/icons/Flight';
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import FlightIcon from '@mui/icons-material/Flight';
 
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
 import TransportType from '../../Common/Dto/TransportType';
 import TimelineElementPositionType from '../../Common/Dto/TimelineElementPositionTypes';
 
