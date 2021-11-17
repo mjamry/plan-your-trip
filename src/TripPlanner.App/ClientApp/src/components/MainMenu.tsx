@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-// import Drawer from '@mui/material/Drawer';
-// import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -20,8 +18,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 const useStyles = makeStyles({
   drawer: {
     zIndex: 100,
-  },
-  drawerPaper: {
   },
   drawerContainer: {
     display: 'flex',
@@ -42,10 +38,6 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     flexJustifyContent: 'end',
     paddingLeft: '7px',
-    // position: 'absolute',
-    // top: '200px',
-    // right: '-20px',
-    // zIndex: 101,
   },
   collapseIcon: {
     transform: 'rotate(90deg)',
@@ -100,7 +92,6 @@ const MainMenu = () => {
   };
 
   return (
-
     <Collapse
       collapsedSize="3.5rem"
       orientation="horizontal"
@@ -138,7 +129,6 @@ const MainMenu = () => {
           }
         </List>
       </div>
-
     </Collapse>
   );
 };
