@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 // TODO hardcoded values
 const plans = [
   {
+    id: 1,
     name: 'title',
     description: 'description',
     start: '20-05-2020',
@@ -27,6 +28,7 @@ const plans = [
     // finished
   },
   {
+    id: 2,
     name: 'title',
     description: 'description',
     start: '20-05-2020',
@@ -36,6 +38,7 @@ const plans = [
     stops: 22,
   },
   {
+    id: 3,
     name: 'title',
     description: 'description',
     start: '20-05-2020',
@@ -53,6 +56,7 @@ const PlansPage = () => {
 
   return (
     <div className={classes.container}>
+      WORK IN PROGRESS...
       <Table
         columns={[
           {
