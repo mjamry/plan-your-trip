@@ -54,14 +54,11 @@ const PlansPage = () => {
   return (
     <div className={classes.container}>
       <Table
-        title="You have X plans"
         columns={[
           {
             headerName: 'Name',
             field: 'name',
-            // this is a hack to undo autocalculation of columns width
-            // @ts-ignore
-            width: null,
+            width: 200,
           },
           { headerName: 'Description', field: 'description' },
           { headerName: 'Start', field: 'start' },
@@ -74,7 +71,6 @@ const PlansPage = () => {
           history.push('/plans/1');
         })}
         data={plans}
-        add={() => {}}
         edit={() => {}}
         remove={() => {}}
         isLoading={isLoading}

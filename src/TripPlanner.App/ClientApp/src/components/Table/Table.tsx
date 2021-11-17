@@ -5,7 +5,7 @@ import {
   DataGrid, GridActionsCellItem, GridColDef, GridRowModel, GridRowParams,
 } from '@mui/x-data-grid';
 import { makeStyles } from '@mui/styles';
-import CustomToolbar from './CutomToolbar';
+import CustomToolbar from './CustomToolbar';
 import { CustomToolbarItemProps } from './CustomToolbarItem';
 
 const useStyles = makeStyles({
