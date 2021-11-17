@@ -1,12 +1,20 @@
 import React from 'react';
-import Toolbar from '@mui/material/Toolbar';
 import makeStyles from '@mui/styles/makeStyles';
 import MainMenu from '../components/MainMenu';
 import Header from '../components/Header';
 
 const useStyles = makeStyles({
+  page: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '10px',
+    paddingTop: '4rem',
+    boxSizing: 'border-box',
+  },
+  menu: {
+  },
   content: {
-    marginLeft: '180px',
+    flexGrow: 1,
   },
 });
 
@@ -21,10 +29,13 @@ const PageLayout = (props: Props) => {
   return (
     <>
       <Header />
-      <Toolbar />
-      <MainMenu />
-      <div className={classes.content}>
-        {children}
+      <div className={classes.page}>
+        <div className={classes.menu}>
+          <MainMenu />
+        </div>
+        <div className={classes.content}>
+          {children}
+        </div>
       </div>
     </>
   );
