@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
+// import Drawer from '@mui/material/Drawer';
+// import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -13,29 +13,42 @@ import InfoIcon from '@mui/icons-material/Info';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { useHistory } from 'react-router-dom';
-
-const drawerWidth = 180;
+import { Collapse, IconButton } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const useStyles = makeStyles({
   drawer: {
     zIndex: 100,
-    width: drawerWidth,
-    flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
   },
   drawerContainer: {
-    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: 'white',
     height: '100vh',
+    paddingBottom: '4rem',
+    boxSizing: 'border-box',
   },
   topMenuItems: {
     flexGrow: 1,
   },
   bottomMenuItems: {
 
+  },
+  collapsedButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexJustifyContent: 'end',
+    paddingLeft: '7px',
+    // position: 'absolute',
+    // top: '200px',
+    // right: '-20px',
+    // zIndex: 101,
+  },
+  collapseIcon: {
+    transform: 'rotate(90deg)',
   },
 });
 
@@ -47,6 +60,7 @@ const menuItemPosition = {
 const MainMenu = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   const getMenuItems = () => [
     {
@@ -81,16 +95,24 @@ const MainMenu = () => {
     },
   ];
 
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
+
+    <Collapse
+      collapsedSize="3.5rem"
+      orientation="horizontal"
+      in={!isCollapsed}
+      timeout="auto"
     >
-      <Toolbar />
       <div className={classes.drawerContainer}>
+        <div className={classes.collapsedButtonContainer}>
+          <IconButton onClick={toggleCollapse}>
+            { isCollapsed ? <MenuIcon /> : <ExpandMoreIcon className={classes.collapseIcon} />}
+          </IconButton>
+        </div>
         <List className={classes.topMenuItems}>
           {
             getMenuItems()
@@ -116,7 +138,8 @@ const MainMenu = () => {
           }
         </List>
       </div>
-    </Drawer>
+
+    </Collapse>
   );
 };
 
