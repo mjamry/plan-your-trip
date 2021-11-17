@@ -20,7 +20,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    // Temporary fix because of @mui-data-grid issue
+    "noImplicitAny": false
   },
   "include": [
     "./src/**/*"
