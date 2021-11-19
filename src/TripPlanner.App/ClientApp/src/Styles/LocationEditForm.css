@@ -5,23 +5,6 @@
     justify-content: space-around;
 }
 
-.location-edit-form-row
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-content: flex-start;
-    margin-top: 10px;
-}
-
-.location-edit-form-item
-{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin: 0 5px 0 5px;
-}
-
 .location-edit-form-item-rating
 {
     display: flex;
