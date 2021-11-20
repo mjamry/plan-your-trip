@@ -3,30 +3,46 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Popover } from '@mui/material';
+import { Button, Popover } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalState';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper';
 import SearchResult from './SearchResult';
 import { LocationFormStateActions, useLocationFormState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
 
-const SearchTimeout = 700;
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
+  search: {
+    flexGrow: '1',
+  },
+  searchField: {
+    width: '100%',
+  },
+  button: {
+    margin: '0.5rem 0 0.5rem 0',
+  },
+});
 
 type Props = {
   name?: string;
 }
 
 const Search = (props: Props) => {
+  const classes = useStyles();
   const { name } = props;
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const { state: locationState, dispatch: dispatchLocationState } = useLocationFormState();
+  const [searchValue, setSearchValue] = useState<string>(locationState.location.name || '');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch: dispatchModal } = useModalState();
   const logger = useLoggerService('Search');
   const [searchResultAnchor, setSearchResultAnchor] = React.useState<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLDivElement>(null);
-  const { state: locationState, dispatch: dispatchLocationState } = useLocationFormState();
 
   const updateLocationState = (value: string) => {
     dispatchLocationState({
@@ -35,7 +51,10 @@ const Search = (props: Props) => {
     });
   };
 
-  const handleSearchInputTimeout = () => {
+  const search = () => {
+    if (!searchValue) {
+      return;
+    }
     setIsLoading(true);
     WikipediaAPIWrapper.search(searchValue).then((results) => {
       setSearchResults(results);
@@ -72,40 +91,27 @@ const Search = (props: Props) => {
       });
   };
 
-  const setupTimer = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    setTimer(setTimeout(handleSearchInputTimeout, SearchTimeout));
-  };
-
   useEffect(() => {
     if (searchValue !== '') {
-      setupTimer();
       setIsLoading(false);
       updateLocationState(searchValue);
     }
   }, [searchValue]);
 
   return (
-    <div className="Search container">
-      <div className="search-input" ref={inputRef}>
+    <div className={classes.root}>
+      <div className={classes.search} ref={inputRef}>
         <TextField
+          className={classes.searchField}
           placeholder="enter name"
           variant="outlined"
           size="medium"
           margin="dense"
-          label="Search"
+          label="Name"
           onChange={(e) => setSearchValue(e.target.value)}
           value={name || searchValue}
           autoFocus
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
             endAdornment: (
               <InputAdornment position="end">
                 { isLoading && <CircularProgress size={20} /> }
@@ -114,6 +120,14 @@ const Search = (props: Props) => {
           }}
         />
       </div>
+      <Button
+        variant="contained"
+        endIcon={<SearchIcon />}
+        onClick={() => search()}
+        className={classes.button}
+      >
+        Search
+      </Button>
       <Popover
         open={!!searchResultAnchor}
         anchorEl={searchResultAnchor}
