@@ -6,9 +6,11 @@ import { useLocationFormState, LocationFormStateActions } from '../LocationDetai
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import Search from '../../../Search/Search';
+import useLocationStepsStyles from './LocationStepsStyles';
 
 export const LocationDetailsStep = () => {
   const { state, dispatch } = useLocationFormState();
+  const classes = useLocationStepsStyles();
 
   const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
@@ -27,11 +29,11 @@ export const LocationDetailsStep = () => {
   return (
     <form>
       <div>
-        <div className="location-edit-form-item">
+        <div className={classes.formItem}>
           <Search name={state.location.name || ''} />
         </div>
 
-        <div className="location-edit-form-item">
+        <div className={classes.formItem}>
           <TextField
             name="description"
             label="Description"
@@ -48,7 +50,7 @@ export const LocationDetailsStep = () => {
           />
         </div>
 
-        <div className="location-edit-form-item-rating">
+        <div className={classes.ratingButton}>
           <Typography component="legend">Rating</Typography>
           <RatingButton
             value={state.location.rating!}
