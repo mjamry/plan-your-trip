@@ -2,35 +2,16 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import L from 'leaflet';
 import { Button } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
 import useCoordinatesValidator from '../../../../Common/CoordinatesValidator';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationProvider from '../../../../Services/LocationProvider';
-
-const useStyles = makeStyles({
-  getLocationButton: {
-    textAlign: 'center',
-  },
-  formRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignContent: 'flex-start',
-    margin: '5px 0 10px 0',
-  },
-  formItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: '10px',
-    margin: '0 5px 0 5px',
-  },
-});
+import useLocationStepsStyles from './LocationStepsStyles';
 
 export const LocationCoordinatesStep = () => {
-  const classes = useStyles();
+  const classes = useLocationStepsStyles();
   const { state, dispatch } = useLocationFormState();
   const coordinatesValidator = useCoordinatesValidator();
   const locationProvider = useLocationProvider();
