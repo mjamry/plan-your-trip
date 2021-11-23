@@ -24,6 +24,10 @@ const useLocationStepsStyles = makeStyles({
     margin: '10px 5px 0 5px',
     alignItems: 'center',
   },
+  image: {
+    maxWidth: '200px',
+    maxHeight: '200px',
+  },
 });
 
 export default useLocationStepsStyles;

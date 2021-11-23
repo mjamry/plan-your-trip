@@ -1,20 +1,13 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import makeStyles from '@mui/styles/makeStyles';
 import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
-
-const useStyles = makeStyles({
-  image: {
-    maxWidth: '200px',
-    maxHeight: '200px',
-  },
-});
+import useLocationStepsStyles from './LocationStepsStyles';
 
 const LocationImageStepComponent = () => {
   const { state, dispatch } = useLocationFormState();
-  const classes = useStyles();
+  const classes = useLocationStepsStyles();
 
   const handleImageUrlChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
@@ -25,8 +18,8 @@ const LocationImageStepComponent = () => {
 
   return (
     <form>
-      <div className="location-edit-form-row">
-        <div className="location-edit-form-item">
+      <div className={classes.formRow}>
+        <div className={classes.formItem}>
           <TextField
             name="image"
             label="Image URL"
@@ -38,7 +31,7 @@ const LocationImageStepComponent = () => {
           />
         </div>
       </div>
-      <div className="location-edit-form-row">
+      <div className={classes.formRow}>
         <img src={state.location.image} className={classes.image} alt="" />
       </div>
     </form>
