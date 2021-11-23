@@ -7,7 +7,7 @@ import { Button, Popover } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalState';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
-import WikipediaAPIWrapper from '../../Common/WikipediaAPIWrapper';
+import useWikiSearch from '../../Common/WikiSearchService';
 import SearchResult from './SearchResult';
 import { LocationFormStateActions, useLocationFormState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
 
@@ -43,6 +43,7 @@ const Search = (props: Props) => {
   const logger = useLoggerService('Search');
   const [searchResultAnchor, setSearchResultAnchor] = React.useState<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLDivElement>(null);
+  const wikiSearch = useWikiSearch();
 
   const updateLocationState = (value: string) => {
     dispatchLocationState({
@@ -56,7 +57,7 @@ const Search = (props: Props) => {
       return;
     }
     setIsLoading(true);
-    WikipediaAPIWrapper.search(searchValue).then((results) => {
+    wikiSearch.search(searchValue).then((results) => {
       setSearchResults(results);
       setIsLoading(false);
       setSearchResultAnchor(inputRef.current);
@@ -75,7 +76,7 @@ const Search = (props: Props) => {
       data: undefined,
     });
 
-    WikipediaAPIWrapper
+    wikiSearch
       .getDetails(selectedResult)
       .then((location) => {
         dispatchModal({
