@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ThemeProvider, Theme, StyledEngineProvider, createTheme,
+  ThemeProvider, Theme, StyledEngineProvider, createTheme, responsiveFontSizes,
 } from '@mui/material/styles';
 import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalState';
@@ -19,7 +19,8 @@ type Props = {
   children: JSX.Element
 }
 
-const theme = createTheme();
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
 
 const AppContext = ({ children }: Props) => (
   <NotificationStateProvider>
