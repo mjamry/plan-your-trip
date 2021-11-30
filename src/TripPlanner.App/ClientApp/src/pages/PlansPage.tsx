@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
-import Table from '../components/Table/Table';
+import { Grid, Paper, Typography } from '@mui/material';
+import Loader from '../components/Loader';
 
 const useStyles = makeStyles({
   container: {
@@ -9,8 +10,11 @@ const useStyles = makeStyles({
     margin: '10px',
     overflow: 'auto',
   },
+  gridCard: {
+    padding: '10px',
+  },
 });
-
+/* eslint-disable react/jsx-one-expression-per-line */
 // TODO hardcoded values
 const plans = [
   {
@@ -56,29 +60,33 @@ const PlansPage = () => {
 
   return (
     <div className={classes.container}>
-      WORK IN PROGRESS...
-      <Table
-        columns={[
-          {
-            headerName: 'Name',
-            field: 'name',
-            width: 200,
-          },
-          { headerName: 'Description', field: 'description' },
-          { headerName: 'Start', field: 'start' },
-          { headerName: 'End', field: 'end' },
-          { headerName: 'Duration (days)', field: 'duration', type: 'numeric' },
-          { headerName: 'Length (km)', field: 'length', type: 'numeric' },
-          { headerName: 'Stops', field: 'stops', type: 'numeric' },
-        ]}
-        onRowClick={(() => {
-          history.push('/plans/1');
-        })}
-        data={plans}
-        edit={() => {}}
-        remove={() => {}}
-        isLoading={isLoading}
-      />
+      { isLoading
+        ? <Loader />
+        : (
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Paper className={classes.gridCard}>
+                <Typography variant="h6">
+                  Welcome
+                </Typography>
+              </Paper>
+            </Grid>
+            { plans.map((plan) => (
+              <Grid item xs={12} sm={6}>
+                <Paper
+                  className={classes.gridCard}
+                  onClick={() => {
+                    history.push(`/plans/${plan.id}`);
+                  }}
+                >
+                  <Typography variant="h5">name: {plan.name} id: {plan.id}</Typography>
+                  <Typography variant="h6">start time: {plan.start}</Typography>
+                  <Typography variant="h6">end time: {plan.end}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        )}
     </div>
   );
 };
