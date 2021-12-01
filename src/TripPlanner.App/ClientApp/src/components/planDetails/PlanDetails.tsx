@@ -4,14 +4,13 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import dayjs from 'dayjs';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
+import { Avatar, AvatarGroup } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    flexGrow: '0.25',
+    flexGrow: '0.15',
     display: 'flex',
     flexDirection: 'column',
-    border: '1px solid red',
-    justifyContent: 'flex-start',
     [theme.breakpoints.down('md')]: {
       flexDirection: 'row',
     },
@@ -20,15 +19,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '2rem',
     paddingLeft: '1rem',
     paddingRight: '1rem',
-    maxWidth: '14rem',
     flexGrow: 1,
     [theme.breakpoints.down('md')]: {
       padding: '0.1rem',
     },
   },
-  dateInput: {
-    maxWidth: '10rem',
-    backgroundColor: 'red',
+  input: {
+    width: '15.5rem',
   },
   planDetailsCard: {
     paddingBottom: '1rem',
@@ -42,12 +39,29 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
     },
   },
+  friendsDetails: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: '1rem',
+    justifyContent: 'center',
+  },
   nonMandatoryCard: {
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
 }));
+
+// TODO move to separate file
+const FriendComponent = () => (
+  <AvatarGroup max={6}>
+    <Avatar alt="Tom Tom" />
+    <Avatar alt="Jimmy Smith" />
+    <Avatar alt="Andy Baker" />
+    <Avatar alt="Cindy Spark" />
+    <Avatar alt="Terry McKinley" />
+  </AvatarGroup>
+);
 
 const PlanDetails = () => {
   const classes = useStyles();
@@ -59,6 +73,7 @@ const PlanDetails = () => {
           <TextField
             label="Plan name"
             value="Poland trip"
+            className={classes.input}
           />
         </div>
         <div className={classes.row}>
@@ -70,19 +85,19 @@ const PlanDetails = () => {
             onChange={(date) => console.log(date)}
             // eslint-disable-next-line react/jsx-props-no-spreading
             renderInput={(params) => <TextField {...params} />}
-            className={classes.dateInput}
+            className={classes.input}
           />
         </div>
         <div className={classes.row}>
           <DesktopDatePicker
-            label="Start time"
+            label="End time"
             inputFormat="DD/MM/YYYY"
             value={dayjs().add(5, 'day')}
             // eslint-disable-next-line no-console
             onChange={(date) => console.log(date)}
             // eslint-disable-next-line react/jsx-props-no-spreading
             renderInput={(params) => <TextField {...params} />}
-            className={classes.dateInput}
+            className={classes.input}
           />
         </div>
       </Paper>
@@ -91,6 +106,7 @@ const PlanDetails = () => {
           <TextField
             label="Distance"
             value="150km"
+            className={classes.input}
             disabled
           />
         </div>
@@ -98,12 +114,13 @@ const PlanDetails = () => {
           <TextField
             label="Travel time"
             value="10h 20min"
+            className={classes.input}
             disabled
           />
         </div>
       </Paper>
-      <Paper className={`${classes.planDetailsCard} ${classes.nonMandatoryCard}`}>
-        Friends
+      <Paper className={`${classes.friendsDetails} ${classes.nonMandatoryCard}`}>
+        <FriendComponent />
       </Paper>
     </div>
   );
