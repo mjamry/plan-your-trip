@@ -2,6 +2,8 @@ import React from 'react';
 import {
   ThemeProvider, Theme, StyledEngineProvider, createTheme, responsiveFontSizes,
 } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/lab';
+import DateAdapter from '@mui/lab/AdapterDayjs';
 import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
@@ -32,7 +34,9 @@ const AppContext = ({ children }: Props) => (
             <ModalStateProvider>
               <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
-                  {children}
+                  <LocalizationProvider dateAdapter={DateAdapter}>
+                    {children}
+                  </LocalizationProvider>
                 </ThemeProvider>
               </StyledEngineProvider>
             </ModalStateProvider>
