@@ -7,5 +7,13 @@ namespace trip_planner.Data.Contexts
     {
         public DiagnosticsContext(DbContextOptions<DiagnosticsContext> options) : base(options){}
         public DbSet<Log> Logs {get;set;}
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.HasDefaultSchema("diag");
+        }
     }
 }

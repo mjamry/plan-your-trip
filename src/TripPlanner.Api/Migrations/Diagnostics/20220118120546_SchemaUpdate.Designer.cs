@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using trip_planner.Data.Contexts;
 
 namespace trip_planner.Migrations.Diagnostics
 {
     [DbContext(typeof(DiagnosticsContext))]
-    partial class DiagnosticsContextModelSnapshot : ModelSnapshot
+    [Migration("20220118120546_SchemaUpdate")]
+    partial class SchemaUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
