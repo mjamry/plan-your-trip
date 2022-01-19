@@ -9,13 +9,13 @@ namespace trip_planner.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize]
-    public class ListsController : ControllerBase
+    public class PlansController : ControllerBase
     {
         private IPlanRepository _repo;
         private readonly ICurrentUser _user;
-        private readonly ILogger<ListsController> _logger;
+        private readonly ILogger<PlansController> _logger;
 
-        public ListsController(IPlanRepository repo, ICurrentUser user, ILogger<ListsController> logger)
+        public PlansController(IPlanRepository repo, ICurrentUser user, ILogger<PlansController> logger)
         {
             _user = user;
             _logger = logger;
@@ -29,33 +29,33 @@ namespace trip_planner.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Plan list)
+        public IActionResult Create([FromBody] Plan plan)
         {
-            var createdList = _repo.CreatePlan(list, _user.Id);
-            return Created(string.Empty, createdList);
+            var result = _repo.CreatePlan(plan, _user.Id);
+            return Created(string.Empty, result);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Plan list)
+        public IActionResult Update([FromBody] Plan plan)
         {
-            var result = _repo.UpdatePlan(list);
+            var result = _repo.UpdatePlan(plan);
 
             if (result == null)
             {
-                return NotFound($"There is no list with specified ID: {list.Id}");
+                return NotFound($"There is no plan with specified ID: {plan.Id}");
             }
 
             return Ok(result);
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] Plan list)
+        public IActionResult Delete([FromBody] Plan plan)
         {
-            var result = _repo.DeletePlan(list);
+            var result = _repo.DeletePlan(plan);
 
             if (result == null)
             {
-                return NotFound($"There is no list with specified ID: {list.Id}");
+                return NotFound($"There is no plan with specified ID: {plan.Id}");
             }
 
             return Ok(result);

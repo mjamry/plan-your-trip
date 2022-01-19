@@ -19,18 +19,18 @@ namespace trip_planner.Controllers
 
         [HttpGet]
         [Route("{listId}")]
-        public IActionResult Get([FromRoute] int listId)
+        public IActionResult Get([FromRoute] int planId)
         {
-            var locations = _repo.GetLocations(listId);
+            var locations = _repo.GetLocations(planId);
 
             return Ok(locations);
         }
 
         [HttpPost]
         [Route("{listId}")]
-        public IActionResult Create([FromBody] Location location, [FromRoute] int listId)
+        public IActionResult Create([FromBody] Location location, [FromRoute] int planId)
         {
-            _repo.CreateLocation(location, listId);
+            _repo.CreateLocation(location, planId);
 
             return Created(string.Empty, location);
         }
