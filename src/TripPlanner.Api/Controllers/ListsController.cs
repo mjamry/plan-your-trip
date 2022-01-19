@@ -11,11 +11,11 @@ namespace trip_planner.Controllers
     [Authorize]
     public class ListsController : ControllerBase
     {
-        private IListsRepository _repo;
+        private IPlanRepository _repo;
         private readonly ICurrentUser _user;
         private readonly ILogger<ListsController> _logger;
 
-        public ListsController(IListsRepository repo, ICurrentUser user, ILogger<ListsController> logger)
+        public ListsController(IPlanRepository repo, ICurrentUser user, ILogger<ListsController> logger)
         {
             _user = user;
             _logger = logger;
@@ -25,20 +25,20 @@ namespace trip_planner.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repo.GetLists(_user.Id));
+            return Ok(_repo.GetPlans(_user.Id));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] List list)
+        public IActionResult Create([FromBody] Plan list)
         {
-            var createdList = _repo.CreateList(list, _user.Id);
+            var createdList = _repo.CreatePlan(list, _user.Id);
             return Created(string.Empty, createdList);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] List list)
+        public IActionResult Update([FromBody] Plan list)
         {
-            var result = _repo.UpdateList(list);
+            var result = _repo.UpdatePlan(list);
 
             if (result == null)
             {
@@ -49,9 +49,9 @@ namespace trip_planner.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] List list)
+        public IActionResult Delete([FromBody] Plan list)
         {
-            var result = _repo.DeleteList(list);
+            var result = _repo.DeletePlan(list);
 
             if (result == null)
             {

@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace trip_planner.Data.Models
 {
-    public class UserLists
+    public class UserPlans
     {
         public Guid UserId { get; set; }
 
         [ForeignKey ("UserLists_ListId")]
-        public int ListId { get; set; }
-        public List List { get; set; }
+        public int PlanId { get; set; }
+        public Plan Plan { get; set; }
         public bool Owner { get; set; }
     }
 }

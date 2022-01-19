@@ -20,9 +20,9 @@ namespace trip_planner.Data.Models
         }
         public UserDashboard UserDashboard(Guid userId)
         {
-            var userLists = _context.UserLists.Where(u => u.UserId == userId).Include(l => l.List).Select(l => l.ListId);
-            var userLocations = _context.ListLocations.Where(l => userLists.Contains(l.ListId)).Select(l => l.LocationId);
-            return new UserDashboard(userLists.Count(), userLocations.Count());
+            var userPlans = _context.UserPlans.Where(u => u.UserId == userId).Include(l => l.Plan).Select(l => l.PlanId);
+            var userLocations = _context.ListLocations.Where(l => userPlans.Contains(l.PlanId)).Select(l => l.LocationId);
+            return new UserDashboard(userPlans.Count(), userLocations.Count());
         }
     }
 }
