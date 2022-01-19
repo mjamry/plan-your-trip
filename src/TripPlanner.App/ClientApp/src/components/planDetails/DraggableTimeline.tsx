@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Timeline from '@mui/lab/Timeline';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import dayjs from 'dayjs';
 import DraggableTimelineElement from './DraggableTimelineElement';
 import TimelineElementPositionType from '../../Common/Dto/TimelineElementPositionTypes';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
@@ -14,19 +15,20 @@ type Props = {
 
 const DraggableTimeline = (props: Props) => {
   const { data, position } = props;
-  const [locations, setLocations] = useState(data);
+  const [locations, setLocations] = useState<LocationDto[]>(data);
   const [index, setIndex] = useState(0);
   const logger = useLoggerService('DragabbleTimeline');
 
-  const moveTimelineElements = useCallback((dragIndex, hoverIndex) => {
-    logger.debug(`[DROP] ${dragIndex}, ${hoverIndex}`);
+  const moveTimelineElements = useCallback((dragIndex: number, hoverIndex: number) => {
+    const start = dayjs();
 
     // swap two elements
     const locs = locations;
     [locs[dragIndex], locs[hoverIndex]] = [locs[hoverIndex], locs[dragIndex]];
     setLocations(locs);
     setIndex(dragIndex);
-    logger.debug('end');
+    const end = dayjs();
+    logger.debug(end.diff(start).toString());
   }, [locations]);
 
   const renderTimelineElement = (location: LocationDto, ind: number) => {

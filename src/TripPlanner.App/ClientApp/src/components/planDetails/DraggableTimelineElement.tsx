@@ -28,8 +28,13 @@ const DraggableTimelineElement = (props: Props) => {
     location, routeDetails, position, index, onMove, onDrop,
   } = props;
   const ref = useRef<HTMLDivElement>(null);
-  const [, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop({
     accept: DraggableTypes.TimelineElement,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
     hover(item: DragItem, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
@@ -86,6 +91,7 @@ const DraggableTimelineElement = (props: Props) => {
     <div
       ref={ref}
       style={{ opacity }}
+      data-handler-id={handlerId}
     >
       <TimelineElement
         position={position}

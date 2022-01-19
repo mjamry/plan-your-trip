@@ -8,25 +8,28 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
 import TransportTypeSelector from './TransportTypeSelector';
 import TransportType from '../../Common/Dto/TransportType';
 import LocationDto from '../../Common/Dto/LocationDto';
 
-const DESCRIPTION_LENGTH = 100;
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     cursor: 'move',
+    overflow: 'hidden',
   },
   locationImage: {
-    maxWidth: '100px',
+    width: '5rem',
+    height: '5rem',
+    objectFit: 'cover',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
   description: {
     textAlign: 'justify',
-    maxHeight: '80px',
-    maxWidth: '200px',
+    maxHeight: '8rem',
+    maxWidth: '20rem',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -39,34 +42,11 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     flexFlow: 'column',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
-});
-
-// const useStyles = (position) => makeStyles((theme) => (
-//   position === TimelineElementPositionTypes.Left
-//     ? {
-//       ...styles,
-//       locationImage: {
-//         ...styles.locationImage,
-//         borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`,
-//       },
-//       dataContainer: {
-//         ...styles.dataContainer,
-//         textAlign: 'left',
-//       },
-//     }
-//     : {
-//       ...styles,
-//       paper: {
-//         ...styles.paper,
-//         flexFlow: 'row-reverse',
-//       },
-//       locationImage: {
-//         ...styles.locationImage,
-//         borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
-//       },
-//     }
-// ));
+}));
 
 type Props = {
   location: LocationDto;
@@ -113,11 +93,6 @@ const TimelineElement = (props: Props) => {
             <Typography variant="h6" component="h6">
               {location.name}
             </Typography>
-            <Tooltip title={location.description}>
-              <Typography variant="body2" className={classes.description}>
-                {location.description.substring(0, DESCRIPTION_LENGTH)}
-              </Typography>
-            </Tooltip>
           </div>
         </Paper>
       </TimelineContent>
