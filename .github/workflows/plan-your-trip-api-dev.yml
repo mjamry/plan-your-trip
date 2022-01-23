@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
@@ -44,7 +44,7 @@ jobs:
       run: dotnet test 'src/backend/TripPlanner.Api' --no-restore --verbosity normal
 
   deploy:
-    runs-on: windows-latest
+    runs-on: windows-2019
     needs: [build, test]
     steps:
     - name: 'Checkout Github Action'
