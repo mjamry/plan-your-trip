@@ -19,11 +19,11 @@ namespace trip_planner.Data.Contexts
 
         public DbSet<Location> Locations { get; set; }
 
-        public DbSet<Plan> Plans { get; set; }
+        public DbSet<Plan> Plan { get; set; }
 
         public DbSet<Coordinate> Coordinates { get; set; }
 
-        public DbSet<PlanLocations> ListLocations { get; set; }
+        public DbSet<PlanLocations> PlanLocations { get; set; }
 
         public DbSet<UserPlans> UserPlans { get; set; }
     }

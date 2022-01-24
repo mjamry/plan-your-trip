@@ -17,7 +17,7 @@ namespace trip_planner.Data.Models
 
         public Plan CreatePlan(Plan plan, Guid userId)
         {
-            _context.Plans.Add(plan);
+            _context.Plan.Add(plan);
             plan.Created = DateTime.Now;
             plan.Updated = DateTime.Now;
 
@@ -35,7 +35,7 @@ namespace trip_planner.Data.Models
         {
             var dbPlan = GetPlan(plan.Id);
             if(dbPlan != null){
-                _context.Plans.Remove(dbPlan);
+                _context.Plan.Remove(dbPlan);
                 _context.SaveChanges();
             }
 
@@ -44,7 +44,7 @@ namespace trip_planner.Data.Models
 
         public Plan GetPlan(int id)
         {
-            return _context.Plans.Where(l => l.Id == id).FirstOrDefault();
+            return _context.Plan.Where(l => l.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Plan> GetPlans(Guid userId)
