@@ -6,7 +6,6 @@ on:
       - development
     paths:
       - 'src/TripPlanner.App/**'
-  workflow_dispatch:
 
 jobs:
   build:
