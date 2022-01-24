@@ -1,13 +1,13 @@
 namespace trip_planner.Data.Models
 {
     public class UserDashboard{
-        public UserDashboard(int listsCount, int locationsCount)
+        public UserDashboard(int plansCount, int locationsCount)
         {
-            ListsCount = listsCount;
+            PlansCount = plansCount;
             LocationsCount = locationsCount;
         }
 
-        public int ListsCount { get; }
+        public int PlansCount { get; }
         public int LocationsCount { get; }
     }
 }

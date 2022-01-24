@@ -34,6 +34,6 @@ namespace trip_planner.Data.Models
         public string Image { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<PlanLocations> Lists { get; set; }
+        public IEnumerable<PlanLocations> Plans { get; set; }
     }
 }

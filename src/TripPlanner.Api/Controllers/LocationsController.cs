@@ -18,7 +18,7 @@ namespace trip_planner.Controllers
         }
 
         [HttpGet]
-        [Route("{listId}")]
+        [Route("{planId}")]
         public IActionResult Get([FromRoute] int planId)
         {
             var locations = _repo.GetLocations(planId);
@@ -27,7 +27,7 @@ namespace trip_planner.Controllers
         }
 
         [HttpPost]
-        [Route("{listId}")]
+        [Route("{planId}")]
         public IActionResult Create([FromBody] Location location, [FromRoute] int planId)
         {
             _repo.CreateLocation(location, planId);

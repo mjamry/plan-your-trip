@@ -7,7 +7,6 @@ namespace trip_planner.Data.Models
     {
         public Guid UserId { get; set; }
 
-        [ForeignKey ("UserLists_ListId")]
         public int PlanId { get; set; }
         public Plan Plan { get; set; }
         public bool Owner { get; set; }

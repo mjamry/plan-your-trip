@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Grid, Paper, Typography } from '@mui/material';
-import Loader from '../components/Loader';
+import { RouteComponentProps } from 'react-router-dom';
+import { Chip } from '@mui/material';
+import { AddBox } from '@mui/icons-material';
+import { usePlansState, PlansStateActions } from '../State/PlansState';
+import usePlanService from '../Services/PlanService';
+import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
+import Table from '../components/Table/Table';
+import PlanDto, { PlanEmpty } from '../Common/Dto/PlanDto';
+import useDateTimeFormatter from '../Common/DateTimeFormatter';
 
 const useStyles = makeStyles({
   container: {
@@ -10,83 +16,90 @@ const useStyles = makeStyles({
     margin: '10px',
     overflow: 'auto',
   },
-  gridCard: {
-    padding: '10px',
-  },
 });
-/* eslint-disable react/jsx-one-expression-per-line */
-// TODO hardcoded values
-const plans = [
-  {
-    id: 1,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 8,
-    length: 111,
-    stops: 6,
-    // private
-    // Shared
-    // rating
-    // finished
-  },
-  {
-    id: 2,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 6,
-    length: 200,
-    stops: 22,
-  },
-  {
-    id: 3,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 10,
-    length: 120,
-    stops: 12,
-  },
-];
 
-const PlansPage = () => {
-  const history = useHistory();
+interface Props extends RouteComponentProps<any>{}
+
+const PlansPage = ({ history }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { state: planState, dispatch: dispatchPlan } = usePlansState();
+  const { dispatch: dispatchModal } = useModalState();
   const classes = useStyles();
-  const [isLoading] = useState(false);
+  const planService = usePlanService();
+  const dateTimeFormatter = useDateTimeFormatter();
+
+  useEffect(() => {
+    const fetchPlanData = async () => {
+      setIsLoading(true);
+      await planService.getAll();
+      setIsLoading(false);
+    };
+
+    fetchPlanData();
+  }, []);
 
   return (
-    <div className={classes.container}>
-      { isLoading
-        ? <Loader />
-        : (
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.gridCard}>
-                <Typography variant="h6">
-                  Welcome
-                </Typography>
-              </Paper>
-            </Grid>
-            { plans.map((plan) => (
-              <Grid item xs={12} sm={6}>
-                <Paper
-                  className={classes.gridCard}
-                  onClick={() => {
-                    history.push(`/plans/${plan.id}`);
-                  }}
-                >
-                  <Typography variant="h5">name: {plan.name} id: {plan.id}</Typography>
-                  <Typography variant="h6">start time: {plan.start}</Typography>
-                  <Typography variant="h6">end time: {plan.end}</Typography>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        )}
+    <div className="">
+      <div className={classes.container}>
+        <Table
+          columns={[
+            {
+              headerName: 'Name',
+              field: 'name',
+            },
+            {
+              headerName: 'Description',
+              field: 'description',
+              flex: 3,
+            },
+            {
+              headerName: 'Updated',
+              field: 'updated',
+              type: 'datetime',
+              valueFormatter: (params: any) => dateTimeFormatter.format(params.value),
+            },
+            {
+              headerName: 'Created',
+              field: 'created',
+              type: 'datetime',
+              valueFormatter: (params: any) => dateTimeFormatter.format(params.value),
+            },
+            {
+              headerName: 'Private',
+              field: 'isPrivate',
+              type: 'boolean',
+              renderCell: (params: any) => (params.row.isPrivate ? <Chip label="Private" /> : <Chip label="Public" />),
+            },
+          ]}
+          data={planState.plans}
+          onRowClick={((selectedPlan: PlanDto) => {
+            dispatchPlan({ type: PlansStateActions.selectPlan, data: selectedPlan.id });
+            history.push(`/locations/${selectedPlan.id}`);
+          })}
+          edit={(plan: PlanDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.editPlan,
+            data: plan,
+          })}
+          remove={(plan: PlanDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.removePlan,
+            data: plan,
+          })}
+          isLoading={isLoading}
+          customActions={[
+            {
+              icon: <AddBox />,
+              title: 'add new item',
+              action: () => dispatchModal({
+                type: ModalStateAction.show,
+                modalType: ModalTypes.addPlan,
+                data: PlanEmpty,
+              }),
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 };

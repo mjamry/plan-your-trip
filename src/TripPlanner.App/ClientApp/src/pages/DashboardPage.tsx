@@ -59,8 +59,8 @@ const DashboardPage = () => {
             <Grid item xs={12} sm={6}>
               <Paper className={classes.gridCard}>
                 <Typography variant="h6">You have</Typography>
-                <Typography variant="h3">{userData.listsCount}</Typography>
-                <Typography variant="h6">lists</Typography>
+                <Typography variant="h3">{userData.plansCount}</Typography>
+                <Typography variant="h6">plans</Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -1,4 +1,4 @@
-.list-view-container, .list-view-menu-container
+.plan-view-container, .plan-view-menu-container
 {
     display: flex;
     flex-direction: row;
@@ -12,37 +12,37 @@
     
 }
 
-.list-view-menu-container{
+.plan-view-menu-container{
     margin-right: 10px;
     
 }
 
-.list-view-details{
+.plan-view-details{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.list-view-description{
+.plan-view-description{
     font-size: 10pt;
     color: lightgray;
     max-width: 150px;
 }
 
-.list-view-details-item{
+.plan-view-details-item{
     display:flex;
     flex-direction: column;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.list-view-details-name{
+.plan-view-details-name{
     font-size: 10pt;
     color: lightgray;
 }
 
-.list-view-menu-section{
+.plan-view-menu-section{
     display: flex;
     justify-content: flex-end;
     flex-direction: row;
@@ -55,7 +55,7 @@
     padding-right: 3px;
 }
 
-.list-view-menu-item{
+.plan-view-menu-item{
     height: 32px;
     width: 32px;
     padding: 3px;
@@ -65,21 +65,21 @@
     cursor: pointer;
 }
 
-.list-view-menu-item:hover {
+.plan-view-menu-item:hover {
     background-color: #D4DADC;
 }
 
-.list-view-menu-item-icon{
+.plan-view-menu-item-icon{
     color: darkslategray;
 }
 
-.list-form-item-submit{
+.plan-form-item-submit{
     display: flex;
     justify-content: end;
 }
 
 @media screen and (max-width: 750px) {
-    .list-view-details{
+    .plan-view-details{
         display: none;
     }
 }

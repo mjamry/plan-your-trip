@@ -1,7 +1,7 @@
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
-import { useListsState } from '../State/ListsState';
+import { usePlansState } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
 import LocationDto from '../Common/Dto/LocationDto';
@@ -17,10 +17,10 @@ const convertCoordinates = (location: LocationDto): LocationDto => {
 };
 
 interface ILocationService {
-    add: (location: LocationDto, listId: number) => void;
+    add: (location: LocationDto, planId: number) => void;
     remove: (location: LocationDto) => void;
     edit: (location: LocationDto) => void;
-    getAll: (listId: number) => Promise<LocationDto[]>;
+    getAll: (planId: number) => Promise<LocationDto[]>;
 }
 
 const usePersistentService = () => {
@@ -29,13 +29,13 @@ const usePersistentService = () => {
 
   const apiUrl = `${appState.appSettings.apiUrl}/locations`;
 
-  const add = (location: LocationDto, listId: number) => api.post<LocationDto>(`${apiUrl}/${listId}`, location);
+  const add = (location: LocationDto, planId: number) => api.post<LocationDto>(`${apiUrl}/${planId}`, location);
 
   const remove = (location: LocationDto) => api.del<LocationDto>(apiUrl, location);
 
   const edit = (location: LocationDto) => api.put<LocationDto>(apiUrl, location);
 
-  const getAll = (listId: number) => api.get<LocationDto[]>(`${apiUrl}/${listId}`);
+  const getAll = (planId: number) => api.get<LocationDto[]>(`${apiUrl}/${planId}`);
 
   return {
     add,
@@ -47,7 +47,7 @@ const usePersistentService = () => {
 
 const useLocationService = (): ILocationService => {
   const { dispatch: dispatchLocations } = useLocationsState();
-  const { state: listState } = useListsState();
+  const { state: plansState } = usePlansState();
   const notificationService = useNotificationService();
   const persistentLocationService = usePersistentService();
   const logger = useLoggerService('LocationService');
@@ -71,7 +71,7 @@ const useLocationService = (): ILocationService => {
 
     persistentLocationService.add(
       convertCoordinates(location),
-      listState.selectedListId,
+      plansState.selectedPlanId,
     )
       .then((locationData: LocationDto) => {
         dispatchLocations({
@@ -80,7 +80,7 @@ const useLocationService = (): ILocationService => {
         });
 
         notificationService.success(`New location added: ${locationData.name}`);
-        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to list -> Id: ${listState.selectedListId}`);
+        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${plansState.selectedPlanId}`);
       })
       .catch(() => {
         notificationService.error(`Error while adding location: ${location.name}`);
@@ -135,9 +135,9 @@ const useLocationService = (): ILocationService => {
       });
   };
 
-  const getAll = (listId: number): Promise<LocationDto[]> => new Promise((resolve, reject) => {
+  const getAll = (planId: number): Promise<LocationDto[]> => new Promise((resolve, reject) => {
     setLoading();
-    persistentLocationService.getAll(listId)
+    persistentLocationService.getAll(planId)
       .then((data: LocationDto[]) => {
         dispatchLocations({
           type: LocationsStateActions.loadLocations,
@@ -148,7 +148,7 @@ const useLocationService = (): ILocationService => {
         resolve(data);
       })
       .catch(() => {
-        logger.error('Error while getting all lists data.');
+        logger.error('Error while getting all plans data.');
         reject();
       })
       .finally(() => {

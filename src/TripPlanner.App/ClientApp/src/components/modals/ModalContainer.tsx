@@ -7,11 +7,11 @@ import Confirmation from './Confirmation';
 import LoadingIndicator from './LoadingIndicator';
 import useLocationService from '../../Services/LocationService';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
-import useListService from '../../Services/ListService';
-import useListFormBuilder from './ListDetailsForm';
+import usePlanService from '../../Services/PlanService';
+import usePlanFormBuilder from './PlanDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
-import { ListEmpty } from '../../Common/Dto/ListDto';
+import { PlanEmpty } from '../../Common/Dto/PlanDto';
 
 const emptyModal = {} as ModalDto;
 
@@ -20,11 +20,11 @@ type ModalModel = ModalDto | ModalDto<typeof LocationFormStateProvider>;
 const useModalContentFactory = () => {
   const { state, dispatch } = useModalState();
   const locationService = useLocationService();
-  const listService = useListService();
+  const planService = usePlanService();
   const logger = useLoggerService('ModalContentFactory');
 
   const locationFormBuilder = useLocationFormBuilder();
-  const listFormBuilder = useListFormBuilder();
+  const planFormBuilder = usePlanFormBuilder();
 
   const create = (modalType: ModalTypes): ModalModel => {
     switch (modalType) {
@@ -34,7 +34,7 @@ const useModalContentFactory = () => {
             title: 'Add location',
             location: state.data,
             onSubmit: (data) => {
-              // TODO: add correct listID
+              // TODO: add correct planID
               locationService.add(data, 0);
               dispatch({ type: ModalStateAction.hide });
             },
@@ -74,34 +74,34 @@ const useModalContentFactory = () => {
           body: <LoadingIndicator />,
         };
 
-      case ModalTypes.addList:
-        return listFormBuilder(
+      case ModalTypes.addPlan:
+        return planFormBuilder(
           {
-            title: 'Add list',
-            list: ListEmpty,
+            title: 'Add plan',
+            plan: PlanEmpty,
             onSubmit: (data) => {
-              listService.add(data);
+              planService.add(data);
               dispatch({ type: ModalStateAction.hide });
             },
           },
         );
 
-      case ModalTypes.editList:
-        return listFormBuilder(
+      case ModalTypes.editPlan:
+        return planFormBuilder(
           {
-            title: 'Edit list',
-            list: state.data,
+            title: 'Edit plan',
+            plan: state.data,
             onSubmit: (data) => {
-              listService.edit(data);
+              planService.edit(data);
               dispatch({ type: ModalStateAction.hide });
             },
           },
         );
 
-      case ModalTypes.removeList:
+      case ModalTypes.removePlan:
       {
         const submitAction = () => {
-          listService.remove(state.data);
+          planService.remove(state.data);
           dispatch({ type: ModalStateAction.hide });
         };
 

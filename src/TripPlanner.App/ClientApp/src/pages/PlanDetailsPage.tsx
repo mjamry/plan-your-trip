@@ -65,14 +65,14 @@ const PlansDetailsPage = ({ match }: Props) => {
   const { dispatch: dispatchModal } = useModalState();
 
   useEffect(() => {
-    const fetchListData = async () => {
+    const fetchPlanData = async () => {
       setIsLoading(true);
       const data = await locationsService.getAll(+match.params.id);
       setLocations(data);
       setIsLoading(false);
     };
 
-    fetchListData();
+    fetchPlanData();
   }, []);
 
   const handleAddNewItem = () => {

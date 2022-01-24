@@ -15,11 +15,11 @@ import './Styles/LoadingIndicator.css';
 import './Styles/ToasterNotifications.css';
 import './Styles/LocationActionLoadingIndicator.css';
 import './Styles/DropDown.css';
-import './Styles/ListView.css';
+import './Styles/PlanView.css';
 import './Styles/AppLoader.css';
 import './Styles/WelcomePage.css';
-import './Styles/ListDetailsForm.css';
-import './Styles/ListsPage.css';
+import './Styles/PlanDetailsForm.css';
+import './Styles/PlansPage.css';
 
 import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
@@ -34,9 +34,9 @@ import ModalContainer from './components/modals/ModalContainer';
 import DashboardPage from './pages/DashboardPage';
 import CallbackPage from './pages/CallbackPage';
 import WelcomePage from './pages/WelcomePage';
-import ListsPage from './pages/ListsPage';
-import LocationsPage from './pages/LocationsPage';
 import PlansPage from './pages/PlansPage';
+import LocationsPage from './pages/LocationsPage';
+import LabPlansPage from './pages/LabPlansPage';
 import PlanDetailsPage from './pages/PlanDetailsPage';
 
 import PageLayout from './pages/PageLayout';
@@ -71,11 +71,11 @@ const App = () => {
             <ModalContainer />
             <PageLayout>
               <PrivateRoute path="/" exact component={DashboardPage} />
-              <PrivateRoute path="/locations" exact component={ListsPage} />
+              <PrivateRoute path="/locations" exact component={PlansPage} />
               <PrivateRoute path="/locations/:id" component={LocationsPage} />
               <Route path="/callback" component={CallbackPage} />
               <Route path="/welcome" component={WelcomePage} />
-              <PrivateRoute path="/plans" exact component={PlansPage} />
+              <PrivateRoute path="/plans" exact component={LabPlansPage} />
               <PrivateRoute path="/plans/:id" component={PlanDetailsPage} />
             </PageLayout>
           </div>
