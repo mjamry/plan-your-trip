@@ -9,10 +9,10 @@ namespace trip_planner.Data.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPlans>()
-                .HasKey(ul => new { ul.UserId, ul.PlanId });
+                .HasKey(up => new { up.UserId, up.PlanId, up.Owner });
 
             modelBuilder.Entity<PlanLocations>()
-                .HasKey(ll => new { ll.LocationId, ll.PlanId });
+                .HasKey(pl => new { pl.LocationId, pl.PlanId });
         }
 
         public TripPlannerContext(DbContextOptions<TripPlannerContext> options) : base(options) { }
