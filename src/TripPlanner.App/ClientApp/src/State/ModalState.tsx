@@ -8,6 +8,7 @@ const enum ModalTypes {
   addPlan,
   editPlan,
   removePlan,
+  sharePlan,
 }
 
 const enum ModalStateAction {

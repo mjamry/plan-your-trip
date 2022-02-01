@@ -4,12 +4,15 @@ import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
 import { useAppState } from '../State/AppState';
 import PlanDto from '../Common/Dto/PlanDto';
+import UserDto from '../Common/Dto/UserDto';
 
 interface IPlanService {
   add: (plan: PlanDto) => Promise<void>;
   edit: (plan: PlanDto) => Promise<void>;
   remove: (plan: PlanDto) => Promise<void>;
   getAll: () => Promise<PlanDto[]>;
+  share: (planId: number, users: UserDto[]) => Promise<void>;
+  getShare: (planId: number) => Promise<string[]>;
 }
 
 const usePersistentPlanService = () => {
@@ -26,11 +29,17 @@ const usePersistentPlanService = () => {
 
   const getAll = () => api.get<PlanDto[]>(apiUrl);
 
+  const share = (planId: number, users: UserDto[]) => api.put<void>(`${apiUrl}/${planId}/share`, users);
+
+  const getShare = (planId: number) => api.get<string[]>(`${apiUrl}/${planId}/share`);
+
   return {
     add,
     remove,
     edit,
     getAll,
+    share,
+    getShare,
   };
 };
 
@@ -143,11 +152,43 @@ const usePlanService = (): IPlanService => {
       });
   });
 
+  const share = async (planId: number, users: UserDto[]): Promise<void> => {
+    setLoading();
+
+    persistentPlanService.share(planId, users)
+      .then(() => {
+        notificationService.success('Shares updated');
+        logger.info(`Successfully shared plan -> Id: ${planId}`);
+      })
+      .catch(() => {
+        notificationService.error('Error while sharing plan');
+        logger.error(`Error while sharing plan -> Id: ${planId}`);
+      })
+      .finally(() => {
+        clearLoading();
+      });
+  };
+
+  const getShare = async (planId: number): Promise<string[]> => new Promise((resolve, reject) => {
+    persistentPlanService.getShare(planId)
+      .then((data) => {
+        logger.info(`Successfully loaded ${data.length} shares`);
+
+        resolve(data);
+      })
+      .catch(() => {
+        logger.error('Error while getting share data.');
+        reject();
+      });
+  });
+
   return {
     add,
     edit,
     remove,
     getAll,
+    share,
+    getShare,
   };
 };
 

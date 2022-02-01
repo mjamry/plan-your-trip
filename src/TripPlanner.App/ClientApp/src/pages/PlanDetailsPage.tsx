@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { RouteComponentProps } from 'react-router-dom';
 import {
-  Paper, SpeedDial, SpeedDialIcon,
+  Paper, SpeedDial, SpeedDialAction,
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import AddIcon from '@mui/icons-material/Add';
+import ShareIcon from '@mui/icons-material/Share';
 
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
@@ -13,6 +16,8 @@ import TimelineElementPositionType from '../Common/Dto/TimelineElementPositionTy
 import MapView from '../components/MapView/MapView';
 import { ModalStateAction, ModalTypes, useModalState } from '../State/ModalState';
 import PlanDetails from '../components/planDetails/PlanDetails';
+import useUserDataService from '../Services/UserDataService';
+import usePlanService from '../Services/PlanService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -63,11 +68,15 @@ const PlansDetailsPage = ({ match }: Props) => {
   const [locations, setLocations] = useState<LocationDto[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch: dispatchModal } = useModalState();
+  const userService = useUserDataService();
+  const planService = usePlanService();
+
+  const planId: number = +match.params.id;
 
   useEffect(() => {
     const fetchPlanData = async () => {
       setIsLoading(true);
-      const data = await locationsService.getAll(+match.params.id);
+      const data = await locationsService.getAll(planId);
       setLocations(data);
       setIsLoading(false);
     };
@@ -83,6 +92,23 @@ const PlansDetailsPage = ({ match }: Props) => {
     });
   };
 
+  const handleSharePlan = async () => {
+    const usersToShare = await userService.getUsersToShareWith();
+    const shares = await planService.getShare(planId);
+
+    dispatchModal({
+      type: ModalStateAction.show,
+      modalType: ModalTypes.sharePlan,
+      data: { usersToShare, shares, planId },
+    });
+  };
+
+  const actions = [
+    { icon: <AddIcon />, name: 'Add new location', onClick: () => handleAddNewItem() },
+    // eslint-disable-next-line no-console
+    { icon: <ShareIcon />, name: 'Share plan', onClick: () => handleSharePlan() },
+  ];
+
   return (
     <>
       {isLoading
@@ -92,9 +118,18 @@ const PlansDetailsPage = ({ match }: Props) => {
             <SpeedDial
               ariaLabel="SpeedDial basic example"
               sx={{ position: 'absolute', bottom: 16, right: 16 }}
-              icon={<SpeedDialIcon />}
-              onClick={() => handleAddNewItem()}
-            />
+              icon={<MenuIcon />}
+            >
+              {actions.map((a) => (
+                <SpeedDialAction
+                  className="speedDialAction"
+                  key={a.name}
+                  icon={a.icon}
+                  tooltipTitle={a.name}
+                  onClick={a.onClick}
+                />
+              ))}
+            </SpeedDial>
             <div className={classes.container}>
               <PlanDetails />
               <Paper className={classes.planLocations}>

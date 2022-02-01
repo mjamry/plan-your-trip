@@ -12,10 +12,15 @@ import usePlanFormBuilder from './PlanDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
 import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
 import { PlanEmpty } from '../../Common/Dto/PlanDto';
+import SharePlanComponent from './Share/SharePlan';
+import ShareStateFooter from './Share/SharePlanFooter';
+import { ShareStateProvider } from './Share/ShareState';
 
 const emptyModal = {} as ModalDto;
 
 type ModalModel = ModalDto | ModalDto<typeof LocationFormStateProvider>;
+
+// TODO extract to separate file
 
 const useModalContentFactory = () => {
   const { state, dispatch } = useModalState();
@@ -111,7 +116,19 @@ const useModalContentFactory = () => {
             onSubmit={() => submitAction()}
             onCancel={() => dispatch({ type: ModalStateAction.hide })}
           />,
-        }; }
+        };
+      }
+
+      case ModalTypes.sharePlan:
+        return {
+          header: <ModalHeader title="Share with" />,
+          body: <SharePlanComponent
+            usersToShare={state.data.usersToShare}
+            shares={state.data.shares}
+          />,
+          footer: <ShareStateFooter planId={state.data.planId} />,
+          state: ShareStateProvider,
+        };
 
       default:
         logger.debug(`[ModalFactory] Incorrect modal type: "${modalType}"`);
