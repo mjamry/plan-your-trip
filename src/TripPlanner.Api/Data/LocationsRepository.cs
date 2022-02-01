@@ -1,19 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using trip_planner.Data.Contexts;
 using trip_planner.Data.Models;
 namespace trip_planner.Data
 {
-    public interface ILocationsRepository
-    {
-        IEnumerable<Location> GetLocations(int planId);
-        Location GetLocation(int id);
-        Location CreateLocation(Location location, int planId);
-        Location UpdateLocation(Location location);
-        Location DeleteLocation(Location location);
-    }
-
     public class LocationsRepository : ILocationsRepository
     {
         private TripPlannerContext _context;

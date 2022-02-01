@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace trip_planner.Data.Models
 {
-
     public class PlanRepository : IPlanRepository
     {
         private TripPlannerContext _context;
@@ -24,7 +23,8 @@ namespace trip_planner.Data.Models
             _context.UserPlans.Add(new UserPlans()
             {
                 UserId = userId,
-                Plan = plan
+                Plan = plan,
+                Owner = true
             });
 
             _context.SaveChanges();
@@ -65,6 +65,59 @@ namespace trip_planner.Data.Models
             }
 
             return dbPlan;
+        }
+
+        public void AddUsersToShare(Plan plan, IEnumerable<Guid> users)
+        {
+            if (users.Count() == 0)
+            {
+                return;
+            }
+
+            foreach (var user in users)
+            {
+                _context.UserPlans.Add(new UserPlans()
+                {
+                    Plan = plan,
+                    UserId = user,
+                    Owner = false
+                });
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void RemoveUsersFromShare(Plan plan, IEnumerable<Guid> users)
+        {
+            if(users.Count() == 0)
+            {
+                return;
+            }
+
+            var dbShares = _context.UserPlans
+                .Where(up =>
+                    up.PlanId == plan.Id
+                    && users.Contains(up.UserId)
+                    && up.Owner == false
+                ).FirstOrDefault();
+
+            if (dbShares == null)
+            {
+                throw new InvalidOperationException("Plan was not shared yet");
+            }
+
+            _context.UserPlans.Remove(dbShares);
+            _context.SaveChanges();
+        }
+
+        public ICollection<Guid> GetShares(int planId)
+        {
+            var users = _context.UserPlans
+                .Where(up => up.PlanId == planId && up.Owner == false)
+                .Select(up => up.UserId)
+                .ToArray();
+
+            return users;
         }
     }
 }

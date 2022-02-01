@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using trip_planner.Data.Models;
 using TripPlanner.Api.Common;
 
@@ -59,6 +62,43 @@ namespace trip_planner.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{planId}/share")]
+        public IActionResult GetShares([FromRoute] int planId)
+        {
+            var plan = _repo.GetPlan(planId);
+
+            if(plan == null)
+            {
+                return NotFound("There is no plan with specified ID: " + planId);
+            }
+
+            var planShares = _repo.GetShares(planId);
+
+            return Ok(planShares);
+        }
+
+        [HttpPut]
+        [Route("{planId}/share")]
+        public IActionResult Share([FromRoute] int planId, [FromBody] ICollection<UserDto> usersToShare)
+        {
+            var plan = _repo.GetPlan(planId);
+
+            if(plan == null)
+            {
+                return NotFound("There is no plan with specified ID: " + planId);
+            }
+
+            var alreadyShared = _repo.GetShares(planId);
+            var usersToAdd = usersToShare.Where(us => !alreadyShared.Contains(us.Id)).Select(us => us.Id);
+            var usersToRemove = alreadyShared.Where(us => !usersToShare.Select(us => us.Id).Contains(us));
+
+            _repo.AddUsersToShare(plan, usersToAdd);
+            _repo.RemoveUsersFromShare(plan, usersToRemove);
+
+            return Ok();
         }
     }
 }
