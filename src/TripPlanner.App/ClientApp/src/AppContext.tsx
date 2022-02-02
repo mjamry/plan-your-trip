@@ -9,7 +9,7 @@ import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { AppStateProvider } from './State/AppState';
 import { LocationsStateProvider } from './State/LocationsState';
-import { ListsStateProvider } from './State/ListsState';
+import { PlansStateProvider } from './State/PlansState';
 import { UserStateProvider } from './State/UserState';
 
 declare module '@mui/styles/defaultTheme' {
@@ -30,7 +30,7 @@ const AppContext = ({ children }: Props) => (
     <AppStateProvider>
       <UserStateProvider>
         <LocationsStateProvider>
-          <ListsStateProvider>
+          <PlansStateProvider>
             <ModalStateProvider>
               <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
@@ -40,7 +40,7 @@ const AppContext = ({ children }: Props) => (
                 </ThemeProvider>
               </StyledEngineProvider>
             </ModalStateProvider>
-          </ListsStateProvider>
+          </PlansStateProvider>
         </LocationsStateProvider>
       </UserStateProvider>
     </AppStateProvider>

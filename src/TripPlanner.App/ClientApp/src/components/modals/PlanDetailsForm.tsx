@@ -3,22 +3,22 @@ import Button from '@mui/material/Button';
 import { TextField, FormControlLabel, Checkbox } from '@mui/material';
 import ModalHeader from './ModalHeader';
 import { ModalDto } from '../../Common/Dto/ModalDto';
-import ListDto from '../../Common/Dto/ListDto';
+import PlanDto from '../../Common/Dto/PlanDto';
 
 type BuilderDto = {
     title: string;
-    list: ListDto;
-    onSubmit: (list: ListDto) => void;
+    plan: PlanDto;
+    onSubmit: (plan: PlanDto) => void;
     onCancel?: () => void;
 }
 
-type ListDetailsProps = {
-  list: ListDto;
-  onSubmit: (list: ListDto) => void;
+type PlanDetailsProps = {
+  plan: PlanDto;
+  onSubmit: (plan: PlanDto) => void;
 }
 
-const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
-  const [state, setState] = useState<ListDto>(list);
+const PlanDetailsFormBody = ({ plan, onSubmit }: PlanDetailsProps) => {
+  const [state, setState] = useState<PlanDto>(plan);
 
   const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -29,8 +29,8 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
   };
 
   return (
-    <div className="list-form-container">
-      <div className="list-form-item">
+    <div className="plan-form-container">
+      <div className="plan-form-item">
         <TextField
           label="Name"
           required
@@ -46,7 +46,7 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
           }}
         />
       </div>
-      <div className="list-form-item">
+      <div className="plan-form-item">
         <TextField
           variant="outlined"
           size="medium"
@@ -62,7 +62,7 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
           }}
         />
       </div>
-      <div className="list-form-item">
+      <div className="plan-form-item">
         <FormControlLabel
           control={(
             <Checkbox
@@ -76,7 +76,7 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
           label="Is Private"
         />
       </div>
-      <div className="list-form-item-submit">
+      <div className="plan-form-item-submit">
         <Button
           variant="contained"
           color="primary"
@@ -90,13 +90,13 @@ const ListDetailsFormBody = ({ list, onSubmit }: ListDetailsProps) => {
   );
 };
 
-const useListFormBuilder = () => {
+const usePlanFormBuilder = () => {
   const build = (data: BuilderDto): ModalDto => ({
     header: <ModalHeader title={data.title} />,
-    body: <ListDetailsFormBody list={data.list} onSubmit={data.onSubmit} />,
+    body: <PlanDetailsFormBody plan={data.plan} onSubmit={data.onSubmit} />,
   });
 
   return build;
 };
 
-export default useListFormBuilder;
+export default usePlanFormBuilder;

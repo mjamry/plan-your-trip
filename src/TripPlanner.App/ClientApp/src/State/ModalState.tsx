@@ -5,9 +5,10 @@ const enum ModalTypes {
   editLocation,
   loading,
   removeLocation,
-  addList,
-  editList,
-  removeList,
+  addPlan,
+  editPlan,
+  removePlan,
+  sharePlan,
 }
 
 const enum ModalStateAction {

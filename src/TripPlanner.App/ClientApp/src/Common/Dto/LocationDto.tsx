@@ -8,7 +8,7 @@ type LocationDto = {
   coordinates: CoordinateDto;
   image?: string;
   link?: string;
-  listId?: number;
+  planId?: number;
 };
 
 export const LocationEmpty: LocationDto = {

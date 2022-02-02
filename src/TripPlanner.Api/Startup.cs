@@ -61,9 +61,14 @@ namespace trip_planner
             //register types
             services.AddScoped<ILocationsRepository, LocationsRepository>();
             services.AddScoped<IDiagnosticsRepository, DiagnosticsRepository>();
-            services.AddScoped<IListsRepository, ListsRepository>();
+            services.AddScoped<IPlanRepository, PlanRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<ICurrentUser, CurrentUser>();
+
+            services.AddHttpClient<IUserService, UserService>(client =>
+            {
+                client.BaseAddress = new System.Uri($"{Configuration["IdentityConfig:Authority"]}/Users");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

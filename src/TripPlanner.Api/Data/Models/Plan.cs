@@ -6,10 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace trip_planner.Data.Models
 {
-    public class List
+    public class Plan
     {
-        public List () {}
-        public List (int id, string name, string link, bool priv)
+        public Plan () {}
+        public Plan (int id, string name, string link, bool priv)
         {
             Id = id;
             Name = name;
@@ -34,9 +34,9 @@ namespace trip_planner.Data.Models
         public DateTime Created {get; set;}
 
         public DateTime Updated {get; set;}
-        public IEnumerable<ListLocations> Locations { get; set; }
+        public IEnumerable<PlanLocations> Locations { get; set; }
         [JsonIgnore]
-        public IEnumerable<UserLists> Users { get; set; }
+        public IEnumerable<UserPlans> Users { get; set; }
     }
 
 }

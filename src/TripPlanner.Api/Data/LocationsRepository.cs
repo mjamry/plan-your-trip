@@ -1,19 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using trip_planner.Data.Contexts;
 using trip_planner.Data.Models;
 namespace trip_planner.Data
 {
-    public interface ILocationsRepository
-    {
-        IEnumerable<Location> GetLocations(int listId);
-        Location GetLocation(int id);
-        Location CreateLocation(Location location, int listId);
-        Location UpdateLocation(Location location);
-        Location DeleteLocation(Location location);
-    }
-
     public class LocationsRepository : ILocationsRepository
     {
         private TripPlannerContext _context;
@@ -22,9 +13,9 @@ namespace trip_planner.Data
             _context = context;
         }
 
-        public IEnumerable<Location> GetLocations(int listId)
+        public IEnumerable<Location> GetLocations(int planId)
         {
-            var ids = _context.ListLocations.Where(l => l.ListId == listId).Include(l => l.Location).Select(l => l.LocationId);
+            var ids = _context.PlanLocations.Where(l => l.PlanId == planId).Include(l => l.Location).Select(l => l.LocationId);
             return _context.Locations.Where(l => ids.Contains(l.Id)).Include(l => l.Coordinates);
         }
 
@@ -33,15 +24,15 @@ namespace trip_planner.Data
             return _context.Locations.Where(l => l.Id == id).Include(l => l.Coordinates).FirstOrDefault();
         }
 
-        public Location CreateLocation(Location location, int listId)
+        public Location CreateLocation(Location location, int planId)
         {
             _context.Coordinates.Add(location.Coordinates);
 
             _context.Locations.Add(location);
-            var list = _context.Lists.Where(l => l.Id == listId).FirstOrDefault();
+            var plan = _context.Plan.Where(l => l.Id == planId).FirstOrDefault();
 
-            _context.ListLocations.Add(new ListLocations(){
-                List = list,
+            _context.PlanLocations.Add(new PlanLocations(){
+                Plan = plan,
                 Location = location
             });
 

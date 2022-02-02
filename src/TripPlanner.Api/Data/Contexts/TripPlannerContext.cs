@@ -8,23 +8,23 @@ namespace trip_planner.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserLists>()
-                .HasKey(ul => new { ul.UserId, ul.ListId });
+            modelBuilder.Entity<UserPlans>()
+                .HasKey(up => new { up.UserId, up.PlanId, up.Owner });
 
-            modelBuilder.Entity<ListLocations>()
-                .HasKey(ll => new { ll.LocationId, ll.ListId });
+            modelBuilder.Entity<PlanLocations>()
+                .HasKey(pl => new { pl.LocationId, pl.PlanId });
         }
 
         public TripPlannerContext(DbContextOptions<TripPlannerContext> options) : base(options) { }
 
         public DbSet<Location> Locations { get; set; }
 
-        public DbSet<List> Lists { get; set; }
+        public DbSet<Plan> Plan { get; set; }
 
         public DbSet<Coordinate> Coordinates { get; set; }
 
-        public DbSet<ListLocations> ListLocations { get; set; }
+        public DbSet<PlanLocations> PlanLocations { get; set; }
 
-        public DbSet<UserLists> UserLists { get; set; }
+        public DbSet<UserPlans> UserPlans { get; set; }
     }
 }

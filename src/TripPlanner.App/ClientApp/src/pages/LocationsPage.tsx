@@ -6,7 +6,7 @@ import { AddBox } from '@mui/icons-material';
 import Table from '../components/Table/Table';
 import { useLocationsState } from '../State/LocationsState';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
-import { useListsState, ListsStateActions } from '../State/ListsState';
+import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
 import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
@@ -46,28 +46,28 @@ const LocationsPage = ({ match }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { state: locationsState } = useLocationsState();
   const { dispatch: dispatchModal } = useModalState();
-  const { dispatch: dispatchLists } = useListsState();
+  const { dispatch: dispatchPlans } = usePlansState();
   const locationsService = useLocationService();
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
 
-  const validateListId = (id: number) => id; // null if incorrect
+  const validatePlanId = (id: number) => id; // null if incorrect
 
   useEffect(() => {
-    const listId = validateListId(+match.params.id);
+    const planId = validatePlanId(+match.params.id);
 
-    dispatchLists({
-      type: ListsStateActions.selectList,
-      data: listId,
+    dispatchPlans({
+      type: PlansStateActions.selectPlan,
+      data: planId,
     });
 
-    const fetchListData = async () => {
+    const fetchPlanData = async () => {
       setIsLoading(true);
-      await locationsService.getAll(listId);
+      await locationsService.getAll(planId);
       setIsLoading(false);
     };
 
-    fetchListData();
+    fetchPlanData();
   }, []);
 
   return (

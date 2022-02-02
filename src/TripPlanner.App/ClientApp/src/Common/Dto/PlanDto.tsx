@@ -1,4 +1,4 @@
-type ListDto = {
+type PlanDto = {
   id: number;
   name: string;
   description: string;
@@ -8,7 +8,7 @@ type ListDto = {
   numberOfItems: number;
 }
 
-export const ListEmpty: ListDto = {
+export const PlanEmpty: PlanDto = {
   id: 0,
   name: '',
   description: '',
@@ -18,4 +18,4 @@ export const ListEmpty: ListDto = {
   numberOfItems: 0,
 };
 
-export default ListDto;
+export default PlanDto;

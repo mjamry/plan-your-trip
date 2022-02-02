@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
 import { Avatar, AvatarGroup } from '@mui/material';
+import useDateTimeFormatter from '../../Common/DateTimeFormatter';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,6 +66,7 @@ const FriendComponent = () => (
 
 const PlanDetails = () => {
   const classes = useStyles();
+  const dateTimeFormatter = useDateTimeFormatter();
 
   return (
     <div className={classes.container}>
@@ -102,6 +104,22 @@ const PlanDetails = () => {
         </div>
       </Paper>
       <Paper className={`${classes.planDetailsCard} ${classes.nonMandatoryCard}`}>
+        <div className={classes.row}>
+          <TextField
+            label="Created"
+            value={dateTimeFormatter.format(new Date('2021-01-01'))}
+            className={classes.input}
+            disabled
+          />
+        </div>
+        <div className={classes.row}>
+          <TextField
+            label="Updated"
+            value={dateTimeFormatter.format(new Date('2022-01-01'))}
+            className={classes.input}
+            disabled
+          />
+        </div>
         <div className={classes.row}>
           <TextField
             label="Distance"

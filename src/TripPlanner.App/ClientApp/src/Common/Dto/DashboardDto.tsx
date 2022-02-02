@@ -1,4 +1,4 @@
 export type DashboardDto = {
-    listsCount: number;
+    plansCount: number;
     locationsCount: number;
 }
