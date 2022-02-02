@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Paper, Typography } from '@mui/material';
 import Loader from '../components/Loader';
+import usePlanService from '../Services/PlanService';
+import { usePlansState } from '../State/PlansState';
+import useDateTimeFormatter from '../Common/DateTimeFormatter';
 
 const useStyles = makeStyles({
   container: {
@@ -14,49 +17,28 @@ const useStyles = makeStyles({
     padding: '10px',
   },
 });
-/* eslint-disable react/jsx-one-expression-per-line */
-// TODO hardcoded values
-const plans = [
-  {
-    id: 1,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 8,
-    length: 111,
-    stops: 6,
-    // private
-    // Shared
-    // rating
-    // finished
-  },
-  {
-    id: 2,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 6,
-    length: 200,
-    stops: 22,
-  },
-  {
-    id: 3,
-    name: 'title',
-    description: 'description',
-    start: '20-05-2020',
-    end: '25-06-2020',
-    duration: 10,
-    length: 120,
-    stops: 12,
-  },
-];
 
 const LabPlansPage = () => {
   const history = useHistory();
   const classes = useStyles();
-  const [isLoading] = useState(false);
+  const planService = usePlanService();
+  const { state } = usePlansState();
+  const dateTimeFormatter = useDateTimeFormatter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchPlanData = async () => {
+      setIsLoading(true);
+      await planService.getAll();
+      setIsLoading(false);
+    };
+
+    fetchPlanData();
+  }, []);
+
+  const handlePlanSelect = (planId: number) => {
+    history.push(`/plans/${planId}`);
+  };
 
   return (
     <div className={classes.container}>
@@ -71,17 +53,31 @@ const LabPlansPage = () => {
                 </Typography>
               </Paper>
             </Grid>
-            { plans.map((plan) => (
+            { state.plans.map((plan) => (
               <Grid item xs={12} sm={6}>
                 <Paper
                   className={classes.gridCard}
-                  onClick={() => {
-                    history.push(`/plans/${plan.id}`);
-                  }}
+                  onClick={() => handlePlanSelect(plan.id)}
                 >
-                  <Typography variant="h5">name: {plan.name} id: {plan.id}</Typography>
-                  <Typography variant="h6">start time: {plan.start}</Typography>
-                  <Typography variant="h6">end time: {plan.end}</Typography>
+                  <Typography variant="h5">
+                    name:
+                    {' '}
+                    {plan.name}
+                    {' '}
+                    id:
+                    {' '}
+                    {plan.id}
+                  </Typography>
+                  <Typography variant="h6">
+                    start time:
+                    {' '}
+                    {dateTimeFormatter.format(plan.created)}
+                  </Typography>
+                  <Typography variant="h6">
+                    end time:
+                    {' '}
+                    {dateTimeFormatter.format(plan.updated)}
+                  </Typography>
                 </Paper>
               </Grid>
             ))}

@@ -12,17 +12,17 @@ const Confirmation = (props: Props) => {
   return (
     <div className="confirmation-container">
       <Button
+        variant="outlined"
+        onClick={onCancel}
+      >
+        No
+      </Button>
+      <Button
         variant="contained"
         color="primary"
         onClick={onSubmit}
       >
         Yes
-      </Button>
-      <Button
-        variant="contained"
-        onClick={onCancel}
-      >
-        No
       </Button>
     </div>
   );

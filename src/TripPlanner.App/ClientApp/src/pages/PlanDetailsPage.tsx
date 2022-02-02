@@ -11,13 +11,15 @@ import ShareIcon from '@mui/icons-material/Share';
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
 import DraggableTimeline from '../components/planDetails/DraggableTimeline';
-import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
+import { LocationEmpty } from '../Common/Dto/LocationDto';
 import TimelineElementPositionType from '../Common/Dto/TimelineElementPositionTypes';
 import MapView from '../components/MapView/MapView';
 import { ModalStateAction, ModalTypes, useModalState } from '../State/ModalState';
 import PlanDetails from '../components/planDetails/PlanDetails';
 import useUserDataService from '../Services/UserDataService';
 import usePlanService from '../Services/PlanService';
+import { PlansStateActions, usePlansState } from '../State/PlansState';
+import { useLocationsState } from '../State/LocationsState';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,19 +67,24 @@ interface Props extends RouteComponentProps<MatchParams> {}
 const PlansDetailsPage = ({ match }: Props) => {
   const classes = useStyles();
   const locationsService = useLocationService();
-  const [locations, setLocations] = useState<LocationDto[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch: dispatchModal } = useModalState();
   const userService = useUserDataService();
   const planService = usePlanService();
+  const { dispatch: dispatchPlans } = usePlansState();
+  const { state: locationsState } = useLocationsState();
 
   const planId: number = +match.params.id;
 
   useEffect(() => {
+    dispatchPlans({
+      type: PlansStateActions.selectPlan,
+      data: planId,
+    });
+
     const fetchPlanData = async () => {
       setIsLoading(true);
-      const data = await locationsService.getAll(planId);
-      setLocations(data);
+      await locationsService.getAll(planId);
       setIsLoading(false);
     };
 
@@ -105,7 +112,6 @@ const PlansDetailsPage = ({ match }: Props) => {
 
   const actions = [
     { icon: <AddIcon />, name: 'Add new location', onClick: () => handleAddNewItem() },
-    // eslint-disable-next-line no-console
     { icon: <ShareIcon />, name: 'Share plan', onClick: () => handleSharePlan() },
   ];
 
@@ -133,10 +139,13 @@ const PlansDetailsPage = ({ match }: Props) => {
             <div className={classes.container}>
               <PlanDetails />
               <Paper className={classes.planLocations}>
-                <DraggableTimeline data={locations} position={TimelineElementPositionType.right} />
+                <DraggableTimeline
+                  data={locationsState.locations}
+                  position={TimelineElementPositionType.right}
+                />
               </Paper>
               <Paper className={classes.map}>
-                <MapView locations={locations} mapId="planFormMapId" />
+                <MapView locations={locationsState.locations} mapId="planFormMapId" />
               </Paper>
             </div>
           </>

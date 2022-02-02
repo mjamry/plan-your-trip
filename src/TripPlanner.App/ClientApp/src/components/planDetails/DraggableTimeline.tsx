@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Timeline from '@mui/lab/Timeline';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -17,7 +17,11 @@ const DraggableTimeline = (props: Props) => {
   const { data, position } = props;
   const [locations, setLocations] = useState<LocationDto[]>(data);
   const [index, setIndex] = useState(0);
-  const logger = useLoggerService('DragabbleTimeline');
+  const logger = useLoggerService('DraggableTimeline');
+
+  useEffect(() => {
+    setLocations(data);
+  }, [data]);
 
   const moveTimelineElements = useCallback((dragIndex: number, hoverIndex: number) => {
     const start = dayjs();
