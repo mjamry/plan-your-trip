@@ -5,12 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import AppContext from './AppContext';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import ErrorBoundary from './ErrorBoundary';
 
 ReactDOM.render(
   <BrowserRouter>
-    <AppContext>
-      <App />
-    </AppContext>
+    <ErrorBoundary>
+      <AppContext>
+        <App />
+      </AppContext>
+    </ErrorBoundary>
   </BrowserRouter>,
   document.getElementById('root'),
 );

@@ -44,6 +44,7 @@ import PrivateRoute from './components/PrivateRoute';
 import useAppSettingsService from './Services/AppSettingsService';
 import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
+import ErrorPage from './pages/ErrorPage';
 
 library.add(far, fas, faWikipediaW);
 
@@ -77,6 +78,7 @@ const App = () => {
               <Route path="/welcome" component={WelcomePage} />
               <PrivateRoute path="/plans" exact component={LabPlansPage} />
               <PrivateRoute path="/plans/:id" component={PlanDetailsPage} />
+              <Route path="/error/:code" component={ErrorPage} />
             </PageLayout>
           </div>
         )

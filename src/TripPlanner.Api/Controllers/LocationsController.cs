@@ -31,7 +31,7 @@ namespace trip_planner.Controllers
 
             if (userPlans.Count() == 0)
             {
-                return NotFound($"There is no plan with specified ID: {planId}");
+                return Unauthorized($"No access rights to the plan.");
             }
 
             var locations = _locationsRepository.GetLocations(planId);
@@ -47,7 +47,7 @@ namespace trip_planner.Controllers
 
             if (userPlans.Count() == 0)
             {
-                return NotFound($"There is no plan with specified ID: {planId}");
+                return Unauthorized($"No access rights to the plan.");
             }
 
             _locationsRepository.CreateLocation(location, planId);
