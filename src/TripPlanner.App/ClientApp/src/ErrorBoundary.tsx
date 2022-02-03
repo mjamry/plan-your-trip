@@ -1,5 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import useLoggerService from './Services/Diagnostics/LoggerService';
 
 type State = {
@@ -15,19 +16,16 @@ class ErrorBoundary extends React.Component<{}, State> {
   }
 
   static getDerivedStateFromError() {
-    // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
     this.logger.error(error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      <Redirect to="/error/1" />;
     }
 
     return this.props.children;
