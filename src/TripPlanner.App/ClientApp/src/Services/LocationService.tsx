@@ -148,8 +148,10 @@ const useLocationService = (): ILocationService => {
         resolve(data);
       })
       .catch(() => {
+        notificationService.error('Error while getting locations');
         logger.error('Error while getting all plans data.');
         reject();
+        clearLoading();
       })
       .finally(() => {
         clearLoading();

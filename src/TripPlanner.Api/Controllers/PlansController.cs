@@ -41,12 +41,14 @@ namespace trip_planner.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] Plan plan)
         {
-            var result = _repo.UpdatePlan(plan);
+            var plans = _repo.GetPlans(_user.Id).Where(p => p.Id == plan.Id);
 
-            if (result == null)
+            if(plans.Count() == 0)
             {
-                return NotFound($"There is no plan with specified ID: {plan.Id}");
+                return Unauthorized("No access rights to the plan.");
             }
+
+            var result = _repo.UpdatePlan(plan);
 
             return Ok(result);
         }
@@ -54,12 +56,14 @@ namespace trip_planner.Controllers
         [HttpDelete]
         public IActionResult Delete([FromBody] Plan plan)
         {
-            var result = _repo.DeletePlan(plan);
+            var plans = _repo.GetPlans(_user.Id).Where(p => p.Id == plan.Id);
 
-            if (result == null)
+            if (plans.Count() == 0)
             {
-                return NotFound($"There is no plan with specified ID: {plan.Id}");
+                return Unauthorized("No access rights to the plan.");
             }
+
+            var result = _repo.DeletePlan(plan);
 
             return Ok(result);
         }
@@ -68,12 +72,14 @@ namespace trip_planner.Controllers
         [Route("{planId}/share")]
         public IActionResult GetShares([FromRoute] int planId)
         {
-            var plan = _repo.GetPlan(planId);
+            var plans = _repo.GetPlans(_user.Id).Where(p => p.Id == planId);
 
-            if(plan == null)
+            if (plans.Count() == 0)
             {
-                return NotFound("There is no plan with specified ID: " + planId);
+                return Unauthorized("No access rights to the plan.");
             }
+
+            var plan = _repo.GetPlan(planId);
 
             var planShares = _repo.GetShares(planId);
 
@@ -84,6 +90,13 @@ namespace trip_planner.Controllers
         [Route("{planId}/share")]
         public IActionResult Share([FromRoute] int planId, [FromBody] ICollection<UserDto> usersToShare)
         {
+            var plans = _repo.GetPlans(_user.Id).Where(p => p.Id == planId);
+
+            if (plans.Count() == 0)
+            {
+                return Unauthorized("No access rights to the plan.");
+            }
+
             var plan = _repo.GetPlan(planId);
 
             if(plan == null)
