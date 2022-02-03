@@ -23,10 +23,6 @@ import './Styles/PlansPage.css';
 
 import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { faWikipediaW } from '@fortawesome/free-brands-svg-icons';
 import { UserManager } from 'oidc-client';
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator';
 import ModalContainer from './components/modals/ModalContainer';
@@ -45,8 +41,6 @@ import useAppSettingsService from './Services/AppSettingsService';
 import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 import ErrorPage from './pages/ErrorPage';
-
-library.add(far, fas, faWikipediaW);
 
 const App = () => {
   const appSettingsService = useAppSettingsService();

@@ -1,9 +1,9 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { ReactComponent as WikiIcon } from '../../assets/images/wiki_icon.svg';
 
 type Props = {
   results: string[];
@@ -24,7 +24,7 @@ const SearchResult = (props: Props) => {
           onClick={() => onSelected(item)}
         >
           <ListItemIcon>
-            <FontAwesomeIcon icon={['fab', 'wikipedia-w']} className="fab search-result-icon" />
+            <WikiIcon />
           </ListItemIcon>
           <ListItemText primary={item} />
         </ListItem>,

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import CheckIcon from '@mui/icons-material/Check';
 import useLoggerService from '../Services/Diagnostics/LoggerService';
 import { Notification, NotificationType } from '../Common/Dto/Notification';
 import { useNotificationState, NotificationsActions } from '../State/NotificationState';
 
 type NotificationItemProps = {
   type: NotificationType,
-  icon: IconProp,
+  icon: JSX.Element,
   title: string,
   content: string,
   timeout: number,
@@ -45,7 +45,7 @@ const ToasterNotificationItem = (props: NotificationItemProps) => {
       onMouseLeave={startTimer}
     >
       <div className="toaster-notification-item-icon">
-        <FontAwesomeIcon icon={icon} className="fa-2x" />
+        {icon}
       </div>
       <div className="toaster-notification-item-body">
         <div className="toaster-notification-item-title">{title}</div>
@@ -65,7 +65,7 @@ const ToasterNotificationError = ({ message, timeout, onClose }: NotificationPro
   <ToasterNotificationItem
     title="Error"
     type={NotificationType.error}
-    icon="exclamation"
+    icon={<PriorityHighIcon />}
     content={message}
     timeout={timeout}
     onClose={onClose}
@@ -76,7 +76,7 @@ const ToasterNotificationSuccess = ({ message, timeout, onClose }: NotificationP
   <ToasterNotificationItem
     title="Success"
     type={NotificationType.info}
-    icon="check"
+    icon={<CheckIcon />}
     content={message}
     timeout={timeout}
     onClose={onClose}
