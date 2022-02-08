@@ -55,7 +55,7 @@ type Props = {
   children: JSX.Element[]
 }
 
-const NotificationStateProvider = ({ children }: Props) => {
+function NotificationStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -63,7 +63,7 @@ const NotificationStateProvider = ({ children }: Props) => {
       {children}
     </NotificationStateContext.Provider>
   );
-};
+}
 
 export {
   NotificationStateProvider, NotificationsActions, useNotificationState,

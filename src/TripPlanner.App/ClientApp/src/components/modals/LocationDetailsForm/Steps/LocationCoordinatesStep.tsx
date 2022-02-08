@@ -10,7 +10,7 @@ import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationProvider from '../../../../Services/LocationProvider';
 import useLocationStepsStyles from './LocationStepsStyles';
 
-export const LocationCoordinatesStep = () => {
+export function LocationCoordinatesStep() {
   const classes = useLocationStepsStyles();
   const { state, dispatch } = useLocationFormState();
   const coordinatesValidator = useCoordinatesValidator();
@@ -112,7 +112,7 @@ export const LocationCoordinatesStep = () => {
       </div>
     </form>
   );
-};
+}
 
 export const LocationCoordinatesStepValidator = (): IStepValidator => {
   const coordinatesValidator = useCoordinatesValidator();

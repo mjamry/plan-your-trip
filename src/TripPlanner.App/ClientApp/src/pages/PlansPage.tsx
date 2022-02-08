@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 interface Props extends RouteComponentProps<any>{}
 
-const PlansPage = ({ history }: Props) => {
+function PlansPage({ history }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const { state: planState, dispatch: dispatchPlan } = usePlansState();
   const { dispatch: dispatchModal } = useModalState();
@@ -102,6 +102,6 @@ const PlansPage = ({ history }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 export default PlansPage;

@@ -82,13 +82,13 @@ type Props = {
   children: JSX.Element
 }
 
-const LocationsStateProvider = ({ children }: Props) => {
+function LocationsStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
   return (
     <LocationsStateContext.Provider value={{ state, dispatch }}>
       {children}
     </LocationsStateContext.Provider>
   );
-};
+}
 
 export { LocationsStateProvider, LocationsStateActions, useLocationsState };

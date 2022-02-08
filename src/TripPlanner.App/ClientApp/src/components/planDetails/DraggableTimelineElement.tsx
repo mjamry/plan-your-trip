@@ -23,7 +23,7 @@ type Props = {
     onDrop: any;
 }
 
-const DraggableTimelineElement = (props: Props) => {
+function DraggableTimelineElement(props: Props) {
   const {
     location, routeDetails, position, index, onMove, onDrop,
   } = props;
@@ -102,6 +102,6 @@ const DraggableTimelineElement = (props: Props) => {
     </div>
 
   );
-};
+}
 
 export default DraggableTimelineElement;

@@ -26,7 +26,7 @@ type ToolbarProps = {
   actions?: CustomToolbarItemProps[];
 }
 
-const CustomToolbar = (props: ToolbarProps) => {
+function CustomToolbar(props: ToolbarProps) {
   const { actions } = props;
   const classes = useStyles();
 
@@ -56,6 +56,6 @@ const CustomToolbar = (props: ToolbarProps) => {
       </div>
     </GridToolbarContainer>
   );
-};
+}
 
 export default CustomToolbar;

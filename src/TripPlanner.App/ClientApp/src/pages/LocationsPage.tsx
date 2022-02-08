@@ -41,7 +41,7 @@ type MatchParams = {
 
 interface Props extends RouteComponentProps<MatchParams> {}
 
-const LocationsPage = ({ match }: Props) => {
+function LocationsPage({ match }: Props) {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
   const { state: locationsState } = useLocationsState();
@@ -71,80 +71,78 @@ const LocationsPage = ({ match }: Props) => {
   }, []);
 
   return (
-    <>
-      <div className={classes.container}>
-        <div className={classes.locationsContainer}>
-          <Table
-            columns={[
-              {
-                headerName: '',
-                field: 'image',
-                renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
-              },
-              {
-                headerName: 'Name',
-                field: 'name',
-              },
-              {
-                headerName: 'Description',
-                field: 'description',
-                flex: 3,
-              },
-              {
-                headerName: 'Rating',
-                field: 'rating',
-                type: 'number',
-                minWidth: 150,
-                renderCell: (params: any) => <RatingButton value={params.row.rating!} readOnly />,
-              },
-              {
-                headerName: 'Coordinates',
-                field: 'coordinates',
-                type: 'number',
-                minWidth: 150,
-                valueFormatter: (params: any) => `${params.value.lat}, ${params.value.lon}`,
-              },
-            ]}
-            onRowClick={((location: LocationDto) => setSelectedLocation(location))}
-            data={locationsState.locations}
-            edit={(location: LocationDto) => dispatchModal({
-              type: ModalStateAction.show,
-              modalType: ModalTypes.editLocation,
-              data: location,
-            })}
-            remove={(location: LocationDto) => dispatchModal({
-              type: ModalStateAction.show,
-              modalType: ModalTypes.removeLocation,
-              data: location,
-            })}
-            isLoading={isLoading}
-            customActions={[
-              {
-                icon: <GetAppIcon />,
-                title: 'Download',
-                action: () => gpxFileDownloader.download(locationsState.locations),
-              },
-              {
-                icon: <AddBox />,
-                title: 'add new item',
-                action: () => dispatchModal({
-                  type: ModalStateAction.show,
-                  modalType: ModalTypes.addLocation,
-                  data: LocationEmpty,
-                }),
-              },
-            ]}
-          />
-        </div>
-        <div className={classes.mapContainer}>
-          <LocationsMapView
-            locations={locationsState.locations}
-            selectedLocation={selectedLocation}
-          />
-        </div>
+    <div className={classes.container}>
+      <div className={classes.locationsContainer}>
+        <Table
+          columns={[
+            {
+              headerName: '',
+              field: 'image',
+              renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
+            },
+            {
+              headerName: 'Name',
+              field: 'name',
+            },
+            {
+              headerName: 'Description',
+              field: 'description',
+              flex: 3,
+            },
+            {
+              headerName: 'Rating',
+              field: 'rating',
+              type: 'number',
+              minWidth: 150,
+              renderCell: (params: any) => <RatingButton value={params.row.rating!} readOnly />,
+            },
+            {
+              headerName: 'Coordinates',
+              field: 'coordinates',
+              type: 'number',
+              minWidth: 150,
+              valueFormatter: (params: any) => `${params.value.lat}, ${params.value.lon}`,
+            },
+          ]}
+          onRowClick={((location: LocationDto) => setSelectedLocation(location))}
+          data={locationsState.locations}
+          edit={(location: LocationDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.editLocation,
+            data: location,
+          })}
+          remove={(location: LocationDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.removeLocation,
+            data: location,
+          })}
+          isLoading={isLoading}
+          customActions={[
+            {
+              icon: <GetAppIcon />,
+              title: 'Download',
+              action: () => gpxFileDownloader.download(locationsState.locations),
+            },
+            {
+              icon: <AddBox />,
+              title: 'add new item',
+              action: () => dispatchModal({
+                type: ModalStateAction.show,
+                modalType: ModalTypes.addLocation,
+                data: LocationEmpty,
+              }),
+            },
+          ]}
+        />
       </div>
-    </>
+      <div className={classes.mapContainer}>
+        <LocationsMapView
+          locations={locationsState.locations}
+          selectedLocation={selectedLocation}
+        />
+      </div>
+    </div>
   );
-};
+}
 
 export default withRouter(LocationsPage);

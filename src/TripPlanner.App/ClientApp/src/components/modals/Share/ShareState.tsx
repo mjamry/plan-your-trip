@@ -43,7 +43,7 @@ type Props = {
     children: JSX.Element
 }
 
-const ShareStateProvider = ({ children }: Props) => {
+function ShareStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -51,6 +51,6 @@ const ShareStateProvider = ({ children }: Props) => {
       {children}
     </ShareContext.Provider>
   );
-};
+}
 
 export { ShareStateActions, useShareState, ShareStateProvider };

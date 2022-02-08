@@ -54,17 +54,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // TODO move to separate file
-const FriendComponent = () => (
-  <AvatarGroup max={6}>
-    <Avatar alt="Tom Tom" />
-    <Avatar alt="Jimmy Smith" />
-    <Avatar alt="Andy Baker" />
-    <Avatar alt="Cindy Spark" />
-    <Avatar alt="Terry McKinley" />
-  </AvatarGroup>
-);
+function FriendComponent() {
+  return (
+    <AvatarGroup max={6}>
+      <Avatar alt="Tom Tom" />
+      <Avatar alt="Jimmy Smith" />
+      <Avatar alt="Andy Baker" />
+      <Avatar alt="Cindy Spark" />
+      <Avatar alt="Terry McKinley" />
+    </AvatarGroup>
+  );
+}
 
-const PlanDetails = () => {
+function PlanDetails() {
   const classes = useStyles();
   const dateTimeFormatter = useDateTimeFormatter();
 
@@ -142,6 +144,6 @@ const PlanDetails = () => {
       </Paper>
     </div>
   );
-};
+}
 
 export default PlanDetails;

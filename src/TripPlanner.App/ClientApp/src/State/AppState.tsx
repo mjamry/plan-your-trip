@@ -57,7 +57,7 @@ type Props = {
     children: JSX.Element
 }
 
-const AppStateProvider = ({ children }: Props) => {
+function AppStateProvider({ children }: Props) {
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -65,6 +65,6 @@ const AppStateProvider = ({ children }: Props) => {
       {children}
     </AppContext.Provider>
   );
-};
+}
 
 export { AppStateProvider, AppStateActions, useAppState };

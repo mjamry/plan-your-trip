@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import useUserService from '../Services/UserService';
 
-const WelcomePage = () => {
+function WelcomePage() {
   const userService = useUserService();
 
   return (
@@ -35,6 +35,6 @@ const WelcomePage = () => {
       </div>
     </>
   );
-};
+}
 
 export default WelcomePage;

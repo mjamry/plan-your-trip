@@ -6,7 +6,7 @@ type Props = {
     onCancel: () => void;
 }
 
-const Confirmation = (props: Props) => {
+function Confirmation(props: Props) {
   const { onSubmit, onCancel } = props;
 
   return (
@@ -26,6 +26,6 @@ const Confirmation = (props: Props) => {
       </Button>
     </div>
   );
-};
+}
 
 export default Confirmation;

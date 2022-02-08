@@ -24,7 +24,7 @@ type Props<T> = {
     customActions?: CustomToolbarItemProps[];
 }
 
-const Table = <T, >(props: Props<T>) => {
+function Table<T, >(props: Props<T>) {
   const {
     columns, onRowClick, data, isLoading, edit, remove, customActions,
   } = props;
@@ -42,21 +42,19 @@ const Table = <T, >(props: Props<T>) => {
     }];
 
   return (
-    <>
-      <DataGrid
-        className={classes.root}
-        rows={data}
-        columns={[...columns, ...rowActions]}
-        onRowClick={(params) => onRowClick(params.row as T)}
-        loading={isLoading}
-        disableColumnMenu
-        hideFooterSelectedRowCount
-        components={{
-          Toolbar: (() => <CustomToolbar actions={customActions} />),
-        }}
-      />
-    </>
+    <DataGrid
+      className={classes.root}
+      rows={data}
+      columns={[...columns, ...rowActions]}
+      onRowClick={(params) => onRowClick(params.row as T)}
+      loading={isLoading}
+      disableColumnMenu
+      hideFooterSelectedRowCount
+      components={{
+        Toolbar: (() => <CustomToolbar actions={customActions} />),
+      }}
+    />
   );
-};
+}
 
 export default Table;

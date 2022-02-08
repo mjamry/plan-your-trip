@@ -70,7 +70,7 @@ type Props = {
   children: JSX.Element
 }
 
-const ModalStateProvider = ({ children }: Props) => {
+function ModalStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -78,7 +78,7 @@ const ModalStateProvider = ({ children }: Props) => {
       {children}
     </ModalContext.Provider>
   );
-};
+}
 
 export {
   ModalStateProvider, useModalState, ModalTypes, ModalStateAction,

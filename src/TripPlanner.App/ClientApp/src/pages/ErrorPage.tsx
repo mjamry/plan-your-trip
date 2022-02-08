@@ -40,7 +40,7 @@ type ErrorDetails = {
 
 interface Props extends RouteComponentProps<MatchParams> {}
 
-const ErrorPage = ({ match }: Props) => {
+function ErrorPage({ match }: Props) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -85,6 +85,6 @@ const ErrorPage = ({ match }: Props) => {
       </Paper>
     </div>
   );
-};
+}
 
 export default ErrorPage;

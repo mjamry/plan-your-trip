@@ -66,7 +66,7 @@ type Props = {
     children: JSX.Element
 }
 
-const LocationFormStateProvider = ({ children }: Props) => {
+function LocationFormStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -74,6 +74,6 @@ const LocationFormStateProvider = ({ children }: Props) => {
       {children}
     </LocationFormContext.Provider>
   );
-};
+}
 
 export { LocationFormStateActions, useLocationFormState, LocationFormStateProvider };

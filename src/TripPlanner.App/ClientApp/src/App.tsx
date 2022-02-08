@@ -42,7 +42,7 @@ import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 import ErrorPage from './pages/ErrorPage';
 
-const App = () => {
+function App() {
   const appSettingsService = useAppSettingsService();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const { dispatch: dispatchUserState } = useUserState();
@@ -80,6 +80,6 @@ const App = () => {
         : 'LOADING'}
     </>
   );
-};
+}
 
 export default App;

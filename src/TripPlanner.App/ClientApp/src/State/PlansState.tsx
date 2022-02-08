@@ -90,7 +90,7 @@ type Props = {
   children: JSX.Element
 }
 
-const PlansStateProvider = ({ children }: Props) => {
+function PlansStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
   return (
@@ -98,7 +98,7 @@ const PlansStateProvider = ({ children }: Props) => {
       {children}
     </PlansStateContext.Provider>
   );
-};
+}
 
 export {
   PlansStateProvider, PlansStateActions, usePlansState, PlanViewType,

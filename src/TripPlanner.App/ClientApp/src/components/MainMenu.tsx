@@ -49,7 +49,7 @@ const menuItemPosition = {
   bottom: 'bottom',
 };
 
-const MainMenu = () => {
+function MainMenu() {
   const classes = useStyles();
   const history = useHistory();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
@@ -131,6 +131,6 @@ const MainMenu = () => {
       </div>
     </Collapse>
   );
-};
+}
 
 export default MainMenu;

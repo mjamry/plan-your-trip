@@ -32,7 +32,7 @@ type Props = {
   name?: string;
 }
 
-const Search = (props: Props) => {
+function Search(props: Props) {
   const classes = useStyles();
   const { name } = props;
   const { state: locationState, dispatch: dispatchLocationState } = useLocationFormState();
@@ -142,6 +142,6 @@ const Search = (props: Props) => {
       </Popover>
     </div>
   );
-};
+}
 
 export default Search;

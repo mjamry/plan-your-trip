@@ -26,7 +26,7 @@ type Props = {
   shares: string[],
 }
 
-const SharePlanComponent = (props: Props) => {
+function SharePlanComponent(props: Props) {
   const { usersToShare, shares } = props;
 
   const currentShares = usersToShare.filter((u) => shares.includes(u.id));
@@ -82,6 +82,6 @@ const SharePlanComponent = (props: Props) => {
       </div>
     </div>
   );
-};
+}
 
 export default SharePlanComponent;

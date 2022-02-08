@@ -24,27 +24,29 @@ type Props = {
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
-const AppContext = ({ children }: Props) => (
-  <NotificationStateProvider>
-    <ToasterNotificationsComponent />
-    <AppStateProvider>
-      <UserStateProvider>
-        <LocationsStateProvider>
-          <PlansStateProvider>
-            <ModalStateProvider>
-              <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                  <LocalizationProvider dateAdapter={DateAdapter}>
-                    {children}
-                  </LocalizationProvider>
-                </ThemeProvider>
-              </StyledEngineProvider>
-            </ModalStateProvider>
-          </PlansStateProvider>
-        </LocationsStateProvider>
-      </UserStateProvider>
-    </AppStateProvider>
-  </NotificationStateProvider>
-);
+function AppContext({ children }: Props) {
+  return (
+    <NotificationStateProvider>
+      <ToasterNotificationsComponent />
+      <AppStateProvider>
+        <UserStateProvider>
+          <LocationsStateProvider>
+            <PlansStateProvider>
+              <ModalStateProvider>
+                <StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={theme}>
+                    <LocalizationProvider dateAdapter={DateAdapter}>
+                      {children}
+                    </LocalizationProvider>
+                  </ThemeProvider>
+                </StyledEngineProvider>
+              </ModalStateProvider>
+            </PlansStateProvider>
+          </LocationsStateProvider>
+        </UserStateProvider>
+      </AppStateProvider>
+    </NotificationStateProvider>
+  );
+}
 
 export default AppContext;

@@ -2,7 +2,7 @@ import React from 'react';
 import { CircularProgress } from '@mui/material';
 import { useLocationsState } from '../State/LocationsState';
 
-const LocationActionLoadingIndicator = () => {
+function LocationActionLoadingIndicator() {
   const { state } = useLocationsState();
 
   return (
@@ -13,6 +13,6 @@ const LocationActionLoadingIndicator = () => {
       </div>
     </div>
   );
-};
+}
 
 export default LocationActionLoadingIndicator;

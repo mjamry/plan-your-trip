@@ -50,7 +50,7 @@ type Props = {
   onSelect: any;
 }
 
-const TransportTypeSelector = (props: Props) => {
+function TransportTypeSelector(props: Props) {
   const { position, onSelect } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -105,6 +105,6 @@ const TransportTypeSelector = (props: Props) => {
       </SpeedDial>
     </div>
   );
-};
+}
 
 export default TransportTypeSelector;

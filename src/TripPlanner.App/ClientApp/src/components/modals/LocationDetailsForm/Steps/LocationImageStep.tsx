@@ -5,7 +5,7 @@ import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationStepsStyles from './LocationStepsStyles';
 
-const LocationImageStepComponent = () => {
+function LocationImageStepComponent() {
   const { state, dispatch } = useLocationFormState();
   const classes = useLocationStepsStyles();
 
@@ -36,7 +36,7 @@ const LocationImageStepComponent = () => {
       </div>
     </form>
   );
-};
+}
 
 export const LocationImageStepValidator = (): IStepValidator => {
   const validate = (location: LocationDto) => (!!location);

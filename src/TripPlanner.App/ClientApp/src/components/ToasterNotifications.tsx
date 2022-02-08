@@ -14,7 +14,7 @@ type NotificationItemProps = {
   onClose: () => void
 }
 
-const ToasterNotificationItem = (props: NotificationItemProps) => {
+function ToasterNotificationItem(props: NotificationItemProps) {
   const [timer, setTimer] = useState<NodeJS.Timeout>();
   const {
     icon, type, title, content, timeout, onClose,
@@ -53,7 +53,7 @@ const ToasterNotificationItem = (props: NotificationItemProps) => {
       </div>
     </div>
   );
-};
+}
 
 type NotificationProps = {
   message: string;
@@ -61,29 +61,33 @@ type NotificationProps = {
   onClose: () => void;
 }
 
-const ToasterNotificationError = ({ message, timeout, onClose }: NotificationProps) => (
-  <ToasterNotificationItem
-    title="Error"
-    type={NotificationType.error}
-    icon={<PriorityHighIcon />}
-    content={message}
-    timeout={timeout}
-    onClose={onClose}
-  />
-);
+function ToasterNotificationError({ message, timeout, onClose }: NotificationProps) {
+  return (
+    <ToasterNotificationItem
+      title="Error"
+      type={NotificationType.error}
+      icon={<PriorityHighIcon />}
+      content={message}
+      timeout={timeout}
+      onClose={onClose}
+    />
+  );
+}
 
-const ToasterNotificationSuccess = ({ message, timeout, onClose }: NotificationProps) => (
-  <ToasterNotificationItem
-    title="Success"
-    type={NotificationType.info}
-    icon={<CheckIcon />}
-    content={message}
-    timeout={timeout}
-    onClose={onClose}
-  />
-);
+function ToasterNotificationSuccess({ message, timeout, onClose }: NotificationProps) {
+  return (
+    <ToasterNotificationItem
+      title="Success"
+      type={NotificationType.info}
+      icon={<CheckIcon />}
+      content={message}
+      timeout={timeout}
+      onClose={onClose}
+    />
+  );
+}
 
-const CreateToasterNotification = (notification: Notification, onClose: () => void) => {
+function CreateToasterNotification(notification: Notification, onClose: () => void) {
   const { type, content, timeout } = notification;
   const logger = useLoggerService('ToasterNotification');
 
@@ -109,9 +113,9 @@ const CreateToasterNotification = (notification: Notification, onClose: () => vo
       logger.debug(`Incorrect notification type: "${type}".`);
       return <></>;
   }
-};
+}
 
-const ToasterNotificationsComponent = () => {
+function ToasterNotificationsComponent() {
   const { state, dispatch } = useNotificationState();
 
   const renderNotifications = () => {
@@ -132,6 +136,6 @@ const ToasterNotificationsComponent = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ToasterNotificationsComponent;

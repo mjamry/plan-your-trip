@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-const LabPlansPage = () => {
+function LabPlansPage() {
   const history = useHistory();
   const classes = useStyles();
   const planService = usePlanService();
@@ -85,6 +85,6 @@ const LabPlansPage = () => {
         )}
     </div>
   );
-};
+}
 
 export default LabPlansPage;

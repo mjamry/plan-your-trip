@@ -64,7 +64,7 @@ type MatchParams = {
 
 interface Props extends RouteComponentProps<MatchParams> {}
 
-const PlansDetailsPage = ({ match }: Props) => {
+function PlansDetailsPage({ match }: Props) {
   const classes = useStyles();
   const locationsService = useLocationService();
   const [isLoading, setIsLoading] = useState(false);
@@ -152,6 +152,6 @@ const PlansDetailsPage = ({ match }: Props) => {
         )}
     </>
   );
-};
+}
 
 export default PlansDetailsPage;
