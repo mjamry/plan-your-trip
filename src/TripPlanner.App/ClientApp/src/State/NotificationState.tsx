@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useMemo, useReducer,
+} from 'react';
 import { Notification, DefaultNotificationTimeout, NotificationType } from '../Common/Dto/Notification';
 
 const enum NotificationsActions {
@@ -58,8 +60,10 @@ type Props = {
 function NotificationStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <NotificationStateContext.Provider value={{ state, dispatch }}>
+    <NotificationStateContext.Provider value={value}>
       {children}
     </NotificationStateContext.Provider>
   );

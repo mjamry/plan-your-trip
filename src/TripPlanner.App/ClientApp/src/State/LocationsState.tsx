@@ -1,4 +1,6 @@
-import React, { useReducer, useContext, createContext } from 'react';
+import React, {
+  useReducer, useContext, createContext, useMemo,
+} from 'react';
 import LocationDto from '../Common/Dto/LocationDto';
 
 const enum LocationsStateActions {
@@ -84,8 +86,11 @@ type Props = {
 
 function LocationsStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
+
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <LocationsStateContext.Provider value={{ state, dispatch }}>
+    <LocationsStateContext.Provider value={value}>
       {children}
     </LocationsStateContext.Provider>
   );

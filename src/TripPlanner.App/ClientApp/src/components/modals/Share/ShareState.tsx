@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useMemo, useReducer,
+} from 'react';
 import UserDto from '../../../Common/Dto/UserDto';
 
 const enum ShareStateActions {
@@ -46,8 +48,10 @@ type Props = {
 function ShareStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <ShareContext.Provider value={{ state, dispatch }}>
+    <ShareContext.Provider value={value}>
       {children}
     </ShareContext.Provider>
   );
