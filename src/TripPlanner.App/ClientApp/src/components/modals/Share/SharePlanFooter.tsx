@@ -21,7 +21,7 @@ type Props = {
   planId: number;
 }
 
-const ShareStateFooter = ({ planId }: Props) => {
+function ShareStateFooter({ planId }: Props) {
   const { state: shareState } = useShareState();
   const planService = usePlanService();
   const { dispatch: dispatchModal } = useModalState();
@@ -55,6 +55,6 @@ const ShareStateFooter = ({ planId }: Props) => {
       </Button>
     </div>
   );
-};
+}
 
 export default ShareStateFooter;

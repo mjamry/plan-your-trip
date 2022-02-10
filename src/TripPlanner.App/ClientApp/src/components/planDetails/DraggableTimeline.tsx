@@ -13,7 +13,7 @@ type Props = {
   position: TimelineElementPositionType;
 }
 
-const DraggableTimeline = (props: Props) => {
+function DraggableTimeline(props: Props) {
   const { data, position } = props;
   const [locations, setLocations] = useState<LocationDto[]>(data);
   const [index, setIndex] = useState(0);
@@ -45,6 +45,7 @@ const DraggableTimeline = (props: Props) => {
 
     return (
       <DraggableTimelineElement
+        id={location.id}
         position={elementPosition}
         location={location}
         routeDetails={{
@@ -71,6 +72,6 @@ const DraggableTimeline = (props: Props) => {
       {index}
     </DndProvider>
   );
-};
+}
 
 export default DraggableTimeline;

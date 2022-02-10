@@ -19,10 +19,10 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  children: JSX.Element[]
+  children: JSX.Element[] | JSX.Element
 }
 
-const PageLayout = (props: Props) => {
+function PageLayout(props: Props) {
   const { children } = props;
   const classes = useStyles();
 
@@ -39,6 +39,6 @@ const PageLayout = (props: Props) => {
       </div>
     </>
   );
-};
+}
 
 export default PageLayout;

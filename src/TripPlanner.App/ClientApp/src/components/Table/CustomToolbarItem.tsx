@@ -16,7 +16,7 @@ export type CustomToolbarItemProps = {
   action: () => void;
 }
 
-const CustomToolbarItem = (props: CustomToolbarItemProps) => {
+function CustomToolbarItem(props: CustomToolbarItemProps) {
   const { title, icon: item, action } = props;
   const classes = useStyles();
 
@@ -29,6 +29,6 @@ const CustomToolbarItem = (props: CustomToolbarItemProps) => {
       {title}
     </Button>
   );
-};
+}
 
 export default CustomToolbarItem;

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import Edit from '@mui/icons-material/Edit';
+import { makeStyles } from '@mui/styles';
 import {
   DataGrid, GridActionsCellItem, GridColDef, GridRowModel, GridRowParams,
 } from '@mui/x-data-grid';
-import { makeStyles } from '@mui/styles';
 import CustomToolbar from './CustomToolbar';
 import { CustomToolbarItemProps } from './CustomToolbarItem';
 
@@ -24,39 +24,41 @@ type Props<T> = {
     customActions?: CustomToolbarItemProps[];
 }
 
-const Table = <T, >(props: Props<T>) => {
+function Table<T, >(props: Props<T>) {
   const {
     columns, onRowClick, data, isLoading, edit, remove, customActions,
   } = props;
+
   const classes = useStyles();
+
+  const getActions = useCallback((params: GridRowParams) => [
+    <GridActionsCellItem icon={<Edit />} onClick={() => edit(params.row as T)} label="Edit" />,
+    <GridActionsCellItem icon={<DeleteOutline />} onClick={() => remove(params.row as T)} label="Remove" />,
+  ], []);
+
+  const getToolbar = useCallback(() => <CustomToolbar actions={customActions} />, []);
 
   const rowActions = [
     {
       field: 'actions',
       type: 'actions',
-      getActions: (params: GridRowParams) => [
-        /* eslint-disable no-console */
-        <GridActionsCellItem icon={<Edit />} onClick={() => edit(params.row as T)} label="Edit" />,
-        <GridActionsCellItem icon={<DeleteOutline />} onClick={() => remove(params.row as T)} label="Remove" />,
-      ],
+      getActions,
     }];
 
   return (
-    <>
-      <DataGrid
-        className={classes.root}
-        rows={data}
-        columns={[...columns, ...rowActions]}
-        onRowClick={(params) => onRowClick(params.row as T)}
-        loading={isLoading}
-        disableColumnMenu
-        hideFooterSelectedRowCount
-        components={{
-          Toolbar: (() => <CustomToolbar actions={customActions} />),
-        }}
-      />
-    </>
+    <DataGrid
+      className={classes.root}
+      rows={data}
+      columns={[...columns, ...rowActions]}
+      onRowClick={(params) => onRowClick(params.row as T)}
+      loading={isLoading}
+      disableColumnMenu
+      hideFooterSelectedRowCount
+      components={{
+        Toolbar: () => getToolbar(),
+      }}
+    />
   );
-};
+}
 
 export default Table;

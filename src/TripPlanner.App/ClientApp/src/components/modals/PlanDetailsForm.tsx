@@ -17,7 +17,7 @@ type PlanDetailsProps = {
   onSubmit: (plan: PlanDto) => void;
 }
 
-const PlanDetailsFormBody = ({ plan, onSubmit }: PlanDetailsProps) => {
+function PlanDetailsFormBody({ plan, onSubmit }: PlanDetailsProps) {
   const [state, setState] = useState<PlanDto>(plan);
 
   const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -88,7 +88,7 @@ const PlanDetailsFormBody = ({ plan, onSubmit }: PlanDetailsProps) => {
       </div>
     </div>
   );
-};
+}
 
 const usePlanFormBuilder = () => {
   const build = (data: BuilderDto): ModalDto => ({

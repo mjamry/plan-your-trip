@@ -17,7 +17,7 @@ type Props = {
   title?: string;
 }
 
-const Loader = (props: Props) => {
+function Loader(props: Props) {
   const classes = useStyles();
   const { title } = props;
 
@@ -27,6 +27,6 @@ const Loader = (props: Props) => {
       <Typography variant="h6">{title || 'Loading'}</Typography>
     </div>
   );
-};
+}
 
 export default Loader;

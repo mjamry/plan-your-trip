@@ -10,9 +10,9 @@ class Log {
     userId: number,
     timestamp: string,
     level: LogLevel,
-    prefix: string = '',
     message: string,
     data?: object,
+    prefix: string = '',
   ) {
     this.userId = userId;
     this.timestamp = timestamp;

@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useMemo, useReducer,
+} from 'react';
 import PlanDto from '../Common/Dto/PlanDto';
 
 const enum PlanViewType {
@@ -90,15 +92,17 @@ type Props = {
   children: JSX.Element
 }
 
-const PlansStateProvider = ({ children }: Props) => {
+function PlansStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <PlansStateContext.Provider value={{ state, dispatch }}>
+    <PlansStateContext.Provider value={value}>
       {children}
     </PlansStateContext.Provider>
   );
-};
+}
 
 export {
   PlansStateProvider, PlansStateActions, usePlansState, PlanViewType,

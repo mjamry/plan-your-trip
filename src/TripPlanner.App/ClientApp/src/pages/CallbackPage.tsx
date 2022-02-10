@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import useUserService from '../Services/UserService';
 
-const CallbackPage = () => {
+function CallbackPage() {
   const userService = useUserService();
 
   useEffect(() => {
@@ -11,6 +11,6 @@ const CallbackPage = () => {
   return (
     <></>
   );
-};
+}
 
 export default CallbackPage;

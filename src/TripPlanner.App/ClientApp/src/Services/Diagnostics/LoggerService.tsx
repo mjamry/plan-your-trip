@@ -17,9 +17,9 @@ const useLoggerService = (prefix: string): ILoggerService => {
     userID,
     new Date().toISOString(),
     level,
-    prefix,
     message,
     data,
+    prefix,
   );
 
   const error = (message: string, exception?: object) => {

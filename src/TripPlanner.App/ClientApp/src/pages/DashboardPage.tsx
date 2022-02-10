@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DashboardPage = () => {
+function DashboardPage() {
   const classes = useStyles();
   const userService = useUserDataService();
   const [userData, setUserData] = useState<DashboardDto>();
@@ -76,6 +76,6 @@ const DashboardPage = () => {
         )}
     </>
   );
-};
+}
 
 export default DashboardPage;

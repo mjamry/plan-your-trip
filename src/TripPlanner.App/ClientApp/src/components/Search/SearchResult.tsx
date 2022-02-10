@@ -10,7 +10,7 @@ type Props = {
   onSelected: (result: string) => void;
 }
 
-const SearchResult = (props: Props) => {
+function SearchResult(props: Props) {
   const { results, onSelected } = props;
 
   const renderResults = (): JSX.Element[] => {
@@ -41,6 +41,6 @@ const SearchResult = (props: Props) => {
       {results && results.length === 0 ? renderError() : renderResults()}
     </List>
   );
-};
+}
 
 export default SearchResult;

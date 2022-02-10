@@ -32,7 +32,7 @@ const defaultOptions: MapViewOptions = {
   autoPan: true,
 };
 
-const MapView = (props: Props) => {
+function MapView(props: Props) {
   const {
     mapId, locations, selectedLocation, options = defaultOptions,
   } = props;
@@ -68,11 +68,13 @@ const MapView = (props: Props) => {
   };
 
   useEffect(() => {
-    const map = L.map(mapId,
+    const map = L.map(
+      mapId,
       {
         zoom: 5,
         center: [51.505, -0.09],
-      });
+      },
+    );
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -125,6 +127,6 @@ const MapView = (props: Props) => {
   return (
     <div id={mapId} className={options.style} />
   );
-};
+}
 
 export default MapView;

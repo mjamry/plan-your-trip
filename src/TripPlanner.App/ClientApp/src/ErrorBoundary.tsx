@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import useLoggerService from './Services/Diagnostics/LoggerService';
 
 type State = {
@@ -25,7 +25,7 @@ class ErrorBoundary extends React.Component<{}, State> {
 
   render() {
     if (this.state.hasError) {
-      <Redirect to="/error/1" />;
+      return (<Navigate to="/error/1" replace />);
     }
 
     return this.props.children;

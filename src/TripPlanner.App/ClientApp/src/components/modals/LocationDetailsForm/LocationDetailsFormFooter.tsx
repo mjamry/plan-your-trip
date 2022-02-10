@@ -10,7 +10,7 @@ type FooterProps = {
   onSubmit: (location: LocationDto) => void;
 }
 
-const LocationDetailsFooter = ({ onSubmit }: FooterProps): JSX.Element => {
+function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
   const steps: Step[] = StepsConfiguration;
   const { state } = useLocationFormState();
   const coordinator = useStepsCoordinator(steps);
@@ -73,6 +73,6 @@ const LocationDetailsFooter = ({ onSubmit }: FooterProps): JSX.Element => {
       {renderSubmit()}
     </div>
   );
-};
+}
 
 export default LocationDetailsFooter;

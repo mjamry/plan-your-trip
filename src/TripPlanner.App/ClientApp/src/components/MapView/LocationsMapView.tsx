@@ -7,12 +7,12 @@ type Props = {
     selectedLocation?: LocationDto;
 }
 
-const LocationsMapView = (props: Props) => {
+function LocationsMapView(props: Props) {
   const { locations, selectedLocation } = props;
 
   return (
     <MapView locations={locations} selectedLocation={selectedLocation} mapId="mainMapId" />
   );
-};
+}
 
 export default LocationsMapView;

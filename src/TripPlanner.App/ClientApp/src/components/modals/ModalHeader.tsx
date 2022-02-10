@@ -7,7 +7,7 @@ type Props = {
     title: string;
 }
 
-const ModalHeader = ({ title }: Props) => {
+function ModalHeader({ title }: Props) {
   const { dispatch } = useModalState();
 
   return (
@@ -22,6 +22,6 @@ const ModalHeader = ({ title }: Props) => {
       </IconButton>
     </div>
   );
-};
+}
 
 export default ModalHeader;

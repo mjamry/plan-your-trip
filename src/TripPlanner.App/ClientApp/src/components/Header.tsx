@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Header = () => {
+function Header() {
   const [userName, setUserName] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
   const { state: appState } = useAppState();
@@ -94,6 +94,6 @@ const Header = () => {
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default Header;

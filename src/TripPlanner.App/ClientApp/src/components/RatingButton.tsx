@@ -9,7 +9,7 @@ type Props = {
   readOnly?: boolean;
 }
 
-const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) => {
+function RatingButton({ value, onSelect = () => {}, readOnly = false }: Props) {
   const [stars, setStars] = useState<JSX.Element[]>();
 
   const getStars = (selectedStars: number): JSX.Element[] => {
@@ -62,6 +62,6 @@ const RatingButton = ({ value, onSelect = () => {}, readOnly = false }: Props) =
       {stars}
     </div>
   );
-};
+}
 
 export default RatingButton;

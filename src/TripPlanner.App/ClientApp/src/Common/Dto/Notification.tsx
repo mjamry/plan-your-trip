@@ -14,13 +14,13 @@ class Notification {
     this.timeout = timeout;
   }
 
-    type: NotificationType;
+  type: NotificationType;
 
-    content: string;
+  content: string;
 
-    timeout: number;
+  timeout: number;
 
-    id: string;
+  id: string;
 }
 
 export { DefaultNotificationTimeout, Notification, NotificationType };

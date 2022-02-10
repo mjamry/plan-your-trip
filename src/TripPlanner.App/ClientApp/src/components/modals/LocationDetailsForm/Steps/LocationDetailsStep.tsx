@@ -8,7 +8,7 @@ import LocationDto from '../../../../Common/Dto/LocationDto';
 import Search from '../../../Search/Search';
 import useLocationStepsStyles from './LocationStepsStyles';
 
-export const LocationDetailsStep = () => {
+export function LocationDetailsStep() {
   const { state, dispatch } = useLocationFormState();
   const classes = useLocationStepsStyles();
 
@@ -60,7 +60,7 @@ export const LocationDetailsStep = () => {
       </div>
     </form>
   );
-};
+}
 
 export const LocationDetailsStepValidator = (): IStepValidator => {
   const validate = (location: LocationDto) => !!location.name;

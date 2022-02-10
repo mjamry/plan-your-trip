@@ -54,7 +54,7 @@ type Props = {
   position: any;
 }
 
-const TimelineElement = (props: Props) => {
+function TimelineElement(props: Props) {
   const { location, routeDetails, position } = props;
   const [transportType, setTransportType] = useState<TransportType>(TransportType.walk);
   const classes = useStyles(position);
@@ -98,6 +98,6 @@ const TimelineElement = (props: Props) => {
       </TimelineContent>
     </TimelineItem>
   );
-};
+}
 
 export default TimelineElement;

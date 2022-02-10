@@ -8,7 +8,7 @@ type Props = {
     onCoordinatesUpdated: (coordinates: L.LatLng) => void;
 }
 
-const LocationFormMapView = (props: Props) => {
+function LocationFormMapView(props: Props) {
   const { location, onCoordinatesUpdated } = props;
 
   const locations = [location];
@@ -24,6 +24,6 @@ const LocationFormMapView = (props: Props) => {
   return (
     <MapView locations={locations} selectedLocation={location} options={options} mapId="locationsFormMapId" />
   );
-};
+}
 
 export default LocationFormMapView;

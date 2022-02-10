@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { RouteComponentProps } from 'react-router-dom';
 import { Chip } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { usePlansState, PlansStateActions } from '../State/PlansState';
 import usePlanService from '../Services/PlanService';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
@@ -18,15 +18,14 @@ const useStyles = makeStyles({
   },
 });
 
-interface Props extends RouteComponentProps<any>{}
-
-const PlansPage = ({ history }: Props) => {
+function PlansPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { state: planState, dispatch: dispatchPlan } = usePlansState();
   const { dispatch: dispatchModal } = useModalState();
   const classes = useStyles();
   const planService = usePlanService();
   const dateTimeFormatter = useDateTimeFormatter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlanData = async () => {
@@ -74,7 +73,7 @@ const PlansPage = ({ history }: Props) => {
           data={planState.plans}
           onRowClick={((selectedPlan: PlanDto) => {
             dispatchPlan({ type: PlansStateActions.selectPlan, data: selectedPlan.id });
-            history.push(`/locations/${selectedPlan.id}`);
+            navigate(`/locations/${selectedPlan.id}`);
           })}
           edit={(plan: PlanDto) => dispatchModal({
             type: ModalStateAction.show,
@@ -102,6 +101,6 @@ const PlansPage = ({ history }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 export default PlansPage;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { AddBox } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import Table from '../components/Table/Table';
 import { useLocationsState } from '../State/LocationsState';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
@@ -35,13 +35,11 @@ const useStyles = makeStyles({
   },
 });
 
-type MatchParams = {
-    id: string
+type RouteParams = {
+    planId: string
 }
 
-interface Props extends RouteComponentProps<MatchParams> {}
-
-const LocationsPage = ({ match }: Props) => {
+function LocationsPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
   const { state: locationsState } = useLocationsState();
@@ -50,20 +48,17 @@ const LocationsPage = ({ match }: Props) => {
   const locationsService = useLocationService();
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
-
-  const validatePlanId = (id: number) => id; // null if incorrect
+  const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
-    const planId = validatePlanId(+match.params.id);
-
     dispatchPlans({
       type: PlansStateActions.selectPlan,
-      data: planId,
+      data: +planId!,
     });
 
     const fetchPlanData = async () => {
       setIsLoading(true);
-      await locationsService.getAll(planId);
+      await locationsService.getAll(+planId!);
       setIsLoading(false);
     };
 
@@ -71,80 +66,78 @@ const LocationsPage = ({ match }: Props) => {
   }, []);
 
   return (
-    <>
-      <div className={classes.container}>
-        <div className={classes.locationsContainer}>
-          <Table
-            columns={[
-              {
-                headerName: '',
-                field: 'image',
-                renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
-              },
-              {
-                headerName: 'Name',
-                field: 'name',
-              },
-              {
-                headerName: 'Description',
-                field: 'description',
-                flex: 3,
-              },
-              {
-                headerName: 'Rating',
-                field: 'rating',
-                type: 'number',
-                minWidth: 150,
-                renderCell: (params: any) => <RatingButton value={params.row.rating!} readOnly />,
-              },
-              {
-                headerName: 'Coordinates',
-                field: 'coordinates',
-                type: 'number',
-                minWidth: 150,
-                valueFormatter: (params: any) => `${params.value.lat}, ${params.value.lon}`,
-              },
-            ]}
-            onRowClick={((location: LocationDto) => setSelectedLocation(location))}
-            data={locationsState.locations}
-            edit={(location: LocationDto) => dispatchModal({
-              type: ModalStateAction.show,
-              modalType: ModalTypes.editLocation,
-              data: location,
-            })}
-            remove={(location: LocationDto) => dispatchModal({
-              type: ModalStateAction.show,
-              modalType: ModalTypes.removeLocation,
-              data: location,
-            })}
-            isLoading={isLoading}
-            customActions={[
-              {
-                icon: <GetAppIcon />,
-                title: 'Download',
-                action: () => gpxFileDownloader.download(locationsState.locations),
-              },
-              {
-                icon: <AddBox />,
-                title: 'add new item',
-                action: () => dispatchModal({
-                  type: ModalStateAction.show,
-                  modalType: ModalTypes.addLocation,
-                  data: LocationEmpty,
-                }),
-              },
-            ]}
-          />
-        </div>
-        <div className={classes.mapContainer}>
-          <LocationsMapView
-            locations={locationsState.locations}
-            selectedLocation={selectedLocation}
-          />
-        </div>
+    <div className={classes.container}>
+      <div className={classes.locationsContainer}>
+        <Table
+          columns={[
+            {
+              headerName: '',
+              field: 'image',
+              renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
+            },
+            {
+              headerName: 'Name',
+              field: 'name',
+            },
+            {
+              headerName: 'Description',
+              field: 'description',
+              flex: 3,
+            },
+            {
+              headerName: 'Rating',
+              field: 'rating',
+              type: 'number',
+              minWidth: 150,
+              renderCell: (params: any) => <RatingButton value={params.row.rating!} readOnly />,
+            },
+            {
+              headerName: 'Coordinates',
+              field: 'coordinates',
+              type: 'number',
+              minWidth: 150,
+              valueFormatter: (params: any) => `${params.value.lat}, ${params.value.lon}`,
+            },
+          ]}
+          onRowClick={((location: LocationDto) => setSelectedLocation(location))}
+          data={locationsState.locations}
+          edit={(location: LocationDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.editLocation,
+            data: location,
+          })}
+          remove={(location: LocationDto) => dispatchModal({
+            type: ModalStateAction.show,
+            modalType: ModalTypes.removeLocation,
+            data: location,
+          })}
+          isLoading={isLoading}
+          customActions={[
+            {
+              icon: <GetAppIcon />,
+              title: 'Download',
+              action: () => gpxFileDownloader.download(locationsState.locations),
+            },
+            {
+              icon: <AddBox />,
+              title: 'add new item',
+              action: () => dispatchModal({
+                type: ModalStateAction.show,
+                modalType: ModalTypes.addLocation,
+                data: LocationEmpty,
+              }),
+            },
+          ]}
+        />
       </div>
-    </>
+      <div className={classes.mapContainer}>
+        <LocationsMapView
+          locations={locationsState.locations}
+          selectedLocation={selectedLocation}
+        />
+      </div>
+    </div>
   );
-};
+}
 
-export default withRouter(LocationsPage);
+export default LocationsPage;

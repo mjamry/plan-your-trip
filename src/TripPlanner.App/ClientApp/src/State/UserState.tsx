@@ -1,5 +1,6 @@
 import { UserManager } from 'oidc-client';
 import * as React from 'react';
+import { useMemo } from 'react';
 
 const enum UserStateActions {
   setupUserManager,
@@ -45,14 +46,16 @@ type Props = {
     children: JSX.Element
 }
 
-const UserStateProvider = ({ children }: Props) => {
+function UserStateProvider({ children }: Props) {
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <UserContext.Provider value={{ state, dispatch }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );
-};
+}
 
 export { UserStateProvider, UserStateActions, useUserState };

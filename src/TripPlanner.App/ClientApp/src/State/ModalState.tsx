@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useMemo, useReducer,
+} from 'react';
 
 const enum ModalTypes {
   addLocation,
@@ -70,15 +72,17 @@ type Props = {
   children: JSX.Element
 }
 
-const ModalStateProvider = ({ children }: Props) => {
+function ModalStateProvider({ children }: Props) {
   const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <ModalContext.Provider value={{ state, dispatch }}>
+    <ModalContext.Provider value={value}>
       {children}
     </ModalContext.Provider>
   );
-};
+}
 
 export {
   ModalStateProvider, useModalState, ModalTypes, ModalStateAction,

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { RouteComponentProps } from 'react-router-dom';
 import {
   Paper, SpeedDial, SpeedDialAction,
 } from '@mui/material';
@@ -8,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import ShareIcon from '@mui/icons-material/Share';
 
+import { useParams } from 'react-router-dom';
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
 import DraggableTimeline from '../components/planDetails/DraggableTimeline';
@@ -58,13 +58,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type MatchParams = {
-  id: string
+type RouteParams = {
+  planId: string
 }
 
-interface Props extends RouteComponentProps<MatchParams> {}
-
-const PlansDetailsPage = ({ match }: Props) => {
+function PlansDetailsPage() {
   const classes = useStyles();
   const locationsService = useLocationService();
   const [isLoading, setIsLoading] = useState(false);
@@ -73,18 +71,17 @@ const PlansDetailsPage = ({ match }: Props) => {
   const planService = usePlanService();
   const { dispatch: dispatchPlans } = usePlansState();
   const { state: locationsState } = useLocationsState();
-
-  const planId: number = +match.params.id;
+  const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
     dispatchPlans({
       type: PlansStateActions.selectPlan,
-      data: planId,
+      data: +planId!,
     });
 
     const fetchPlanData = async () => {
       setIsLoading(true);
-      await locationsService.getAll(planId);
+      await locationsService.getAll(+planId!);
       setIsLoading(false);
     };
 
@@ -101,7 +98,7 @@ const PlansDetailsPage = ({ match }: Props) => {
 
   const handleSharePlan = async () => {
     const usersToShare = await userService.getUsersToShareWith();
-    const shares = await planService.getShare(planId);
+    const shares = await planService.getShare(+planId!);
 
     dispatchModal({
       type: ModalStateAction.show,
@@ -152,6 +149,6 @@ const PlansDetailsPage = ({ match }: Props) => {
         )}
     </>
   );
-};
+}
 
 export default PlansDetailsPage;

@@ -10,22 +10,20 @@ type Props = {
     footer: JSX.Element | undefined;
 }
 
-const ModalWrapper = (props: Props) => {
+function ModalWrapper(props: Props) {
   const {
     isVisible, header, body, footer, onClickAway,
   } = props;
 
   return (
-    <>
-      <Modal onClose={onClickAway} open={isVisible}>
-        <Box className="modal">
-          <div className="modal-header">{header}</div>
-          <div className="modal-content">{body}</div>
-          {footer && <div className="modal-footer">{footer}</div>}
-        </Box>
-      </Modal>
-    </>
+    <Modal onClose={onClickAway} open={isVisible}>
+      <Box className="modal">
+        <div className="modal-header">{header}</div>
+        <div className="modal-content">{body}</div>
+        {footer && <div className="modal-footer">{footer}</div>}
+      </Box>
+    </Modal>
   );
-};
+}
 
 export default ModalWrapper;

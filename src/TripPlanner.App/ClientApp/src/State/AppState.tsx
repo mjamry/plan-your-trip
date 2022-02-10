@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 import { AppSettings } from '../Common/Dto/AppSettings';
 
 const enum AppStateActions {
@@ -57,14 +58,16 @@ type Props = {
     children: JSX.Element
 }
 
-const AppStateProvider = ({ children }: Props) => {
+function AppStateProvider({ children }: Props) {
   const [state, dispatch] = React.useReducer<React.Reducer<State, Action>>(reducer, initialState);
 
+  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
+
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider value={value}>
       {children}
     </AppContext.Provider>
   );
-};
+}
 
 export { AppStateProvider, AppStateActions, useAppState };

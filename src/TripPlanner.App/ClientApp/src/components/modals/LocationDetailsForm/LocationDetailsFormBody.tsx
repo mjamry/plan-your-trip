@@ -13,7 +13,7 @@ type BodyProps = {
     location: LocationDto;
   }
 
-const LocationDetailsFormBody = (props: BodyProps) => {
+function LocationDetailsFormBody(props: BodyProps) {
   const { location } = props;
   const steps: Step[] = StepsConfiguration;
   const { state, dispatch } = useLocationFormState();
@@ -49,6 +49,6 @@ const LocationDetailsFormBody = (props: BodyProps) => {
       {renderStep()}
     </div>
   );
-};
+}
 
 export default LocationDetailsFormBody;
