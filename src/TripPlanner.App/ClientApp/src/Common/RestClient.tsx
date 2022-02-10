@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useLoggerService from '../Services/Diagnostics/LoggerService';
 import useUserService from '../Services/UserService';
 
@@ -53,7 +53,7 @@ const useAuthenticationMiddleware = () => {
 const useRestClient = (options?: RestClientOptions): IRestClient => {
   const logger = useLoggerService('RestClient');
   const authenticationMiddleware = useAuthenticationMiddleware();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   options = options || { authenticate: true };
 
@@ -94,7 +94,7 @@ const useRestClient = (options?: RestClientOptions): IRestClient => {
       resolve(responseData);
     } else {
       reject(rawResponse);
-      history.push(`/error/${rawResponse.status}`);
+      navigate(`/error/${rawResponse.status}`);
     }
   };
 

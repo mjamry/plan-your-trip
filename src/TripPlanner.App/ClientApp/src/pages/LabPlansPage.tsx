@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import usePlanService from '../Services/PlanService';
 import { usePlansState } from '../State/PlansState';
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 function LabPlansPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const planService = usePlanService();
   const { state } = usePlansState();
@@ -37,7 +37,7 @@ function LabPlansPage() {
   }, []);
 
   const handlePlanSelect = (planId: number) => {
-    history.push(`/plans/${planId}`);
+    navigate(`/plans/${planId}`);
   };
 
   return (

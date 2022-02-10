@@ -6,7 +6,7 @@ function LocationActionLoadingIndicator() {
   const { state } = useLocationsState();
 
   return (
-    <div className="location-action-loading-indicator" style={{ display: state.isLoading ? 'block' : 'block' }}>
+    <div className="location-action-loading-indicator" style={{ display: state.isLoading ? 'block' : 'none' }}>
       <div className="location-action-loading-indicator-content">
         <div className="location-action-loading-indicator-content-title">Processing data</div>
         <CircularProgress />

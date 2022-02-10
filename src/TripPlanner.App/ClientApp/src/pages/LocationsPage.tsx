@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { AddBox } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import Table from '../components/Table/Table';
 import { useLocationsState } from '../State/LocationsState';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
@@ -35,13 +35,11 @@ const useStyles = makeStyles({
   },
 });
 
-type MatchParams = {
-    id: string
+type RouteParams = {
+    planId: string
 }
 
-interface Props extends RouteComponentProps<MatchParams> {}
-
-function LocationsPage({ match }: Props) {
+function LocationsPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
   const { state: locationsState } = useLocationsState();
@@ -50,20 +48,17 @@ function LocationsPage({ match }: Props) {
   const locationsService = useLocationService();
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
-
-  const validatePlanId = (id: number) => id; // null if incorrect
+  const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
-    const planId = validatePlanId(+match.params.id);
-
     dispatchPlans({
       type: PlansStateActions.selectPlan,
-      data: planId,
+      data: +planId!,
     });
 
     const fetchPlanData = async () => {
       setIsLoading(true);
-      await locationsService.getAll(planId);
+      await locationsService.getAll(+planId!);
       setIsLoading(false);
     };
 
@@ -145,4 +140,4 @@ function LocationsPage({ match }: Props) {
   );
 }
 
-export default withRouter(LocationsPage);
+export default LocationsPage;

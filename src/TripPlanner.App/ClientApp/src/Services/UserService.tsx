@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Log, User } from 'oidc-client';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useLoggerService from './Diagnostics/LoggerService';
 import { useAppState, AppStateActions } from '../State/AppState';
 import { useUserState } from '../State/UserState';
@@ -18,7 +18,7 @@ interface IUserService {
 
 const useUserService = (): IUserService => {
   const { dispatch: dispatchAppState } = useAppState();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { state: userState } = useUserState();
 
   const log = useLoggerService('UserService');
@@ -39,7 +39,7 @@ const useUserService = (): IUserService => {
   const finishAuthentication = (): void => {
     userState.userManager?.signinRedirectCallback()
       .then(() => {
-        history.push('/');
+        navigate('/');
       }).catch((e) => {
         log.error('Error while signing in an user: ', e);
       });
@@ -62,7 +62,7 @@ const useUserService = (): IUserService => {
           resolve(user);
         } else {
           log.debug('No user');
-          history.push('/welcome');
+          navigate('/welcome');
           reject();
         }
       })

@@ -3,7 +3,7 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as Error401 } from '../assets/images/401.svg';
 import { ReactComponent as Error404 } from '../assets/images/404.svg';
 import { ReactComponent as GeneralError } from '../assets/images/error.svg';
@@ -29,8 +29,8 @@ const useStyles = makeStyles({
   },
 });
 
-type MatchParams = {
-  code: string
+type RouteParams = {
+  errorCode: string
 }
 
 type ErrorDetails = {
@@ -38,22 +38,19 @@ type ErrorDetails = {
   content: JSX.Element,
 }
 
-interface Props extends RouteComponentProps<MatchParams> {}
-
-function ErrorPage({ match }: Props) {
+function ErrorPage() {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const { errorCode } = useParams<RouteParams>();
 
-  const errorCode = +match.params.code;
-
-  const getError = (code: number): ErrorDetails => {
+  const getError = (code: string): ErrorDetails => {
     switch (code) {
-      case 401:
+      case '401':
         return {
           title: 'Sorry, you do not have an access.',
           content: <Error401 className={classes.image} />,
         };
-      case 404: {
+      case '404': {
         return {
           title: 'Sorry, page not found.',
           content: <Error404 className={classes.image} />,
@@ -70,15 +67,15 @@ function ErrorPage({ match }: Props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.gridCard}>
-        {getError(errorCode).content}
+        {getError(errorCode!).content}
         <Typography variant="h6">
-          {getError(errorCode).title}
+          {getError(errorCode!).title}
         </Typography>
         <Button
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => history.push('/')}
+          onClick={() => navigate('/')}
         >
           Go Back
         </Button>

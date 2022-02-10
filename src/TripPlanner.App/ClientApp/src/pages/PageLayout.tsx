@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  children: JSX.Element[]
+  children: JSX.Element[] | JSX.Element
 }
 
 function PageLayout(props: Props) {

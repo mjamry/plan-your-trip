@@ -22,7 +22,7 @@ import './Styles/PlanDetailsForm.css';
 import './Styles/PlansPage.css';
 
 import React, { useEffect, useState } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { UserManager } from 'oidc-client';
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator';
 import ModalContainer from './components/modals/ModalContainer';
@@ -65,14 +65,51 @@ function App() {
             <LocationActionLoadingIndicator />
             <ModalContainer />
             <PageLayout>
-              <PrivateRoute path="/" exact component={DashboardPage} />
-              <PrivateRoute path="/locations" exact component={PlansPage} />
-              <PrivateRoute path="/locations/:id" component={LocationsPage} />
-              <Route path="/callback" component={CallbackPage} />
-              <Route path="/welcome" component={WelcomePage} />
-              <PrivateRoute path="/plans" exact component={LabPlansPage} />
-              <PrivateRoute path="/plans/:id" component={PlanDetailsPage} />
-              <Route path="/error/:code" component={ErrorPage} />
+              <Routes>
+                <Route
+                  path="/"
+                  element={(
+                    <PrivateRoute>
+                      <DashboardPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route
+                  path="/locations"
+                  element={(
+                    <PrivateRoute>
+                      <PlansPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route
+                  path="/locations/:planId"
+                  element={(
+                    <PrivateRoute>
+                      <LocationsPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route path="/callback" element={<CallbackPage />} />
+                <Route path="/welcome" element={<WelcomePage />} />
+                <Route
+                  path="/plans"
+                  element={(
+                    <PrivateRoute>
+                      <LabPlansPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route
+                  path="/plans/:planId"
+                  element={(
+                    <PrivateRoute>
+                      <PlanDetailsPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route path="/error/:errorCode" element={<ErrorPage />} />
+              </Routes>
             </PageLayout>
           </div>
         )

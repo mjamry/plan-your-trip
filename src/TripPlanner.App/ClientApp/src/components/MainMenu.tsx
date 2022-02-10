@@ -10,10 +10,10 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import InfoIcon from '@mui/icons-material/Info';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-import { useHistory } from 'react-router-dom';
 import { Collapse, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
   drawer: {
@@ -51,7 +51,7 @@ const menuItemPosition = {
 
 function MainMenu() {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   const getMenuItems = () => [
@@ -59,31 +59,31 @@ function MainMenu() {
       title: 'Dashboard',
       icon: <DashboardIcon />,
       position: menuItemPosition.top,
-      action: () => history.push('/'),
+      action: () => navigate('/'),
     },
     {
       title: 'Locations',
       icon: <LocationOnIcon />,
       position: menuItemPosition.top,
-      action: () => history.push('/locations'),
+      action: () => navigate('/locations'),
     },
     {
       title: 'Plans',
       icon: <ExploreIcon />,
       position: menuItemPosition.top,
-      action: () => history.push('/plans'),
+      action: () => navigate('/plans'),
     },
     {
       title: 'Settings',
       icon: <SettingsIcon />,
       position: menuItemPosition.bottom,
-      action: () => history.push('/settings'),
+      action: () => navigate('/settings'),
     },
     {
       title: 'About',
       icon: <InfoIcon />,
       position: menuItemPosition.bottom,
-      action: () => history.push('/about'),
+      action: () => navigate('/about'),
     },
   ];
 
