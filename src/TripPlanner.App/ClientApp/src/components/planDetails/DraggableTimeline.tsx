@@ -45,6 +45,7 @@ function DraggableTimeline(props: Props) {
 
     return (
       <DraggableTimelineElement
+        id={location.id}
         position={elementPosition}
         location={location}
         routeDetails={{
