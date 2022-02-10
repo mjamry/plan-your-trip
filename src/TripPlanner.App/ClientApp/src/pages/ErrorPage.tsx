@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as Error401 } from '../assets/images/401.svg';
 import { ReactComponent as Error404 } from '../assets/images/404.svg';
 import { ReactComponent as GeneralError } from '../assets/images/error.svg';
+import RouteTypes from '../Common/RouteTypes';
 
 const useStyles = makeStyles({
   root: {
@@ -75,7 +76,7 @@ function ErrorPage() {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => navigate('/')}
+          onClick={() => navigate(RouteTypes.error)}
         >
           Go Back
         </Button>

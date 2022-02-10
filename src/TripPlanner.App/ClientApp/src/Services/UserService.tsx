@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useLoggerService from './Diagnostics/LoggerService';
 import { useAppState, AppStateActions } from '../State/AppState';
 import { useUserState } from '../State/UserState';
+import RouteTypes from '../Common/RouteTypes';
 
 const GET_USER_TIMEOUT = 5000;
 
@@ -39,7 +40,7 @@ const useUserService = (): IUserService => {
   const finishAuthentication = (): void => {
     userState.userManager?.signinRedirectCallback()
       .then(() => {
-        navigate('/');
+        navigate(RouteTypes.root);
       }).catch((e) => {
         log.error('Error while signing in an user: ', e);
       });
@@ -62,7 +63,7 @@ const useUserService = (): IUserService => {
           resolve(user);
         } else {
           log.debug('No user');
-          navigate('/welcome');
+          navigate(RouteTypes.welcome);
           reject();
         }
       })

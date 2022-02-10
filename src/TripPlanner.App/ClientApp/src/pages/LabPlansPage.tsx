@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Paper, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import usePlanService from '../Services/PlanService';
 import { usePlansState } from '../State/PlansState';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';
+import RouteTypes from '../Common/RouteTypes';
 
 const useStyles = makeStyles({
   container: {
@@ -37,7 +38,7 @@ function LabPlansPage() {
   }, []);
 
   const handlePlanSelect = (planId: number) => {
-    navigate(`/plans/${planId}`);
+    navigate(generatePath(RouteTypes.labPlan, { planId: `${planId}` }));
   };
 
   return (

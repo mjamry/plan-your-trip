@@ -3,12 +3,14 @@ import makeStyles from '@mui/styles/makeStyles';
 import { Chip } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { generatePath } from 'react-router';
 import { usePlansState, PlansStateActions } from '../State/PlansState';
 import usePlanService from '../Services/PlanService';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
 import Table from '../components/Table/Table';
 import PlanDto, { PlanEmpty } from '../Common/Dto/PlanDto';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';
+import RouteTypes from '../Common/RouteTypes';
 
 const useStyles = makeStyles({
   container: {
@@ -73,7 +75,7 @@ function PlansPage() {
           data={planState.plans}
           onRowClick={((selectedPlan: PlanDto) => {
             dispatchPlan({ type: PlansStateActions.selectPlan, data: selectedPlan.id });
-            navigate(`/locations/${selectedPlan.id}`);
+            navigate(generatePath(RouteTypes.plans, { planId: `${selectedPlan.id}` }));
           })}
           edit={(plan: PlanDto) => dispatchModal({
             type: ModalStateAction.show,

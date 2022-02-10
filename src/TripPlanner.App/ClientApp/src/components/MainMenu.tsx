@@ -14,6 +14,7 @@ import { Collapse, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import RouteTypes from '../Common/RouteTypes';
 
 const useStyles = makeStyles({
   drawer: {
@@ -59,31 +60,31 @@ function MainMenu() {
       title: 'Dashboard',
       icon: <DashboardIcon />,
       position: menuItemPosition.top,
-      action: () => navigate('/'),
+      action: () => navigate(RouteTypes.root),
     },
     {
       title: 'Locations',
       icon: <LocationOnIcon />,
       position: menuItemPosition.top,
-      action: () => navigate('/locations'),
+      action: () => navigate(RouteTypes.plans),
     },
     {
       title: 'Plans',
       icon: <ExploreIcon />,
       position: menuItemPosition.top,
-      action: () => navigate('/plans'),
+      action: () => navigate(RouteTypes.labPlans),
     },
     {
       title: 'Settings',
       icon: <SettingsIcon />,
       position: menuItemPosition.bottom,
-      action: () => navigate('/settings'),
+      action: () => navigate(RouteTypes.settings),
     },
     {
       title: 'About',
       icon: <InfoIcon />,
       position: menuItemPosition.bottom,
-      action: () => navigate('/about'),
+      action: () => navigate(RouteTypes.about),
     },
   ];
 

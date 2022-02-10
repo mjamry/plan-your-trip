@@ -41,6 +41,7 @@ import useAppSettingsService from './Services/AppSettingsService';
 import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 import ErrorPage from './pages/ErrorPage';
+import RouteTypes from './Common/RouteTypes';
 
 function App() {
   const appSettingsService = useAppSettingsService();
@@ -67,7 +68,7 @@ function App() {
             <PageLayout>
               <Routes>
                 <Route
-                  path="/"
+                  path={RouteTypes.root}
                   element={(
                     <PrivateRoute>
                       <DashboardPage />
@@ -75,7 +76,7 @@ function App() {
                   )}
                 />
                 <Route
-                  path="/locations"
+                  path={RouteTypes.plans}
                   element={(
                     <PrivateRoute>
                       <PlansPage />
@@ -83,17 +84,23 @@ function App() {
                   )}
                 />
                 <Route
-                  path="/locations/:planId"
+                  path={RouteTypes.plan}
                   element={(
                     <PrivateRoute>
                       <LocationsPage />
                     </PrivateRoute>
                   )}
                 />
-                <Route path="/callback" element={<CallbackPage />} />
-                <Route path="/welcome" element={<WelcomePage />} />
                 <Route
-                  path="/plans"
+                  path={RouteTypes.callback}
+                  element={<CallbackPage />}
+                />
+                <Route
+                  path={RouteTypes.welcome}
+                  element={<WelcomePage />}
+                />
+                <Route
+                  path={RouteTypes.labPlans}
                   element={(
                     <PrivateRoute>
                       <LabPlansPage />
@@ -101,14 +108,17 @@ function App() {
                   )}
                 />
                 <Route
-                  path="/plans/:planId"
+                  path={RouteTypes.labPlan}
                   element={(
                     <PrivateRoute>
                       <PlanDetailsPage />
                     </PrivateRoute>
                   )}
                 />
-                <Route path="/error/:errorCode" element={<ErrorPage />} />
+                <Route
+                  path={RouteTypes.error}
+                  element={<ErrorPage />}
+                />
               </Routes>
             </PageLayout>
           </div>
