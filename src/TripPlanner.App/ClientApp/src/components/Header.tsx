@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
@@ -8,7 +8,6 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useAppState } from '../State/AppState';
 import useUserService from '../Services/UserService';
 
 const useStyles = makeStyles({
@@ -27,25 +26,12 @@ const useStyles = makeStyles({
 });
 
 function Header() {
-  const [userName, setUserName] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
-  const { state: appState } = useAppState();
   const userService = useUserService();
   const open = Boolean(anchorEl);
   const classes = useStyles();
 
-  useEffect(() => {
-    const getUserName = async () => {
-      const user = await userService.getUser();
-      if (user.profile.name) {
-        setUserName(user.profile.name);
-      }
-    };
-
-    if (appState.userSignedIn) {
-      getUserName();
-    }
-  }, [appState.userSignedIn]);
+  const getUserName = () => userService.getUser()?.profile.name;
 
   const renderUserInfo = () => (
     <div>
@@ -58,7 +44,7 @@ function Header() {
         size="large"
       >
         <Typography variant="h6">
-          {userName}
+          {getUserName()}
         </Typography>
         <AccountCircle />
       </IconButton>
@@ -90,7 +76,7 @@ function Header() {
         <Typography variant="h6" className={classes.title}>
           Trip Planner
         </Typography>
-        {userName && renderUserInfo()}
+        {getUserName() && renderUserInfo()}
       </Toolbar>
     </AppBar>
   );
