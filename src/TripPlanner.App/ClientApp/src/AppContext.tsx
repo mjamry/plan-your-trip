@@ -10,7 +10,6 @@ import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { LocationsStateProvider } from './State/LocationsState';
 import { PlansStateProvider } from './State/PlansState';
-import { UserStateProvider } from './State/UserState';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -29,21 +28,19 @@ function AppContext({ children }: Props) {
     <NotificationStateProvider>
       <ToasterNotificationsComponent />
       <RecoilRoot>
-        <UserStateProvider>
-          <LocationsStateProvider>
-            <PlansStateProvider>
-              <ModalStateProvider>
-                <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={theme}>
-                    <LocalizationProvider dateAdapter={DateAdapter}>
-                      {children}
-                    </LocalizationProvider>
-                  </ThemeProvider>
-                </StyledEngineProvider>
-              </ModalStateProvider>
-            </PlansStateProvider>
-          </LocationsStateProvider>
-        </UserStateProvider>
+        <LocationsStateProvider>
+          <PlansStateProvider>
+            <ModalStateProvider>
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                  <LocalizationProvider dateAdapter={DateAdapter}>
+                    {children}
+                  </LocalizationProvider>
+                </ThemeProvider>
+              </StyledEngineProvider>
+            </ModalStateProvider>
+          </PlansStateProvider>
+        </LocationsStateProvider>
       </RecoilRoot>
     </NotificationStateProvider>
   );
