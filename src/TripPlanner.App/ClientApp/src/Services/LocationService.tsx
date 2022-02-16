@@ -1,11 +1,12 @@
+import { useRecoilValue } from 'recoil';
 import { useLocationsState, LocationsStateActions } from '../State/LocationsState';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
 import { usePlansState } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
-import { useAppState } from '../State/AppState';
 import LocationDto from '../Common/Dto/LocationDto';
 import { CoordinateDto } from '../Common/Dto/CoordinateDto';
+import { appSettingsState } from '../State/AppState';
 
 const convertCoordinates = (location: LocationDto): LocationDto => {
   const coordinates: CoordinateDto = {
@@ -25,9 +26,8 @@ interface ILocationService {
 
 const usePersistentService = () => {
   const api = useRestClient();
-  const { state: appState } = useAppState();
-
-  const apiUrl = `${appState.appSettings.apiUrl}/locations`;
+  const appSettings = useRecoilValue(appSettingsState);
+  const apiUrl = `${appSettings.apiUrl}/locations`;
 
   const add = (location: LocationDto, planId: number) => api.post<LocationDto>(`${apiUrl}/${planId}`, location);
 

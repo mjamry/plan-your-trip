@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { Log, User } from 'oidc-client';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import useLoggerService from './Diagnostics/LoggerService';
-import { useAppState, AppStateActions } from '../State/AppState';
 import { useUserState } from '../State/UserState';
+import { userSignedInState } from '../State/AppState';
 
 const GET_USER_TIMEOUT = 5000;
 
@@ -17,10 +18,9 @@ interface IUserService {
 }
 
 const useUserService = (): IUserService => {
-  const { dispatch: dispatchAppState } = useAppState();
   const navigate = useNavigate();
   const { state: userState } = useUserState();
-
+  const setUserSignedIn = useSetRecoilState(userSignedInState);
   const log = useLoggerService('UserService');
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const useUserService = (): IUserService => {
             signIn();
           }
           log.debug('User signed in');
-          dispatchAppState({ type: AppStateActions.setUserSignedIn });
+          setUserSignedIn(true);
 
           resolve(user);
         } else {

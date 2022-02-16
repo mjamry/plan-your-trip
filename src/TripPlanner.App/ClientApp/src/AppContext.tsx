@@ -4,10 +4,10 @@ import {
 } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
+import { RecoilRoot } from 'recoil';
 import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
-import { AppStateProvider } from './State/AppState';
 import { LocationsStateProvider } from './State/LocationsState';
 import { PlansStateProvider } from './State/PlansState';
 import { UserStateProvider } from './State/UserState';
@@ -28,7 +28,7 @@ function AppContext({ children }: Props) {
   return (
     <NotificationStateProvider>
       <ToasterNotificationsComponent />
-      <AppStateProvider>
+      <RecoilRoot>
         <UserStateProvider>
           <LocationsStateProvider>
             <PlansStateProvider>
@@ -44,7 +44,7 @@ function AppContext({ children }: Props) {
             </PlansStateProvider>
           </LocationsStateProvider>
         </UserStateProvider>
-      </AppStateProvider>
+      </RecoilRoot>
     </NotificationStateProvider>
   );
 }

@@ -8,8 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useAppState } from '../State/AppState';
+import { useRecoilValue } from 'recoil';
 import useUserService from '../Services/UserService';
+import { userSignedInState } from '../State/AppState';
 
 const useStyles = makeStyles({
   header: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
 function Header() {
   const [userName, setUserName] = useState<string>('');
   const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
-  const { state: appState } = useAppState();
+  const userSignedIn = useRecoilValue<boolean>(userSignedInState);
   const userService = useUserService();
   const open = Boolean(anchorEl);
   const classes = useStyles();
@@ -42,10 +43,10 @@ function Header() {
       }
     };
 
-    if (appState.userSignedIn) {
+    if (userSignedIn) {
       getUserName();
     }
-  }, [appState.userSignedIn]);
+  }, [userSignedIn]);
 
   const renderUserInfo = () => (
     <div>

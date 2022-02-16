@@ -1,7 +1,8 @@
+import { useRecoilValue } from 'recoil';
 import { DashboardDto } from '../Common/Dto/DashboardDto';
 import UserDto from '../Common/Dto/UserDto';
 import useRestClient from '../Common/RestClient';
-import { useAppState } from '../State/AppState';
+import { appSettingsState } from '../State/AppState';
 
 interface IUserDataService {
   getDashboard: () => Promise<DashboardDto>;
@@ -10,9 +11,8 @@ interface IUserDataService {
 
 const useUserDataService = (): IUserDataService => {
   const api = useRestClient();
-  const { state: appState } = useAppState();
-
-  const url = `${appState.appSettings.apiUrl}/userData`;
+  const appSettings = useRecoilValue(appSettingsState);
+  const url = `${appSettings.apiUrl}/userData`;
 
   const getDashboard = async () => api.get<DashboardDto>(`${url}/dashboard`);
 

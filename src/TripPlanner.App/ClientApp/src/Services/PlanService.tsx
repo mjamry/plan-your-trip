@@ -1,10 +1,11 @@
+import { useRecoilValue } from 'recoil';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
 import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
-import { useAppState } from '../State/AppState';
 import PlanDto from '../Common/Dto/PlanDto';
 import UserDto from '../Common/Dto/UserDto';
+import { appSettingsState } from '../State/AppState';
 
 interface IPlanService {
   add: (plan: PlanDto) => Promise<void>;
@@ -17,9 +18,8 @@ interface IPlanService {
 
 const usePersistentPlanService = () => {
   const api = useRestClient();
-  const { state: appState } = useAppState();
-
-  const apiUrl = `${appState.appSettings.apiUrl}/plans`;
+  const appSettings = useRecoilValue(appSettingsState);
+  const apiUrl = `${appSettings.apiUrl}/plans`;
 
   const add = (plan: PlanDto) => api.post<PlanDto>(apiUrl, plan);
 
