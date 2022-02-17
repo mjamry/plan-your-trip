@@ -5,7 +5,6 @@ import {
 import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import { RecoilRoot } from 'recoil';
-import { NotificationStateProvider } from './State/NotificationState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { PlansStateProvider } from './State/PlansState';
 
@@ -23,20 +22,18 @@ theme = responsiveFontSizes(theme);
 
 function AppContext({ children }: Props) {
   return (
-    <NotificationStateProvider>
+    <RecoilRoot>
       <ToasterNotificationsComponent />
-      <RecoilRoot>
-        <PlansStateProvider>
-          <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-              <LocalizationProvider dateAdapter={DateAdapter}>
-                {children}
-              </LocalizationProvider>
-            </ThemeProvider>
-          </StyledEngineProvider>
-        </PlansStateProvider>
-      </RecoilRoot>
-    </NotificationStateProvider>
+      <PlansStateProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <LocalizationProvider dateAdapter={DateAdapter}>
+              {children}
+            </LocalizationProvider>
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </PlansStateProvider>
+    </RecoilRoot>
   );
 }
 

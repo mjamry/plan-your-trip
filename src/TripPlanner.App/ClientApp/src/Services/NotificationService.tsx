@@ -1,5 +1,6 @@
-import { NotificationsActions, useNotificationState } from '../State/NotificationState';
-import { NotificationType } from '../Common/Dto/Notification';
+import { useSetRecoilState } from 'recoil';
+import { NotificationType, Notification } from '../Common/Dto/Notification';
+import { showNotificationState } from '../State/NotificationsState';
 
 interface INotificationService {
     success: (content: string) => void;
@@ -8,30 +9,18 @@ interface INotificationService {
 }
 
 const useNotificationService = (): INotificationService => {
-  const { dispatch } = useNotificationState();
+  const showNotification = useSetRecoilState(showNotificationState);
 
   const showError = (content: string) => {
-    dispatch({
-      type: NotificationsActions.show,
-      data: content,
-      notificationType: NotificationType.error,
-    });
+    showNotification([new Notification(NotificationType.error, content)]);
   };
 
   const showInfo = (content: string) => {
-    dispatch({
-      type: NotificationsActions.show,
-      data: content,
-      notificationType: NotificationType.info,
-    });
+    showNotification([new Notification(NotificationType.info, content)]);
   };
 
   const showSuccess = (content: string) => {
-    dispatch({
-      type: NotificationsActions.show,
-      data: content,
-      notificationType: NotificationType.success,
-    });
+    showNotification([new Notification(NotificationType.success, content)]);
   };
 
   return {

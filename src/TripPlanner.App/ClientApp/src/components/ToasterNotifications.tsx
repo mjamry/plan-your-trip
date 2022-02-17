@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckIcon from '@mui/icons-material/Check';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoggerService from '../Services/Diagnostics/LoggerService';
 import { Notification, NotificationType } from '../Common/Dto/Notification';
-import { useNotificationState, NotificationsActions } from '../State/NotificationState';
+import { hideNotificationState, notificationsState } from '../State/NotificationsState';
 
 type NotificationItemProps = {
   type: NotificationType,
@@ -116,13 +117,14 @@ function CreateToasterNotification(notification: Notification, onClose: () => vo
 }
 
 function ToasterNotificationsComponent() {
-  const { state, dispatch } = useNotificationState();
+  const hideNotification = useSetRecoilState(hideNotificationState);
+  const notifications = useRecoilValue(notificationsState);
 
   const renderNotifications = () => {
-    const output = state.notifications.map((notification) => (
+    const output = notifications.map((notification) => (
       CreateToasterNotification(
         notification,
-        () => { dispatch({ type: NotificationsActions.hide, data: notification.id }); },
+        () => hideNotification([notification]),
       )
     ));
 
