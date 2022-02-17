@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ShareIcon from '@mui/icons-material/Share';
 
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
 import DraggableTimeline from '../components/planDetails/DraggableTimeline';
@@ -19,7 +20,7 @@ import PlanDetails from '../components/planDetails/PlanDetails';
 import useUserDataService from '../Services/UserDataService';
 import usePlanService from '../Services/PlanService';
 import { PlansStateActions, usePlansState } from '../State/PlansState';
-import { useLocationsState } from '../State/LocationsState';
+import { locationsState } from '../State/LocationsState';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,7 +71,7 @@ function PlansDetailsPage() {
   const userService = useUserDataService();
   const planService = usePlanService();
   const { dispatch: dispatchPlans } = usePlansState();
-  const { state: locationsState } = useLocationsState();
+  const locations = useRecoilValue(locationsState);
   const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
@@ -137,12 +138,12 @@ function PlansDetailsPage() {
               <PlanDetails />
               <Paper className={classes.planLocations}>
                 <DraggableTimeline
-                  data={locationsState.locations}
+                  data={locations}
                   position={TimelineElementPositionType.right}
                 />
               </Paper>
               <Paper className={classes.map}>
-                <MapView locations={locationsState.locations} mapId="planFormMapId" />
+                <MapView locations={locations} mapId="planFormMapId" />
               </Paper>
             </div>
           </>

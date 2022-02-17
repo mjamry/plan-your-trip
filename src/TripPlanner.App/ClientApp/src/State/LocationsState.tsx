@@ -1,69 +1,40 @@
-import React, {
-  useReducer, useContext, createContext, useMemo,
-} from 'react';
+import {
+  atom, selectorFamily,
+} from 'recoil';
 import LocationDto from '../Common/Dto/LocationDto';
+
+import { Nullable } from '../Common/Dto/Nullable';
 
 const enum LocationsStateActions {
   addLocation,
   removeLocation,
   editLocation,
-  selectOnMap,
   removeAllLocations,
-  loadLocations,
-  isLoading,
 }
 
-type State = {
-  locations: LocationDto[],
-  locationSelectedOnMap?: LocationDto,
-  isLoading: boolean,
-}
+const handleLocationsStateAction = (
+  action: LocationsStateActions,
+  state: LocationDto[],
+  data: LocationDto,
+): LocationDto[] => {
+  let newState: LocationDto[] = state;
 
-type Action =
-  | { type: LocationsStateActions.addLocation, data: LocationDto }
-  | { type: LocationsStateActions.removeLocation, data: LocationDto }
-  | { type: LocationsStateActions.editLocation, data: LocationDto }
-  | { type: LocationsStateActions.selectOnMap, data: LocationDto }
-  | { type: LocationsStateActions.removeAllLocations }
-  | { type: LocationsStateActions.loadLocations, data: LocationDto[] }
-  | { type: LocationsStateActions.isLoading, data: boolean }
-
-type Dispatch = (action: Action) => void;
-
-const initialState: State = {
-  locations: [],
-  locationSelectedOnMap: undefined,
-  isLoading: false,
-};
-
-const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
-  let newState: State = state;
-
-  switch (action.type) {
+  switch (action) {
     case LocationsStateActions.addLocation:
-      newState = { ...state, locations: [...state.locations, action.data] };
+      newState = [...state, data];
       break;
     case LocationsStateActions.removeLocation:
-      const updatedLocations = state.locations.filter((l) => l.id !== action.data.id) || [];
-      newState = { ...state, locations: updatedLocations };
+      const updatedLocations = state.filter((l) => l.id !== data.id) || [];
+      newState = updatedLocations;
       break;
     case LocationsStateActions.editLocation:
-      const editedItemIndex = state.locations.findIndex((l) => l.id === action.data.id);
-      const newArray = [...state.locations];
-      newArray[editedItemIndex] = action.data;
-      newState = { ...state, locations: newArray };
-      break;
-    case LocationsStateActions.selectOnMap:
-      newState = { ...state, locationSelectedOnMap: action.data };
+      const editedItemIndex = state.findIndex((l) => l.id === data.id);
+      const newArray = [...state];
+      newArray[editedItemIndex] = data;
+      newState = newArray;
       break;
     case LocationsStateActions.removeAllLocations:
-      newState = { ...state, locations: [] };
-      break;
-    case LocationsStateActions.loadLocations:
-      newState = { ...state, locations: action.data };
-      break;
-    case LocationsStateActions.isLoading:
-      newState = { ...state, isLoading: action.data };
+      newState = [];
       break;
     default:
       break;
@@ -72,28 +43,36 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
   return newState;
 };
 
-const LocationsStateContext = createContext<{ state: State, dispatch: Dispatch }>(
-  {
-    state: initialState,
-    dispatch: () => undefined,
+const locationsState = atom<LocationDto[]>({
+  key: 'locationsState.locations',
+  default: [],
+});
+
+const locationSelectedOnMap = atom<Nullable<LocationDto>>({
+  key: 'locationState.selectedOnMap',
+  default: undefined,
+});
+
+const isLoadingState = atom<boolean>({
+  key: 'locationsState.isLoading',
+  default: false,
+});
+
+const modifyLocationsState = selectorFamily<LocationDto[], LocationsStateActions>({
+  key: 'locationState.addLocation',
+  get: () => ({ get }) => get(locationsState),
+  set: (action) => ({ get, set }, value) => {
+    const state = get(locationsState);
+    const newState = handleLocationsStateAction(action, state, value[0]);
+    set(locationsState, newState);
   },
-);
-const useLocationsState = () => useContext(LocationsStateContext);
 
-type Props = {
-  children: JSX.Element
-}
+});
 
-function LocationsStateProvider({ children }: Props) {
-  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
-
-  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
-
-  return (
-    <LocationsStateContext.Provider value={value}>
-      {children}
-    </LocationsStateContext.Provider>
-  );
-}
-
-export { LocationsStateProvider, LocationsStateActions, useLocationsState };
+export {
+  locationsState,
+  isLoadingState,
+  locationSelectedOnMap,
+  modifyLocationsState,
+  LocationsStateActions,
+};

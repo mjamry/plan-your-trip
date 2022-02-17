@@ -3,8 +3,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { AddBox } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import Table from '../components/Table/Table';
-import { useLocationsState } from '../State/LocationsState';
 import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
 import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useLocationService from '../Services/LocationService';
@@ -12,6 +12,7 @@ import LocationsMapView from '../components/MapView/LocationsMapView';
 import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
 import RatingButton from '../components/RatingButton';
 import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
+import { locationsState } from '../State/LocationsState';
 
 const useStyles = makeStyles({
   container: {
@@ -42,7 +43,7 @@ type RouteParams = {
 function LocationsPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
-  const { state: locationsState } = useLocationsState();
+  const locations = useRecoilValue(locationsState);
   const { dispatch: dispatchModal } = useModalState();
   const { dispatch: dispatchPlans } = usePlansState();
   const locationsService = useLocationService();
@@ -100,7 +101,7 @@ function LocationsPage() {
             },
           ]}
           onRowClick={((location: LocationDto) => setSelectedLocation(location))}
-          data={locationsState.locations}
+          data={locations}
           edit={(location: LocationDto) => dispatchModal({
             type: ModalStateAction.show,
             modalType: ModalTypes.editLocation,
@@ -116,7 +117,7 @@ function LocationsPage() {
             {
               icon: <GetAppIcon />,
               title: 'Download',
-              action: () => gpxFileDownloader.download(locationsState.locations),
+              action: () => gpxFileDownloader.download(locations),
             },
             {
               icon: <AddBox />,
@@ -132,7 +133,7 @@ function LocationsPage() {
       </div>
       <div className={classes.mapContainer}>
         <LocationsMapView
-          locations={locationsState.locations}
+          locations={locations}
           selectedLocation={selectedLocation}
         />
       </div>

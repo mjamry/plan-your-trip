@@ -8,7 +8,6 @@ import { RecoilRoot } from 'recoil';
 import { NotificationStateProvider } from './State/NotificationState';
 import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
-import { LocationsStateProvider } from './State/LocationsState';
 import { PlansStateProvider } from './State/PlansState';
 
 declare module '@mui/styles/defaultTheme' {
@@ -28,19 +27,17 @@ function AppContext({ children }: Props) {
     <NotificationStateProvider>
       <ToasterNotificationsComponent />
       <RecoilRoot>
-        <LocationsStateProvider>
-          <PlansStateProvider>
-            <ModalStateProvider>
-              <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                  <LocalizationProvider dateAdapter={DateAdapter}>
-                    {children}
-                  </LocalizationProvider>
-                </ThemeProvider>
-              </StyledEngineProvider>
-            </ModalStateProvider>
-          </PlansStateProvider>
-        </LocationsStateProvider>
+        <PlansStateProvider>
+          <ModalStateProvider>
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={theme}>
+                <LocalizationProvider dateAdapter={DateAdapter}>
+                  {children}
+                </LocalizationProvider>
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </ModalStateProvider>
+        </PlansStateProvider>
       </RecoilRoot>
     </NotificationStateProvider>
   );
