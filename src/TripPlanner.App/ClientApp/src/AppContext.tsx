@@ -6,7 +6,6 @@ import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import { RecoilRoot } from 'recoil';
 import { NotificationStateProvider } from './State/NotificationState';
-import { ModalStateProvider } from './State/ModalState';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
 import { PlansStateProvider } from './State/PlansState';
 
@@ -28,15 +27,13 @@ function AppContext({ children }: Props) {
       <ToasterNotificationsComponent />
       <RecoilRoot>
         <PlansStateProvider>
-          <ModalStateProvider>
-            <StyledEngineProvider injectFirst>
-              <ThemeProvider theme={theme}>
-                <LocalizationProvider dateAdapter={DateAdapter}>
-                  {children}
-                </LocalizationProvider>
-              </ThemeProvider>
-            </StyledEngineProvider>
-          </ModalStateProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <LocalizationProvider dateAdapter={DateAdapter}>
+                {children}
+              </LocalizationProvider>
+            </ThemeProvider>
+          </StyledEngineProvider>
         </PlansStateProvider>
       </RecoilRoot>
     </NotificationStateProvider>

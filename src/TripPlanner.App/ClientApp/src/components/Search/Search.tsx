@@ -5,11 +5,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Popover } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { ModalStateAction, useModalState, ModalTypes } from '../../State/ModalState';
+import { useSetRecoilState } from 'recoil';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import useWikiSearch from '../../Common/WikiSearchService';
 import SearchResult from './SearchResult';
 import { LocationFormStateActions, useLocationFormState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
+import { ModalTypes, showModalState } from '../../State/ModalState';
 
 const useStyles = makeStyles({
   root: {
@@ -39,7 +40,7 @@ function Search(props: Props) {
   const [searchValue, setSearchValue] = useState<string>(locationState.location.name || '');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch: dispatchModal } = useModalState();
+  const showModal = useSetRecoilState(showModalState);
   const logger = useLoggerService('Search');
   const [searchResultAnchor, setSearchResultAnchor] = React.useState<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLDivElement>(null);
@@ -70,21 +71,19 @@ function Search(props: Props) {
 
     updateLocationState(selectedResult);
 
-    dispatchModal({
-      type: ModalStateAction.show,
-      modalType: ModalTypes.loading,
+    showModal({
+      type: ModalTypes.loading,
       data: undefined,
     });
 
     wikiSearch
       .getDetails(selectedResult)
       .then((location) => {
-        dispatchModal({
-          type: ModalStateAction.show,
+        showModal({
+          type: ModalTypes.addLocation,
           data: location,
-          modalType:
-          ModalTypes.addLocation,
         });
+
         logger.debug(`[Search] Received data for ${selectedResult}`, location);
       })
       .catch((error) => {

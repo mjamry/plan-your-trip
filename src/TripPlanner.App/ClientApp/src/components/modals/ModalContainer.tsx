@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ModalWrapper from './ModalComponent';
-import { useModalState, ModalTypes, ModalStateAction } from '../../State/ModalState';
 import useLocationFormBuilder from './LocationDetailsForm/LocationDetailsForm';
 import ModalHeader from './ModalHeader';
 import Confirmation from './Confirmation';
@@ -15,6 +15,9 @@ import { PlanEmpty } from '../../Common/Dto/PlanDto';
 import SharePlanComponent from './Share/SharePlan';
 import ShareStateFooter from './Share/SharePlanFooter';
 import { ShareStateProvider } from './Share/ShareState';
+import {
+  hideModalState, modalState, ModalTypes,
+} from '../../State/ModalState';
 
 const emptyModal = {} as ModalDto;
 
@@ -23,7 +26,9 @@ type ModalModel = ModalDto | ModalDto<typeof LocationFormStateProvider>;
 // TODO extract to separate file
 
 const useModalContentFactory = () => {
-  const { state, dispatch } = useModalState();
+  const hideModal = useSetRecoilState(hideModalState);
+  const { data: modalData } = useRecoilValue(modalState);
+
   const locationService = useLocationService();
   const planService = usePlanService();
   const logger = useLoggerService('ModalContentFactory');
@@ -37,11 +42,11 @@ const useModalContentFactory = () => {
         return locationFormBuilder(
           {
             title: 'Add location',
-            location: state.data,
+            location: modalData,
             onSubmit: (data) => {
               // TODO: add correct planID
               locationService.add(data, 0);
-              dispatch({ type: ModalStateAction.hide });
+              hideModal({});
             },
           },
         );
@@ -50,10 +55,10 @@ const useModalContentFactory = () => {
         return locationFormBuilder(
           {
             title: 'Edit location',
-            location: state.data,
+            location: modalData,
             onSubmit: (data) => {
               locationService.edit(data);
-              dispatch({ type: ModalStateAction.hide });
+              hideModal({});
             },
           },
         );
@@ -61,15 +66,15 @@ const useModalContentFactory = () => {
       case ModalTypes.removeLocation:
       {
         const submitAction = () => {
-          locationService.remove(state.data);
-          dispatch({ type: ModalStateAction.hide });
+          locationService.remove(modalData);
+          hideModal({});
         };
 
         return {
-          header: <ModalHeader title={`Do you want to remove\n\r "${state.data.name}"`} />,
+          header: <ModalHeader title={`Do you want to remove\n\r "${modalData.name}"`} />,
           body: <Confirmation
             onSubmit={() => submitAction()}
-            onCancel={() => dispatch({ type: ModalStateAction.hide })}
+            onCancel={() => hideModal({})}
           />,
         }; }
 
@@ -86,7 +91,7 @@ const useModalContentFactory = () => {
             plan: PlanEmpty,
             onSubmit: (data) => {
               planService.add(data);
-              dispatch({ type: ModalStateAction.hide });
+              hideModal({});
             },
           },
         );
@@ -95,10 +100,10 @@ const useModalContentFactory = () => {
         return planFormBuilder(
           {
             title: 'Edit plan',
-            plan: state.data,
+            plan: modalData,
             onSubmit: (data) => {
               planService.edit(data);
-              dispatch({ type: ModalStateAction.hide });
+              hideModal({});
             },
           },
         );
@@ -106,15 +111,15 @@ const useModalContentFactory = () => {
       case ModalTypes.removePlan:
       {
         const submitAction = () => {
-          planService.remove(state.data);
-          dispatch({ type: ModalStateAction.hide });
+          planService.remove(modalData);
+          hideModal({});
         };
 
         return {
-          header: <ModalHeader title={`Do you want to remove\n\r "${state.data.name}"`} />,
+          header: <ModalHeader title={`Do you want to remove\n\r "${modalData.name}"`} />,
           body: <Confirmation
             onSubmit={() => submitAction()}
-            onCancel={() => dispatch({ type: ModalStateAction.hide })}
+            onCancel={() => hideModal({})}
           />,
         };
       }
@@ -123,10 +128,10 @@ const useModalContentFactory = () => {
         return {
           header: <ModalHeader title="Share with" />,
           body: <SharePlanComponent
-            usersToShare={state.data.usersToShare}
-            shares={state.data.shares}
+            usersToShare={modalData.usersToShare}
+            shares={modalData.shares}
           />,
-          footer: <ShareStateFooter planId={state.data.planId} />,
+          footer: <ShareStateFooter planId={modalData.planId} />,
           state: ShareStateProvider,
         };
 
@@ -141,37 +146,38 @@ const useModalContentFactory = () => {
 
 const ModalContainer = () => {
   const [modalContent, setModalContent] = useState<ModalModel>(emptyModal);
-  const { state, dispatch } = useModalState();
   const factory = useModalContentFactory();
+  const { isVisible, type: modalType } = useRecoilValue(modalState);
+  const hideModal = useSetRecoilState(modalState);
 
   const renderModal = () => {
     if (modalContent.state) {
       return (
         <modalContent.state>
           <ModalWrapper
-            isVisible={state.isVisible}
+            isVisible={isVisible!}
             header={modalContent.header}
             body={modalContent.body}
             footer={modalContent.footer}
-            onClickAway={() => dispatch({ type: ModalStateAction.hide })}
+            onClickAway={() => hideModal({})}
           />
         </modalContent.state>
       );
     }
     return (
       <ModalWrapper
-        isVisible={state.isVisible}
+        isVisible={isVisible!}
         header={modalContent.header}
         body={modalContent.body}
         footer={modalContent.footer}
-        onClickAway={() => dispatch({ type: ModalStateAction.hide })}
+        onClickAway={() => hideModal({})}
       />
     );
   };
 
   useEffect(() => {
-    setModalContent(factory(state.type!));
-  }, [state]);
+    setModalContent(factory(modalType!));
+  }, [modalType]);
 
   return renderModal();
 };
