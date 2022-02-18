@@ -24,6 +24,7 @@ import './Styles/PlansPage.css';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { UserManager } from 'oidc-client';
+import { useSetRecoilState } from 'recoil';
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator';
 import ModalContainer from './components/modals/ModalContainer';
 
@@ -38,20 +39,20 @@ import PlanDetailsPage from './pages/PlanDetailsPage';
 import PageLayout from './pages/PageLayout';
 import PrivateRoute from './components/PrivateRoute';
 import useAppSettingsService from './Services/AppSettingsService';
-import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 import ErrorPage from './pages/ErrorPage';
+import userManagerState from './State/UserState';
 
 function App() {
   const appSettingsService = useAppSettingsService();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
-  const { dispatch: dispatchUserState } = useUserState();
+  const setUserManager = useSetRecoilState(userManagerState);
   const configBuilder = useUserManagerConfigBuilder();
 
   useEffect(() => {
     appSettingsService.init().then((settings) => {
       const mng = new UserManager(configBuilder.build(settings));
-      dispatchUserState({ type: UserStateActions.setupUserManager, data: mng });
+      setUserManager(mng);
 
       setIsAppLoaded(true);
     });

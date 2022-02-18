@@ -1,6 +1,4 @@
-import React, {
-  createContext, useContext, useMemo, useReducer,
-} from 'react';
+import { atom, selector } from 'recoil';
 
 const enum ModalTypes {
   addLocation,
@@ -13,77 +11,41 @@ const enum ModalTypes {
   sharePlan,
 }
 
-const enum ModalStateAction {
-  show,
-  hide,
-  update,
-}
-
-type State = {
+type ModalState = {
   type?: ModalTypes;
-  isVisible: boolean;
-  data?: any
+  data?: any;
+  isVisible?: boolean;
 }
 
-type Action =
-  | { type: ModalStateAction.show, data: any, modalType: ModalTypes }
-  | { type: ModalStateAction.hide }
-  | { type: ModalStateAction.update, data: any }
+const modalState = atom<ModalState>({
+  key: 'modalState',
+  default: { type: undefined, data: undefined },
+});
 
-type Dispatch = (action: Action) => void;
-
-const initialState: State = {
-  type: undefined,
-  isVisible: false,
-  data: undefined,
-};
-
-const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
-  let newState: State = state;
-
-  switch (action.type) {
-    case ModalStateAction.show:
-      newState = {
-        ...state, data: action.data, type: action.modalType, isVisible: true,
-      };
-      break;
-    case ModalStateAction.hide:
-      newState = { data: undefined, type: undefined, isVisible: false };
-      break;
-    case ModalStateAction.update:
-      newState = { ...state, data: action.data };
-      break;
-    default:
-      break;
-  }
-
-  return newState;
-};
-
-const ModalContext = createContext<{ state: State, dispatch: Dispatch }>(
-  {
-    state: initialState,
-    dispatch: () => undefined,
+const showModalState = selector<ModalState>({
+  key: 'modalState.show',
+  get: ({ get }) => get(modalState),
+  set: ({ set }, value) => {
+    set(modalState, { ...value, isVisible: true });
   },
-);
-const useModalState = () => useContext(ModalContext);
+});
 
-type Props = {
-  children: JSX.Element
-}
+const hideModalState = selector<ModalState>({
+  key: 'modalState.hide',
+  get: ({ get }) => get(modalState),
+  set: ({ set }) => {
+    set(modalState, { type: undefined, data: undefined, isVisible: false });
+  },
+});
 
-function ModalStateProvider({ children }: Props) {
-  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
-
-  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
-
-  return (
-    <ModalContext.Provider value={value}>
-      {children}
-    </ModalContext.Provider>
-  );
-}
+const updateModalState = selector<ModalState>({
+  key: 'modalState.update',
+  get: ({ get }) => get(modalState),
+  set: ({ set }, value) => {
+    set(modalState, { ...value, isVisible: true });
+  },
+});
 
 export {
-  ModalStateProvider, useModalState, ModalTypes, ModalStateAction,
+  modalState, ModalTypes, showModalState, hideModalState, updateModalState,
 };

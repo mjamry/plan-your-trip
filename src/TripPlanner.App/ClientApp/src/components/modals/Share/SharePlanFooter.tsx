@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import usePlanService from '../../../Services/PlanService';
-import { ModalStateAction, useModalState } from '../../../State/ModalState';
-import { useShareState } from './ShareState';
+import { hideModalState } from '../../../State/ModalState';
+import shareState from './ShareState';
 
 const useStyles = makeStyles({
   root: {
@@ -22,18 +23,18 @@ type Props = {
 }
 
 function ShareStateFooter({ planId }: Props) {
-  const { state: shareState } = useShareState();
+  const usersToShare = useRecoilValue(shareState);
   const planService = usePlanService();
-  const { dispatch: dispatchModal } = useModalState();
+  const hideModal = useSetRecoilState(hideModalState);
   const classes = useStyles();
 
   const handleShare = async () => {
-    await planService.share(planId, shareState.usersToShare);
-    dispatchModal({ type: ModalStateAction.hide });
+    await planService.share(planId, usersToShare);
+    hideModal({});
   };
 
   const handleCancel = () => {
-    dispatchModal({ type: ModalStateAction.hide });
+    hideModal({});
   };
 
   return (

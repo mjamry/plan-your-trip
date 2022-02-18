@@ -11,7 +11,7 @@ class Log {
     timestamp: string,
     level: LogLevel,
     message: string,
-    data?: object,
+    data?: object | string,
     prefix: string = '',
   ) {
     this.userId = userId;
@@ -19,7 +19,7 @@ class Log {
     this.level = level;
     this.message = message;
     this.prefix = prefix;
-    this.data = data ? JSON.stringify(data) : null;
+    this.data = data;
   }
 
   userId;

@@ -4,13 +4,9 @@ import {
 } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
-import { NotificationStateProvider } from './State/NotificationState';
-import { ModalStateProvider } from './State/ModalState';
+import { RecoilRoot } from 'recoil';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
-import { AppStateProvider } from './State/AppState';
-import { LocationsStateProvider } from './State/LocationsState';
-import { PlansStateProvider } from './State/PlansState';
-import { UserStateProvider } from './State/UserState';
+import DebugStateObserver from './State/DebugStateObserver';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -26,26 +22,17 @@ theme = responsiveFontSizes(theme);
 
 function AppContext({ children }: Props) {
   return (
-    <NotificationStateProvider>
+    <RecoilRoot>
+      <DebugStateObserver />
       <ToasterNotificationsComponent />
-      <AppStateProvider>
-        <UserStateProvider>
-          <LocationsStateProvider>
-            <PlansStateProvider>
-              <ModalStateProvider>
-                <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={theme}>
-                    <LocalizationProvider dateAdapter={DateAdapter}>
-                      {children}
-                    </LocalizationProvider>
-                  </ThemeProvider>
-                </StyledEngineProvider>
-              </ModalStateProvider>
-            </PlansStateProvider>
-          </LocationsStateProvider>
-        </UserStateProvider>
-      </AppStateProvider>
-    </NotificationStateProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            {children}
+          </LocalizationProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </RecoilRoot>
   );
 }
 

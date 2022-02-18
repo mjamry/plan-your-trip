@@ -4,13 +4,19 @@ const enum NotificationType {
     error = 'error',
     success = 'success',
     info = 'info',
+    none = 'none',
 }
 
 class Notification {
-  constructor(type: NotificationType, content: string, timeout: number) {
+  constructor(
+    type: NotificationType,
+    content: string,
+    timeout: number = DefaultNotificationTimeout,
+    id: string = (+new Date()).toString(32),
+  ) {
     this.type = type;
     this.content = content;
-    this.id = (+new Date()).toString(32);
+    this.id = id;
     this.timeout = timeout;
   }
 
@@ -23,4 +29,6 @@ class Notification {
   id: string;
 }
 
-export { DefaultNotificationTimeout, Notification, NotificationType };
+export {
+  DefaultNotificationTimeout, Notification, NotificationType,
+};

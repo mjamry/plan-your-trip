@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { Log, User } from 'oidc-client';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoggerService from './Diagnostics/LoggerService';
-import { useAppState, AppStateActions } from '../State/AppState';
-import { useUserState } from '../State/UserState';
+import { userSignedInState } from '../State/AppState';
+import userManagerState from '../State/UserState';
 
 const GET_USER_TIMEOUT = 5000;
 
@@ -17,10 +18,9 @@ interface IUserService {
 }
 
 const useUserService = (): IUserService => {
-  const { dispatch: dispatchAppState } = useAppState();
   const navigate = useNavigate();
-  const { state: userState } = useUserState();
-
+  const userManager = useRecoilValue(userManagerState);
+  const setUserSignedIn = useSetRecoilState(userSignedInState);
   const log = useLoggerService('UserService');
 
   useEffect(() => {
@@ -29,15 +29,15 @@ const useUserService = (): IUserService => {
   }, []);
 
   const signIn = (): void => {
-    userState.userManager?.signinRedirect();
+    userManager?.signinRedirect();
   };
 
   const signOut = (): void => {
-    userState.userManager?.signoutRedirect();
+    userManager?.signoutRedirect();
   };
 
   const finishAuthentication = (): void => {
-    userState.userManager?.signinRedirectCallback()
+    userManager?.signinRedirectCallback()
       .then(() => {
         navigate('/');
       }).catch((e) => {
@@ -48,7 +48,7 @@ const useUserService = (): IUserService => {
   const getUser = (): Promise<User> => new Promise<User>((resolve, reject) => {
     log.debug('Getting user...');
     const getUserTimeout = setTimeout(signIn, GET_USER_TIMEOUT);
-    userState.userManager?.getUser()
+    userManager?.getUser()
       .then((user) => {
         clearTimeout(getUserTimeout);
         if (user) {
@@ -57,7 +57,7 @@ const useUserService = (): IUserService => {
             signIn();
           }
           log.debug('User signed in');
-          dispatchAppState({ type: AppStateActions.setUserSignedIn });
+          setUserSignedIn(true);
 
           resolve(user);
         } else {
@@ -81,7 +81,7 @@ const useUserService = (): IUserService => {
           resolve(user.access_token);
         } else {
           log.debug('Silent signin');
-          userState.userManager?.signinSilent();
+          userManager?.signinSilent();
         }
       })
       .catch(() => {

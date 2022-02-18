@@ -1,7 +1,8 @@
 import Button from '@mui/material/Button';
 import React from 'react';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import LocationDto from '../../../Common/Dto/LocationDto';
-import { useLocationFormState } from './LocationDetailsFormState';
+import { locationFormDataState, locationFormErrorState, locationFormStepState } from './LocationDetailsFormState';
 import { Step } from './Steps/Step';
 import StepsConfiguration from './Steps/StepsConfig';
 import useStepsCoordinator from './Steps/StepsCoordinator';
@@ -12,8 +13,18 @@ type FooterProps = {
 
 function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
   const steps: Step[] = StepsConfiguration;
-  const { state } = useLocationFormState();
   const coordinator = useStepsCoordinator(steps);
+  const locationData = useRecoilValue(locationFormDataState);
+  const resetStep = useResetRecoilState(locationFormStepState);
+  const resetError = useResetRecoilState(locationFormErrorState);
+  const resetLocationData = useResetRecoilState(locationFormDataState);
+
+  const handleSubmit = () => {
+    resetStep();
+    resetError();
+    resetLocationData();
+    onSubmit(locationData);
+  };
 
   const renderPrevious = () => {
     if (!coordinator.isFirstStep()) {
@@ -38,7 +49,7 @@ function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
           size="small"
           variant="contained"
           onClick={() => coordinator.next()}
-          disabled={!coordinator.canNext(state.location)}
+          disabled={!coordinator.canNext(locationData)}
         >
           Next
         </Button>
@@ -55,8 +66,8 @@ function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
           size="small"
           variant="contained"
           color="primary"
-          onClick={() => onSubmit(state.location!)}
-          disabled={!coordinator.canNext(state.location)}
+          onClick={() => handleSubmit()}
+          disabled={!coordinator.canNext(locationData)}
         >
           Save
         </Button>
