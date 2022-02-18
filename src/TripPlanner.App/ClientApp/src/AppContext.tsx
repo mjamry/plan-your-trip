@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import { RecoilRoot } from 'recoil';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
+import DebugStateObserver from './State/DebugStateObserver';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -22,6 +23,7 @@ theme = responsiveFontSizes(theme);
 function AppContext({ children }: Props) {
   return (
     <RecoilRoot>
+      <DebugStateObserver />
       <ToasterNotificationsComponent />
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
