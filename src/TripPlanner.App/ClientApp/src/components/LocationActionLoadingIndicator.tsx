@@ -1,12 +1,13 @@
 import React from 'react';
 import { CircularProgress } from '@mui/material';
-import { useLocationsState } from '../State/LocationsState';
+import { useRecoilValue } from 'recoil';
+import { isLoadingState } from '../State/LocationsState';
 
 function LocationActionLoadingIndicator() {
-  const { state } = useLocationsState();
+  const isLoading = useRecoilValue(isLoadingState);
 
   return (
-    <div className="location-action-loading-indicator" style={{ display: state.isLoading ? 'block' : 'none' }}>
+    <div className="location-action-loading-indicator" style={{ display: isLoading ? 'block' : 'none' }}>
       <div className="location-action-loading-indicator-content">
         <div className="location-action-loading-indicator-content-title">Processing data</div>
         <CircularProgress />

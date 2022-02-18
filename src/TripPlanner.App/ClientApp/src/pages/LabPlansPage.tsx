@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Paper, Typography } from '@mui/material';
 import { generatePath, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import Loader from '../components/Loader';
 import usePlanService from '../Services/PlanService';
-import { usePlansState } from '../State/PlansState';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';
 import RouteTypes from '../Common/RouteTypes';
+import { plansState } from '../State/PlansState';
 
 const useStyles = makeStyles({
   container: {
@@ -23,9 +24,9 @@ function LabPlansPage() {
   const navigate = useNavigate();
   const classes = useStyles();
   const planService = usePlanService();
-  const { state } = usePlansState();
   const dateTimeFormatter = useDateTimeFormatter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const plans = useRecoilValue(plansState);
 
   useEffect(() => {
     const fetchPlanData = async () => {
@@ -54,8 +55,8 @@ function LabPlansPage() {
                 </Typography>
               </Paper>
             </Grid>
-            { state.plans.map((plan) => (
-              <Grid item xs={12} sm={6}>
+            { plans.map((plan) => (
+              <Grid item xs={12} sm={6} key={plan.id}>
                 <Paper
                   className={classes.gridCard}
                   onClick={() => handlePlanSelect(plan.id)}

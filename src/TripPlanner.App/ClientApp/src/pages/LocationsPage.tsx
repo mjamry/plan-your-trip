@@ -3,15 +3,16 @@ import makeStyles from '@mui/styles/makeStyles';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { AddBox } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Table from '../components/Table/Table';
-import { useLocationsState } from '../State/LocationsState';
-import { useModalState, ModalStateAction, ModalTypes } from '../State/ModalState';
-import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
 import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
 import RatingButton from '../components/RatingButton';
 import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
+import { locationsState } from '../State/LocationsState';
+import { ModalTypes, showModalState } from '../State/ModalState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const useStyles = makeStyles({
   container: {
@@ -42,19 +43,16 @@ type RouteParams = {
 function LocationsPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
-  const { state: locationsState } = useLocationsState();
-  const { dispatch: dispatchModal } = useModalState();
-  const { dispatch: dispatchPlans } = usePlansState();
+  const locations = useRecoilValue(locationsState);
+  const showModal = useSetRecoilState(showModalState);
+  const selectPlan = useSetRecoilState(selectedPlanIdState);
   const locationsService = useLocationService();
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
   const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
-    dispatchPlans({
-      type: PlansStateActions.selectPlan,
-      data: +planId!,
-    });
+    selectPlan(Number(planId!));
 
     const fetchPlanData = async () => {
       setIsLoading(true);
@@ -100,15 +98,13 @@ function LocationsPage() {
             },
           ]}
           onRowClick={((location: LocationDto) => setSelectedLocation(location))}
-          data={locationsState.locations}
-          edit={(location: LocationDto) => dispatchModal({
-            type: ModalStateAction.show,
-            modalType: ModalTypes.editLocation,
+          data={locations}
+          edit={(location: LocationDto) => showModal({
+            type: ModalTypes.editLocation,
             data: location,
           })}
-          remove={(location: LocationDto) => dispatchModal({
-            type: ModalStateAction.show,
-            modalType: ModalTypes.removeLocation,
+          remove={(location: LocationDto) => showModal({
+            type: ModalTypes.removeLocation,
             data: location,
           })}
           isLoading={isLoading}
@@ -116,14 +112,13 @@ function LocationsPage() {
             {
               icon: <GetAppIcon />,
               title: 'Download',
-              action: () => gpxFileDownloader.download(locationsState.locations),
+              action: () => gpxFileDownloader.download(locations),
             },
             {
               icon: <AddBox />,
               title: 'add new item',
-              action: () => dispatchModal({
-                type: ModalStateAction.show,
-                modalType: ModalTypes.addLocation,
+              action: () => showModal({
+                type: ModalTypes.addLocation,
                 data: LocationEmpty,
               }),
             },
@@ -132,7 +127,7 @@ function LocationsPage() {
       </div>
       <div className={classes.mapContainer}>
         <LocationsMapView
-          locations={locationsState.locations}
+          locations={locations}
           selectedLocation={selectedLocation}
         />
       </div>

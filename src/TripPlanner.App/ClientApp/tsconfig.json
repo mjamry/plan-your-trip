@@ -22,7 +22,8 @@
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true,
     // Temporary fix because of @mui-data-grid issue
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "downlevelIteration": true
   },
   "include": [
     "./src/**/*"

@@ -1,11 +1,17 @@
-import { useLocationsState, LocationsStateActions } from '../State/LocationsState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
-import { usePlansState } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
-import { useAppState } from '../State/AppState';
 import LocationDto from '../Common/Dto/LocationDto';
 import { CoordinateDto } from '../Common/Dto/CoordinateDto';
+import { appSettingsState } from '../State/AppState';
+import {
+  isLoadingState,
+  locationsState,
+  modifyLocationsState,
+  LocationsStateActions,
+} from '../State/LocationsState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const convertCoordinates = (location: LocationDto): LocationDto => {
   const coordinates: CoordinateDto = {
@@ -25,9 +31,8 @@ interface ILocationService {
 
 const usePersistentService = () => {
   const api = useRestClient();
-  const { state: appState } = useAppState();
-
-  const apiUrl = `${appState.appSettings.apiUrl}/locations`;
+  const appSettings = useRecoilValue(appSettingsState);
+  const apiUrl = `${appSettings.apiUrl}/locations`;
 
   const add = (location: LocationDto, planId: number) => api.post<LocationDto>(`${apiUrl}/${planId}`, location);
 
@@ -46,115 +51,95 @@ const usePersistentService = () => {
 };
 
 const useLocationService = (): ILocationService => {
-  const { dispatch: dispatchLocations } = useLocationsState();
-  const { state: plansState } = usePlansState();
+  const addLocation = useSetRecoilState(modifyLocationsState(LocationsStateActions.addLocation));
+  const editLocation = useSetRecoilState(modifyLocationsState(LocationsStateActions.editLocation));
+  const removeLocation = useSetRecoilState(
+    modifyLocationsState(LocationsStateActions.removeLocation),
+  );
+  const setIsLoading = useSetRecoilState(isLoadingState);
+  const setLocations = useSetRecoilState(locationsState);
+  const selectedPlanId = useRecoilValue(selectedPlanIdState);
   const notificationService = useNotificationService();
   const persistentLocationService = usePersistentService();
   const logger = useLoggerService('LocationService');
 
-  const setLoading = () => {
-    dispatchLocations({
-      type: LocationsStateActions.isLoading,
-      data: true,
-    });
-  };
-
-  const clearLoading = () => {
-    dispatchLocations({
-      type: LocationsStateActions.isLoading,
-      data: false,
-    });
-  };
-
   const add = (location: LocationDto) => {
-    setLoading();
+    setIsLoading(true);
 
     persistentLocationService.add(
       convertCoordinates(location),
-      plansState.selectedPlanId,
+      selectedPlanId,
     )
       .then((locationData: LocationDto) => {
-        dispatchLocations({
-          type: LocationsStateActions.addLocation,
-          data: locationData,
-        });
+        addLocation([locationData]);
 
         notificationService.success(`New location added: ${locationData.name}`);
-        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${plansState.selectedPlanId}`);
+        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${selectedPlanId}`);
       })
-      .catch(() => {
+      .catch((err) => {
         notificationService.error(`Error while adding location: ${location.name}`);
-        logger.error(`Error while adding new location: Name: ${location.name}`);
+        logger.error(`Error while adding new location: Name: ${location.name}`, err);
       })
       .finally(() => {
-        clearLoading();
+        setIsLoading(false);
       });
   };
 
   const edit = (location: LocationDto) => {
-    setLoading();
+    setIsLoading(true);
 
     persistentLocationService.edit(convertCoordinates(location))
       .then(() => {
-        dispatchLocations({
-          type: LocationsStateActions.editLocation,
-          data: location,
-        });
+        editLocation([location]);
 
         notificationService.success(`Location modified: ${location.name}`);
         logger.info(`Successfully edited location -> Id: ${location.id} Name: ${location.name}`);
       })
-      .catch(() => {
+      .catch((err) => {
         notificationService.error(`Error while editing location: ${location.name}`);
-        logger.error(`Error while editing location: Id: ${location.id} Name: ${location.name}`);
+        logger.error(`Error while editing location: Id: ${location.id} Name: ${location.name}`, err);
       })
       .finally(() => {
-        clearLoading();
+        setIsLoading(false);
       });
   };
 
   const remove = (location: LocationDto) => {
-    setLoading();
+    setIsLoading(true);
 
     persistentLocationService.remove(location)
       .then(() => {
-        dispatchLocations({
-          type: LocationsStateActions.removeLocation,
-          data: location,
-        });
+        removeLocation([location]);
 
         notificationService.success(`Location removed: ${location.name}`);
         logger.info(`Successfully removed location -> Id: ${location.id} Name: ${location.name}`);
       })
-      .catch(() => {
+      .catch((err) => {
         notificationService.error(`Error while removing location: ${location.name}`);
-        logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`);
+        logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`, err);
       })
       .finally(() => {
-        clearLoading();
+        setIsLoading(false);
       });
   };
 
   const getAll = (planId: number): Promise<LocationDto[]> => new Promise((resolve, reject) => {
-    setLoading();
+    setIsLoading(true);
+
     persistentLocationService.getAll(planId)
       .then((data: LocationDto[]) => {
-        dispatchLocations({
-          type: LocationsStateActions.loadLocations,
-          data,
-        });
+        setLocations(data);
 
         logger.info(`Successfully loaded ${data.length} locations`);
         resolve(data);
       })
-      .catch(() => {
+      .catch((err) => {
         notificationService.error('Error while getting locations');
-        logger.error('Error while getting all plans data.');
+        logger.error('Error while getting all plans data.', err);
         reject();
-        clearLoading();
       })
       .finally(() => {
-        clearLoading();
+        setIsLoading(false);
       });
   });
 

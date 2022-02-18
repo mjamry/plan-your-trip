@@ -2,18 +2,25 @@ import { Log, LogLevel } from '../../Common/Dto/Log';
 import useConsoleLog from './ConsoleLog';
 import useDbLog from './DbLog';
 
+type Exception = {
+  message: string,
+  stack: string,
+}
+
+type DebugData = object | string;
+
 type ILoggerService = {
-  error: (msg: string, ex?: object) => void;
+  error: (msg: string, ex?: Exception) => void;
   warning: (msg: string) => void;
   info: (msg: string) => void;
-  debug: (msg: string, data?: object) => void;
+  debug: (msg: string, data?: DebugData) => void;
 }
 
 const useLoggerService = (prefix: string): ILoggerService => {
   const loggers = [useConsoleLog(), useDbLog()];
   const userID = 0;
 
-  const generateLog = (level: LogLevel, message: string, data?: object) => new Log(
+  const generateLog = (level: LogLevel, message: string, data?: DebugData) => new Log(
     userID,
     new Date().toISOString(),
     level,
@@ -22,9 +29,8 @@ const useLoggerService = (prefix: string): ILoggerService => {
     prefix,
   );
 
-  const error = (message: string, exception?: object) => {
+  const error = (message: string, exception?: Exception) => {
     const logEntry = generateLog(LogLevel.error, message, exception);
-
     loggers.forEach((logger) => {
       logger.error(logEntry);
     });
@@ -46,7 +52,7 @@ const useLoggerService = (prefix: string): ILoggerService => {
     });
   };
 
-  const debug = (message: string, data?: object) => {
+  const debug = (message: string, data?: DebugData) => {
     const logEntry = generateLog(LogLevel.debug, message, data);
 
     loggers.forEach((logger) => {

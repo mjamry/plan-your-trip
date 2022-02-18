@@ -1,9 +1,10 @@
-import { AppStateActions, useAppState } from '../State/AppState';
+import { useSetRecoilState } from 'recoil';
 import useRestClient from '../Common/RestClient';
 import useLoggerService from './Diagnostics/LoggerService';
 
 import defaultSettings from '../assets/settings.json';
 import { AppSettings } from '../Common/Dto/AppSettings';
+import { appSettingsState } from '../State/AppState';
 
 const SettingsUrl = '/api/settings';
 
@@ -13,7 +14,8 @@ interface IAppSettingsService {
 
 const useAppSettingsService = (): IAppSettingsService => {
   const logger = useLoggerService('AppSettingsService');
-  const { dispatch } = useAppState();
+
+  const setAppSettings = useSetRecoilState(appSettingsState);
 
   const api = useRestClient(
     {
@@ -34,10 +36,7 @@ const useAppSettingsService = (): IAppSettingsService => {
   const init = async () => new Promise<AppSettings>((resolve, reject) => {
     api.get<AppSettings>(SettingsUrl)
       .then((settings) => {
-        dispatch({
-          type: AppStateActions.setAppSettings,
-          data: getSettings(settings),
-        });
+        setAppSettings(getSettings(settings));
 
         resolve(settings);
       })

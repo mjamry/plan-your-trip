@@ -21,9 +21,10 @@ import './Styles/WelcomePage.css';
 import './Styles/PlanDetailsForm.css';
 import './Styles/PlansPage.css';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { UserManager } from 'oidc-client';
+import { useSetRecoilState } from 'recoil';
 import LocationActionLoadingIndicator from './components/LocationActionLoadingIndicator';
 import ModalContainer from './components/modals/ModalContainer';
 
@@ -38,24 +39,20 @@ import PlanDetailsPage from './pages/PlanDetailsPage';
 import PageLayout from './pages/PageLayout';
 import PrivateRoute from './components/PrivateRoute';
 import useAppSettingsService from './Services/AppSettingsService';
-import { UserStateActions, useUserState } from './State/UserState';
 import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
 import ErrorPage from './pages/ErrorPage';
+import { userManagerState } from './State/UserState';
 import RouteTypes from './Common/RouteTypes';
-import useUserService from './Services/UserService';
-import { useAppState } from './State/AppState';
 import useLoggerService from './Services/Diagnostics/LoggerService';
+import useUserService from './Services/UserService';
 
 function App() {
   const appSettingsService = useAppSettingsService();
-  const { dispatch: dispatchUserState } = useUserState();
+  const [isAppLoaded, setIsAppLoaded] = useState(false);
+  const setUserManager = useSetRecoilState(userManagerState);
   const configBuilder = useUserManagerConfigBuilder();
   const userService = useUserService();
-  const { state: appState } = useAppState();
   const log = useLoggerService('AppInit');
-
-  // eslint-disable-next-line no-promise-executor-return
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   useEffect(() => {
     async function init() {
@@ -65,16 +62,13 @@ function App() {
 
       log.debug('Setup user manager');
       const mng = new UserManager(configBuilder.build(settings));
-      await sleep(1000);
-      // eslint-disable-next-line no-console
-      console.log(mng);
-      dispatchUserState({ type: UserStateActions.setupUserManager, data: mng });
+      setUserManager(mng);
 
       log.debug('Setup user');
       await userService.initializeUser();
 
       log.debug('End init');
-      // appDispatch({ type: AppStateActions.setAppInitialized });
+      setIsAppLoaded(true);
     }
 
     init();
@@ -82,7 +76,7 @@ function App() {
 
   return (
     <>
-      {appState.appInitialized
+      {isAppLoaded
         ? (
           <div className="App">
             <LocationActionLoadingIndicator />

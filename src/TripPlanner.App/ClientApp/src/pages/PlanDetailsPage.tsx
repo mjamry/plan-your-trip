@@ -8,18 +8,19 @@ import AddIcon from '@mui/icons-material/Add';
 import ShareIcon from '@mui/icons-material/Share';
 
 import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useLocationService from '../Services/LocationService';
 import Loader from '../components/Loader';
 import DraggableTimeline from '../components/planDetails/DraggableTimeline';
 import { LocationEmpty } from '../Common/Dto/LocationDto';
 import TimelineElementPositionType from '../Common/Dto/TimelineElementPositionTypes';
 import MapView from '../components/MapView/MapView';
-import { ModalStateAction, ModalTypes, useModalState } from '../State/ModalState';
 import PlanDetails from '../components/planDetails/PlanDetails';
 import useUserDataService from '../Services/UserDataService';
 import usePlanService from '../Services/PlanService';
-import { PlansStateActions, usePlansState } from '../State/PlansState';
-import { useLocationsState } from '../State/LocationsState';
+import { locationsState } from '../State/LocationsState';
+import { ModalTypes, showModalState } from '../State/ModalState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -66,18 +67,15 @@ function PlansDetailsPage() {
   const classes = useStyles();
   const locationsService = useLocationService();
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch: dispatchModal } = useModalState();
   const userService = useUserDataService();
   const planService = usePlanService();
-  const { dispatch: dispatchPlans } = usePlansState();
-  const { state: locationsState } = useLocationsState();
+  const locations = useRecoilValue(locationsState);
   const { planId } = useParams<RouteParams>();
+  const showModal = useSetRecoilState(showModalState);
+  const selectPlan = useSetRecoilState(selectedPlanIdState);
 
   useEffect(() => {
-    dispatchPlans({
-      type: PlansStateActions.selectPlan,
-      data: +planId!,
-    });
+    selectPlan(Number(planId!));
 
     const fetchPlanData = async () => {
       setIsLoading(true);
@@ -89,9 +87,8 @@ function PlansDetailsPage() {
   }, []);
 
   const handleAddNewItem = () => {
-    dispatchModal({
-      type: ModalStateAction.show,
-      modalType: ModalTypes.addLocation,
+    showModal({
+      type: ModalTypes.addLocation,
       data: LocationEmpty,
     });
   };
@@ -100,9 +97,8 @@ function PlansDetailsPage() {
     const usersToShare = await userService.getUsersToShareWith();
     const shares = await planService.getShare(+planId!);
 
-    dispatchModal({
-      type: ModalStateAction.show,
-      modalType: ModalTypes.sharePlan,
+    showModal({
+      type: ModalTypes.sharePlan,
       data: { usersToShare, shares, planId },
     });
   };
@@ -137,12 +133,12 @@ function PlansDetailsPage() {
               <PlanDetails />
               <Paper className={classes.planLocations}>
                 <DraggableTimeline
-                  data={locationsState.locations}
+                  data={locations}
                   position={TimelineElementPositionType.right}
                 />
               </Paper>
               <Paper className={classes.map}>
-                <MapView locations={locationsState.locations} mapId="planFormMapId" />
+                <MapView locations={locations} mapId="planFormMapId" />
               </Paper>
             </div>
           </>

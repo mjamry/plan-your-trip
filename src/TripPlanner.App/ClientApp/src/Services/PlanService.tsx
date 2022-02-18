@@ -1,10 +1,13 @@
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
-import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
-import { useAppState } from '../State/AppState';
 import PlanDto from '../Common/Dto/PlanDto';
 import UserDto from '../Common/Dto/UserDto';
+import { appSettingsState } from '../State/AppState';
+import {
+  isPlanLoadingState, modifyPlansState, plansState, PlansStateActions, selectedPlanIdState,
+} from '../State/PlansState';
 
 interface IPlanService {
   add: (plan: PlanDto) => Promise<void>;
@@ -17,9 +20,8 @@ interface IPlanService {
 
 const usePersistentPlanService = () => {
   const api = useRestClient();
-  const { state: appState } = useAppState();
-
-  const apiUrl = `${appState.appSettings.apiUrl}/plans`;
+  const appSettings = useRecoilValue(appSettingsState);
+  const apiUrl = `${appSettings.apiUrl}/plans`;
 
   const add = (plan: PlanDto) => api.post<PlanDto>(apiUrl, plan);
 
@@ -47,36 +49,21 @@ const usePlanService = (): IPlanService => {
   const notificationService = useNotificationService();
   const persistentPlanService = usePersistentPlanService();
   const logger = useLoggerService('PlanService');
-  const { dispatch } = usePlansState();
-
-  const setLoading = () => {
-    dispatch({
-      type: PlansStateActions.isLoading,
-      data: true,
-    });
-  };
-
-  const clearLoading = () => {
-    dispatch({
-      type: PlansStateActions.isLoading,
-      data: false,
-    });
-  };
+  const setIsPlanLoading = useSetRecoilState(isPlanLoadingState);
+  const setSelectedPlanId = useSetRecoilState(selectedPlanIdState);
+  const setPlansState = useSetRecoilState(plansState);
+  const addPlan = useSetRecoilState(modifyPlansState(PlansStateActions.addPlan));
+  const removePlan = useSetRecoilState(modifyPlansState(PlansStateActions.removePlan));
+  const editPlan = useSetRecoilState(modifyPlansState(PlansStateActions.editPlan));
 
   const add = async (plan: PlanDto): Promise<void> => {
-    setLoading();
+    setIsPlanLoading(true);
 
     persistentPlanService.add(plan)
       .then((planData) => {
-        dispatch({
-          type: PlansStateActions.addPlan,
-          data: planData,
-        });
+        addPlan([planData]);
 
-        dispatch({
-          type: PlansStateActions.selectPlan,
-          data: planData.id,
-        });
+        setSelectedPlanId(planData.id);
 
         notificationService.success(`New plan added: ${planData.name}`);
         logger.info(`Successfully added plan -> Id: ${planData.id} Name: ${planData.name}`);
@@ -86,19 +73,16 @@ const usePlanService = (): IPlanService => {
         logger.error(`Error while adding new plan: Name: ${plan.name}`);
       })
       .finally(() => {
-        clearLoading();
+        setIsPlanLoading(false);
       });
   };
 
   const edit = async (plan: PlanDto): Promise<void> => {
-    setLoading();
+    setIsPlanLoading(true);
 
     persistentPlanService.edit(plan)
       .then((planData) => {
-        dispatch({
-          type: PlansStateActions.editPlan,
-          data: planData,
-        });
+        editPlan([planData]);
 
         notificationService.success(`Plan modified: ${plan.name}`);
         logger.info(`Successfully edited plan -> Id: ${plan.id} Name: ${plan.name}`);
@@ -108,19 +92,16 @@ const usePlanService = (): IPlanService => {
         logger.error(`Error while editing plan: Id: ${plan.id} Name: ${plan.name}`);
       })
       .finally(() => {
-        clearLoading();
+        setIsPlanLoading(false);
       });
   };
 
   const remove = async (plan: PlanDto): Promise<void> => {
-    setLoading();
+    setIsPlanLoading(true);
 
     persistentPlanService.remove(plan)
       .then(() => {
-        dispatch({
-          type: PlansStateActions.removePlan,
-          data: plan,
-        });
+        removePlan([plan]);
 
         notificationService.success(`Plan removed: ${plan.name}`);
         logger.info(`Successfully removed plan -> Id: ${plan.id} Name: ${plan.name}`);
@@ -130,17 +111,14 @@ const usePlanService = (): IPlanService => {
         logger.error(`Error while removing plan: Id: ${plan.id} Name: ${plan.name}`);
       })
       .finally(() => {
-        clearLoading();
+        setIsPlanLoading(false);
       });
   };
 
   const getAll = (): Promise<PlanDto[]> => new Promise((resolve, reject) => {
     persistentPlanService.getAll()
       .then((data) => {
-        dispatch({
-          type: PlansStateActions.loadPlans,
-          data,
-        });
+        setPlansState(data);
 
         logger.info(`Successfully loaded ${data.length} plans`);
 
@@ -153,7 +131,7 @@ const usePlanService = (): IPlanService => {
   });
 
   const share = async (planId: number, users: UserDto[]): Promise<void> => {
-    setLoading();
+    setIsPlanLoading(true);
 
     persistentPlanService.share(planId, users)
       .then(() => {
@@ -165,7 +143,7 @@ const usePlanService = (): IPlanService => {
         logger.error(`Error while sharing plan -> Id: ${planId}`);
       })
       .finally(() => {
-        clearLoading();
+        setIsPlanLoading(false);
       });
   };
 

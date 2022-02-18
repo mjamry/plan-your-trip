@@ -1,20 +1,21 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useModalState, ModalStateAction } from '../../State/ModalState';
+import { useSetRecoilState } from 'recoil';
+import { hideModalState } from '../../State/ModalState';
 
 type Props = {
     title: string;
 }
 
 function ModalHeader({ title }: Props) {
-  const { dispatch } = useModalState();
+  const hideModal = useSetRecoilState(hideModalState);
 
   return (
     <div className="modal-header-container">
       <div className="modal-header-title">{title}</div>
       <IconButton
-        onClick={() => { dispatch({ type: ModalStateAction.hide }); }}
+        onClick={() => hideModal({})}
         title="close"
         size="small"
       >

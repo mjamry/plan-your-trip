@@ -2,47 +2,40 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import L from 'leaflet';
 import { Button } from '@mui/material';
+import { useRecoilState } from 'recoil';
 import LocationFormMapView from '../../../MapView/LocationFormMapView';
 import useCoordinatesValidator from '../../../../Common/CoordinatesValidator';
-import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationProvider from '../../../../Services/LocationProvider';
 import useLocationStepsStyles from './LocationStepsStyles';
+import { locationFormDataState } from '../LocationDetailsFormState';
 
 export function LocationCoordinatesStep() {
   const classes = useLocationStepsStyles();
-  const { state, dispatch } = useLocationFormState();
   const coordinatesValidator = useCoordinatesValidator();
   const locationProvider = useLocationProvider();
+  const [locationData, setLocationData] = useRecoilState(locationFormDataState);
 
   const handleCoordinatesChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (coordinatesValidator.isValid(e.target.value)) {
-      dispatch({
-        type: LocationFormStateActions.updateLocation,
-        data:
-          {
-            ...state.location,
-            coordinates: {
-              ...state.location.coordinates,
-              [e.target.name]: e.target.value,
-            },
-          },
+      setLocationData({
+        ...locationData,
+        coordinates: {
+          ...locationData.coordinates,
+          [e.target.name]: e.target.value,
+        },
       });
     }
   };
 
   const handleMapCoordinatesChanged = (coordinates: L.LatLng) => {
-    dispatch({
-      type: LocationFormStateActions.updateLocation,
-      data:
-        {
-          ...state.location,
-          coordinates: {
-            lat: coordinates.lat,
-            lon: coordinates.lng,
-          },
-        },
+    setLocationData({
+      ...locationData,
+      coordinates: {
+        lat: coordinates.lat,
+        lon: coordinates.lng,
+      },
     });
   };
 
@@ -50,16 +43,12 @@ export function LocationCoordinatesStep() {
     const userLocation = await locationProvider.getLocation();
     if (coordinatesValidator.isValid(userLocation.lat)
       && coordinatesValidator.isValid(userLocation.lon)) {
-      dispatch({
-        type: LocationFormStateActions.updateLocation,
-        data:
-          {
-            ...state.location,
-            coordinates: {
-              lat: userLocation.lat,
-              lon: userLocation.lon,
-            },
-          },
+      setLocationData({
+        ...locationData,
+        coordinates: {
+          lat: userLocation.lat,
+          lon: userLocation.lon,
+        },
       });
     }
   };
@@ -75,7 +64,7 @@ export function LocationCoordinatesStep() {
             size="medium"
             margin="dense"
             onChange={handleCoordinatesChanged}
-            value={state.location?.coordinates.lat || ''}
+            value={locationData.coordinates.lat || ''}
           />
         </div>
 
@@ -87,7 +76,7 @@ export function LocationCoordinatesStep() {
             size="medium"
             margin="dense"
             onChange={handleCoordinatesChanged}
-            value={state.location.coordinates.lon || ''}
+            value={locationData.coordinates.lon || ''}
           />
         </div>
       </div>
@@ -106,7 +95,7 @@ export function LocationCoordinatesStep() {
 
       <div className={classes.formRow}>
         <LocationFormMapView
-          location={state.location}
+          location={locationData}
           onCoordinatesUpdated={handleMapCoordinatesChanged}
         />
       </div>
