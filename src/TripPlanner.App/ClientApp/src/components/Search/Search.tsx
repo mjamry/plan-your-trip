@@ -5,12 +5,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Popover } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import useWikiSearch from '../../Common/WikiSearchService';
 import SearchResult from './SearchResult';
-import { LocationFormStateActions, useLocationFormState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
 import { ModalTypes, showModalState } from '../../State/ModalState';
+import { locationFormDataState } from '../modals/LocationDetailsForm/LocationDetailsFormState';
 
 const useStyles = makeStyles({
   root: {
@@ -36,8 +36,8 @@ type Props = {
 function Search(props: Props) {
   const classes = useStyles();
   const { name } = props;
-  const { state: locationState, dispatch: dispatchLocationState } = useLocationFormState();
-  const [searchValue, setSearchValue] = useState<string>(locationState.location.name || '');
+  const [locationData, setLocationData] = useRecoilState(locationFormDataState);
+  const [searchValue, setSearchValue] = useState<string>(locationData.name || '');
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const showModal = useSetRecoilState(showModalState);
@@ -47,10 +47,7 @@ function Search(props: Props) {
   const wikiSearch = useWikiSearch();
 
   const updateLocationState = (value: string) => {
-    dispatchLocationState({
-      type: LocationFormStateActions.updateLocation,
-      data: { ...locationState.location, name: value },
-    });
+    setLocationData({ ...locationData, name: value });
   };
 
   const search = () => {

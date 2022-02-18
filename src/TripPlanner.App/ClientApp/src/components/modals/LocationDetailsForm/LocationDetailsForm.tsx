@@ -1,5 +1,4 @@
 import React from 'react';
-import { LocationFormStateProvider } from './LocationDetailsFormState';
 import ModalHeader from '../ModalHeader';
 
 import { ModalDto } from '../../../Common/Dto/ModalDto';
@@ -15,11 +14,10 @@ type BuilderDto = {
 }
 
 const useLocationFormBuilder = () => {
-  const build = (data: BuilderDto): ModalDto<typeof LocationFormStateProvider> => ({
+  const build = (data: BuilderDto): ModalDto => ({
     header: <ModalHeader title={data.title} />,
     body: <LocationDetailsFormBody location={data.location} />,
     footer: <LocationDetailsFooter onSubmit={data.onSubmit} />,
-    state: LocationFormStateProvider,
   });
 
   return build;

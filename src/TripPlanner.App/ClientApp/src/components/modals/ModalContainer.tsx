@@ -10,7 +10,6 @@ import useLoggerService from '../../Services/Diagnostics/LoggerService';
 import usePlanService from '../../Services/PlanService';
 import usePlanFormBuilder from './PlanDetailsForm';
 import { ModalDto } from '../../Common/Dto/ModalDto';
-import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetailsFormState';
 import { PlanEmpty } from '../../Common/Dto/PlanDto';
 import SharePlanComponent from './Share/SharePlan';
 import ShareStateFooter from './Share/SharePlanFooter';
@@ -19,8 +18,6 @@ import {
 } from '../../State/ModalState';
 
 const emptyModal = {} as ModalDto;
-
-type ModalModel = ModalDto | ModalDto<typeof LocationFormStateProvider>;
 
 // TODO extract to separate file
 
@@ -35,7 +32,7 @@ const useModalContentFactory = () => {
   const locationFormBuilder = useLocationFormBuilder();
   const planFormBuilder = usePlanFormBuilder();
 
-  const create = (modalType: ModalTypes): ModalModel => {
+  const create = (modalType: ModalTypes): ModalDto => {
     switch (modalType) {
       case ModalTypes.addLocation:
         return locationFormBuilder(
@@ -143,35 +140,20 @@ const useModalContentFactory = () => {
 };
 
 const ModalContainer = () => {
-  const [modalContent, setModalContent] = useState<ModalModel>(emptyModal);
+  const [modalContent, setModalContent] = useState<ModalDto>(emptyModal);
   const factory = useModalContentFactory();
   const { isVisible, type: modalType } = useRecoilValue(modalState);
   const hideModal = useSetRecoilState(modalState);
 
-  const renderModal = () => {
-    if (modalContent.state) {
-      return (
-        <modalContent.state>
-          <ModalWrapper
-            isVisible={isVisible!}
-            header={modalContent.header}
-            body={modalContent.body}
-            footer={modalContent.footer}
-            onClickAway={() => hideModal({})}
-          />
-        </modalContent.state>
-      );
-    }
-    return (
-      <ModalWrapper
-        isVisible={isVisible!}
-        header={modalContent.header}
-        body={modalContent.body}
-        footer={modalContent.footer}
-        onClickAway={() => hideModal({})}
-      />
-    );
-  };
+  const renderModal = () => (
+    <ModalWrapper
+      isVisible={isVisible!}
+      header={modalContent.header}
+      body={modalContent.body}
+      footer={modalContent.footer}
+      onClickAway={() => hideModal({})}
+    />
+  );
 
   useEffect(() => {
     setModalContent(factory(modalType!));

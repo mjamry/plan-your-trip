@@ -2,12 +2,12 @@ import Stepper from '@mui/material/Stepper';
 import StepComponent from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import React, { useEffect } from 'react';
-
-import { LocationFormStateActions, useLocationFormState } from './LocationDetailsFormState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import useStepsCoordinator from './Steps/StepsCoordinator';
 import { Step } from './Steps/Step';
 import StepsConfiguration from './Steps/StepsConfig';
 import LocationDto from '../../../Common/Dto/LocationDto';
+import { locationFormDataState, locationFormStepState } from './LocationDetailsFormState';
 
 type BodyProps = {
     location: LocationDto;
@@ -16,28 +16,22 @@ type BodyProps = {
 function LocationDetailsFormBody(props: BodyProps) {
   const { location } = props;
   const steps: Step[] = StepsConfiguration;
-  const { state, dispatch } = useLocationFormState();
+  const [formStep, setFormStep] = useRecoilState(locationFormStepState);
+  const updateLocationData = useSetRecoilState(locationFormDataState);
   const coordinator = useStepsCoordinator(steps);
 
   useEffect(() => {
-    dispatch({
-      type: LocationFormStateActions.updateLocation,
-      data: location,
-    });
+    updateLocationData(location);
   }, []);
 
   const renderStepView = (View: React.ComponentType) => <View />;
   const renderStep = () => renderStepView(coordinator.getCurrentView());
 
-  const selectStep = (stepIndex: number) => {
-    dispatch({ type: LocationFormStateActions.setStep, data: stepIndex });
-  };
-
   const renderStepper = () => (
-    <Stepper activeStep={state.step} nonLinear alternativeLabel>
+    <Stepper activeStep={formStep} nonLinear alternativeLabel>
       {steps.map((step, index) => (
         <StepComponent key={step.title}>
-          <StepButton onClick={() => selectStep(index)}>{step.title}</StepButton>
+          <StepButton onClick={() => setFormStep(index)}>{step.title}</StepButton>
         </StepComponent>
       ))}
     </Stepper>

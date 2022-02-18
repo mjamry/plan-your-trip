@@ -1,19 +1,17 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
+import { useRecoilState } from 'recoil';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationStepsStyles from './LocationStepsStyles';
+import { locationFormDataState } from '../LocationDetailsFormState';
 
 function LocationImageStepComponent() {
-  const { state, dispatch } = useLocationFormState();
   const classes = useLocationStepsStyles();
+  const [locationData, setLocationData] = useRecoilState(locationFormDataState);
 
   const handleImageUrlChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: LocationFormStateActions.updateLocation,
-      data: { ...state.location, image: e.target.value },
-    });
+    setLocationData({ ...locationData, image: e.target.value });
   };
 
   return (
@@ -27,12 +25,12 @@ function LocationImageStepComponent() {
             size="medium"
             margin="dense"
             onChange={handleImageUrlChanged}
-            value={state.location.image || ''}
+            value={locationData.image || ''}
           />
         </div>
       </div>
       <div className={classes.formRow}>
-        <img src={state.location.image} className={classes.image} alt="" />
+        <img src={locationData.image} className={classes.image} alt="" />
       </div>
     </form>
   );

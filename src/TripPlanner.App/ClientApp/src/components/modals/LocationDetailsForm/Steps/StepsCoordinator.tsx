@@ -1,6 +1,7 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import LocationDto from '../../../../Common/Dto/LocationDto';
-import { useLocationFormState, LocationFormStateActions } from '../LocationDetailsFormState';
+import { locationFormStepState } from '../LocationDetailsFormState';
 import { Step } from './Step';
 
 type StepCoordinatorService = {
@@ -13,32 +14,25 @@ type StepCoordinatorService = {
 }
 
 const useStepsCoordinator = (steps: Step[]): StepCoordinatorService => {
-  const { state, dispatch: dispatchFormState } = useLocationFormState();
+  const [step, setStep] = useRecoilState(locationFormStepState);
 
   const firstStepIndex = 0;
   const lastStepIndex = steps.length - 1;
 
-  const setStep = (stepIndex: number) => {
-    dispatchFormState({
-      type: LocationFormStateActions.setStep,
-      data: stepIndex,
-    });
-  };
-
   const next = () => {
-    const nextStepIndex = state.step + 1 === lastStepIndex ? lastStepIndex : state.step + 1;
+    const nextStepIndex = step + 1 === lastStepIndex ? lastStepIndex : step + 1;
     setStep(nextStepIndex);
   };
 
   const previous = () => {
-    const previousStepIndex = state.step - 1 === firstStepIndex ? firstStepIndex : state.step - 1;
+    const previousStepIndex = step - 1 === firstStepIndex ? firstStepIndex : step - 1;
     setStep(previousStepIndex);
   };
 
-  const getCurrentView = () => steps[state.step].view;
+  const getCurrentView = () => steps[step].view;
 
   const canNext = (location: LocationDto) => {
-    const stepValidator = steps[state.step].validator;
+    const stepValidator = steps[step].validator;
     if (stepValidator) {
       return stepValidator.validate(location);
     }
@@ -46,9 +40,9 @@ const useStepsCoordinator = (steps: Step[]): StepCoordinatorService => {
     return true;
   };
 
-  const isLastStep = () => state.step === lastStepIndex;
+  const isLastStep = () => step === lastStepIndex;
 
-  const isFirstStep = () => state.step === firstStepIndex;
+  const isFirstStep = () => step === firstStepIndex;
 
   return {
     next,
