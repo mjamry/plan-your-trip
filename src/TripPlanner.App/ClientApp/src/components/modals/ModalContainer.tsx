@@ -147,7 +147,7 @@ const ModalContainer = () => {
 
   const renderModal = () => (
     <ModalWrapper
-      isVisible={isVisible!}
+      isVisible={isVisible ?? false}
       header={modalContent.header}
       body={modalContent.body}
       footer={modalContent.footer}

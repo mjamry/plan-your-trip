@@ -55,7 +55,7 @@ function LabPlansPage() {
               </Paper>
             </Grid>
             { plans.map((plan) => (
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} key={plan.id}>
                 <Paper
                   className={classes.gridCard}
                   onClick={() => handlePlanSelect(plan.id)}
