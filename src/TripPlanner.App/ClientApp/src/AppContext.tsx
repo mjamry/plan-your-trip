@@ -6,7 +6,6 @@ import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import { RecoilRoot } from 'recoil';
 import ToasterNotificationsComponent from './components/ToasterNotifications';
-import { PlansStateProvider } from './State/PlansState';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -24,15 +23,13 @@ function AppContext({ children }: Props) {
   return (
     <RecoilRoot>
       <ToasterNotificationsComponent />
-      <PlansStateProvider>
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={DateAdapter}>
-              {children}
-            </LocalizationProvider>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </PlansStateProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            {children}
+          </LocalizationProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </RecoilRoot>
   );
 }

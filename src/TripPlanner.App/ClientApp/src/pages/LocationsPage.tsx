@@ -5,7 +5,6 @@ import { AddBox } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Table from '../components/Table/Table';
-import { usePlansState, PlansStateActions } from '../State/PlansState';
 import useLocationService from '../Services/LocationService';
 import LocationsMapView from '../components/MapView/LocationsMapView';
 import useGpxFileDownloader from '../Services/GpxFileGenerator/GpxFileDownloader';
@@ -13,6 +12,7 @@ import RatingButton from '../components/RatingButton';
 import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
 import { locationsState } from '../State/LocationsState';
 import { ModalTypes, showModalState } from '../State/ModalState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const useStyles = makeStyles({
   container: {
@@ -44,18 +44,15 @@ function LocationsPage() {
   const [selectedLocation, setSelectedLocation] = useState<LocationDto>();
   const [isLoading, setIsLoading] = useState(false);
   const locations = useRecoilValue(locationsState);
-  const { dispatch: dispatchPlans } = usePlansState();
   const showModal = useSetRecoilState(showModalState);
+  const selectPlan = useSetRecoilState(selectedPlanIdState);
   const locationsService = useLocationService();
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
   const { planId } = useParams<RouteParams>();
 
   useEffect(() => {
-    dispatchPlans({
-      type: PlansStateActions.selectPlan,
-      data: +planId!,
-    });
+    selectPlan(Number(planId!));
 
     const fetchPlanData = async () => {
       setIsLoading(true);

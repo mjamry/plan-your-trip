@@ -1,7 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
-import { usePlansState } from '../State/PlansState';
 import useRestClient from '../Common/RestClient';
 import LocationDto from '../Common/Dto/LocationDto';
 import { CoordinateDto } from '../Common/Dto/CoordinateDto';
@@ -12,6 +11,7 @@ import {
   modifyLocationsState,
   LocationsStateActions,
 } from '../State/LocationsState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const convertCoordinates = (location: LocationDto): LocationDto => {
   const coordinates: CoordinateDto = {
@@ -58,7 +58,7 @@ const useLocationService = (): ILocationService => {
   );
   const setIsLoading = useSetRecoilState(isLoadingState);
   const setLocations = useSetRecoilState(locationsState);
-  const { state: plansState } = usePlansState();
+  const selectedPlanId = useRecoilValue(selectedPlanIdState);
   const notificationService = useNotificationService();
   const persistentLocationService = usePersistentService();
   const logger = useLoggerService('LocationService');
@@ -68,13 +68,13 @@ const useLocationService = (): ILocationService => {
 
     persistentLocationService.add(
       convertCoordinates(location),
-      plansState.selectedPlanId,
+      selectedPlanId,
     )
       .then((locationData: LocationDto) => {
         addLocation([locationData]);
 
         notificationService.success(`New location added: ${locationData.name}`);
-        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${plansState.selectedPlanId}`);
+        logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${selectedPlanId}`);
       })
       .catch((err) => {
         notificationService.error(`Error while adding location: ${location.name}`);

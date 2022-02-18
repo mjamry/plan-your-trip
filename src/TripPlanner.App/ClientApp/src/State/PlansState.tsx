@@ -1,76 +1,32 @@
-import React, {
-  createContext, useContext, useMemo, useReducer,
-} from 'react';
+import { atom, selectorFamily } from 'recoil';
 import PlanDto from '../Common/Dto/PlanDto';
 
-const enum PlanViewType {
-  grid,
-  list,
-}
-
 const enum PlansStateActions {
-  selectPlan,
-  loadPlans,
-  setView,
   addPlan,
   editPlan,
   removePlan,
-  isLoading,
 }
 
-type State = {
-  plans: PlanDto[],
-  selectedPlanId: number,
-  view: PlanViewType,
-  isLoading: boolean,
-}
+const handlePlansStateAction = (
+  action: PlansStateActions,
+  state: PlanDto[],
+  data: PlanDto,
+) => {
+  let newState: PlanDto[] = state;
 
-type Action =
-  | { type: PlansStateActions.selectPlan, data: number }
-  | { type: PlansStateActions.loadPlans, data: PlanDto[] }
-  | { type: PlansStateActions.removePlan, data: PlanDto }
-  | { type: PlansStateActions.editPlan, data: PlanDto }
-  | { type: PlansStateActions.addPlan, data: PlanDto }
-  | { type: PlansStateActions.setView, data: PlanViewType }
-  | { type: PlansStateActions.isLoading, data: boolean }
-
-type Dispatch = (action: Action) => void;
-
-const initialState: State = {
-  plans: [],
-  selectedPlanId: 0,
-  view: PlanViewType.grid,
-  isLoading: false,
-};
-
-const reducer: React.Reducer<State, Action> = (state: State, action: Action) => {
-  let newState: State = state;
-
-  switch (action.type) {
-    case PlansStateActions.selectPlan:
-      newState = { ...state, selectedPlanId: action.data };
-      break;
-    case PlansStateActions.loadPlans:
-      newState = { ...state, plans: action.data };
-      break;
+  switch (action) {
     case PlansStateActions.removePlan:
-      const updatedPlans = state.plans.filter((l) => l.id !== action.data.id) || [];
-      newState = { ...state, plans: updatedPlans, selectedPlanId: updatedPlans[0].id };
+      const updatedPlans = state.filter((l) => l.id !== data.id) || [];
+      newState = [...state, ...updatedPlans];
       break;
     case PlansStateActions.editPlan:
-      const editedItemIndex = state.plans.findIndex((l) => l.id === action.data.id);
-      const newArray = [...state.plans];
-      newArray[editedItemIndex] = action.data;
-      newState = { ...state, plans: newArray };
+      const editedItemIndex = state.findIndex((l) => l.id === data.id);
+      const newArray = [...state];
+      newArray[editedItemIndex] = data;
+      newState = [...state, ...newArray];
       break;
     case PlansStateActions.addPlan:
-      newState = { ...state, plans: [...state.plans, action.data] };
-      break;
-    case PlansStateActions.setView:
-      newState = { ...state, view: action.data };
-      break;
-    case PlansStateActions.isLoading:
-      newState = { ...state, isLoading: action.data };
+      newState = [...state, data];
       break;
     default:
       break;
@@ -79,31 +35,35 @@ const reducer: React.Reducer<State, Action> = (state: State, action: Action) => 
   return newState;
 };
 
-const PlansStateContext = createContext<{state: State, dispatch: Dispatch}>(
-  {
-    state: initialState,
-    dispatch: () => undefined,
+const isPlanLoadingState = atom<boolean>({
+  key: 'plansState.isPlanLoading',
+  default: false,
+});
+
+const plansState = atom<PlanDto[]>({
+  key: 'plansState',
+  default: [],
+});
+
+const selectedPlanIdState = atom<number>({
+  key: 'plansState.selectedPlanId',
+  default: 0,
+});
+
+const modifyPlansState = selectorFamily<PlanDto[], PlansStateActions>({
+  key: 'plansState.modifyPlansState',
+  get: () => ({ get }) => get(plansState),
+  set: (action) => ({ set, get }, value) => {
+    const state = get(plansState);
+    const newState = handlePlansStateAction(action, state, value[0]);
+    set(plansState, newState);
   },
-);
-
-const usePlansState = () => useContext(PlansStateContext);
-
-type Props = {
-  children: JSX.Element
-}
-
-function PlansStateProvider({ children }: Props) {
-  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(reducer, initialState);
-
-  const value = useMemo<{state: State, dispatch: Dispatch}>(() => ({ state, dispatch }), [state]);
-
-  return (
-    <PlansStateContext.Provider value={value}>
-      {children}
-    </PlansStateContext.Provider>
-  );
-}
+});
 
 export {
-  PlansStateProvider, PlansStateActions, usePlansState, PlanViewType,
+  isPlanLoadingState,
+  plansState,
+  selectedPlanIdState,
+  modifyPlansState,
+  PlansStateActions,
 };

@@ -3,13 +3,13 @@ import makeStyles from '@mui/styles/makeStyles';
 import { Chip } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { usePlansState, PlansStateActions } from '../State/PlansState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import usePlanService from '../Services/PlanService';
 import Table from '../components/Table/Table';
 import PlanDto, { PlanEmpty } from '../Common/Dto/PlanDto';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';
 import { ModalTypes, showModalState } from '../State/ModalState';
+import { plansState, selectedPlanIdState } from '../State/PlansState';
 
 const useStyles = makeStyles({
   container: {
@@ -21,12 +21,13 @@ const useStyles = makeStyles({
 
 function PlansPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const { state: planState, dispatch: dispatchPlan } = usePlansState();
   const classes = useStyles();
   const planService = usePlanService();
   const dateTimeFormatter = useDateTimeFormatter();
   const navigate = useNavigate();
   const showModal = useSetRecoilState(showModalState);
+  const plans = useRecoilValue(plansState);
+  const selectPlan = useSetRecoilState(selectedPlanIdState);
 
   useEffect(() => {
     const fetchPlanData = async () => {
@@ -71,9 +72,9 @@ function PlansPage() {
               renderCell: (params: any) => (params.row.isPrivate ? <Chip label="Private" /> : <Chip label="Public" />),
             },
           ]}
-          data={planState.plans}
+          data={plans}
           onRowClick={((selectedPlan: PlanDto) => {
-            dispatchPlan({ type: PlansStateActions.selectPlan, data: selectedPlan.id });
+            selectPlan(selectedPlan.id);
             navigate(`/locations/${selectedPlan.id}`);
           })}
           edit={(plan: PlanDto) => showModal({

@@ -18,9 +18,9 @@ import MapView from '../components/MapView/MapView';
 import PlanDetails from '../components/planDetails/PlanDetails';
 import useUserDataService from '../Services/UserDataService';
 import usePlanService from '../Services/PlanService';
-import { PlansStateActions, usePlansState } from '../State/PlansState';
 import { locationsState } from '../State/LocationsState';
 import { ModalTypes, showModalState } from '../State/ModalState';
+import { selectedPlanIdState } from '../State/PlansState';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -69,16 +69,13 @@ function PlansDetailsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const userService = useUserDataService();
   const planService = usePlanService();
-  const { dispatch: dispatchPlans } = usePlansState();
   const locations = useRecoilValue(locationsState);
   const { planId } = useParams<RouteParams>();
   const showModal = useSetRecoilState(showModalState);
+  const selectPlan = useSetRecoilState(selectedPlanIdState);
 
   useEffect(() => {
-    dispatchPlans({
-      type: PlansStateActions.selectPlan,
-      data: +planId!,
-    });
+    selectPlan(Number(planId!));
 
     const fetchPlanData = async () => {
       setIsLoading(true);
