@@ -1,8 +1,9 @@
 import { Avatar, Chip, Stack } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import UserDto from '../../../Common/Dto/UserDto';
-import { ShareStateActions, useShareState } from './ShareState';
+import shareState from './ShareState';
 
 const useStyles = makeStyles({
   root: {
@@ -30,24 +31,20 @@ function SharePlanComponent(props: Props) {
   const { usersToShare, shares } = props;
 
   const currentShares = usersToShare.filter((u) => shares.includes(u.id));
-  const { state: shareState, dispatch: dispatchState } = useShareState();
+  const [usersToShareState, setUsersToShare] = useRecoilState(shareState);
   const classes = useStyles();
 
-  const setShares = (users: UserDto[]) => {
-    dispatchState({ type: ShareStateActions.setUsers, data: users });
-  };
-
   useEffect(() => {
-    setShares(currentShares);
+    setUsersToShare(currentShares);
   }, []);
 
   const handleAddToShared = (user: UserDto) => {
-    setShares([...shareState.usersToShare, user]);
+    setUsersToShare([...usersToShareState, user]);
   };
 
   const handleRemoveFromShared = (user: UserDto) => {
-    const filteredUsers = shareState.usersToShare.filter((u) => u.id !== user.id);
-    setShares(filteredUsers);
+    const filteredUsers = usersToShareState.filter((u) => u.id !== user.id);
+    setUsersToShare(filteredUsers);
   };
 
   return (
@@ -56,7 +53,7 @@ function SharePlanComponent(props: Props) {
       <div className={classes.toShare}>
         <Stack direction="row" spacing={1}>
           {usersToShare
-            .filter((u) => !shareState.usersToShare.includes(u))
+            .filter((u) => !usersToShareState.includes(u))
             .map((u) => (
               <Chip
                 label={u.name}
@@ -71,7 +68,7 @@ function SharePlanComponent(props: Props) {
       Shared with:
       <div className={classes.sharedWith}>
         <Stack direction="row" spacing={1}>
-          {shareState.usersToShare.map((u) => (
+          {usersToShareState.map((u) => (
             <Chip
               label={u.name}
               onDelete={() => handleRemoveFromShared(u)}

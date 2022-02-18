@@ -14,7 +14,6 @@ import { LocationFormStateProvider } from './LocationDetailsForm/LocationDetails
 import { PlanEmpty } from '../../Common/Dto/PlanDto';
 import SharePlanComponent from './Share/SharePlan';
 import ShareStateFooter from './Share/SharePlanFooter';
-import { ShareStateProvider } from './Share/ShareState';
 import {
   hideModalState, modalState, ModalTypes,
 } from '../../State/ModalState';
@@ -132,7 +131,6 @@ const useModalContentFactory = () => {
             shares={modalData.shares}
           />,
           footer: <ShareStateFooter planId={modalData.planId} />,
-          state: ShareStateProvider,
         };
 
       default:
