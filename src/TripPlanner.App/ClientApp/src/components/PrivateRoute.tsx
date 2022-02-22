@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import useUserService from '../Services/UserService';
 
@@ -10,23 +10,9 @@ type Props = {
 
 function PrivateRoute(props: Props) {
   const { children } = props;
-
   const userService = useUserService();
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
-  useEffect(
-    () => {
-      async function getAuth() {
-        const isAuth = await userService.isAuthenticated();
-        setIsAuthenticated(isAuth);
-      }
-
-      getAuth();
-    },
-    [],
-  );
-
-  if (!isAuthenticated) {
+  if (!userService.isAuthenticated()) {
     return <Navigate to="/welcome" />;
   }
 

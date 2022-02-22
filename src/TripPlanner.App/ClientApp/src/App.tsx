@@ -56,19 +56,26 @@ function App() {
 
   useEffect(() => {
     async function init() {
-      log.debug('Start init');
-      log.debug('Get app settings');
+      log.info('Start init');
+      log.info('Get app settings');
       const settings = await appSettingsService.init();
 
-      log.debug('Setup user manager');
+      log.info('Setup user manager');
       const mng = new UserManager(configBuilder.build(settings));
       setUserManager(mng);
 
-      log.debug('Setup user');
-      await userService.initializeUser();
-
-      log.debug('End init');
-      setIsAppLoaded(true);
+      log.info('Setup user');
+      userService.initialize(mng)
+        .then(() => {
+          log.debug('User loaded');
+        })
+        .catch(() => {
+          log.debug('No user');
+        })
+        .finally(() => {
+          log.info('End init');
+          setIsAppLoaded(true);
+        });
     }
 
     init();

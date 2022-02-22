@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Log, User } from 'oidc-client';
+import { Log, User, UserManager } from 'oidc-client';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoggerService from './Diagnostics/LoggerService';
@@ -14,7 +14,7 @@ interface IUserService {
     getToken: () => Promise<string>,
     isAuthenticated: () => boolean;
     finishAuthentication: () => void;
-    initializeUser: () => Promise<void>,
+    initialize: (mng: UserManager) => Promise<void>,
 }
 
 const useUserService = (): IUserService => {
@@ -29,27 +29,42 @@ const useUserService = (): IUserService => {
     setUserData(user);
   };
 
-  const initializeUser = () => new Promise<void>((resolve, reject) => {
+  const initialize = async (mng: UserManager) => {
+    mng.events.addUserLoaded((user) => {
+      if (userData !== user) {
+        setUserData(user);
+      }
+    });
+
+    mng.events.addUserSignedOut(() => {
+      userManager!.removeUser().then(() => {
+        setUserData(undefined);
+      });
+    });
+
+    mng.events.addAccessTokenExpiring(() => {
+      userManager!.signinSilent().then(async () => {
+        log.debug('signinSilent OK');
+      }).catch((err) => {
+        log.error('signinSilent Error', err);
+      });
+    });
+
     log.debug('Getting user...');
-    // eslint-disable-next-line no-console
-    console.log(userManager === undefined);
-    userManager?.getUser().then((user) => {
+    mng.getUser().then((user) => {
       if (!!user && !user.expired) {
         log.debug('User signed in');
         setupUser(user);
-        resolve();
       } else {
-        userManager?.signinSilent().then((userSilent) => {
+        mng.signinSilent().then((userSilent) => {
           log.debug('Token expired');
           setupUser(userSilent);
-          resolve();
         }).catch((e) => {
-          log.error('Cannot get user.', e);
-          reject();
+          log.debug('Cannot get user.', e);
         });
       }
     });
-  });
+  };
 
   const isAuthenticated = (): boolean => userData !== undefined;
 
@@ -58,20 +73,22 @@ const useUserService = (): IUserService => {
   }, []);
 
   const signIn = (): void => {
-    userManager?.signinRedirect();
+    userManager!.signinRedirect();
   };
 
   const signOut = (): void => {
-    userManager?.signoutRedirect();
-    setUserData(undefined);
-    userManager?.signoutRedirect();
+    userManager!.signoutRedirect().then(() => {
+      setUserData(undefined);
+    });
   };
 
   const finishAuthentication = (): void => {
-    userManager?.signinRedirectCallback()
+    userManager!.signinRedirectCallback()
       .then(() => {
         // TODO redirect user to his previous location
         // in case his session ended and system required to signIn again
+        // eslint-disable-next-line no-console
+        console.log('SigninRedirect');
         navigate(RouteTypes.root);
       });
   };
@@ -86,7 +103,7 @@ const useUserService = (): IUserService => {
 
   const getToken = () => new Promise<string>((resolve, reject) => {
     log.debug('Getting token...');
-    userManager?.getUser().then((user) => {
+    userManager!.getUser().then((user) => {
       if (!!user && !user.expired) {
         log.debug('Token obtained');
         resolve(user.access_token);
@@ -103,7 +120,7 @@ const useUserService = (): IUserService => {
     getToken,
     isAuthenticated,
     finishAuthentication,
-    initializeUser,
+    initialize,
   };
 };
 
