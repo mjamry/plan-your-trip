@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useLoggerService from './Services/Diagnostics/LoggerService';
+import useLoggerService from '../Services/Diagnostics/LoggerService';
 
 type State = {
   hasError: boolean,

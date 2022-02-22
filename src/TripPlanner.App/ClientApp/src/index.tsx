@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import AppContext from './AppContext';
-import App from './App';
+import { RecoilRoot } from 'recoil';
+import App from './root/App';
 import * as serviceWorker from './serviceWorker';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './root/ErrorBoundary';
 
 ReactDOM.render(
   <BrowserRouter>
     <ErrorBoundary>
-      <AppContext>
+      <RecoilRoot>
         <App />
-      </AppContext>
+      </RecoilRoot>
     </ErrorBoundary>
   </BrowserRouter>,
   document.getElementById('root'),

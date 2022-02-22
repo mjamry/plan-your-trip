@@ -1,4 +1,4 @@
-import { UserManager } from 'oidc-client';
+import { User, UserManager } from 'oidc-client';
 import { atom } from 'recoil';
 import { Nullable } from '../Common/Dto/Nullable';
 
@@ -8,4 +8,10 @@ const userManagerState = atom<Nullable<UserManager>>({
   dangerouslyAllowMutability: true,
 });
 
-export default userManagerState;
+const userDataState = atom<Nullable<User>>({
+  key: 'userState.data',
+  default: undefined,
+  dangerouslyAllowMutability: true,
+});
+
+export { userManagerState, userDataState };

@@ -4,10 +4,12 @@ import { Chip } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { generatePath } from 'react-router';
 import usePlanService from '../Services/PlanService';
 import Table from '../components/Table/Table';
 import PlanDto, { PlanEmpty } from '../Common/Dto/PlanDto';
 import useDateTimeFormatter from '../Common/DateTimeFormatter';
+import RouteTypes from '../Common/RouteTypes';
 import { ModalTypes, showModalState } from '../State/ModalState';
 import { plansState, selectedPlanIdState } from '../State/PlansState';
 
@@ -75,7 +77,7 @@ function PlansPage() {
           data={plans}
           onRowClick={((selectedPlan: PlanDto) => {
             selectPlan(selectedPlan.id);
-            navigate(`/locations/${selectedPlan.id}`);
+            navigate(generatePath(RouteTypes.plan, { planId: `${selectedPlan.id}` }));
           })}
           edit={(plan: PlanDto) => showModal({
             type: ModalTypes.editPlan,

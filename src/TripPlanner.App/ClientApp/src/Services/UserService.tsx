@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
-import { Log, User } from 'oidc-client';
+import { Log, User, UserManager } from 'oidc-client';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoggerService from './Diagnostics/LoggerService';
 import { userSignedInState } from '../State/AppState';
-import userManagerState from '../State/UserState';
-
-const GET_USER_TIMEOUT = 5000;
+import { userManagerState, userDataState } from '../State/UserState';
+import RouteTypes from '../Common/RouteTypes';
 
 interface IUserService {
     signIn: () => void;
     signOut: () => void;
-    getUser: () => Promise<User>;
+    getUser: () => User | undefined
     getToken: () => Promise<string>,
-    isAuthenticated: () => Promise<boolean>;
+    isAuthenticated: () => boolean;
     finishAuthentication: () => void;
+    initialize: (mng: UserManager) => Promise<void>,
 }
 
 const useUserService = (): IUserService => {
@@ -22,82 +22,96 @@ const useUserService = (): IUserService => {
   const userManager = useRecoilValue(userManagerState);
   const setUserSignedIn = useSetRecoilState(userSignedInState);
   const log = useLoggerService('UserService');
+  const [userData, setUserData] = useRecoilState(userDataState);
+
+  const setupUser = (user: User) => {
+    setUserSignedIn(true);
+    setUserData(user);
+  };
+
+  const initialize = async (mng: UserManager) => {
+    mng.events.addUserLoaded((user) => {
+      if (userData !== user) {
+        setUserData(user);
+      }
+    });
+
+    mng.events.addUserSignedOut(() => {
+      userManager!.removeUser().then(() => {
+        setUserData(undefined);
+      });
+    });
+
+    mng.events.addAccessTokenExpiring(() => {
+      userManager!.signinSilent().then(async () => {
+        log.debug('signinSilent OK');
+      }).catch((err) => {
+        log.error('signinSilent Error', err);
+      });
+    });
+
+    log.debug('Getting user...');
+    mng.getUser().then((user) => {
+      if (!!user && !user.expired) {
+        log.debug('User signed in');
+        setupUser(user);
+      } else {
+        mng.signinSilent().then((userSilent) => {
+          log.debug('Token expired');
+          setupUser(userSilent);
+        }).catch((e) => {
+          log.debug('Cannot get user.', e);
+        });
+      }
+    });
+  };
+
+  const isAuthenticated = (): boolean => userData !== undefined;
 
   useEffect(() => {
-    // TODO debug only
     Log.logger = console;
   }, []);
 
   const signIn = (): void => {
-    userManager?.signinRedirect();
+    userManager!.signinRedirect();
   };
 
   const signOut = (): void => {
-    userManager?.signoutRedirect();
+    userManager!.signoutRedirect().then(() => {
+      setUserData(undefined);
+    });
   };
 
   const finishAuthentication = (): void => {
-    userManager?.signinRedirectCallback()
+    userManager!.signinRedirectCallback()
       .then(() => {
-        navigate('/');
-      }).catch((e) => {
-        log.error('Error while signing in an user: ', e);
+        // TODO redirect user to his previous location
+        // in case his session ended and system required to signIn again
+        // eslint-disable-next-line no-console
+        console.log('SigninRedirect');
+        navigate(RouteTypes.root);
       });
   };
 
-  const getUser = (): Promise<User> => new Promise<User>((resolve, reject) => {
-    log.debug('Getting user...');
-    const getUserTimeout = setTimeout(signIn, GET_USER_TIMEOUT);
-    userManager?.getUser()
-      .then((user) => {
-        clearTimeout(getUserTimeout);
-        if (user) {
-          if (user.expired) {
-            log.debug('Token expired');
-            signIn();
-          }
-          log.debug('User signed in');
-          setUserSignedIn(true);
-
-          resolve(user);
-        } else {
-          log.debug('No user');
-          navigate('/welcome');
-          reject();
-        }
-      })
-      .catch(() => {
-        log.error('Error while obtaining user data');
-        reject();
-      });
-  });
-
-  const getToken = (): Promise<string> => new Promise<string>((resolve, reject) => {
-    log.debug('Getting token...');
-    getUser()
-      .then((user) => {
-        if (user.access_token) {
-          log.debug('Token obtained');
-          resolve(user.access_token);
-        } else {
-          log.debug('Silent signin');
-          userManager?.signinSilent();
-        }
-      })
-      .catch(() => {
-        log.debug('Error while obtaining user token');
-        reject();
-      });
-  });
-
-  const isAuthenticated = async (): Promise<boolean> => {
-    const user = await getUser();
-    if (user) {
-      return true;
+  const getUser = (): User | undefined => {
+    if (isAuthenticated()) {
+      return userData!;
     }
 
-    return false;
+    return undefined;
   };
+
+  const getToken = () => new Promise<string>((resolve, reject) => {
+    log.debug('Getting token...');
+    userManager!.getUser().then((user) => {
+      if (!!user && !user.expired) {
+        log.debug('Token obtained');
+        resolve(user.access_token);
+      } else {
+        reject();
+      }
+    });
+  });
 
   return {
     signIn,
@@ -106,6 +120,7 @@ const useUserService = (): IUserService => {
     getToken,
     isAuthenticated,
     finishAuthentication,
+    initialize,
   };
 };
 
