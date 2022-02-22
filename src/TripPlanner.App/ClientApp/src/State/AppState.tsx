@@ -6,8 +6,8 @@ const userSignedInState = atom<boolean>({
   default: false,
 });
 
-const appInitializedState = atom<boolean>({
-  key: 'appState.appInitialized',
+const isAppLoadedState = atom<boolean>({
+  key: 'appState.isAppLoaded',
   default: false,
 });
 
@@ -16,4 +16,4 @@ const appSettingsState = atom<AppSettings>({
   default: {} as AppSettings,
 });
 
-export { userSignedInState, appInitializedState, appSettingsState };
+export { userSignedInState, isAppLoadedState, appSettingsState };
