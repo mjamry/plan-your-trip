@@ -77,7 +77,7 @@ function PlansPage() {
           data={plans}
           onRowClick={((selectedPlan: PlanDto) => {
             selectPlan(selectedPlan.id);
-            navigate(generatePath(RouteTypes.plans, { planId: `${selectedPlan.id}` }));
+            navigate(generatePath(RouteTypes.plan, { planId: `${selectedPlan.id}` }));
           })}
           edit={(plan: PlanDto) => showModal({
             type: ModalTypes.editPlan,
