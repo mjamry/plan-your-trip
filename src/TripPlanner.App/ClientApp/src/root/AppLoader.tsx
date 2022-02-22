@@ -2,13 +2,13 @@ import { UserManager } from 'oidc-client';
 import React, { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import makeStyles from '@mui/styles/makeStyles';
-import useUserManagerConfigBuilder from './Common/UserManagerConfigBuilder';
-import Loader from './components/Loader';
-import useAppSettingsService from './Services/AppSettingsService';
-import useLoggerService from './Services/Diagnostics/LoggerService';
-import useUserService from './Services/UserService';
-import { isAppLoadedState } from './State/AppState';
-import { userManagerState } from './State/UserState';
+import useUserManagerConfigBuilder from '../Common/UserManagerConfigBuilder';
+import Loader from '../components/Loader';
+import useAppSettingsService from '../Services/AppSettingsService';
+import useLoggerService from '../Services/Diagnostics/LoggerService';
+import useUserService from '../Services/UserService';
+import { isAppLoadedState } from '../State/AppState';
+import { userManagerState } from '../State/UserState';
 
 const useStyles = makeStyles({
   root: {

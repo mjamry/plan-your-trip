@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import AppContent from './AppContent';
+import App from './root/App';
 import * as serviceWorker from './serviceWorker';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './root/ErrorBoundary';
 
 ReactDOM.render(
   <BrowserRouter>
     <ErrorBoundary>
       <RecoilRoot>
-        <AppContent />
+        <App />
       </RecoilRoot>
     </ErrorBoundary>
   </BrowserRouter>,
