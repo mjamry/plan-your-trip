@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { Log, User, UserManager } from 'oidc-client';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useLoggerService from './Diagnostics/LoggerService';
-import { userSignedInState } from '../State/AppState';
+import { appSettingsState, isUserSignedInState } from '../State/AppState';
 import { userManagerState, userDataState } from '../State/UserState';
-import RouteTypes from '../Common/RouteTypes';
 
 interface IUserService {
     signIn: () => void;
@@ -18,11 +16,11 @@ interface IUserService {
 }
 
 const useUserService = (): IUserService => {
-  const navigate = useNavigate();
   const userManager = useRecoilValue(userManagerState);
-  const setUserSignedIn = useSetRecoilState(userSignedInState);
+  const setUserSignedIn = useSetRecoilState(isUserSignedInState);
   const log = useLoggerService('UserService');
   const [userData, setUserData] = useRecoilState(userDataState);
+  const appSettings = useRecoilValue(appSettingsState);
 
   const setupUser = (user: User) => {
     setUserSignedIn(true);
@@ -87,9 +85,7 @@ const useUserService = (): IUserService => {
       .then(() => {
         // TODO redirect user to his previous location
         // in case his session ended and system required to signIn again
-        // eslint-disable-next-line no-console
-        console.log('SigninRedirect');
-        navigate(RouteTypes.root);
+        window.location.assign(appSettings.appUrl);
       });
   };
 

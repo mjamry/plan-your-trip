@@ -24,69 +24,43 @@ import '../Styles/PlansPage.css';
 import React, { Route, Routes } from 'react-router-dom';
 
 import DashboardPage from '../pages/DashboardPage';
-import CallbackPage from '../pages/CallbackPage';
-import WelcomePage from '../pages/WelcomePage';
 import PlansPage from '../pages/PlansPage';
 import LocationsPage from '../pages/LocationsPage';
 import LabPlansPage from '../pages/LabPlansPage';
 import PlanDetailsPage from '../pages/PlanDetailsPage';
 
 import PageLayout from '../pages/PageLayout';
-import PrivateRoute from '../components/PrivateRoute';
 import ErrorPage from '../pages/ErrorPage';
 import RouteTypes from '../Common/RouteTypes';
+import CallbackPage from '../pages/CallbackPage';
 
-function AppContent() {
+function AuthenticatedApp() {
   return (
     <PageLayout>
       <Routes>
         <Route
           path={RouteTypes.root}
-          element={(
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          )}
-        />
-        <Route
-          path={RouteTypes.plans}
-          element={(
-            <PrivateRoute>
-              <PlansPage />
-            </PrivateRoute>
-          )}
-        />
-        <Route
-          path={RouteTypes.plan}
-          element={(
-            <PrivateRoute>
-              <LocationsPage />
-            </PrivateRoute>
-          )}
+          element={<DashboardPage />}
         />
         <Route
           path={RouteTypes.callback}
           element={<CallbackPage />}
         />
         <Route
-          path={RouteTypes.welcome}
-          element={<WelcomePage />}
+          path={RouteTypes.plans}
+          element={<PlansPage />}
+        />
+        <Route
+          path={RouteTypes.plan}
+          element={<LocationsPage />}
         />
         <Route
           path={RouteTypes.labPlans}
-          element={(
-            <PrivateRoute>
-              <LabPlansPage />
-            </PrivateRoute>
-          )}
+          element={<LabPlansPage />}
         />
         <Route
           path={RouteTypes.labPlan}
-          element={(
-            <PrivateRoute>
-              <PlanDetailsPage />
-            </PrivateRoute>
-          )}
+          element={<PlanDetailsPage />}
         />
         <Route
           path={RouteTypes.error}
@@ -97,4 +71,4 @@ function AppContent() {
   );
 }
 
-export default AppContent;
+export default AuthenticatedApp;

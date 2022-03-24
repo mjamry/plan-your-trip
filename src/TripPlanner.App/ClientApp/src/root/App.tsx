@@ -7,11 +7,12 @@ import DateAdapter from '@mui/lab/AdapterDayjs';
 import { useRecoilValue } from 'recoil';
 import ToasterNotificationsComponent from '../components/ToasterNotifications';
 import DebugStateObserver from '../State/DebugStateObserver';
-import { isAppLoadedState } from '../State/AppState';
-import AppContent from './AppContent';
+import { isAppLoadedState, isUserSignedInState } from '../State/AppState';
+import AuthenticatedApp from './AuthenticatedApp';
 import AppLoader from './AppLoader';
 import LocationActionLoadingIndicator from '../components/LocationActionLoadingIndicator';
 import ModalContainer from '../components/modals/ModalContainer';
+import UnauthenticatedApp from './UnauthenticatedApp';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -23,6 +24,18 @@ theme = responsiveFontSizes(theme);
 
 function App() {
   const isAppLoaded = useRecoilValue(isAppLoadedState);
+  const isUserLoaded = useRecoilValue(isUserSignedInState);
+
+  const render = () => {
+    if (isAppLoaded) {
+      if (isUserLoaded) {
+        return <AuthenticatedApp />;
+      }
+      return <UnauthenticatedApp />;
+    }
+
+    return <AppLoader />;
+  };
 
   return (
     <>
@@ -33,12 +46,11 @@ function App() {
           <LocationActionLoadingIndicator />
           <ModalContainer />
           <LocalizationProvider dateAdapter={DateAdapter}>
-            {isAppLoaded ? <AppContent /> : <AppLoader />}
+            { render() }
           </LocalizationProvider>
         </ThemeProvider>
       </StyledEngineProvider>
     </>
-
   );
 }
 
