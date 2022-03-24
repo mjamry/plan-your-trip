@@ -12,6 +12,8 @@ const useUserManagerConfigBuilder = (): IUserManagerConfigBuilder => {
     response_type: 'id_token token',
     scope: 'openid profile email trip_planner',
     post_logout_redirect_uri: settings.appUrl,
+    silent_redirect_uri: `${settings.appUrl}/assets/silent-refresh.html`,
+    automaticSilentRenew: true,
   });
 
   return {

@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { AppSettings } from '../Common/Dto/AppSettings';
 
-const userSignedInState = atom<boolean>({
+const isUserSignedInState = atom<boolean>({
   key: 'appState.userSignedIn',
   default: false,
 });
@@ -16,4 +16,4 @@ const appSettingsState = atom<AppSettings>({
   default: {} as AppSettings,
 });
 
-export { userSignedInState, isAppLoadedState, appSettingsState };
+export { isUserSignedInState, isAppLoadedState, appSettingsState };

@@ -39,17 +39,8 @@ function AppLoader() {
       setUserManager(mng);
 
       log.info('Setup user');
-      userService.initialize(mng)
-        .then(() => {
-          log.debug('User loaded');
-        })
-        .catch(() => {
-          log.debug('No user');
-        })
-        .finally(() => {
-          log.info('End init');
-          setIsAppInitialized(true);
-        });
+      await userService.initialize(mng);
+      setIsAppInitialized(true);
     }
 
     init();

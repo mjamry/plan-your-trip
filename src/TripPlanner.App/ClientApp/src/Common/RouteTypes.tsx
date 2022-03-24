@@ -8,7 +8,8 @@ enum RouteTypes {
   labPlans = '/plans',
   callback = '/callback',
   plans = '/locations',
-  plan = '/locations/:planId'
+  plan = '/locations/:planId',
+  register = ':authUrl/Account/Register'
 }
 
 export default RouteTypes;
