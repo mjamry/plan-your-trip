@@ -10,11 +10,7 @@ function UnauthenticatedApp() {
     <>
       <Routes>
         <Route
-          path={RouteTypes.root}
-          element={<WelcomePage />}
-        />
-        <Route
-          path={RouteTypes.welcome}
+          path="*"
           element={<WelcomePage />}
         />
         <Route
