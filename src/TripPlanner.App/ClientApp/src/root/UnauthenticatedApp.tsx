@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import RouteTypes from '../Common/RouteTypes';
 import CallbackPage from '../pages/CallbackPage';
+import SilentRefreshPage from '../pages/SilentRefreshPage';
 import WelcomePage from '../pages/WelcomePage';
 
 function UnauthenticatedApp() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(RouteTypes.root, { replace: true });
-  }, []);
-
   return (
     <>
       <Routes>
@@ -25,6 +20,10 @@ function UnauthenticatedApp() {
         <Route
           path={RouteTypes.callback}
           element={<CallbackPage />}
+        />
+        <Route
+          path={RouteTypes.silentRefresh}
+          element={<SilentRefreshPage />}
         />
       </Routes>
     </>

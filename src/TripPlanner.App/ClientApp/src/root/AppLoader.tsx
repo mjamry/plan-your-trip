@@ -40,6 +40,7 @@ function AppLoader() {
 
       log.info('Setup user');
       await userService.initialize(mng);
+      log.info('End init');
       setIsAppInitialized(true);
     }
 

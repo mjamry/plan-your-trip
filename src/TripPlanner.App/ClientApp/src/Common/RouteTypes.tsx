@@ -9,7 +9,8 @@ enum RouteTypes {
   callback = '/callback',
   plans = '/locations',
   plan = '/locations/:planId',
-  register = ':authUrl/Account/Register'
+  register = ':authUrl/Account/Register',
+  silentRefresh = '/silentRefresh',
 }
 
 export default RouteTypes;
