@@ -89,14 +89,16 @@ const useUserService = (): IUserService => {
         // TODO redirect user to his previous location
         // in case his session ended and system required to signIn again
         window.location.assign(appSettings.appUrl);
+      })
+      .catch((error) => {
+        log.error(`Redirect signin error ${error}`);
       });
   };
 
   const silentRefresh = (): void => {
     userManager!.signinSilentCallback()
-      .then(() => {
-        // eslint-disable-next-line no-console
-        console.log('Silent refresh callback');
+      .catch((error) => {
+        log.error(`Silent signin error: ${error}`);
       });
   };
 
