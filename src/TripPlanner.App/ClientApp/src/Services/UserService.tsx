@@ -13,6 +13,7 @@ interface IUserService {
     isAuthenticated: () => boolean;
     finishAuthentication: () => void;
     initialize: (mng: UserManager) => Promise<void>,
+    silentRefresh: () => void,
 }
 
 const useUserService = (): IUserService => {
@@ -27,7 +28,7 @@ const useUserService = (): IUserService => {
     setUserData(user);
   };
 
-  const initialize = async (mng: UserManager) => {
+  const initialize = async (mng: UserManager) => new Promise<void>((resolve) => {
     mng.events.addUserLoaded((user) => {
       if (userData !== user) {
         setUserData(user);
@@ -61,8 +62,10 @@ const useUserService = (): IUserService => {
           log.debug('Cannot get user.', e);
         });
       }
+    }).finally(() => {
+      resolve();
     });
-  };
+  });
 
   const isAuthenticated = (): boolean => userData !== undefined;
 
@@ -86,6 +89,16 @@ const useUserService = (): IUserService => {
         // TODO redirect user to his previous location
         // in case his session ended and system required to signIn again
         window.location.assign(appSettings.appUrl);
+      })
+      .catch((error) => {
+        log.error(`Redirect signin error ${error}`);
+      });
+  };
+
+  const silentRefresh = (): void => {
+    userManager!.signinSilentCallback()
+      .catch((error) => {
+        log.error(`Silent signin error: ${error}`);
       });
   };
 
@@ -117,6 +130,7 @@ const useUserService = (): IUserService => {
     isAuthenticated,
     finishAuthentication,
     initialize,
+    silentRefresh,
   };
 };
 
