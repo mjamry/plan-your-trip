@@ -6,7 +6,7 @@ interface IStorageService {
   uploadFile(name: string, file: File): Promise<void>;
 }
 
-const sasToken = 'sv=2020-08-04&ss=b&srt=sco&sp=rwdlacx&se=2022-05-02T19:55:36Z&st=2022-04-25T11:55:36Z&spr=https&sig=dH4pKT0nYeJRcyfSB2YHpcuqKxymwreX3mc7NmG%2FGXw%3D';
+const sasToken = '?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-06-05T22:01:41Z&st=2022-05-05T14:01:41Z&spr=https,http&sig=yASHNy1wldVvvB2HoDTzmZ0Mt1VdVvi4xFAe4EFDdXY%3D';
 const storageAccountName = 'planyourtripstorage';
 const containerName = 'images';
 
@@ -16,14 +16,10 @@ const useStorageService = (): IStorageService => {
     file: File,
     name: string,
   ) => {
-    // create blobClient for container
     const blobClient = containerClient.getBlockBlobClient(name);
-
-    // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
 
-    // upload file
-    await blobClient.uploadData(file, options);
+    return blobClient.uploadData(file, options);
   };
 
   const generateUrlToFile = (name: string | undefined) => (name ? `https://${storageAccountName}.blob.core.windows.net/${containerName}/${name}` : '');
@@ -31,15 +27,12 @@ const useStorageService = (): IStorageService => {
   const uploadFile = async (fileName: string, file: File) => {
     if (!file) '';
 
-    // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`,
+      `https://${storageAccountName}.blob.core.windows.net/${sasToken}`,
     );
 
-    // get Container - full public read access
     const containerClient: ContainerClient = blobService.getContainerClient(containerName);
 
-    // image compression
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 512,
