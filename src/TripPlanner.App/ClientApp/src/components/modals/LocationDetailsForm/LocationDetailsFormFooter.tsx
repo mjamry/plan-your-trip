@@ -2,13 +2,16 @@ import Button from '@mui/material/Button';
 import React from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import LocationDto from '../../../Common/Dto/LocationDto';
-import { locationFormDataState, locationFormErrorState, locationFormStepState } from './LocationDetailsFormState';
+import { Nullable } from '../../../Common/Dto/Nullable';
+import {
+  locationFormDataState, locationFormErrorState, locationFormImageFile, locationFormStepState,
+} from './LocationDetailsFormState';
 import { Step } from './Steps/Step';
 import StepsConfiguration from './Steps/StepsConfig';
 import useStepsCoordinator from './Steps/StepsCoordinator';
 
 type FooterProps = {
-  onSubmit: (location: LocationDto) => void;
+  onSubmit: (location: LocationDto, imageFile: Nullable<File>) => void;
 }
 
 function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
@@ -18,12 +21,13 @@ function LocationDetailsFooter({ onSubmit }: FooterProps): JSX.Element {
   const resetStep = useResetRecoilState(locationFormStepState);
   const resetError = useResetRecoilState(locationFormErrorState);
   const resetLocationData = useResetRecoilState(locationFormDataState);
+  const imageFile = useRecoilValue(locationFormImageFile);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     resetStep();
     resetError();
     resetLocationData();
-    onSubmit(locationData);
+    await onSubmit(locationData, imageFile);
   };
 
   const renderPrevious = () => {

@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import TransportTypeSelector from './TransportTypeSelector';
 import TransportType from '../../Common/Dto/TransportType';
 import LocationDto from '../../Common/Dto/LocationDto';
+import useStorageService from '../../Services/StorageService';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,6 +59,7 @@ function TimelineElement(props: Props) {
   const { location, routeDetails, position } = props;
   const [transportType, setTransportType] = useState<TransportType>(TransportType.walk);
   const classes = useStyles(position);
+  const storageService = useStorageService();
 
   return (
     <TimelineItem>
@@ -88,7 +90,13 @@ function TimelineElement(props: Props) {
       <TimelineContent>
         <Paper elevation={1} className={classes.paper}>
           {location.image
-          && <img src={location.image} className={classes.locationImage} alt={location.name} />}
+          && (
+          <img
+            src={storageService.generateUrlToFile(location.image)}
+            className={classes.locationImage}
+            alt={location.name}
+          />
+          )}
           <div className={classes.dataContainer}>
             <Typography variant="h6" component="h6">
               {location.name}

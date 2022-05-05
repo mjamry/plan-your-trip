@@ -1,4 +1,8 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  // eslint-disable-next-line camelcase
+  useRecoilValue, useSetRecoilState,
+} from 'recoil';
+import { v4 as uuid } from 'uuid';
 import useNotificationService from './NotificationService';
 import useLoggerService from './Diagnostics/LoggerService';
 import useRestClient from '../Common/RestClient';
@@ -12,6 +16,9 @@ import {
   LocationsStateActions,
 } from '../State/LocationsState';
 import { selectedPlanIdState } from '../State/PlansState';
+import { locationFormImageFile } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
+import useStorageService from './StorageService';
+import { Nullable } from '../Common/Dto/Nullable';
 
 const convertCoordinates = (location: LocationDto): LocationDto => {
   const coordinates: CoordinateDto = {
@@ -23,9 +30,9 @@ const convertCoordinates = (location: LocationDto): LocationDto => {
 };
 
 interface ILocationService {
-    add: (location: LocationDto, planId: number) => void;
+    add: (location: LocationDto, imageFile: Nullable<File>) => void;
     remove: (location: LocationDto) => void;
-    edit: (location: LocationDto) => void;
+    edit: (location: LocationDto, imageFile: Nullable<File>) => void;
     getAll: (planId: number) => Promise<LocationDto[]>;
 }
 
@@ -58,13 +65,29 @@ const useLocationService = (): ILocationService => {
   );
   const setIsLoading = useSetRecoilState(isLoadingState);
   const setLocations = useSetRecoilState(locationsState);
+  const setImageFile = useSetRecoilState(locationFormImageFile);
   const selectedPlanId = useRecoilValue(selectedPlanIdState);
   const notificationService = useNotificationService();
   const persistentLocationService = usePersistentService();
   const logger = useLoggerService('LocationService');
+  const storageService = useStorageService();
 
-  const add = (location: LocationDto) => {
+  const storeImage = async (location: LocationDto, imageFile: Nullable<File>) => {
+    let output = location;
+    if (imageFile !== null && imageFile !== undefined) {
+      const fileName = `${uuid()}.${imageFile.type.replace(/(.*)\//g, '')}`;
+      await storageService.uploadFile(fileName, imageFile);
+      output = { ...location, image: fileName };
+      setImageFile(null);
+    }
+
+    return output;
+  };
+
+  const add = async (location: LocationDto, imageFile: Nullable<File>) => {
     setIsLoading(true);
+
+    location = await storeImage(location, imageFile);
 
     persistentLocationService.add(
       convertCoordinates(location),
@@ -85,8 +108,10 @@ const useLocationService = (): ILocationService => {
       });
   };
 
-  const edit = (location: LocationDto) => {
+  const edit = async (location: LocationDto, imageFile: Nullable<File>) => {
     setIsLoading(true);
+
+    location = await storeImage(location, imageFile);
 
     persistentLocationService.edit(convertCoordinates(location))
       .then(() => {

@@ -5,11 +5,12 @@ import { ModalDto } from '../../../Common/Dto/ModalDto';
 import LocationDetailsFormBody from './LocationDetailsFormBody';
 import LocationDetailsFooter from './LocationDetailsFormFooter';
 import LocationDto from '../../../Common/Dto/LocationDto';
+import { Nullable } from '../../../Common/Dto/Nullable';
 
 type BuilderDto = {
   title: string;
   location: LocationDto;
-  onSubmit: (location: LocationDto) => void;
+  onSubmit: (location: LocationDto, imageFile: Nullable<File>) => void;
   onCancel?: () => void;
 }
 

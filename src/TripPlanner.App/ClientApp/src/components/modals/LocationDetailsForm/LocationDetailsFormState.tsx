@@ -26,6 +26,11 @@ const locationFormDataState = atom<LocationDto>({
   default: LocationEmpty,
 });
 
+const locationFormImageFile = atom<Nullable<File>>({
+  key: 'locationForm.imageFile',
+  default: undefined,
+});
+
 const updateError = selectorFamily<Nullable<Error>, LocationFormStateActions>({
   key: 'locationsForm.updateError',
   get: () => ({ get }) => get(locationFormErrorState),
@@ -38,9 +43,12 @@ const updateError = selectorFamily<Nullable<Error>, LocationFormStateActions>({
       }
     }
   },
-
 });
 
 export {
-  locationFormDataState, locationFormErrorState, locationFormStepState, updateError,
+  locationFormDataState,
+  locationFormErrorState,
+  locationFormStepState,
+  locationFormImageFile,
+  updateError,
 };

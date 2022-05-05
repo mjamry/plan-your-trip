@@ -13,6 +13,7 @@ import LocationDto, { LocationEmpty } from '../Common/Dto/LocationDto';
 import { locationsState } from '../State/LocationsState';
 import { ModalTypes, showModalState } from '../State/ModalState';
 import { selectedPlanIdState } from '../State/PlansState';
+import useStorageService from '../Services/StorageService';
 
 const useStyles = makeStyles({
   container: {
@@ -50,6 +51,7 @@ function LocationsPage() {
   const classes = useStyles();
   const gpxFileDownloader = useGpxFileDownloader();
   const { planId } = useParams<RouteParams>();
+  const storageService = useStorageService();
 
   useEffect(() => {
     selectPlan(Number(planId!));
@@ -71,7 +73,7 @@ function LocationsPage() {
             {
               headerName: '',
               field: 'image',
-              renderCell: (params: any) => <img src={params.row.image} className={classes.locationImage} alt="" />,
+              renderCell: (params: any) => <img src={storageService.generateUrlToFile(params.row.image)} className={classes.locationImage} alt="" />,
             },
             {
               headerName: 'Name',

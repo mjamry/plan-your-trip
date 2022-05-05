@@ -28,6 +28,9 @@ const useLocationStepsStyles = makeStyles({
     maxWidth: '200px',
     maxHeight: '200px',
   },
+  imageInput: {
+    display: 'none',
+  },
 });
 
 export default useLocationStepsStyles;
