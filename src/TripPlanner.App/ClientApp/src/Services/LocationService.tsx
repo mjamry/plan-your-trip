@@ -14,20 +14,12 @@ import {
   locationsState,
   modifyLocationsState,
   LocationsStateActions,
+  isLoadingTitleState,
 } from '../State/LocationsState';
 import { selectedPlanIdState } from '../State/PlansState';
 import { locationFormImageFile } from '../components/modals/LocationDetailsForm/LocationDetailsFormState';
 import useStorageService from './StorageService';
 import { Nullable } from '../Common/Dto/Nullable';
-
-const convertCoordinates = (location: LocationDto): LocationDto => {
-  const coordinates: CoordinateDto = {
-    lat: Number(location.coordinates.lat),
-    lon: Number(location.coordinates.lon),
-  };
-
-  return { ...location, coordinates };
-};
 
 interface ILocationService {
     add: (location: LocationDto, imageFile: Nullable<File>) => void;
@@ -64,6 +56,7 @@ const useLocationService = (): ILocationService => {
     modifyLocationsState(LocationsStateActions.removeLocation),
   );
   const setIsLoading = useSetRecoilState(isLoadingState);
+  const setIsLoadingTitle = useSetRecoilState(isLoadingTitleState);
   const setLocations = useSetRecoilState(locationsState);
   const setImageFile = useSetRecoilState(locationFormImageFile);
   const selectedPlanId = useRecoilValue(selectedPlanIdState);
@@ -72,101 +65,127 @@ const useLocationService = (): ILocationService => {
   const logger = useLoggerService('LocationService');
   const storageService = useStorageService();
 
-  const storeImage = async (location: LocationDto, imageFile: Nullable<File>) => {
-    let output = location;
-    if (imageFile !== null && imageFile !== undefined) {
+  const convertCoordinates = (location: LocationDto): LocationDto => {
+    const coordinates: CoordinateDto = {
+      lat: Number(location.coordinates.lat),
+      lon: Number(location.coordinates.lon),
+    };
+
+    return { ...location, coordinates };
+  };
+
+  const updateImageFileName = (location: LocationDto, imageFile: Nullable<File>): LocationDto => {
+    if (imageFile) {
       const fileName = `${uuid()}.${imageFile.type.replace(/(.*)\//g, '')}`;
+      return { ...location, image: fileName };
+    }
+    return location;
+  };
+
+  const storeImage = async (imageFile: Nullable<File>, fileName: Nullable<string>) => {
+    if (imageFile && fileName) {
       await storageService.uploadFile(fileName, imageFile);
-      output = { ...location, image: fileName };
       setImageFile(null);
     }
-
-    return output;
   };
 
   const add = async (location: LocationDto, imageFile: Nullable<File>) => {
     setIsLoading(true);
+    setIsLoadingTitle('Adding new location');
 
-    location = await storeImage(location, imageFile);
+    try {
+      const locationData = await persistentLocationService.add(
+        convertCoordinates(updateImageFileName(location, imageFile)),
+        selectedPlanId,
+      );
 
-    persistentLocationService.add(
-      convertCoordinates(location),
-      selectedPlanId,
-    )
-      .then((locationData: LocationDto) => {
+      try {
+        setIsLoadingTitle('Uploading image');
+
+        await storeImage(imageFile, locationData.image);
+
         addLocation([locationData]);
 
         notificationService.success(`New location added: ${locationData.name}`);
         logger.info(`Successfully added location -> Id: ${locationData.id} Name: ${locationData.name} to the plan -> Id: ${selectedPlanId}`);
-      })
-      .catch((err) => {
-        notificationService.error(`Error while adding location: ${location.name}`);
-        logger.error(`Error while adding new location: Name: ${location.name}`, err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      } catch (err: any) {
+        notificationService.error('Error while uploading location image');
+        logger.error(`Error while uploading location image: ${location.image}`, err);
+      }
+    } catch (err: any) {
+      notificationService.error(`Error while adding location: ${location.name}`);
+      logger.error(`Error while adding new location: Name: ${location.name}`, err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const edit = async (location: LocationDto, imageFile: Nullable<File>) => {
     setIsLoading(true);
+    setIsLoadingTitle('Adding new location');
 
-    location = await storeImage(location, imageFile);
+    try {
+      const locationData = await persistentLocationService.edit(
+        convertCoordinates(updateImageFileName(location, imageFile)),
+      );
 
-    persistentLocationService.edit(convertCoordinates(location))
-      .then(() => {
-        editLocation([location]);
+      try {
+        setIsLoadingTitle('Uploading image');
 
-        notificationService.success(`Location modified: ${location.name}`);
-        logger.info(`Successfully edited location -> Id: ${location.id} Name: ${location.name}`);
-      })
-      .catch((err) => {
-        notificationService.error(`Error while editing location: ${location.name}`);
-        logger.error(`Error while editing location: Id: ${location.id} Name: ${location.name}`, err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        await storeImage(imageFile, locationData.image);
+
+        editLocation([locationData]);
+
+        notificationService.success(`Location updated: ${location.name}`);
+        logger.info(`Successfully updated location -> Id: ${location.id} Name: ${location.name}`);
+      } catch (err: any) {
+        notificationService.error('Error while uploading location image');
+        logger.error(`Error while uploading location image: ${location.image}`, err);
+      }
+    } catch (err: any) {
+      notificationService.error(`Error while updating location: ${location.name}`);
+      logger.error(`Error while updating location: Id: ${location.id} Name: ${location.name}`, err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const remove = (location: LocationDto) => {
-    setIsLoading(true);
+  const remove = async (location: LocationDto) => {
+    try {
+      setIsLoading(true);
 
-    persistentLocationService.remove(location)
-      .then(() => {
-        removeLocation([location]);
+      await persistentLocationService.remove(location);
 
-        notificationService.success(`Location removed: ${location.name}`);
-        logger.info(`Successfully removed location -> Id: ${location.id} Name: ${location.name}`);
-      })
-      .catch((err) => {
-        notificationService.error(`Error while removing location: ${location.name}`);
-        logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`, err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      removeLocation([location]);
+
+      notificationService.success(`Location removed: ${location.name}`);
+      logger.info(`Successfully removed location -> Id: ${location.id} Name: ${location.name}`);
+    } catch (err: any) {
+      notificationService.error(`Error while removing location: ${location.name}`);
+      logger.error(`Error while removing location: Id: ${location.id} Name: ${location.name}`, err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const getAll = (planId: number): Promise<LocationDto[]> => new Promise((resolve, reject) => {
-    setIsLoading(true);
+  const getAll = async (planId: number): Promise<LocationDto[]> => {
+    try {
+      setIsLoading(true);
 
-    persistentLocationService.getAll(planId)
-      .then((data: LocationDto[]) => {
-        setLocations(data);
+      const data = await persistentLocationService.getAll(planId);
+      setLocations(data);
 
-        logger.info(`Successfully loaded ${data.length} locations`);
-        resolve(data);
-      })
-      .catch((err) => {
-        notificationService.error('Error while getting locations');
-        logger.error('Error while getting all plans data.', err);
-        reject();
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  });
+      logger.info(`Successfully loaded ${data.length} locations`);
+      return data;
+    } catch (err: any) {
+      notificationService.error('Error while getting locations');
+      logger.error('Error while getting all plans data.', err);
+    } finally {
+      setIsLoading(false);
+    }
+
+    return [];
+  };
 
   return {
     add,
