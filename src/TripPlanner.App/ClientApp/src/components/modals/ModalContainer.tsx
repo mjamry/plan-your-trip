@@ -150,7 +150,12 @@ const ModalContainer = () => {
       header={modalContent.header}
       body={modalContent.body}
       footer={modalContent.footer}
-      onClickAway={() => hideModal({})}
+      onClickAway={() => {
+        if (modalContent.onClose) {
+          modalContent.onClose();
+        }
+        hideModal({});
+      }}
     />
   );
 
