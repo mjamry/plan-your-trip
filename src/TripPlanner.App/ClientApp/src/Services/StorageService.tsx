@@ -1,16 +1,16 @@
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 import imageCompression from 'browser-image-compression';
+import { useRecoilValue } from 'recoil';
+import { appSettingsState } from '../State/AppState';
 
 interface IStorageService {
   generateUrlToFile(name: string | undefined): string;
   uploadFile(name: string, file: File): Promise<void>;
 }
 
-const sasToken = '?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-06-05T22:01:41Z&st=2022-05-05T14:01:41Z&spr=https,http&sig=yASHNy1wldVvvB2HoDTzmZ0Mt1VdVvi4xFAe4EFDdXY%3D';
-const storageAccountName = 'planyourtripstorage';
-const containerName = 'images';
-
 const useStorageService = (): IStorageService => {
+  const appSettings = useRecoilValue(appSettingsState);
+
   const createBlobInContainer = async (
     containerClient: ContainerClient,
     file: File,
@@ -22,16 +22,16 @@ const useStorageService = (): IStorageService => {
     return blobClient.uploadData(file, options);
   };
 
-  const generateUrlToFile = (name: string | undefined) => (name ? `https://${storageAccountName}.blob.core.windows.net/${containerName}/${name}` : '');
+  const generateUrlToFile = (name: string | undefined) => (name ? `${appSettings.storageUrl}/${appSettings.storageContainerName}/${name}` : '');
 
   const uploadFile = async (fileName: string, file: File) => {
     if (!file) '';
 
     const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/${sasToken}`,
+      `${appSettings.storageUrl}/${appSettings.storageToken}`,
     );
 
-    const containerClient: ContainerClient = blobService.getContainerClient(containerName);
+    const containerClient = blobService.getContainerClient(appSettings.storageContainerName);
 
     const options = {
       maxSizeMB: 1,

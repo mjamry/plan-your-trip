@@ -28,6 +28,9 @@ const useAppSettingsService = (): IAppSettingsService => {
       apiUrl: settings.apiUrl || defaultSettings.apiUrl,
       authUrl: settings.authUrl || defaultSettings.authUrl,
       appUrl: settings.appUrl || defaultSettings.appUrl,
+      storageUrl: settings.storageUrl || defaultSettings.storageUrl,
+      storageContainerName: settings.storageContainerName || defaultSettings.storageContainerName,
+      storageToken: settings.storageToken || defaultSettings.storageToken,
     };
 
     return setts;
