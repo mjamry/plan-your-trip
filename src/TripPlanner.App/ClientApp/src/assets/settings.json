@@ -1,5 +1,8 @@
 ﻿{
   "apiUrl": "http://localhost:50001",
   "authUrl": "http://localhost:50000",
-  "appUrl": "http://locathost:3000"
+  "appUrl": "http://locathost:3000",
+  "storageUrl": "https://planyourtripstorage.blob.core.windows.net",
+  "storageContainerName": "images",
+  "storageToken": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-06-05T22:01:41Z&st=2022-05-05T14:01:41Z&spr=https,http&sig=yASHNy1wldVvvB2HoDTzmZ0Mt1VdVvi4xFAe4EFDdXY%3D"
 }
