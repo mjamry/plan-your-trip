@@ -1,30 +1,35 @@
 import { Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Nullable } from '../../../../Common/Dto/Nullable';
-import useLocationStepsStyles from './LocationStepsStyles';
+import { Nullable } from '../../../../../Common/Dto/Nullable';
+import useLocationStepsStyles from '../LocationStepsStyles';
+import useCameraProvider from '../../../../../Services/CameraProvider';
 
 type Props = {
   onImageSelected: (image: Nullable<File>) => void;
+  setIsCameraViewVisible: (isVisible: boolean) => void;
 };
 
 function LocationImageMenu(props: Props) {
-  const { onImageSelected } = props;
-  const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
-  const open = Boolean(anchorEl);
+  const { onImageSelected, setIsCameraViewVisible } = props;
   const classes = useLocationStepsStyles();
+  const cameraProvider = useCameraProvider();
+  const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
+
+  const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const hideMenu = () => {
+    setAnchorEl(undefined);
   };
 
   return (
     <>
       <Button
         variant="contained"
-        component="span"
-        id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
-        aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
@@ -32,7 +37,6 @@ function LocationImageMenu(props: Props) {
         Add photo
       </Button>
       <Menu
-        id="menu-appbar"
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
@@ -44,9 +48,9 @@ function LocationImageMenu(props: Props) {
           horizontal: 'right',
         }}
         open={open}
-        onClose={() => setAnchorEl(undefined)}
+        onClose={() => hideMenu()}
       >
-        <MenuItem onClick={() => setAnchorEl(undefined)}>
+        <MenuItem onClick={() => hideMenu()}>
           <label htmlFor="contained-button-file">
             <input
               accept="image/*"
@@ -60,8 +64,18 @@ function LocationImageMenu(props: Props) {
             Upload file
           </label>
         </MenuItem>
-        <MenuItem onClick={() => setAnchorEl(undefined)}>Take a photo</MenuItem>
-        <MenuItem onClick={() => setAnchorEl(undefined)}>Search web</MenuItem>
+        {cameraProvider.canUseCamera
+          && (
+          <MenuItem
+            onClick={() => {
+              setIsCameraViewVisible(true);
+              hideMenu();
+            }}
+          >
+            Take a photo
+          </MenuItem>
+          )}
+        <MenuItem onClick={() => hideMenu()}>Search web</MenuItem>
       </Menu>
     </>
   );

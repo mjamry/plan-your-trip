@@ -6,14 +6,16 @@ import useLocationStepsStyles from './LocationStepsStyles';
 import { locationFormDataState, locationFormImageFile } from '../LocationDetailsFormState';
 import useStorageService from '../../../../Services/StorageService';
 import { isLoadingState, isLoadingTitleState } from '../../../../State/LocationsState';
-import LocationImageMenu from './LocationImageMenu';
+import LocationImageMenu from './ImageStep/LocationImageMenu';
 import { Nullable } from '../../../../Common/Dto/Nullable';
+import CameraView from './ImageStep/CameraView';
 
 function LocationImageStepComponent() {
   const classes = useLocationStepsStyles();
   const setImageFile = useSetRecoilState(locationFormImageFile);
   const data = useRecoilValue(locationFormDataState);
   const [imageUrl, setImageUrl] = useState<string | null>();
+  const [isCameraViewVisible, setIsCameraViewVisible] = useState<boolean>(false);
   const storageService = useStorageService();
   const setIsLoading = useSetRecoilState(isLoadingState);
   const setIsLoadingTitle = useSetRecoilState(isLoadingTitleState);
@@ -25,6 +27,10 @@ function LocationImageStepComponent() {
   }, []);
 
   const handleImageSelected = async (imageFile: Nullable<File>) => {
+    if (isCameraViewVisible) {
+      setIsCameraViewVisible(false);
+    }
+
     if (imageFile) {
       setIsLoading(true);
       setIsLoadingTitle('Loading image');
@@ -47,12 +53,22 @@ function LocationImageStepComponent() {
     <>
       <form>
         <div className={classes.formRow}>
-          <LocationImageMenu
-            onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
-          />
+          {isCameraViewVisible
+            ? (
+              <CameraView
+                onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
+                setIsCameraViewVisible={setIsCameraViewVisible}
+              />
+            )
+            : (
+              <LocationImageMenu
+                onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
+                setIsCameraViewVisible={setIsCameraViewVisible}
+              />
+            )}
         </div>
       </form>
-      { imageUrl
+      { (imageUrl && !isCameraViewVisible)
             && (
               <div className={classes.formRow}>
                 <img
