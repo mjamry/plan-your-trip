@@ -7,7 +7,7 @@ const useLocationStepsStyles = makeStyles((theme) => ({
   formRow: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignContent: 'flex-start',
     margin: '5px 0 10px 0',
   },
@@ -38,6 +38,9 @@ const useLocationStepsStyles = makeStyles((theme) => ({
   cameraCanvas: {
     height: '240px',
     width: '320px',
+  },
+  cameraViewButton: {
+    margin: '5px',
   },
   webSearchContainer: {
     display: 'flex',
