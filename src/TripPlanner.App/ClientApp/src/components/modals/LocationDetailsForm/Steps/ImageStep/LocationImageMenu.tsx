@@ -4,18 +4,18 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Nullable } from '../../../../../Common/Dto/Nullable';
 import useLocationStepsStyles from '../LocationStepsStyles';
 import useCameraProvider from '../../../../../Services/CameraProvider';
+import { ImageProviderType } from '../LocationImageStep';
 
 type Props = {
   onImageSelected: (image: Nullable<File>) => void;
-  setIsCameraViewVisible: (isVisible: boolean) => void;
+  setImageProvider: (provider: ImageProviderType) => void;
 };
 
 function LocationImageMenu(props: Props) {
-  const { onImageSelected, setIsCameraViewVisible } = props;
+  const { onImageSelected, setImageProvider } = props;
   const classes = useLocationStepsStyles();
   const cameraProvider = useCameraProvider();
   const [anchorEl, setAnchorEl] = useState<EventTarget & HTMLButtonElement>();
-
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -68,14 +68,21 @@ function LocationImageMenu(props: Props) {
           && (
           <MenuItem
             onClick={() => {
-              setIsCameraViewVisible(true);
+              setImageProvider(ImageProviderType.camera);
               hideMenu();
             }}
           >
             Take a photo
           </MenuItem>
           )}
-        <MenuItem onClick={() => hideMenu()}>Search web</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setImageProvider(ImageProviderType.web);
+            hideMenu();
+          }}
+        >
+          Search web
+        </MenuItem>
       </Menu>
     </>
   );

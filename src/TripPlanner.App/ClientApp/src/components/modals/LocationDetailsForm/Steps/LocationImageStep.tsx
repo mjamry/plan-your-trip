@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import CircularProgress from '@mui/material/CircularProgress';
 import { IStepValidator } from './Step';
 import LocationDto from '../../../../Common/Dto/LocationDto';
 import useLocationStepsStyles from './LocationStepsStyles';
@@ -9,15 +10,23 @@ import { isLoadingState, isLoadingTitleState } from '../../../../State/Locations
 import LocationImageMenu from './ImageStep/LocationImageMenu';
 import { Nullable } from '../../../../Common/Dto/Nullable';
 import CameraView from './ImageStep/CameraView';
+import ImageWebSearch from './ImageStep/WebSearch';
+
+export enum ImageProviderType {
+  none = 'none',
+  upload = 'upload',
+  camera = 'camera',
+  web = 'web',
+}
 
 function LocationImageStepComponent() {
   const classes = useLocationStepsStyles();
   const setImageFile = useSetRecoilState(locationFormImageFile);
   const data = useRecoilValue(locationFormDataState);
   const [imageUrl, setImageUrl] = useState<string | null>();
-  const [isCameraViewVisible, setIsCameraViewVisible] = useState<boolean>(false);
+  const [imageProvider, setImageProvider] = useState<ImageProviderType>(ImageProviderType.none);
   const storageService = useStorageService();
-  const setIsLoading = useSetRecoilState(isLoadingState);
+  const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
   const setIsLoadingTitle = useSetRecoilState(isLoadingTitleState);
 
   const setDefaultImage = () => setImageUrl(storageService.generateUrlToFile(data.image));
@@ -27,8 +36,8 @@ function LocationImageStepComponent() {
   }, []);
 
   const handleImageSelected = async (imageFile: Nullable<File>) => {
-    if (isCameraViewVisible) {
-      setIsCameraViewVisible(false);
+    if (imageProvider !== ImageProviderType.none) {
+      setImageProvider(ImageProviderType.none);
     }
 
     if (imageFile) {
@@ -49,35 +58,54 @@ function LocationImageStepComponent() {
     }
   };
 
+  const renderProvider = () => {
+    switch (imageProvider) {
+      case ImageProviderType.camera:
+        return (
+          <CameraView
+            onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
+            setImageProvider={setImageProvider}
+          />
+        );
+
+      case ImageProviderType.web:
+        return (
+          <ImageWebSearch
+            onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
+            setImageProvider={setImageProvider}
+          />
+        );
+
+      default:
+        return (
+          <LocationImageMenu
+            onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
+            setImageProvider={setImageProvider}
+          />
+        );
+    }
+  };
+
   return (
     <>
+      <div className={classes.formRow}>
+        {isLoading
+          ? <CircularProgress />
+          : (imageUrl && imageProvider === ImageProviderType.none)
+          && (
+
+          <img
+            src={imageUrl}
+            className={classes.image}
+            alt=""
+          />
+          )}
+      </div>
       <form>
         <div className={classes.formRow}>
-          {isCameraViewVisible
-            ? (
-              <CameraView
-                onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
-                setIsCameraViewVisible={setIsCameraViewVisible}
-              />
-            )
-            : (
-              <LocationImageMenu
-                onImageSelected={(file: Nullable<File>) => handleImageSelected(file)}
-                setIsCameraViewVisible={setIsCameraViewVisible}
-              />
-            )}
+          { renderProvider() }
         </div>
       </form>
-      { (imageUrl && !isCameraViewVisible)
-            && (
-              <div className={classes.formRow}>
-                <img
-                  src={imageUrl}
-                  className={classes.image}
-                  alt=""
-                />
-              </div>
-            )}
     </>
   );
 }
