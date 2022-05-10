@@ -69,6 +69,7 @@ function CameraView(props: Props) {
               stopCamera();
             }}
             variant="contained"
+            className={classes.cameraViewButton}
           >
             Cancel
           </Button>
@@ -78,6 +79,7 @@ function CameraView(props: Props) {
               stopCamera();
             }}
             variant="contained"
+            className={classes.cameraViewButton}
           >
             Take a photo
           </Button>
