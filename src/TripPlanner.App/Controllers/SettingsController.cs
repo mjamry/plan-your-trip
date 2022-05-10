@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using TripPlanner.App.Services;
 
 namespace TripPlanner.App.Controllers
 {
@@ -8,23 +9,21 @@ namespace TripPlanner.App.Controllers
     public class SettingsController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly IStorageService _storageService;
 
-        public SettingsController(IConfiguration configuration)
+        public SettingsController(IConfiguration configuration, IStorageService storageService)
         {
             _config = configuration;
+            _storageService = storageService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_config.GetSection(nameof(Settings)).Get<Settings>());
-        }
-    }
+            var settings = _config.GetSection(nameof(Settings)).Get<Settings>();
+            settings.StorageToken = _storageService.GenerateSasToken();
 
-    internal class Settings
-    {
-        public string ApiUrl { get; set; }
-        public string AuthUrl { get; set; }
-        public string AppUrl { get; set; }
+            return Ok(new FrontendSettings(settings));
+        }
     }
 }

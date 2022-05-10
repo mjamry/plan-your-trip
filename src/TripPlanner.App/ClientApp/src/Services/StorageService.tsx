@@ -28,7 +28,7 @@ const useStorageService = (): IStorageService => {
     if (!file) '';
 
     const blobService = new BlobServiceClient(
-      `${appSettings.storageUrl}/${appSettings.storageToken}`,
+      `${appSettings.storageUrl}/?${appSettings.storageToken}`,
     );
 
     const containerClient = blobService.getContainerClient(appSettings.storageContainerName);

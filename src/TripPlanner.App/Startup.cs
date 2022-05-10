@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TripPlanner.App.Services;
 
 namespace TripPlanner.App
 {
@@ -28,6 +28,8 @@ namespace TripPlanner.App
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddTransient<IStorageService, AzureBlobStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +45,8 @@ namespace TripPlanner.App
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCsp(env, Configuration);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
