@@ -58,6 +58,11 @@ const isLoadingState = atom<boolean>({
   default: false,
 });
 
+const isLoadingTitleState = atom<string>({
+  key: 'locationState.isLoadingTitle',
+  default: 'Processing data',
+});
+
 const modifyLocationsState = selectorFamily<LocationDto[], LocationsStateActions>({
   key: 'locationState.addLocation',
   get: () => ({ get }) => get(locationsState),
@@ -72,6 +77,7 @@ const modifyLocationsState = selectorFamily<LocationDto[], LocationsStateActions
 export {
   locationsState,
   isLoadingState,
+  isLoadingTitleState,
   locationSelectedOnMap,
   modifyLocationsState,
   LocationsStateActions,

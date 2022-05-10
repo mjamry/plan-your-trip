@@ -39,10 +39,9 @@ const useModalContentFactory = () => {
           {
             title: 'Add location',
             location: modalData,
-            onSubmit: (data) => {
-              // TODO: add correct planID
-              locationService.add(data, 0);
+            onSubmit: async (location, image) => {
               hideModal({});
+              await locationService.add(location, image);
             },
           },
         );
@@ -52,9 +51,9 @@ const useModalContentFactory = () => {
           {
             title: 'Edit location',
             location: modalData,
-            onSubmit: (data) => {
-              locationService.edit(data);
+            onSubmit: async (location, image) => {
               hideModal({});
+              await locationService.edit(location, image);
             },
           },
         );
@@ -151,7 +150,12 @@ const ModalContainer = () => {
       header={modalContent.header}
       body={modalContent.body}
       footer={modalContent.footer}
-      onClickAway={() => hideModal({})}
+      onClickAway={() => {
+        if (modalContent.onClose) {
+          modalContent.onClose();
+        }
+        hideModal({});
+      }}
     />
   );
 
