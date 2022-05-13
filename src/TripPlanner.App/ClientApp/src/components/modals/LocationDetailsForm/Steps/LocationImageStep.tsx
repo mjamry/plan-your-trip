@@ -10,7 +10,7 @@ import { isLoadingState, isLoadingTitleState } from '../../../../State/Locations
 import LocationImageMenu from './ImageStep/LocationImageMenu';
 import { Nullable } from '../../../../Common/Dto/Nullable';
 import CameraView from './ImageStep/CameraView';
-import ImageWebSearch from './ImageStep/WebSearch';
+import ImageWebSearch from './ImageStep/ImageWebSearch';
 
 export enum ImageProviderType {
   none = 'none',

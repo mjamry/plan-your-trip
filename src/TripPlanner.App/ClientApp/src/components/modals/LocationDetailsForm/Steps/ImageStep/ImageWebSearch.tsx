@@ -48,16 +48,17 @@ function ImageWebSearch(props: Props) {
           : (
             <div className={classes.webSearchContainer}>
               {images.length > 0
-                ? images.map((image) => (
+                ? images.map((imageUrl) => (
                   <img
                     className={classes.webSearchImage}
-                    src={image}
+                    src={imageUrl}
                     alt=""
-                    onClick={() => handleImageSelected(image)}
-                    onKeyDown={() => handleImageSelected(image)}
+                    onClick={() => handleImageSelected(imageUrl)}
+                    onKeyDown={() => handleImageSelected(imageUrl)}
                     tabIndex={-1}
                     aria-label=""
-                    title={image}
+                    title={imageUrl}
+                    key={imageUrl}
                   />
                 ))
                 : 'No images'}

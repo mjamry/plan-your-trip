@@ -38,6 +38,7 @@ function CustomToolbar(props: ToolbarProps) {
             title={a.title}
             icon={a.icon}
             action={a.action}
+            key={a.title}
           />
         ),
       );

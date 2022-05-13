@@ -1,4 +1,6 @@
-const DefaultNotificationTimeout = 2000;
+import { v4 as uuid } from 'uuid';
+
+const DefaultNotificationTimeoutInMs = 200000;
 
 const enum NotificationType {
     error = 'error',
@@ -11,8 +13,8 @@ class Notification {
   constructor(
     type: NotificationType,
     content: string,
-    timeout: number = DefaultNotificationTimeout,
-    id: string = (+new Date()).toString(32),
+    timeout: number = DefaultNotificationTimeoutInMs,
+    id: string = uuid(),
   ) {
     this.type = type;
     this.content = content;
@@ -30,5 +32,5 @@ class Notification {
 }
 
 export {
-  DefaultNotificationTimeout, Notification, NotificationType,
+  DefaultNotificationTimeoutInMs as DefaultNotificationTimeout, Notification, NotificationType,
 };
