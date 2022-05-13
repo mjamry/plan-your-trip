@@ -122,10 +122,14 @@ function ToasterNotificationsComponent() {
 
   const renderNotifications = () => {
     const output = notifications.map((notification) => (
-      CreateToasterNotification(
-        notification,
-        () => hideNotification([notification]),
-      )
+      <div key={notification.id}>
+        {
+          CreateToasterNotification(
+            notification,
+            () => hideNotification([notification]),
+          )
+        }
+      </div>
     ));
 
     return output;

@@ -29,7 +29,8 @@ function RatingButton({ value, onSelect = () => {}, readOnly = false }: Props) {
           className={className}
           onClick={() => onSelect(index)}
           onKeyDown={() => onSelect(index)}
-          key={item}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
           role="presentation"
         >
           <StarIcon />

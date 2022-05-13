@@ -46,6 +46,7 @@ namespace TripPlanner.App
                 app.UseHsts();
             }
 
+            app.UseCsp(env, Configuration);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

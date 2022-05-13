@@ -75,7 +75,11 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCookiePolicy();
+            app.UseCookiePolicy(new CookiePolicyOptions()
+            {
+                Secure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always
+            });
+
             // uncomment if you want to add MVC
             app.UseStaticFiles();
             app.UseRouting();
