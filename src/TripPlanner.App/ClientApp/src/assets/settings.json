@@ -4,5 +4,6 @@
   "appUrl": "http://locathost:3000",
   "storageUrl": "https://planyourtripstorage.blob.core.windows.net",
   "storageContainerName": "images",
-  "storageToken": ""
+  "storageToken": "",
+  "isDevelopment": true
 }

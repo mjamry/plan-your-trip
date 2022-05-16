@@ -1,4 +1,5 @@
 import { Log, LogLevel } from '../../Common/Dto/Log';
+import { Nullable } from '../../Common/Dto/Nullable';
 import useConsoleLog from './ConsoleLog';
 import useDbLog from './DbLog';
 
@@ -7,7 +8,7 @@ type Exception = {
   stack: string,
 }
 
-type DebugData = object | string;
+type DebugData = Nullable<object | string>;
 
 type ILoggerService = {
   error: (msg: string, ex?: Exception) => void;

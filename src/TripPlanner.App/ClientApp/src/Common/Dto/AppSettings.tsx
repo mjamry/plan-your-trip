@@ -5,4 +5,5 @@ export type AppSettings = {
     storageUrl: string;
     storageContainerName: string;
     storageToken: string;
+    isDevelopment: boolean;
 }

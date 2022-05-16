@@ -10,6 +10,7 @@
         public string StorageContainerName { get; set; }
         public string StorageAccessKey { get; set; }
         public string StorageToken { get; set; }
+        public bool IsDevelopment { get;set; }
     }
 
     public class FrontendSettings

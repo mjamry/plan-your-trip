@@ -31,6 +31,7 @@ const useAppSettingsService = (): IAppSettingsService => {
       storageUrl: settings.storageUrl || defaultSettings.storageUrl,
       storageContainerName: settings.storageContainerName || defaultSettings.storageContainerName,
       storageToken: settings.storageToken,
+      isDevelopment: settings.isDevelopment || defaultSettings.isDevelopment,
     };
 
     return setts;

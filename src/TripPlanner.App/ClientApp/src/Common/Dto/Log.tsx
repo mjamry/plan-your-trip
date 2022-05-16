@@ -1,3 +1,5 @@
+import { Nullable } from './Nullable';
+
 enum LogLevel {
   error = 'error',
   warning = 'warning',
@@ -11,7 +13,7 @@ class Log {
     timestamp: string,
     level: LogLevel,
     message: string,
-    data?: object | string,
+    data?: Nullable<object | string>,
     prefix: string = '',
   ) {
     this.userId = userId;

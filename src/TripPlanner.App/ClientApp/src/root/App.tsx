@@ -7,7 +7,7 @@ import DateAdapter from '@mui/lab/AdapterDayjs';
 import { useRecoilValue } from 'recoil';
 import ToasterNotificationsComponent from '../components/ToasterNotifications';
 import DebugStateObserver from '../State/DebugStateObserver';
-import { isAppLoadedState, isUserSignedInState } from '../State/AppState';
+import { appSettingsState, isAppLoadedState, isUserSignedInState } from '../State/AppState';
 import AuthenticatedApp from './AuthenticatedApp';
 import AppLoader from './AppLoader';
 import LocationActionLoadingIndicator from '../components/LocationActionLoadingIndicator';
@@ -23,6 +23,7 @@ let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 function App() {
+  const appSettings = useRecoilValue(appSettingsState);
   const isAppLoaded = useRecoilValue(isAppLoadedState);
   const isUserLoaded = useRecoilValue(isUserSignedInState);
 
@@ -39,7 +40,7 @@ function App() {
 
   return (
     <>
-      <DebugStateObserver />
+      { appSettings.isDevelopment && <DebugStateObserver /> }
       <ToasterNotificationsComponent />
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
